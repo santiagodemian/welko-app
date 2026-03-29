@@ -193,7 +193,7 @@ export function PricingSection() {
                       color: plan.featured ? 'rgba(255,255,255,0.55)' : 'var(--text-muted)',
                     }}
                   >
-                    MXN/mes
+                    MXN/mes + IVA
                   </span>
                 </div>
 

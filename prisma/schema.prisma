@@ -1,0 +1,146 @@
+// ─── Welko — Prisma Schema ────────────────────────────────────────────────────
+//
+// Encrypted fields (AES-256-GCM via lib/encryption.ts):
+//   Clinic.customizationPrompt, Clinic.crmApiKeys
+//   Lead.patientName, Lead.patientPhone, Lead.callTranscript, Lead.notes
+//
+// After any schema change:
+//   npx prisma migrate dev --name <description>
+//   npx prisma generate
+// ──────────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum LeadStatus {
+  NUEVO
+  EN_SEGUIMIENTO_IA
+  CITA_CONFIRMADA
+  REVENUE_CERRADO
+  PERDIDO
+}
+
+enum LeadChannel {
+  WHATSAPP
+  INSTAGRAM
+  FACEBOOK
+  LLAMADA
+  WEB
+}
+
+// ─── Clinic ───────────────────────────────────────────────────────────────────
+
+model Clinic {
+  id          String @id @default(cuid())
+  clerkUserId String @unique
+  name        String
+  plan        String @default("essential")
+
+  // ── Contact & Location ──────────────────────────────────────────────────────
+  phone   String?
+  address String?
+  website String?
+  // String[] — e.g. ["Odontología General", "Estética Dental"]
+  specialties Json?
+
+  // ── Working hours ───────────────────────────────────────────────────────────
+  // Shape: { "lunes": { "open": "09:00", "close": "18:00", "active": true }, ... }
+  workingHours Json?
+
+  // ── AI agent identity ───────────────────────────────────────────────────────
+  aiAgentName     String?
+  // "profesional" | "amigable" | "empático" | "formal"
+  aiTone          String?
+  aiVoiceId       String?
+  vapiAssistantId String?
+
+  // ── AI knowledge base — drives customizationPrompt synthesis ────────────────
+  // { question: string; answer: string }[]
+  faqs               Json?
+  // String[] — e.g. ["Efectivo", "Tarjeta de crédito", "Transferencia"]
+  paymentMethods     Json?
+  // String[] — e.g. ["GNP", "IMSS", "AXA"]
+  insurancesAccepted Json?
+  cancellationPolicy String?
+  hasParking         Boolean @default(false)
+  hasInvoicing       Boolean @default(false)
+
+  // ── AI system prompt — stored encrypted (lib/encryption.ts) ─────────────────
+  customizationPrompt String?
+
+  // ── External integrations ───────────────────────────────────────────────────
+  // Encrypted JSON: { "zoho": "key", "hubspot": "key" }
+  crmApiKeys    String?
+  webhookSecret String?
+
+  // ── Onboarding state ────────────────────────────────────────────────────────
+  onboardingCompleted Boolean @default(false)
+
+  services  Service[]
+  leads     Lead[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([clerkUserId])
+}
+
+// ─── Service ──────────────────────────────────────────────────────────────────
+// Replaced atomically on each onboarding save (deleteMany + createMany in tx).
+// priceMin/priceMax drives the Revenue Asegurado calculation in BI.
+
+model Service {
+  id           String  @id @default(cuid())
+  clinicId     String
+  clinic       Clinic  @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+
+  name         String
+  description  String?
+  priceMin     Float?
+  priceMax     Float?
+  durationMins Int?
+  active       Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clinicId])
+}
+
+// ─── Lead ─────────────────────────────────────────────────────────────────────
+
+model Lead {
+  id       String @id @default(cuid())
+  clinicId String
+  clinic   Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+
+  // Stored encrypted (lib/encryption.ts)
+  patientName  String?
+  patientPhone String?
+
+  status  LeadStatus  @default(NUEVO)
+  channel LeadChannel @default(LLAMADA)
+
+  appointmentValue Float?
+
+  // From voice provider webhook
+  callId         String?  @unique
+  callDurationMs Int?
+  callTranscript String?  // encrypted
+  callEndedAt    DateTime?
+
+  notes String? // encrypted
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clinicId, status])
+  @@index([clinicId, createdAt])
+  @@index([callId])
+}

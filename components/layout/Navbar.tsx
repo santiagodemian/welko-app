@@ -5,10 +5,11 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
-const NAV_LINKS = [
-  { label: 'Producto', href: '#producto' },
-  { label: 'Precios', href: '#precios' },
-  { label: 'Clínicas', href: '#clinicas' },
+const NAV_LINKS: { label: string; href: string; scrollTo?: string }[] = [
+  { label: 'Producto', href: '/', scrollTo: 'producto' },
+  { label: 'Precios', href: '/precios' },
+  { label: 'Clínicas', href: '/clinicas' },
+  { label: 'Vende Welko', href: '/vende-welko' },
 ]
 
 export function Navbar() {
@@ -32,6 +33,7 @@ export function Navbar() {
         }}
       >
         <div className="flex items-center justify-between h-14">
+
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2" aria-label="Welko inicio">
             <Image
@@ -42,10 +44,7 @@ export function Navbar() {
               className="h-8 w-8 object-contain"
               priority
             />
-            <span
-              className="text-base font-bold tracking-tight"
-              style={{ color: '#000000' }}
-            >
+            <span className="text-base font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
               Welko
             </span>
           </Link>
@@ -54,10 +53,15 @@ export function Navbar() {
           <nav className="hidden md:flex items-center gap-6" aria-label="Navegación principal">
             {NAV_LINKS.map((link) => (
               <Link
-                key={link.href}
+                key={link.label}
                 href={link.href}
                 className="text-sm font-medium transition-colors duration-150"
                 style={{ color: 'var(--text-secondary)' }}
+                onClick={link.scrollTo ? (e) => {
+                  e.preventDefault()
+                  const el = document.getElementById(link.scrollTo!)
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
+                } : undefined}
                 onMouseEnter={(e) =>
                   ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')
                 }
@@ -70,12 +74,33 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* Right side CTA + ThemeToggle */}
-          <div className="flex items-center gap-3">
+          {/* Right side */}
+          <div className="flex items-center gap-2">
             <ThemeToggle />
+
+            {/* Iniciar Sesión */}
             <Link
-              href="#precios"
-              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+              href="/login"
+              className="hidden sm:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+              style={{
+                background: 'transparent',
+                color: 'var(--text-primary)',
+                border: '1px solid var(--border)',
+              }}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')
+              }
+            >
+              Iniciar sesión
+            </Link>
+
+            {/* Agendar demo */}
+            <Link
+              href="/contacto"
+              className="hidden sm:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
               style={{
                 background: 'var(--accent)',
                 color: 'var(--accent-fg)',
@@ -90,6 +115,7 @@ export function Navbar() {
               Agendar demo
             </Link>
           </div>
+
         </div>
       </div>
     </motion.header>

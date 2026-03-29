@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   Calendar,
@@ -9,9 +10,16 @@ import {
   BarChart2,
   ShieldCheck,
   AlertTriangle,
+  Bot,
+  CalendarCheck,
+  ArrowRight,
 } from 'lucide-react'
+import Link from 'next/link'
 import { Navbar } from '@/components/layout/Navbar'
-import { PricingSection } from '@/components/sections/PricingSection'
+import { LaptopMockup } from '@/components/ui/LaptopMockup'
+import { FAQSection } from '@/components/sections/FAQSection'
+import { HearItSection } from '@/components/sections/HearItSection'
+import { SecurityBadgeSection } from '@/components/sections/SecurityBadgeSection'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
@@ -23,7 +31,7 @@ function fadeUp(delay = 0) {
   }
 }
 
-function CTAButton({ href = '#precios' }: { href?: string }) {
+function CTAButton({ href = '/precios' }: { href?: string }) {
   return (
     <a
       href={href}
@@ -41,7 +49,30 @@ function CTAButton({ href = '#precios' }: { href?: string }) {
   )
 }
 
+const LABELS = [
+  'Para Dueños de Spa',
+  'Para Clínicas Dentales',
+  'Para Clínicas Estéticas',
+  'Para Consultorios de Salud',
+  'Para Especialistas en Nutrición',
+  'Para Centros de Bienestar',
+]
+
 export default function HomePage() {
+  const [labelIdx, setLabelIdx] = useState(0)
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false)
+      setTimeout(() => {
+        setLabelIdx((i) => (i + 1) % LABELS.length)
+        setVisible(true)
+      }, 350)
+    }, 2800)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <>
       <Navbar />
@@ -51,72 +82,143 @@ export default function HomePage() {
         {/* ════════════════════════════════════════
             HERO
         ════════════════════════════════════════ */}
-        <section className="relative flex flex-col items-center justify-center text-center px-4 py-28 sm:py-36 overflow-hidden">
+        <section className="relative px-4 pt-6 pb-14 sm:pt-8 sm:pb-16 overflow-hidden">
+          {/* Background glow */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+            className="pointer-events-none absolute inset-0 flex items-center justify-start"
           >
             <div
-              className="w-[600px] h-[400px] rounded-full blur-3xl opacity-20"
+              className="w-[500px] h-[500px] rounded-full blur-3xl opacity-15"
               style={{ background: 'radial-gradient(ellipse, #13244A 0%, transparent 70%)' }}
             />
           </div>
 
-          <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center gap-6">
-            {/* Badge */}
-            <motion.div
-              {...fadeUp(0)}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium"
-              style={{
-                background: '#E5E9F4',
-                color: 'var(--accent)',
-                border: '1px solid #C5CEEA',
-              }}
-            >
-              <span
-                className="w-1.5 h-1.5 rounded-full animate-pulse"
-                style={{ background: 'var(--accent)' }}
-              />
-              El recepcionista IA líder para Clínicas Estéticas, Dentales y de Salud
-            </motion.div>
+          {/* ── Flow diagram — centered above hero columns ── */}
+          <motion.div
+            {...fadeUp(0)}
+            className="relative z-10 max-w-2xl mx-auto mb-7"
+          >
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              gap: 0,
+              background: 'rgba(255,255,255,0.65)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: '1px solid rgba(26,42,86,0.09)',
+              borderRadius: 9999,
+              padding: '7px 16px',
+              boxShadow: '0 2px 16px rgba(26,42,86,0.07), 0 1px 2px rgba(26,42,86,0.05)',
+            }}>
+              {FLOW_STEPS.map((step, i) => (
+                <div key={step.label} style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+                  {/* Step */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '3px 10px' }}>
+                    <div style={{
+                      width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
+                      background: '#EEF2FF',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <step.Icon size={13} color="#1A2A56" strokeWidth={2} />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                      <span style={{ fontSize: 9, fontWeight: 600, color: '#1A2A56', opacity: 0.4, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                        Paso {i + 1}
+                      </span>
+                      <span style={{ fontSize: 11, fontWeight: 600, color: '#1A2A56', whiteSpace: 'nowrap', lineHeight: 1.35 }}>
+                        {step.label}
+                      </span>
+                      <span style={{ fontSize: 10, color: '#6B7280', whiteSpace: 'nowrap' }}>
+                        {step.sub}
+                      </span>
+                    </div>
+                  </div>
 
-            {/* Headline */}
-            <motion.h1
-              {...fadeUp(0.1)}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight"
-              style={{ color: 'var(--text-primary)' }}
-            >
-              Tu recepcionista{' '}
-              <span style={{ color: 'var(--accent)' }}>que nunca duerme.</span>
-              <br />
-              Tu clínica{' '}
-              <span style={{ color: 'var(--accent)' }}>nunca pierde pacientes.</span>
-            </motion.h1>
+                  {/* Connector (not after last) */}
+                  {i < FLOW_STEPS.length - 1 && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 2, padding: '0 2px' }}>
+                      <div style={{ width: 18, borderTop: '1.5px dashed rgba(26,42,86,0.18)' }} />
+                      <ArrowRight size={10} color="rgba(26,42,86,0.28)" strokeWidth={2.5} />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </motion.div>
 
-            {/* Subheadline */}
-            <motion.p
-              {...fadeUp(0.2)}
-              className="max-w-xl text-lg sm:text-xl leading-relaxed"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              Welko, es un recepcionista virtual con IA que agenda citas, responde
-              consultas y atiende a tus pacientes 24/7. Diseñado para Clínicas
-              de Salud y Estética.
-            </motion.p>
+          <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
-            {/* CTA */}
-            <motion.div {...fadeUp(0.3)}>
-              <CTAButton />
-            </motion.div>
+            {/* ── Left: copy ── */}
+            <div className="flex flex-col gap-4">
+              {/* Badge */}
+              <motion.div
+                {...fadeUp(0)}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium w-fit"
+                style={{
+                  background: '#E5E9F4',
+                  color: 'var(--accent)',
+                  border: '1px solid #C5CEEA',
+                }}
+              >
+                <span
+                  className="w-1.5 h-1.5 rounded-full animate-pulse flex-shrink-0"
+                  style={{ background: 'var(--accent)' }}
+                />
+                <span
+                  style={{
+                    opacity: visible ? 1 : 0,
+                    transition: 'opacity 0.3s ease',
+                    display: 'inline-block',
+                    minWidth: 220,
+                  }}
+                >
+                  {LABELS[labelIdx]}
+                </span>
+              </motion.div>
 
-            {/* Trust line */}
-            <motion.p
-              {...fadeUp(0.4)}
-              className="text-xs"
-              style={{ color: 'var(--text-muted)' }}
-            >
-              Instalación en 24 horas • Sin contratos forzosos • Soporte bilingüe
-            </motion.p>
+              {/* Headline */}
+              <motion.h1
+                {...fadeUp(0.1)}
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                No Pierdas una Sola Llamada:{' '}
+                <span style={{ color: 'var(--accent)' }}>
+                  Tu Recepcionista IA Disponible 24/7
+                </span>
+              </motion.h1>
+
+              {/* Subheadline */}
+              <motion.p
+                {...fadeUp(0.2)}
+                className="text-lg sm:text-xl leading-relaxed max-w-lg"
+                style={{ color: '#6B7280' }}
+              >
+                Transforma cada consulta en una cita confirmada. Nuestra IA atiende a tus
+                pacientes por WhatsApp, Instagram y llamadas, asegurando que nunca pierdas
+                un ingreso por falta de atención.
+              </motion.p>
+
+              {/* CTA */}
+              <motion.div {...fadeUp(0.3)}>
+                <CTAButton />
+              </motion.div>
+
+              {/* Trust line */}
+              <motion.p
+                {...fadeUp(0.4)}
+                className="text-xs"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                Instalación en 24 horas • Sin contratos forzosos • Soporte bilingüe
+              </motion.p>
+            </div>
+
+            {/* ── Right: tablet mockup ── */}
+            <div className="flex justify-center lg:justify-end">
+              <LaptopMockup />
+            </div>
+
           </div>
         </section>
 
@@ -154,6 +256,11 @@ export default function HomePage() {
             ))}
           </div>
         </section>
+
+        {/* ════════════════════════════════════════
+            HEAR IT — DEMO INTERACTIVO
+        ════════════════════════════════════════ */}
+        <HearItSection />
 
         {/* ════════════════════════════════════════
             EL PROBLEMA
@@ -302,24 +409,68 @@ export default function HomePage() {
         </section>
 
         {/* ════════════════════════════════════════
-            PRECIOS
+            SEGURIDAD DE GRADO MÉDICO
         ════════════════════════════════════════ */}
-        <PricingSection />
+        <SecurityBadgeSection />
+
+        {/* ════════════════════════════════════════
+            FAQ
+        ════════════════════════════════════════ */}
+        <FAQSection />
 
       </main>
 
       {/* ── Footer ── */}
       <footer
-        className="py-8 px-4 text-center text-xs"
-        style={{ color: 'var(--text-muted)', borderTop: '1px solid var(--border)' }}
+        className="py-8 px-4"
+        style={{ borderTop: '1px solid var(--border)' }}
       >
-        © {new Date().getFullYear()} Welko — El recepcionista IA líder para Clínicas Estéticas, Dentales y de Salud.
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            © {new Date().getFullYear()} Welko — El recepcionista IA líder para Clínicas de Salud y Estética.
+          </p>
+          <nav className="flex items-center gap-5">
+            {[
+              { label: 'Términos y Condiciones', href: '/terminos' },
+              { label: 'Aviso de Privacidad', href: '/privacidad' },
+              { label: 'Reembolsos', href: '/reembolsos' },
+              { label: 'Soporte', href: '/contacto' },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-xs font-medium transition-colors duration-150"
+                style={{ color: '#1A2A56' }}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </footer>
     </>
   )
 }
 
 /* ─── Data ─── */
+
+const FLOW_STEPS = [
+  {
+    Icon: MessageCircle,
+    label: 'Paciente Llama o Escribe',
+    sub: 'WhatsApp · Instagram · FB',
+  },
+  {
+    Icon: Bot,
+    label: 'Procesa IA de Welko',
+    sub: 'Respuesta segura en segundos',
+  },
+  {
+    Icon: CalendarCheck,
+    label: 'Agenda en tu Calendario',
+    sub: 'Sincronizado con tu CRM',
+  },
+]
 
 const STATS = [
   { value: '100%', label: 'de mensajes contestados sin intervención humana' },

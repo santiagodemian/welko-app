@@ -35,8 +35,8 @@
 
 /* ─── CSS semantic tokens — Light Mode (Polotab Clean) ─── */
 :root {
-  --bg:              #FFFFFF;
-  --bg-secondary:    #F9FAFB;
+  --bg:              #F9FAFB;
+  --bg-secondary:    #F3F4F6;
   --surface:         #FFFFFF;
   --surface-hover:   #F3F4F6;
   --border:          #E5E7EB;
@@ -47,24 +47,28 @@
   --accent:          #13244A;
   --accent-hover:    #0D1A36;
   --accent-fg:       #FFFFFF;
+  --accent-subtle:   rgba(19, 36, 74, 0.07);
+  --accent-ghost:    rgba(19, 36, 74, 0.04);
   --navbar-bg:       rgba(255, 255, 255, 0.85);
 }
 
-/* ─── CSS semantic tokens — Dark Mode (Revolut Fintech) ─── */
+/* ─── CSS semantic tokens — Dark Mode (Welko Navy) ─── */
 .dark {
-  --bg:              #000000;
-  --bg-secondary:    #0A0F1A;
-  --surface:         #111827;
-  --surface-hover:   #1F2937;
-  --border:          #1F2937;
-  --border-subtle:   #111827;
+  --bg:              #0A152A;
+  --bg-secondary:    #0D1B36;
+  --surface:         #13244A;
+  --surface-hover:   #1A2E5A;
+  --border:          rgba(255,255,255,0.10);
+  --border-subtle:   rgba(255,255,255,0.06);
   --text-primary:    #F9FAFB;
-  --text-secondary:  #9CA3AF;
-  --text-muted:      #6B7280;
-  --accent:          #13244A;
-  --accent-hover:    #1C3566;
-  --accent-fg:       #FFFFFF;
-  --navbar-bg:       rgba(0, 0, 0, 0.85);
+  --text-secondary:  rgba(255,255,255,0.60);
+  --text-muted:      rgba(255,255,255,0.35);
+  --accent:          #22C55E;
+  --accent-hover:    #16A34A;
+  --accent-fg:       #000000;
+  --accent-subtle:   rgba(34, 197, 94, 0.10);
+  --accent-ghost:    rgba(34, 197, 94, 0.05);
+  --navbar-bg:       rgba(10, 21, 42, 0.88);
 }
 
 /* ─── Base reset & body ─── */
@@ -86,6 +90,31 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100%;
+}
+
+/* ─── Infinite marquee ─── */
+@keyframes welko-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.welko-marquee-track {
+  animation: welko-marquee 28s linear infinite;
+}
+.welko-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Welko audio player animations ─── */
+@keyframes welko-wave {
+  0%   { transform: scaleY(0.35); }
+  100% { transform: scaleY(1.0);  }
+}
+.welko-wave-bar {
+  animation: welko-wave 0.7s ease-in-out infinite alternate;
+}
+@keyframes welko-pulse {
+  0%, 100% { opacity: 1;   }
+  50%       { opacity: 0.3; }
 }
 
 /* ─── Smooth theme transition ─── */
