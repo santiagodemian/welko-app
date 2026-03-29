@@ -1,8 +1,8 @@
 'use client'
 
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { MessageCircle, Calendar, TrendingUp, Sparkles, CheckCircle } from 'lucide-react'
+import { WelkoLogo } from '@/components/ui/WelkoLogo'
 
 const NAVY  = '#1A2A56'
 const GREEN = '#22C55E'
@@ -94,15 +94,9 @@ export function LaptopMockup() {
                 flexShrink: 0,
               }}
             >
-              {/* Logo — matches the real Welko navbar */}
+              {/* Logo — white on dark navy header */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
-                <Image
-                  src="/welko_logo_purewhite.png"
-                  alt="Welko"
-                  width={18}
-                  height={18}
-                  style={{ objectFit: 'contain', display: 'block' }}
-                />
+                <WelkoLogo color="#FFFFFF" size={13} />
                 <span style={{ color: '#fff', fontSize: 10, fontWeight: 700, letterSpacing: '-0.01em' }}>
                   Welko
                 </span>

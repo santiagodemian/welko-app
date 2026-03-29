@@ -1,11 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { WelkoLogo } from '@/components/ui/WelkoLogo'
 import { useLang } from '@/contexts/LangContext'
 
 export function Navbar() {
@@ -48,16 +48,9 @@ export function Navbar() {
         >
           <div className="flex items-center justify-between h-14">
 
-            {/* Logo — transparent, floats on background */}
+            {/* Logo — inline SVG, no background, floats on any surface */}
             <Link href="/" className="flex items-center gap-2.5" aria-label="Welko inicio">
-              <Image
-                src="/welko_logo_navy.svg"
-                alt="Welko"
-                width={32}
-                height={20}
-                className="object-contain"
-                priority
-              />
+              <WelkoLogo color="var(--text-primary)" size={22} />
               <span className="text-base font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 Welko
               </span>
@@ -185,7 +178,7 @@ export function Navbar() {
                 style={{ borderBottom: '1px solid var(--border)' }}
               >
                 <div className="flex items-center gap-2.5">
-                  <Image src="/welko_logo_navy.svg" alt="Welko" width={32} height={20} className="object-contain" />
+                  <WelkoLogo color="var(--text-primary)" size={22} />
                   <span className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>Welko</span>
                 </div>
                 <button

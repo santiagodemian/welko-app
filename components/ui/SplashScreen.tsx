@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
+import { WelkoLogo } from '@/components/ui/WelkoLogo'
 
 export function SplashScreen() {
   const [visible, setVisible] = useState(true)
@@ -36,20 +36,7 @@ export function SplashScreen() {
             transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}
           >
-            <div style={{
-              width: 72, height: 72, borderRadius: 20,
-              background: 'rgba(255,255,255,0.10)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <Image
-                src="/welko_logo_purewhite.png"
-                alt="Welko"
-                width={44}
-                height={44}
-                style={{ objectFit: 'contain' }}
-                priority
-              />
-            </div>
+            <WelkoLogo color="#FFFFFF" size={52} />
             <span style={{
               color: '#FFFFFF',
               fontSize: 22,
