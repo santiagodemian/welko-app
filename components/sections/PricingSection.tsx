@@ -63,7 +63,7 @@ export function PricingSection() {
   const [isAnnual, setIsAnnual] = useState(false)
 
   return (
-    <section id="precios" className="py-24 px-4" style={{ background: 'var(--bg-secondary)' }}>
+    <section id="precios" className="py-16 sm:py-24 px-4 sm:px-6" style={{ background: 'var(--bg-secondary)' }}>
       <div className="max-w-5xl mx-auto flex flex-col gap-12">
 
         {/* ── Header ── */}
@@ -138,7 +138,7 @@ export function PricingSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, ease: EASE, delay: i * 0.1 }}
-                className="relative flex flex-col gap-6 p-8 rounded-2xl"
+                className="relative flex flex-col gap-6 p-5 sm:p-8 rounded-2xl"
                 style={{
                   background: plan.featured ? '#13244A' : 'var(--surface)',
                   border: plan.featured

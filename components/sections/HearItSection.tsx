@@ -135,7 +135,7 @@ export function HearItSection() {
   }
 
   return (
-    <section style={{ background: NAVY, padding: '96px 16px' }}>
+    <section className="py-16 sm:py-24 px-4 sm:px-6" style={{ background: NAVY }}>
 
       {/* Hidden native audio element — key forces remount on tab change */}
       <audio
@@ -212,7 +212,7 @@ export function HearItSection() {
           }}
         >
           {/* Waveform + controls */}
-          <div style={{ padding: '32px 32px 24px', borderBottom: `1px solid ${BORDER}` }}>
+          <div className="p-5 sm:p-8" style={{ paddingBottom: 24, borderBottom: `1px solid ${BORDER}` }}>
 
             {/* Bars — animate only while playing */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 2, height: 60, marginBottom: 14 }}>
@@ -287,7 +287,7 @@ export function HearItSection() {
           </div>
 
           {/* Transcript */}
-          <div style={{ padding: '24px 32px', minHeight: 220 }}>
+          <div className="p-5 sm:p-8" style={{ minHeight: 220 }}>
             <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', margin: '0 0 14px' }}>
               Transcripción en tiempo real
             </p>
