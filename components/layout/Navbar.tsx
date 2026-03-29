@@ -36,14 +36,19 @@ export function Navbar() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2" aria-label="Welko inicio">
-            <Image
-              src="/welko_logo_purewhite.png"
-              alt="Welko logo"
-              width={32}
-              height={32}
-              className="h-8 w-8 object-contain"
-              priority
-            />
+            <div style={{
+              width: 30, height: 30, borderRadius: 8, background: '#13244A', flexShrink: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <Image
+                src="/welko_logo_purewhite.png"
+                alt="Welko logo"
+                width={18}
+                height={18}
+                className="object-contain"
+                priority
+              />
+            </div>
             <span className="text-base font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
               Welko
             </span>

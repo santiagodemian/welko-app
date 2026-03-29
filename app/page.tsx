@@ -82,7 +82,7 @@ export default function HomePage() {
         {/* ════════════════════════════════════════
             HERO
         ════════════════════════════════════════ */}
-        <section className="relative px-4 pt-6 pb-14 sm:pt-8 sm:pb-16 overflow-hidden">
+        <section className="relative px-4 sm:px-6 pt-6 pb-14 sm:pt-8 sm:pb-16 overflow-hidden">
           {/* Background glow */}
           <div
             aria-hidden
@@ -94,10 +94,10 @@ export default function HomePage() {
             />
           </div>
 
-          {/* ── Flow diagram — centered above hero columns ── */}
+          {/* ── Flow diagram — hidden on mobile, visible sm+ ── */}
           <motion.div
             {...fadeUp(0)}
-            className="relative z-10 max-w-2xl mx-auto mb-7"
+            className="hidden sm:block relative z-10 max-w-2xl mx-auto mb-7"
           >
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -112,7 +112,6 @@ export default function HomePage() {
             }}>
               {FLOW_STEPS.map((step, i) => (
                 <div key={step.label} style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
-                  {/* Step */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '3px 10px' }}>
                     <div style={{
                       width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
@@ -133,8 +132,6 @@ export default function HomePage() {
                       </span>
                     </div>
                   </div>
-
-                  {/* Connector (not after last) */}
                   {i < FLOW_STEPS.length - 1 && (
                     <div style={{ display: 'flex', alignItems: 'center', gap: 2, padding: '0 2px' }}>
                       <div style={{ width: 18, borderTop: '1.5px dashed rgba(26,42,86,0.18)' }} />
@@ -146,10 +143,10 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
 
             {/* ── Left: copy ── */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-5">
               {/* Badge */}
               <motion.div
                 {...fadeUp(0)}
@@ -169,7 +166,7 @@ export default function HomePage() {
                     opacity: visible ? 1 : 0,
                     transition: 'opacity 0.3s ease',
                     display: 'inline-block',
-                    minWidth: 220,
+                    minWidth: 180,
                   }}
                 >
                   {LABELS[labelIdx]}
@@ -179,7 +176,7 @@ export default function HomePage() {
               {/* Headline */}
               <motion.h1
                 {...fadeUp(0.1)}
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight"
+                className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight"
                 style={{ color: 'var(--text-primary)' }}
               >
                 No Pierdas una Sola Llamada:{' '}
@@ -191,7 +188,7 @@ export default function HomePage() {
               {/* Subheadline */}
               <motion.p
                 {...fadeUp(0.2)}
-                className="text-lg sm:text-xl leading-relaxed max-w-lg"
+                className="text-base sm:text-lg leading-relaxed max-w-lg"
                 style={{ color: '#6B7280' }}
               >
                 Transforma cada consulta en una cita confirmada. Nuestra IA atiende a tus
@@ -200,7 +197,7 @@ export default function HomePage() {
               </motion.p>
 
               {/* CTA */}
-              <motion.div {...fadeUp(0.3)}>
+              <motion.div {...fadeUp(0.3)} className="flex flex-col sm:flex-row gap-3">
                 <CTAButton />
               </motion.div>
 
@@ -214,8 +211,8 @@ export default function HomePage() {
               </motion.p>
             </div>
 
-            {/* ── Right: tablet mockup ── */}
-            <div className="flex justify-center lg:justify-end">
+            {/* ── Right: laptop mockup — hidden on mobile ── */}
+            <div className="hidden lg:flex justify-end">
               <LaptopMockup />
             </div>
 
@@ -225,8 +222,8 @@ export default function HomePage() {
         {/* ════════════════════════════════════════
             STATS
         ════════════════════════════════════════ */}
-        <section className="py-16 px-4" style={{ borderTop: '1px solid var(--border)' }}>
-          <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <section className="py-12 sm:py-16 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)' }}>
+          <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             {STATS.map((s, i) => (
               <motion.div
                 key={s.label}
@@ -265,8 +262,8 @@ export default function HomePage() {
         {/* ════════════════════════════════════════
             EL PROBLEMA
         ════════════════════════════════════════ */}
-        <section className="py-24 px-4" style={{ background: 'var(--bg-secondary)' }}>
-          <div className="max-w-3xl mx-auto flex flex-col gap-10">
+        <section className="py-16 sm:py-24 px-4 sm:px-6" style={{ background: 'var(--bg-secondary)' }}>
+          <div className="max-w-3xl mx-auto flex flex-col gap-8 sm:gap-10">
             {/* Header */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -282,7 +279,7 @@ export default function HomePage() {
                 El Problema
               </span>
               <h2
-                className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight"
+                className="text-2xl sm:text-4xl font-bold tracking-tight leading-tight"
                 style={{ color: 'var(--text-primary)' }}
               >
                 ¿Cuántos pacientes estás perdiendo mientras tu recepcionista está ocupada/o?
@@ -332,8 +329,8 @@ export default function HomePage() {
         {/* ════════════════════════════════════════
             LA SOLUCIÓN
         ════════════════════════════════════════ */}
-        <section id="producto" className="py-24 px-4">
-          <div className="max-w-5xl mx-auto flex flex-col gap-12">
+        <section id="producto" className="py-16 sm:py-24 px-4 sm:px-6">
+          <div className="max-w-5xl mx-auto flex flex-col gap-10 sm:gap-12">
             {/* Header */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -349,7 +346,7 @@ export default function HomePage() {
                 La Solución
               </span>
               <h2
-                className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight"
+                className="text-2xl sm:text-4xl font-bold tracking-tight leading-tight"
                 style={{ color: 'var(--text-primary)' }}
               >
                 Un recepcionista que trabaja como tú quieres
@@ -422,17 +419,17 @@ export default function HomePage() {
 
       {/* ── Footer ── */}
       <footer
-        className="py-8 px-4"
+        className="py-8 px-4 sm:px-6"
         style={{ borderTop: '1px solid var(--border)' }}
       >
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-xs text-center sm:text-left" style={{ color: 'var(--text-muted)' }}>
             © {new Date().getFullYear()} Welko — El recepcionista IA líder para Clínicas de Salud y Estética.
           </p>
-          <nav className="flex items-center gap-5">
+          <nav className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
             {[
-              { label: 'Términos y Condiciones', href: '/terminos' },
-              { label: 'Aviso de Privacidad', href: '/privacidad' },
+              { label: 'Términos', href: '/terminos' },
+              { label: 'Privacidad', href: '/privacidad' },
               { label: 'Reembolsos', href: '/reembolsos' },
               { label: 'Soporte', href: '/contacto' },
             ].map((link) => (

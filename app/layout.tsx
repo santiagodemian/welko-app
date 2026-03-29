@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Providers } from './providers'
+import { SplashScreen } from '@/components/ui/SplashScreen'
 import './globals.css'
 
 const geistSans = Geist({
@@ -18,6 +19,11 @@ export const metadata: Metadata = {
   description:
     'Welko reemplaza a tu recepcionista con IA: agenda citas, responde consultas y gestiona pacientes 24/7 para clínicas estéticas y dentales.',
   keywords: ['recepcionista IA', 'clínicas estéticas', 'clínicas dentales', 'automatización', 'SaaS'],
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
   openGraph: {
     title: 'Welko | Tu recepcionista inteligente',
     description: 'Automatiza tu recepción con IA. Welko agenda, responde y gestiona pacientes 24/7.',
@@ -37,6 +43,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body className="min-h-screen flex flex-col">
+        <SplashScreen />
         <Providers>{children}</Providers>
       </body>
     </html>
