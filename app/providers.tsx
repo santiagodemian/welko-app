@@ -2,6 +2,7 @@
 
 import { ThemeProvider } from 'next-themes'
 import { ClerkProvider } from '@clerk/nextjs'
+import { LangProvider } from '@/contexts/LangContext'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -12,7 +13,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
         enableSystem
         disableTransitionOnChange={false}
       >
-        {children}
+        <LangProvider>
+          {children}
+        </LangProvider>
       </ThemeProvider>
     </ClerkProvider>
   )

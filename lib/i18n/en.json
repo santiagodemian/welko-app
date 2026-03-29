@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "product": "Product",
+    "pricing": "Pricing",
+    "clinics": "Clinics",
+    "sellWelko": "Sell Welko",
+    "signIn": "Sign in",
+    "bookDemo": "Book a demo"
+  },
+  "hero": {
+    "labels": [
+      "For Spa Owners",
+      "For Dental Clinics",
+      "For Aesthetic Clinics",
+      "For Health Offices",
+      "For Nutrition Specialists",
+      "For Wellness Centers"
+    ],
+    "headline1": "Never Miss a Call:",
+    "headline2": "Your AI Receptionist Available 24/7",
+    "subheadline": "Turn every inquiry into a confirmed appointment. Our AI handles your patients via WhatsApp, Instagram, and calls — ensuring you never lose revenue from lack of attention.",
+    "cta": "I want my virtual receptionist",
+    "trust": "Setup in 24 hours • No forced contracts • Bilingual support"
+  },
+  "flow": [
+    { "label": "Patient Calls or Messages", "sub": "WhatsApp · Instagram · FB" },
+    { "label": "Welko AI Processes", "sub": "Secure response in seconds" },
+    { "label": "Books in Your Calendar", "sub": "Synced with your CRM" }
+  ],
+  "stats": [
+    { "value": "100%", "label": "of messages answered without human intervention" },
+    { "value": "24/7", "label": "total availability to schedule appointments" },
+    { "value": "+40%", "label": "increase in monthly scheduled appointments" }
+  ],
+  "problem": {
+    "eyebrow": "The Problem",
+    "headline": "How many patients are you losing while your receptionist is busy?",
+    "sub": "Lack of immediate response is the #1 cause of patient abandonment in health clinics.",
+    "items": [
+      "Patients who call after hours and never try again.",
+      "Missed calls during peak hours that become appointments for your competition.",
+      "Administrative staff overwhelmed repeating the same answers.",
+      "Inefficient manual follow-up of patients who don't confirm."
+    ]
+  },
+  "solution": {
+    "eyebrow": "The Solution",
+    "headline": "A receptionist that works the way you want",
+    "items": [
+      { "title": "Automatic scheduling", "desc": "Appointments via WhatsApp or chat without human intervention, available 24 hours." },
+      { "title": "Instant responses", "desc": "Resolve questions about treatments and pricing instantly — no wait times." },
+      { "title": "Smart reminders", "desc": "Reduce no-shows with automatic confirmations before each appointment." },
+      { "title": "Personalized to your brand", "desc": "The AI speaks with your clinic's voice and tone, as if it were your own team." },
+      { "title": "Real-time reports", "desc": "View call and appointment metrics every day from your dashboard." },
+      { "title": "Guaranteed privacy", "desc": "Data protection meeting medical security standards in every interaction." }
+    ]
+  },
+  "footer": {
+    "copy": "Welko — The leading AI receptionist for Health & Aesthetic Clinics.",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "refunds": "Refunds",
+    "support": "Support"
+  }
+}
