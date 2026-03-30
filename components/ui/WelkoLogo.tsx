@@ -11,7 +11,7 @@ export function WelkoLogo({ size = 20, className }: WelkoLogoProps) {
   // eslint-disable-next-line @next/next/no-img-element
   return (
     <img
-      src="/welkoapplogo.png"
+      src="/welko_logo_purewhite.png"
       alt="Welko"
       width={w}
       height={size}
