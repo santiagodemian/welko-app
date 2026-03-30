@@ -50,8 +50,6 @@
   --accent-subtle:   rgba(19, 36, 74, 0.07);
   --accent-ghost:    rgba(19, 36, 74, 0.04);
   --navbar-bg:       rgba(255, 255, 255, 0.85);
-  /* Logo PNG is white — invert to near-black on light backgrounds */
-  --logo-filter:     brightness(0);
 }
 
 /* ─── CSS semantic tokens — Dark Mode (Welko Navy) ─── */
@@ -71,8 +69,29 @@
   --accent-subtle:   rgba(34, 197, 94, 0.10);
   --accent-ghost:    rgba(34, 197, 94, 0.05);
   --navbar-bg:       rgba(10, 21, 42, 0.88);
-  /* Logo PNG is white — keep as-is on dark backgrounds */
-  --logo-filter:     none;
+}
+
+/* ─── Welko logo rendering ─── */
+
+/*
+ * Light background: PNG has white shapes → invert to near-black so logo
+ * is visible. In dark mode the rule below overrides this.
+ */
+img.welko-logo-light {
+  filter: invert(1);
+}
+.dark img.welko-logo-light {
+  /* Dark mode navbar: white logo on dark glass — no invert needed */
+  filter: none;
+}
+
+/*
+ * Dark background (SplashScreen, LaptopMockup header, etc.):
+ * mix-blend-mode:screen removes the opaque white PNG background
+ * while keeping the white logo shapes visible on any dark surface.
+ */
+img.welko-logo-dark {
+  mix-blend-mode: screen;
 }
 
 /* ─── Base reset & body ─── */
