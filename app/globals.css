@@ -72,26 +72,20 @@
 }
 
 /* ─── Welko logo rendering ─── */
-
 /*
- * Light background: PNG has white shapes → invert to near-black so logo
- * is visible. In dark mode the rule below overrides this.
+ * welkoapplogo.png: navy shapes on TRANSPARENT background.
+ * Light bg → show navy as-is. Dark bg → invert to white.
  */
 img.welko-logo-light {
-  filter: invert(1);
+  /* navy logo on light surface — no filter needed */
 }
 .dark img.welko-logo-light {
-  /* Dark mode navbar: white logo on dark glass — no invert needed */
-  filter: none;
+  /* dark mode: make navy logo white */
+  filter: brightness(0) invert(1);
 }
-
-/*
- * Dark background (SplashScreen, LaptopMockup header, etc.):
- * mix-blend-mode:screen removes the opaque white PNG background
- * while keeping the white logo shapes visible on any dark surface.
- */
 img.welko-logo-dark {
-  mix-blend-mode: screen;
+  /* always-dark surfaces (SplashScreen, laptop mockup header) */
+  filter: brightness(0) invert(1);
 }
 
 /* ─── Base reset & body ─── */
