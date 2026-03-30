@@ -50,7 +50,7 @@ export function Navbar() {
 
             {/* Logo — inline SVG, no background, floats on any surface */}
             <Link href="/" className="flex items-center gap-2.5" aria-label="Welko inicio">
-              <WelkoLogo color="var(--text-primary)" size={22} />
+              <WelkoLogo color="var(--text-primary)" bgColor="var(--surface)" size={22} />
               <span className="text-base font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 Welko
               </span>
@@ -178,7 +178,7 @@ export function Navbar() {
                 style={{ borderBottom: '1px solid var(--border)' }}
               >
                 <div className="flex items-center gap-2.5">
-                  <WelkoLogo color="var(--text-primary)" size={22} />
+                  <WelkoLogo color="var(--text-primary)" bgColor="var(--surface)" size={22} />
                   <span className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>Welko</span>
                 </div>
                 <button

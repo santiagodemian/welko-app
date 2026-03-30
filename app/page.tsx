@@ -148,7 +148,7 @@ export default function HomePage() {
               {/* Headline */}
               <motion.h1
                 {...fadeUp(0.1)}
-                className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight"
+                className="text-3xl lg:text-5xl font-bold tracking-tight leading-tight"
                 style={{ color: 'var(--text-primary)' }}
               >
                 {t.hero.headline1}{' '}
@@ -156,7 +156,7 @@ export default function HomePage() {
               </motion.h1>
 
               {/* Subheadline */}
-              <motion.p {...fadeUp(0.2)} className="text-base sm:text-lg leading-relaxed max-w-lg" style={{ color: '#6B7280' }}>
+              <motion.p {...fadeUp(0.2)} className="text-sm sm:text-base leading-relaxed max-w-lg" style={{ color: '#6B7280' }}>
                 {t.hero.subheadline}
               </motion.p>
 
@@ -191,7 +191,7 @@ export default function HomePage() {
                 className="flex flex-col items-center text-center gap-2 py-8 px-6 rounded-2xl"
                 style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
               >
-                <span className="text-5xl font-black tracking-tight leading-none" style={{ color: 'var(--accent)' }}>
+                <span className="text-4xl font-black tracking-tight leading-none" style={{ color: 'var(--accent)' }}>
                   {s.value}
                 </span>
                 <span className="text-sm font-medium leading-snug max-w-[180px]" style={{ color: 'var(--text-secondary)' }}>
@@ -220,10 +220,10 @@ export default function HomePage() {
               <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
                 {t.problem.eyebrow}
               </span>
-              <h2 className="text-2xl sm:text-4xl font-bold tracking-tight leading-tight" style={{ color: 'var(--text-primary)' }}>
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight leading-tight" style={{ color: 'var(--text-primary)' }}>
                 {t.problem.headline}
               </h2>
-              <p className="text-base sm:text-lg" style={{ color: 'var(--text-secondary)' }}>
+              <p className="text-sm sm:text-base" style={{ color: 'var(--text-secondary)' }}>
                 {t.problem.sub}
               </p>
             </motion.div>
@@ -262,7 +262,7 @@ export default function HomePage() {
               <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
                 {t.solution.eyebrow}
               </span>
-              <h2 className="text-2xl sm:text-4xl font-bold tracking-tight leading-tight" style={{ color: 'var(--text-primary)' }}>
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight leading-tight" style={{ color: 'var(--text-primary)' }}>
                 {t.solution.headline}
               </h2>
             </motion.div>
