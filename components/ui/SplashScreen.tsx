@@ -24,7 +24,7 @@ export function SplashScreen() {
             position: 'fixed',
             inset: 0,
             zIndex: 9999,
-            background: '#1A2A56',
+            background: '#FFFFFF',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -36,9 +36,9 @@ export function SplashScreen() {
             transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}
           >
-            <WelkoLogo darkBg size={52} />
+            <WelkoLogo size={52} />
             <span style={{
-              color: '#FFFFFF',
+              color: '#13244A',
               fontSize: 22,
               fontWeight: 700,
               letterSpacing: '-0.02em',

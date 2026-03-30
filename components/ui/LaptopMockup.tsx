@@ -96,7 +96,7 @@ export function LaptopMockup() {
             >
               {/* Logo — white on dark navy header */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
-                <WelkoLogo darkBg size={13} />
+                <WelkoLogo size={13} />
                 <span style={{ color: '#fff', fontSize: 10, fontWeight: 700, letterSpacing: '-0.01em' }}>
                   Welko
                 </span>
