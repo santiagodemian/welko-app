@@ -20,9 +20,10 @@ export const metadata: Metadata = {
     'Welko reemplaza a tu recepcionista con IA: agenda citas, responde consultas y gestiona pacientes 24/7 para clínicas estéticas y dentales.',
   keywords: ['recepcionista IA', 'clínicas estéticas', 'clínicas dentales', 'automatización', 'SaaS'],
   icons: {
-    icon: '/icon.svg',
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
     shortcut: '/icon.svg',
-    apple: '/icon.svg',
   },
   openGraph: {
     title: 'Welko | Tu recepcionista inteligente',
