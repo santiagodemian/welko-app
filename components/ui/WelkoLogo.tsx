@@ -1,7 +1,5 @@
 'use client'
 
-import Image from 'next/image'
-
 interface WelkoLogoProps {
   /**
    * true  = logo on dark/navy surface → filter converts navy shapes to white
@@ -16,14 +14,14 @@ interface WelkoLogoProps {
 export function WelkoLogo({ darkBg = false, size = 20, className }: WelkoLogoProps) {
   const w = Math.round(size * 1.4)
 
+  // eslint-disable-next-line @next/next/no-img-element
   return (
-    <Image
+    <img
       src="/welkoapplogo.png"
       alt="Welko"
       width={w}
       height={size}
-      priority
-      unoptimized           // serve original PNG — preserves transparency
+      style={{ display: 'block' }}
       className={`${darkBg ? 'welko-logo-dark' : 'welko-logo-light'} ${className ?? ''}`}
     />
   )
