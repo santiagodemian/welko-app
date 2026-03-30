@@ -55,7 +55,7 @@ export function FAQSection() {
             Preguntas frecuentes
           </span>
           <h2
-            className="text-3xl sm:text-4xl font-bold tracking-tight"
+            className="text-xl sm:text-2xl font-bold tracking-tight"
             style={{ color: 'var(--text-primary)' }}
           >
             Todo lo que necesitas saber

@@ -148,7 +148,7 @@ export default function HomePage() {
               {/* Headline */}
               <motion.h1
                 {...fadeUp(0.1)}
-                className="text-3xl lg:text-5xl font-bold tracking-tight leading-tight"
+                className="text-3xl lg:text-6xl font-bold tracking-tight leading-tight"
                 style={{ color: 'var(--text-primary)' }}
               >
                 {t.hero.headline1}{' '}
@@ -191,7 +191,7 @@ export default function HomePage() {
                 className="flex flex-col items-center text-center gap-2 py-8 px-6 rounded-2xl"
                 style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
               >
-                <span className="text-4xl font-black tracking-tight leading-none" style={{ color: 'var(--accent)' }}>
+                <span className="text-3xl font-black tracking-tight leading-none" style={{ color: 'var(--accent)' }}>
                   {s.value}
                 </span>
                 <span className="text-sm font-medium leading-snug max-w-[180px]" style={{ color: 'var(--text-secondary)' }}>

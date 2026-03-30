@@ -81,12 +81,12 @@ export function PricingSection() {
             Precios
           </span>
           <h2
-            className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight"
+            className="text-xl sm:text-2xl font-bold tracking-tight leading-tight"
             style={{ color: 'var(--text-primary)' }}
           >
             Planes simples, resultados claros
           </h2>
-          <p className="max-w-md text-base" style={{ color: 'var(--text-secondary)' }}>
+          <p className="max-w-md text-sm" style={{ color: 'var(--text-secondary)' }}>
             Sin costos ocultos. Cancela cuando quieras.
           </p>
 
@@ -182,7 +182,7 @@ export function PricingSection() {
                 {/* Price */}
                 <div className="flex items-end gap-1.5">
                   <span
-                    className="text-4xl font-black tracking-tight leading-none"
+                    className="text-3xl font-black tracking-tight leading-none"
                     style={{ color: plan.featured ? '#FFFFFF' : 'var(--text-primary)' }}
                   >
                     ${price.toLocaleString('es-MX')}
