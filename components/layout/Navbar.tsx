@@ -15,7 +15,7 @@ export function Navbar() {
   const NAV_LINKS = [
     { label: t.nav.product,   href: '/', scrollTo: 'producto' },
     { label: t.nav.pricing,   href: '/precios' },
-    { label: t.nav.clinics,   href: '/clinicas' },
+    { label: t.nav.industries, href: '/industrias' },
     { label: t.nav.sellWelko, href: '/vende-welko' },
   ]
 
