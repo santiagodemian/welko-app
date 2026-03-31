@@ -13,10 +13,11 @@ export function Navbar() {
   const { lang, t, toggle } = useLang()
 
   const NAV_LINKS = [
-    { label: t.nav.product,   href: '/', scrollTo: 'producto' },
-    { label: t.nav.pricing,   href: '/precios' },
+    { label: t.nav.product,    href: '/', scrollTo: 'producto' },
     { label: t.nav.industries, href: '/industrias' },
-    { label: t.nav.sellWelko, href: '/vende-welko' },
+    { label: t.nav.solutions,  href: '/soluciones/ai-receptionist' },
+    { label: t.nav.pricing,    href: '/precios' },
+    { label: t.nav.partners,   href: '/partners' },
   ]
 
   function handleScrollLink(e: React.MouseEvent, scrollTo?: string) {

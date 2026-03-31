@@ -13,19 +13,37 @@ import {
   Bot,
   CalendarCheck,
   ArrowRight,
+  Smile,
+  Brain,
+  Leaf,
+  Heart,
+  Eye,
 } from 'lucide-react'
 import Link from 'next/link'
 import { Navbar } from '@/components/layout/Navbar'
-import { LaptopMockup } from '@/components/ui/LaptopMockup'
+import { IndustryHeroVisual } from '@/components/ui/IndustryHeroVisual'
 import { FAQSection } from '@/components/sections/FAQSection'
 import { HearItSection } from '@/components/sections/HearItSection'
 import { SecurityBadgeSection } from '@/components/sections/SecurityBadgeSection'
 import { useLang } from '@/contexts/LangContext'
+import { INDUSTRIES, HOME_INDUSTRIES } from '@/lib/industries'
+
+const HOME_ICONS: Record<string, React.ElementType> = {
+  dental:       Smile,
+  psicologia:   Brain,
+  estetica:     Sparkles,
+  nutricion:    Leaf,
+  ginecologia:  Heart,
+  oftalmologia: Eye,
+}
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 const SOLUTION_ICONS = [Calendar, MessageCircle, Bell, Sparkles, BarChart2, ShieldCheck]
 const FLOW_ICONS = [MessageCircle, Bot, CalendarCheck]
+
+// Maps each rotating hero label to an industry slug for the visual
+const HERO_SLUGS = ['estetica', 'dental', 'estetica', 'medicina', 'nutricion', 'psicologia']
 
 function fadeUp(delay = 0) {
   return {
@@ -54,7 +72,7 @@ function CTAButton({ label }: { label: string }) {
 }
 
 export default function HomePage() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const [labelIdx, setLabelIdx] = useState(0)
   const [visible, setVisible] = useState(true)
 
@@ -171,9 +189,11 @@ export default function HomePage() {
               </motion.p>
             </div>
 
-            {/* Right: mockup — desktop only */}
+            {/* Right: AI character — desktop only */}
             <div className="hidden lg:flex justify-end">
-              <LaptopMockup />
+              <div className="w-[380px]">
+                <IndustryHeroVisual slug={HERO_SLUGS[labelIdx] ?? 'dental'} />
+              </div>
             </div>
           </div>
         </section>
@@ -199,6 +219,71 @@ export default function HomePage() {
                 </span>
               </motion.div>
             ))}
+          </div>
+        </section>
+
+        {/* ════════════════════════════════════════
+            INDUSTRIAS GRID
+        ════════════════════════════════════════ */}
+        <section className="py-12 sm:py-16 px-4 sm:px-6" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border)' }}>
+          <div className="max-w-5xl mx-auto flex flex-col gap-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
+                  {lang === 'es' ? 'Por Industria' : 'By Industry'}
+                </span>
+                <h2 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                  {lang === 'es' ? 'Diseñado para tu especialidad' : 'Designed for your specialty'}
+                </h2>
+              </div>
+              <Link
+                href="/industrias"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-150 w-fit"
+                style={{ color: 'var(--accent)' }}
+              >
+                {lang === 'es' ? 'Ver todas' : 'See all'}
+                <ArrowRight size={13} />
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              {HOME_INDUSTRIES.map((slug, i) => {
+                const ind = INDUSTRIES.find((x) => x.slug === slug)
+                if (!ind) return null
+                const Icon = HOME_ICONS[slug] ?? Smile
+                const name = lang === 'es' ? ind.es.name : ind.en.name
+                return (
+                  <motion.div
+                    key={slug}
+                    initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }} transition={{ duration: 0.4, ease: EASE, delay: i * 0.06 }}
+                  >
+                    <Link
+                      href={`/industrias/${slug}`}
+                      className="flex flex-col items-center gap-3 p-4 rounded-2xl transition-all duration-200 group"
+                      style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLAnchorElement).style.borderColor = ind.color + '66'
+                        ;(e.currentTarget as HTMLAnchorElement).style.background = ind.lightColor
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border)'
+                        ;(e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface)'
+                      }}
+                    >
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{ background: ind.lightColor }}
+                      >
+                        <Icon size={20} color={ind.color} />
+                      </div>
+                      <span className="text-xs font-semibold text-center leading-snug" style={{ color: 'var(--text-primary)' }}>
+                        {name}
+                      </span>
+                    </Link>
+                  </motion.div>
+                )
+              })}
+            </div>
           </div>
         </section>
 
