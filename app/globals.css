@@ -63,12 +63,12 @@
   --text-primary:    #F9FAFB;
   --text-secondary:  rgba(255,255,255,0.60);
   --text-muted:      rgba(255,255,255,0.35);
-  --accent:          #22C55E;
-  --accent-hover:    #16A34A;
-  --accent-fg:       #000000;
-  --accent-subtle:   rgba(34, 197, 94, 0.10);
-  --accent-ghost:    rgba(34, 197, 94, 0.05);
-  --navbar-bg:       rgba(10, 21, 42, 0.88);
+  --accent:          #FFFFFF;
+  --accent-hover:    rgba(255,255,255,0.88);
+  --accent-fg:       #13244A;
+  --accent-subtle:   rgba(255,255,255,0.08);
+  --accent-ghost:    rgba(255,255,255,0.04);
+  --navbar-bg:       rgba(10, 21, 42, 0.90);
 }
 
 /* ─── Welko logo rendering ─── */
@@ -144,4 +144,20 @@ html {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-duration: 0.25s;
   transition-timing-function: ease;
+}
+
+/* ─── Levitation animation for industry robot visuals ─── */
+@keyframes welko-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes welko-pulse-glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.05); }
+}
+.welko-float {
+  animation: welko-float 4s ease-in-out infinite;
+}
+.welko-pulse-glow {
+  animation: welko-pulse-glow 3s ease-in-out infinite;
 }

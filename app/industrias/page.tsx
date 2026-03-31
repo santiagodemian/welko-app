@@ -2,25 +2,13 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Smile, Brain, Sparkles, Leaf, Stethoscope, Heart, PawPrint, Activity, Droplets } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
-import { IndustryCharacter } from '@/components/ui/IndustryCharacter'
+import { IndustryRobotVisual } from '@/components/ui/IndustryRobotVisual'
 import { INDUSTRIES } from '@/lib/industries'
 import { useLang } from '@/contexts/LangContext'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
-
-const ICONS: Record<string, React.ElementType> = {
-  dental:       Smile,
-  psicologia:   Brain,
-  estetica:     Sparkles,
-  nutricion:    Leaf,
-  medicina:     Stethoscope,
-  pediatria:    Heart,
-  veterinaria:  PawPrint,
-  fisioterapia: Activity,
-  dermatologia: Droplets,
-}
 
 const PREVIEWS = ['dental', 'medicina', 'estetica']
 
@@ -79,11 +67,10 @@ export default function IndustriasPage() {
               const name = lang === 'es' ? ind.es.name : ind.en.name
               return (
                 <Link key={slug} href={`/industrias/${slug}`} className="flex flex-col items-center gap-3 group">
-                  <div className="w-full rounded-2xl overflow-hidden p-4 transition-transform duration-200 group-hover:scale-105"
-                    style={{ background: ind.lightColor, border: `1.5px solid ${ind.color}22` }}>
-                    <IndustryCharacter slug={slug} />
+                  <div className="w-full overflow-hidden rounded-2xl transition-transform duration-200 group-hover:scale-105">
+                    <IndustryRobotVisual slug={slug} size="sm" />
                   </div>
-                  <span className="text-sm font-semibold" style={{ color: ind.color }}>{name}</span>
+                  <span className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>{name}</span>
                 </Link>
               )
             })}
@@ -104,7 +91,6 @@ export default function IndustriasPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {INDUSTRIES.map((ind, i) => {
-                const Icon = ICONS[ind.slug] ?? Stethoscope
                 const name    = lang === 'es' ? ind.es.name    : ind.en.name
                 const tagline = lang === 'es' ? ind.es.tagline : ind.en.tagline
                 return (
@@ -126,10 +112,9 @@ export default function IndustriasPage() {
                     >
                       <div className="flex items-center justify-between">
                         <div
-                          className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                          style={{ background: ind.lightColor }}
+                          className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0"
                         >
-                          <Icon size={20} color={ind.color} />
+                          <IndustryRobotVisual slug={ind.slug} size="sm" />
                         </div>
                         <ArrowRight
                           size={16}

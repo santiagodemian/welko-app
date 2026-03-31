@@ -1,21 +1,49 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ChevronDown, Bot, Clock } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { WelkoLogo } from '@/components/ui/WelkoLogo'
 import { useLang } from '@/contexts/LangContext'
 
+const SOLUTIONS = [
+  {
+    slug: 'ai-receptionist',
+    label: { es: 'AI Receptionist', en: 'AI Receptionist' },
+    desc:  { es: 'Recepcionista IA 24/7 para tu clínica', en: '24/7 AI Receptionist for your clinic' },
+    href:  '/soluciones/ai-receptionist',
+    icon:  Bot,
+    soon:  false,
+  },
+  {
+    slug: 'voice-ai',
+    label: { es: 'Voice AI', en: 'Voice AI' },
+    desc:  { es: 'Llamadas automatizadas con IA de voz', en: 'Automated calls with voice AI' },
+    href:  '#',
+    icon:  Clock,
+    soon:  true,
+  },
+  {
+    slug: 'crm',
+    label: { es: 'CRM Médico', en: 'Medical CRM' },
+    desc:  { es: 'Gestión de pacientes integrada', en: 'Integrated patient management' },
+    href:  '#',
+    icon:  Clock,
+    soon:  true,
+  },
+]
+
 export function Navbar() {
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen]   = useState(false)
+  const [solutionsOpen, setSolutionsOpen] = useState(false)
+  const solutionsRef = useRef<HTMLDivElement>(null)
   const { lang, t, toggle } = useLang()
 
   const NAV_LINKS = [
     { label: t.nav.product,    href: '/', scrollTo: 'producto' },
     { label: t.nav.industries, href: '/industrias' },
-    { label: t.nav.solutions,  href: '/soluciones/ai-receptionist' },
     { label: t.nav.pricing,    href: '/precios' },
     { label: t.nav.partners,   href: '/partners' },
   ]
@@ -49,7 +77,7 @@ export function Navbar() {
         >
           <div className="flex items-center justify-between h-14">
 
-            {/* Logo — inline SVG, no background, floats on any surface */}
+            {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5" aria-label="Welko inicio">
               <WelkoLogo size={22} />
               <span className="text-base font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
@@ -76,12 +104,103 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+
+              {/* Solutions dropdown */}
+              <div
+                ref={solutionsRef}
+                className="relative"
+                onMouseEnter={() => setSolutionsOpen(true)}
+                onMouseLeave={() => setSolutionsOpen(false)}
+              >
+                <button
+                  className="flex items-center gap-1 text-sm font-medium transition-colors duration-150"
+                  style={{ color: solutionsOpen ? 'var(--text-primary)' : 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer' }}
+                >
+                  {lang === 'es' ? 'Soluciones' : 'Solutions'}
+                  <ChevronDown
+                    size={14}
+                    style={{
+                      transform: solutionsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.2s ease',
+                    }}
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {solutionsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                      transition={{ duration: 0.18, ease: 'easeOut' }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-64"
+                      style={{ zIndex: 100 }}
+                    >
+                      <div
+                        className="flex flex-col gap-1 p-2 rounded-2xl"
+                        style={{
+                          background: 'var(--surface)',
+                          border: '1px solid var(--border)',
+                          boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                        }}
+                      >
+                        {SOLUTIONS.map((sol) => {
+                          const label = lang === 'es' ? sol.label.es : sol.label.en
+                          const desc  = lang === 'es' ? sol.desc.es  : sol.desc.en
+                          return (
+                            <Link
+                              key={sol.slug}
+                              href={sol.href}
+                              onClick={sol.soon ? (e) => e.preventDefault() : undefined}
+                              className="flex items-start gap-3 px-3 py-2.5 rounded-xl transition-colors duration-150"
+                              style={{
+                                cursor: sol.soon ? 'default' : 'pointer',
+                                opacity: sol.soon ? 0.55 : 1,
+                              }}
+                              onMouseEnter={(e) => {
+                                if (!sol.soon)
+                                  (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)'
+                              }}
+                              onMouseLeave={(e) => {
+                                (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'
+                              }}
+                            >
+                              <div
+                                className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                                style={{ background: 'var(--bg-secondary)' }}
+                              >
+                                <sol.icon size={14} color="var(--accent)" />
+                              </div>
+                              <div className="flex flex-col gap-0.5 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>
+                                    {label}
+                                  </span>
+                                  {sol.soon && (
+                                    <span
+                                      className="text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+                                      style={{ background: 'var(--bg-secondary)', color: 'var(--text-muted)' }}
+                                    >
+                                      {lang === 'es' ? 'Próx.' : 'Soon'}
+                                    </span>
+                                  )}
+                                </div>
+                                <span className="text-[11px] leading-snug" style={{ color: 'var(--text-secondary)' }}>
+                                  {desc}
+                                </span>
+                              </div>
+                            </Link>
+                          )
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </nav>
 
-            {/* Right: lang + theme + auth buttons */}
+            {/* Right actions */}
             <div className="flex items-center gap-2">
-
-              {/* Lang toggle */}
               <button
                 onClick={toggle}
                 className="hidden sm:flex items-center px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors duration-150"
@@ -100,11 +219,7 @@ export function Navbar() {
               <Link
                 href="/login"
                 className="hidden md:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
-                style={{
-                  background: 'transparent',
-                  color: 'var(--text-primary)',
-                  border: '1px solid var(--border)',
-                }}
+                style={{ background: 'transparent', color: 'var(--text-primary)', border: '1px solid var(--border)' }}
                 onMouseEnter={(e) =>
                   ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')
                 }
@@ -129,7 +244,6 @@ export function Navbar() {
                 {t.nav.bookDemo}
               </Link>
 
-              {/* Hamburger — mobile only */}
               <button
                 onClick={() => setDrawerOpen(true)}
                 className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-150"
@@ -148,36 +262,22 @@ export function Navbar() {
       <AnimatePresence>
         {drawerOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               key="backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="fixed inset-0 z-50 bg-black/50"
               onClick={() => setDrawerOpen(false)}
             />
 
-            {/* Drawer panel */}
             <motion.div
               key="drawer"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
+              initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 320, damping: 30 }}
               className="fixed top-0 right-0 bottom-0 z-50 w-72 flex flex-col"
-              style={{
-                background: 'var(--surface)',
-                borderLeft: '1px solid var(--border)',
-                boxShadow: '-4px 0 24px rgba(0,0,0,0.12)',
-              }}
+              style={{ background: 'var(--surface)', borderLeft: '1px solid var(--border)', boxShadow: '-4px 0 24px rgba(0,0,0,0.12)' }}
             >
-              {/* Drawer header */}
-              <div
-                className="flex items-center justify-between px-5 h-16 flex-shrink-0"
-                style={{ borderBottom: '1px solid var(--border)' }}
-              >
+              <div className="flex items-center justify-between px-5 h-16 flex-shrink-0" style={{ borderBottom: '1px solid var(--border)' }}>
                 <div className="flex items-center gap-2.5">
                   <WelkoLogo size={22} />
                   <span className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>Welko</span>
@@ -191,57 +291,63 @@ export function Navbar() {
                 </button>
               </div>
 
-              {/* Nav links */}
               <nav className="flex flex-col gap-1 px-4 py-5 flex-1">
                 {NAV_LINKS.map((link) => (
                   <Link
                     key={link.label}
                     href={link.href}
-                    onClick={(e) => {
-                      handleScrollLink(e, link.scrollTo)
-                      if (!link.scrollTo) setDrawerOpen(false)
-                    }}
+                    onClick={(e) => { handleScrollLink(e, link.scrollTo); if (!link.scrollTo) setDrawerOpen(false) }}
                     className="flex items-center px-3 py-3 rounded-xl text-sm font-medium transition-colors duration-150"
                     style={{ color: 'var(--text-primary)' }}
-                    onMouseEnter={(e) =>
-                      ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')
-                    }
-                    onMouseLeave={(e) =>
-                      ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')
-                    }
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')}
                   >
                     {link.label}
                   </Link>
                 ))}
+
+                {/* Solutions in mobile */}
+                <div className="px-3 pt-1 pb-0.5">
+                  <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                    {lang === 'es' ? 'Soluciones' : 'Solutions'}
+                  </span>
+                </div>
+                {SOLUTIONS.map((sol) => {
+                  const label = lang === 'es' ? sol.label.es : sol.label.en
+                  return (
+                    <Link
+                      key={sol.slug}
+                      href={sol.href}
+                      onClick={sol.soon ? (e) => e.preventDefault() : () => setDrawerOpen(false)}
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150"
+                      style={{ color: 'var(--text-primary)', opacity: sol.soon ? 0.45 : 1 }}
+                      onMouseEnter={(e) => { if (!sol.soon) (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)' }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}
+                    >
+                      <sol.icon size={15} color="var(--text-secondary)" />
+                      {label}
+                      {sol.soon && <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{lang === 'es' ? '· Pronto' : '· Soon'}</span>}
+                    </Link>
+                  )
+                })}
               </nav>
 
-              {/* Bottom CTAs */}
               <div className="px-4 pb-6 flex flex-col gap-3" style={{ borderTop: '1px solid var(--border)', paddingTop: 20 }}>
-                {/* Lang + Theme row */}
                 <div className="flex items-center gap-2 mb-1">
                   <button
                     onClick={toggle}
                     className="flex-1 py-2 rounded-xl text-xs font-bold transition-colors duration-150"
-                    style={{
-                      border: '1px solid var(--border)',
-                      color: 'var(--text-secondary)',
-                      background: 'var(--surface-hover)',
-                    }}
+                    style={{ border: '1px solid var(--border)', color: 'var(--text-secondary)', background: 'var(--surface-hover)' }}
                   >
                     {lang === 'es' ? '🌐 English' : '🌐 Español'}
                   </button>
                   <ThemeToggle />
                 </div>
-
                 <Link
                   href="/login"
                   onClick={() => setDrawerOpen(false)}
                   className="w-full flex items-center justify-center py-3 rounded-xl text-sm font-medium transition-colors duration-150"
-                  style={{
-                    border: '1px solid var(--border)',
-                    color: 'var(--text-primary)',
-                    background: 'transparent',
-                  }}
+                  style={{ border: '1px solid var(--border)', color: 'var(--text-primary)', background: 'transparent' }}
                 >
                   {t.nav.signIn}
                 </Link>
