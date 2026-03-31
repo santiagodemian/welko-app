@@ -3,13 +3,13 @@ import { TrendingUp, ArrowRight } from 'lucide-react'
 const FUNNEL = [
   { stage: 'Mensajes recibidos',   value: 324, rate: null,   color: '#3B82F6',  description: 'Contactos totales por WhatsApp este mes' },
   { stage: 'Consultas respondidas', value: 298, rate: '92%',  color: '#8B5CF6',  description: 'Respondidos en menos de 3 minutos' },
-  { stage: 'Citas agendadas',       value: 201, rate: '67%',  color: '#22C55E',  description: 'De consulta a cita confirmada por Welko' },
+  { stage: 'Citas agendadas',       value: 201, rate: '67%',  color: '#1A2A56',  description: 'De consulta a cita confirmada por Welko' },
   { stage: 'Citas confirmadas',     value: 179, rate: '89%',  color: '#14B8A6',  description: 'Tasa de confirmación con recordatorios' },
   { stage: 'Pacientes activos',     value: 234, rate: '116%', color: '#F59E0B',  description: 'Incluye retención de meses anteriores' },
 ]
 
 const CHANNELS = [
-  { label: 'WhatsApp',  pct: 78, color: '#22C55E' },
+  { label: 'WhatsApp',  pct: 78, color: '#1A2A56' },
   { label: 'Llamada',   pct: 15, color: '#3B82F6'  },
   { label: 'Otro',      pct: 7,  color: '#D1D5DB'  },
 ]

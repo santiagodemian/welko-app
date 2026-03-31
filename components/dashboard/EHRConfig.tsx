@@ -28,7 +28,7 @@ const SYSTEMS = [
   { id: 'opendental', name: 'OpenDental',         vendor: 'Open Dental Software', logo: 'OD', color: '#8B5CF6', connected: false, lastSync: null,         records: null },
   { id: 'carestream', name: 'Carestream Dental',  vendor: 'Carestream Health',    logo: 'CS', color: '#0EA5E9', connected: true,  lastSync: 'Hace 2 h',   records: 189  },
   { id: 'cliniccloud', name: 'ClinicCloud',        vendor: 'Clinic Cloud S.L.',   logo: 'CC', color: '#F59E0B', connected: false, lastSync: null,         records: null },
-  { id: 'medisoft',   name: 'Medisoft',            vendor: 'Netsmart Technologies',logo: 'MS', color: '#22C55E', connected: false, lastSync: null,         records: null },
+  { id: 'medisoft',   name: 'Medisoft',            vendor: 'Netsmart Technologies',logo: 'MS', color: '#1A2A56', connected: false, lastSync: null,         records: null },
   { id: 'easydent',   name: 'EasyDent',            vendor: 'Molar Software',      logo: 'ED', color: '#EC4899', connected: false, lastSync: null,         records: null },
 ]
 
@@ -100,8 +100,8 @@ export function EHRConfig() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <span style={{ color: T, fontSize: 14, fontWeight: 600 }}>{sys.name}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22C55E', display: 'inline-block' }} />
-                        <span style={{ color: '#22C55E', fontSize: 11, fontWeight: 600 }}>Conectado</span>
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#1A2A56', display: 'inline-block' }} />
+                        <span style={{ color: '#1A2A56', fontSize: 11, fontWeight: 600 }}>Conectado</span>
                       </div>
                     </div>
                     <div style={{ display: 'flex', gap: 16, marginTop: 3 }}>
@@ -325,7 +325,7 @@ function ConfigForm({
             >
               <div style={{
                 width: 36, height: 20, borderRadius: 10,
-                background: val ? '#22C55E' : 'var(--border)',
+                background: val ? '#1A2A56' : 'var(--border)',
                 position: 'relative', transition: 'background 0.2s',
               }}>
                 <div style={{
@@ -357,9 +357,9 @@ function ConfigForm({
             onClick={handleCopy}
             style={{
               display: 'flex', alignItems: 'center', gap: 6, padding: '9px 12px',
-              background: copied ? 'rgba(34,197,94,0.12)' : 'var(--bg)',
-              border: `1px solid ${copied ? '#22C55E33' : 'var(--border)'}`,
-              borderRadius: 8, color: copied ? '#22C55E' : 'var(--text-secondary)',
+              background: copied ? 'rgba(26,42,86,0.12)' : 'var(--bg)',
+              border: `1px solid ${copied ? '#1A2A5633' : 'var(--border)'}`,
+              borderRadius: 8, color: copied ? '#1A2A56' : 'var(--text-secondary)',
               fontSize: 12, cursor: 'pointer', transition: 'all 0.2s', whiteSpace: 'nowrap',
             }}
           >
@@ -383,7 +383,7 @@ function ConfigForm({
           {testState === 'testing' ? (
             <RefreshCw size={14} style={{ animation: 'spin 1s linear infinite' }} />
           ) : testState === 'success' ? (
-            <CheckCircle2 size={14} color="#22C55E" />
+            <CheckCircle2 size={14} color="#1A2A56" />
           ) : testState === 'error' ? (
             <XCircle size={14} color="#EF4444" />
           ) : (
@@ -395,7 +395,7 @@ function ConfigForm({
         <button
           style={{
             flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
-            padding: '10px 20px', background: '#22C55E', borderRadius: 8,
+            padding: '10px 20px', background: '#1A2A56', borderRadius: 8,
             color: '#000000', fontSize: 13, fontWeight: 700, cursor: 'pointer', border: 'none',
           }}
         >

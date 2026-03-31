@@ -17,7 +17,7 @@ export default function CitasPage() {
       <div className="grid grid-cols-3 gap-4">
         {[
           { label: 'Total hoy',   value: 5, color: '#3B82F6', Icon: CalendarCheck },
-          { label: 'Confirmadas', value: 3, color: '#22C55E', Icon: Clock },
+          { label: 'Confirmadas', value: 3, color: '#1A2A56', Icon: Clock },
           { label: 'Canceladas',  value: 1, color: '#EF4444', Icon: XCircle },
         ].map((k) => (
           <div

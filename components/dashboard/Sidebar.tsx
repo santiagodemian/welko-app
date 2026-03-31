@@ -16,6 +16,7 @@ import {
   LogOut,
   Menu,
   X,
+  Building2,
 } from 'lucide-react'
 import { useState } from 'react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
@@ -78,6 +79,12 @@ const NAV_GROUPS = [
         label: 'Expediente Clínico',
         href: '/dashboard/clientes',
         icon: Stethoscope,
+        requiredPlan: 'business' as Plan,
+      },
+      {
+        label: 'Sucursales & Tono IA',
+        href: '/dashboard/sucursales',
+        icon: Building2,
         requiredPlan: 'business' as Plan,
       },
     ],

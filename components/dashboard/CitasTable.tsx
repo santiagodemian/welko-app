@@ -28,7 +28,7 @@ const ALL: Appointment[] = [
   { id:  1, patient: 'María González',   initial: 'MG', color: '#7C3AED', date: '2026-03-26', dateLabel: 'Hoy',       time: '09:00', duration: '45 min', treatment: 'Ortodoncia',     channel: 'whatsapp', status: 'confirmed', notes: 'Ajuste mensual' },
   { id:  2, patient: 'Carlos Ramírez',   initial: 'CR', color: '#0EA5E9', date: '2026-03-26', dateLabel: 'Hoy',       time: '10:30', duration: '30 min', treatment: 'Blanqueamiento', channel: 'whatsapp', status: 'pending',   notes: 'Primera sesión' },
   { id:  3, patient: 'Ana Martínez',     initial: 'AM', color: '#F59E0B', date: '2026-03-26', dateLabel: 'Hoy',       time: '11:00', duration: '60 min', treatment: 'Limpieza',       channel: 'phone',    status: 'confirmed', notes: '—' },
-  { id:  4, patient: 'Jorge Hernández',  initial: 'JH', color: '#22C55E', date: '2026-03-26', dateLabel: 'Hoy',       time: '12:00', duration: '45 min', treatment: 'Ortodoncia',     channel: 'whatsapp', status: 'confirmed', notes: 'Brackets metálicos' },
+  { id:  4, patient: 'Jorge Hernández',  initial: 'JH', color: '#1A2A56', date: '2026-03-26', dateLabel: 'Hoy',       time: '12:00', duration: '45 min', treatment: 'Ortodoncia',     channel: 'whatsapp', status: 'confirmed', notes: 'Brackets metálicos' },
   { id:  5, patient: 'Sofía López',      initial: 'SL', color: '#EC4899', date: '2026-03-26', dateLabel: 'Hoy',       time: '14:00', duration: '30 min', treatment: 'Extracción',     channel: 'whatsapp', status: 'cancelled', notes: 'Reagendar' },
   { id:  6, patient: 'Roberto Vega',     initial: 'RV', color: '#14B8A6', date: '2026-03-27', dateLabel: 'Mañana',    time: '09:30', duration: '60 min', treatment: 'Consulta',       channel: 'whatsapp', status: 'confirmed', notes: 'Nuevo paciente' },
   { id:  7, patient: 'Elena Morales',    initial: 'EM', color: '#F97316', date: '2026-03-27', dateLabel: 'Mañana',    time: '10:00', duration: '90 min', treatment: 'Carillas',       channel: 'phone',    status: 'pending',   notes: '6 carillas sup.' },
@@ -48,7 +48,7 @@ function filterData(data: Appointment[], period: Period): Appointment[] {
 }
 
 const STATUS_STYLE: Record<Status, React.CSSProperties> = {
-  confirmed: { background: 'rgba(34,197,94,0.12)',  color: '#22C55E' },
+  confirmed: { background: 'rgba(26,42,86,0.12)',  color: '#1A2A56' },
   pending:   { background: 'rgba(245,158,11,0.12)', color: '#F59E0B' },
   cancelled: { background: 'rgba(239,68,68,0.12)',  color: '#EF4444' },
 }
@@ -220,11 +220,11 @@ export function CitasTable() {
                     <td style={{ padding: '14px 16px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         {apt.channel === 'whatsapp' ? (
-                          <MessageCircle size={14} color="#22C55E" />
+                          <MessageCircle size={14} color="#1A2A56" />
                         ) : (
                           <Phone size={14} color="#3B82F6" />
                         )}
-                        <span style={{ fontSize: 12, color: apt.channel === 'whatsapp' ? '#22C55E' : '#3B82F6' }}>
+                        <span style={{ fontSize: 12, color: apt.channel === 'whatsapp' ? '#1A2A56' : '#3B82F6' }}>
                           {apt.channel === 'whatsapp' ? 'WhatsApp' : 'Llamada'}
                         </span>
                       </div>

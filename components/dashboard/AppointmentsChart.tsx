@@ -64,7 +64,7 @@ function CustomTooltip({ active, payload, label }: any) {
           }}
         >
           Asistencia:{' '}
-          <span style={{ color: '#22C55E', fontWeight: 700 }}>
+          <span style={{ color: '#1A2A56', fontWeight: 700 }}>
             {Math.round(((payload[1].value as number) / (payload[0].value as number)) * 100)}%
           </span>
         </div>
@@ -78,7 +78,7 @@ function CustomLegend() {
     <div style={{ display: 'flex', gap: 20, justifyContent: 'center', marginTop: 4 }}>
       {[
         { color: '#3B82F6', label: 'Agendadas' },
-        { color: '#22C55E', label: 'Asistidas'  },
+        { color: '#1A2A56', label: 'Asistidas'  },
       ].map((item) => (
         <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12 }}>
           <span
@@ -130,7 +130,7 @@ export function AppointmentsChart() {
           <Bar
             dataKey="asistidas"
             name="Asistidas"
-            fill="#22C55E"
+            fill="#1A2A56"
             radius={[4, 4, 0, 0]}
           />
         </BarChart>

@@ -19,7 +19,7 @@ const SURF2  = 'var(--surface-hover)'
 const BORDER = 'var(--border)'
 const TEXT   = 'var(--text-primary)'
 const MUTED  = 'var(--text-secondary)'
-const GREEN  = '#22C55E'
+const GREEN  = '#1A2A56'
 const NAVY   = 'var(--accent)'
 
 /* ─── Data ─── */
@@ -179,7 +179,7 @@ export default function DashboardPage() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 6,
-          background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.22)',
+          background: 'rgba(26,42,86,0.1)', border: '1px solid rgba(26,42,86,0.22)',
           borderRadius: 99, padding: '5px 13px',
         }}>
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: GREEN, display: 'inline-block' }} />
@@ -216,8 +216,8 @@ export default function DashboardPage() {
               <div
                 key={kpi.label}
                 style={{
-                  background: kpi.highlight ? 'rgba(34,197,94,0.06)' : SURF,
-                  border: kpi.highlight ? '1px solid rgba(34,197,94,0.18)' : `1px solid ${BORDER}`,
+                  background: kpi.highlight ? 'rgba(26,42,86,0.06)' : SURF,
+                  border: kpi.highlight ? '1px solid rgba(26,42,86,0.18)' : `1px solid ${BORDER}`,
                   borderRadius: 14, padding: '18px 20px',
                   display: 'flex', flexDirection: 'column', gap: 14,
                 }}
@@ -348,7 +348,7 @@ export default function DashboardPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
                   <div style={{
                     width: 30, height: 30, borderRadius: 9,
-                    background: 'rgba(34,197,94,0.12)',
+                    background: 'rgba(26,42,86,0.12)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   }}>
                     <Zap size={14} color={GREEN} />
@@ -369,7 +369,7 @@ export default function DashboardPage() {
                       flex: 1, borderRadius: 3,
                       background: i === SPARK.length - 1
                         ? GREEN
-                        : `rgba(34,197,94,${0.12 + (i / SPARK.length) * 0.45})`,
+                        : `rgba(26,42,86,${0.12 + (i / SPARK.length) * 0.45})`,
                       height: `${h}%`,
                       transition: 'height 0.3s ease',
                     }} />
@@ -398,7 +398,7 @@ export default function DashboardPage() {
                     <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                       <div style={{
                         width: 18, height: 18, borderRadius: '50%', flexShrink: 0, marginTop: 1,
-                        background: ins.done ? 'rgba(34,197,94,0.14)' : 'rgba(245,158,11,0.14)',
+                        background: ins.done ? 'rgba(26,42,86,0.14)' : 'rgba(245,158,11,0.14)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                       }}>
                         {ins.done
@@ -509,7 +509,7 @@ export default function DashboardPage() {
 
           {/* AI recommendation */}
           <div style={{
-            background: 'rgba(34,197,94,0.05)', border: '1px solid rgba(34,197,94,0.15)',
+            background: 'rgba(26,42,86,0.05)', border: '1px solid rgba(26,42,86,0.15)',
             borderRadius: 12, padding: '14px 18px',
             display: 'flex', alignItems: 'flex-start', gap: 10,
           }}>

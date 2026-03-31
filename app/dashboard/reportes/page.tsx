@@ -29,7 +29,7 @@ export default function ReportesPage() {
       {/* Top KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {[
-          { label: 'Mensajes contestados', value: '100%',    sub: 'Sin intervención humana',     Icon: MessageCircle, color: '#22C55E' },
+          { label: 'Mensajes contestados', value: '100%',    sub: 'Sin intervención humana',     Icon: MessageCircle, color: '#1A2A56' },
           { label: 'Tiempo de respuesta',  value: '2.3 min', sub: 'Promedio mensual',            Icon: Clock,         color: '#3B82F6' },
           { label: 'Conversión a cita',    value: '67%',     sub: 'De consulta a cita agendada', Icon: TrendingUp,    color: '#8B5CF6' },
           { label: 'Tasa de retención',    value: '94%',     sub: 'Pacientes que regresan',      Icon: RefreshCw,     color: '#F59E0B' },
@@ -125,7 +125,7 @@ export default function ReportesPage() {
                     key={row.month}
                     style={{
                       borderBottom: !isLast ? `1px solid ${B}` : 'none',
-                      background: isLast ? 'rgba(34,197,94,0.04)' : 'transparent',
+                      background: isLast ? 'rgba(26,42,86,0.04)' : 'transparent',
                     }}
                   >
                     <td style={{ padding: '14px 24px', fontSize: 14, fontWeight: 500, color: '#F9FAFB', whiteSpace: 'nowrap' }}>
@@ -138,8 +138,8 @@ export default function ReportesPage() {
                             padding: '2px 6px',
                             borderRadius: 4,
                             fontWeight: 700,
-                            background: 'rgba(34,197,94,0.15)',
-                            color: '#22C55E',
+                            background: 'rgba(26,42,86,0.15)',
+                            color: '#1A2A56',
                           }}
                         >
                           Actual
@@ -149,7 +149,7 @@ export default function ReportesPage() {
                     <td style={{ padding: '14px 24px', fontSize: 14, fontWeight: 600, color: '#3B82F6' }}>
                       {row.citas}
                     </td>
-                    <td style={{ padding: '14px 24px', fontSize: 14, fontWeight: 600, color: '#22C55E' }}>
+                    <td style={{ padding: '14px 24px', fontSize: 14, fontWeight: 600, color: '#1A2A56' }}>
                       {row.asistidas}
                     </td>
                     <td style={{ padding: '14px 24px', fontSize: 14, color: '#F9FAFB' }}>

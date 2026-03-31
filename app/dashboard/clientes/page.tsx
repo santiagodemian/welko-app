@@ -41,7 +41,7 @@ export default function ClientesPage() {
       <div className="grid grid-cols-3 gap-4">
         {[
           { label: 'Total pacientes', value: PATIENTS.length, Icon: Users,     color: '#3B82F6' },
-          { label: 'Activos',         value: active,           Icon: Heart,     color: '#22C55E' },
+          { label: 'Activos',         value: active,           Icon: Heart,     color: '#1A2A56' },
           { label: 'Nuevos este mes', value: newCount,         Icon: UserPlus,  color: '#8B5CF6' },
         ].map((k) => (
           <div
