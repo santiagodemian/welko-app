@@ -121,7 +121,7 @@ export function PricingSection() {
           viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE }}
           className="flex flex-col items-center gap-4 text-center"
         >
-          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
+          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
             {labels.eyebrow}
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>

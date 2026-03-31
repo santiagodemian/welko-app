@@ -25,6 +25,7 @@ import { IndustryHeroVisual } from '@/components/ui/IndustryHeroVisual'
 import { FAQSection } from '@/components/sections/FAQSection'
 import { HearItSection } from '@/components/sections/HearItSection'
 import { SecurityBadgeSection } from '@/components/sections/SecurityBadgeSection'
+import { SimulatorSection } from '@/components/sections/SimulatorSection'
 import { useLang } from '@/contexts/LangContext'
 import { INDUSTRIES, HOME_INDUSTRIES } from '@/lib/industries'
 
@@ -229,7 +230,7 @@ export default function HomePage() {
           <div className="max-w-5xl mx-auto flex flex-col gap-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div className="flex flex-col gap-1">
-                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
+                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
                   {lang === 'es' ? 'Por Industria' : 'By Industry'}
                 </span>
                 <h2 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
@@ -302,7 +303,7 @@ export default function HomePage() {
               viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE }}
               className="flex flex-col gap-4"
             >
-              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
+              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
                 {t.problem.eyebrow}
               </span>
               <h2 className="text-xl sm:text-2xl font-bold tracking-tight leading-tight" style={{ color: 'var(--text-primary)' }}>
@@ -344,7 +345,7 @@ export default function HomePage() {
               viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE }}
               className="flex flex-col gap-4 max-w-2xl"
             >
-              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
+              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
                 {t.solution.eyebrow}
               </span>
               <h2 className="text-xl sm:text-2xl font-bold tracking-tight leading-tight" style={{ color: 'var(--text-primary)' }}>
@@ -385,6 +386,11 @@ export default function HomePage() {
             </motion.div>
           </div>
         </section>
+
+        {/* ════════════════════════════════════════
+            SIMULADOR
+        ════════════════════════════════════════ */}
+        <SimulatorSection />
 
         {/* ════════════════════════════════════════
             SEGURIDAD

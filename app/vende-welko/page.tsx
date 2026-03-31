@@ -52,7 +52,7 @@ export default function VendeWelkoPage() {
 
           {/* Hero */}
           <div className="flex flex-col gap-5 max-w-3xl">
-            <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
+            <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
               Partner Program
             </span>
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight" style={{ color: 'var(--text-primary)' }}>

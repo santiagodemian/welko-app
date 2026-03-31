@@ -7,6 +7,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { IndustryRobotVisual } from '@/components/ui/IndustryRobotVisual'
 import { INDUSTRIES } from '@/lib/industries'
 import { useLang } from '@/contexts/LangContext'
+import { SimulatorSection } from '@/components/sections/SimulatorSection'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
@@ -81,7 +82,7 @@ export default function IndustriasPage() {
         <section className="py-14 sm:py-20 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)' }}>
           <div className="max-w-5xl mx-auto flex flex-col gap-10">
             <div className="flex flex-col gap-2">
-              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
+              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
                 {lang === 'es' ? 'Todas las Industrias' : 'All Industries'}
               </span>
               <h2 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
@@ -133,6 +134,9 @@ export default function IndustriasPage() {
             </div>
           </div>
         </section>
+
+        {/* ── Simulator ── */}
+        <SimulatorSection />
 
       </main>
 

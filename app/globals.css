@@ -49,6 +49,7 @@
   --accent-fg:       #FFFFFF;
   --accent-subtle:   rgba(19, 36, 74, 0.07);
   --accent-ghost:    rgba(19, 36, 74, 0.04);
+  --accent-label:    #1A2A56;
   --navbar-bg:       rgba(255, 255, 255, 0.85);
 }
 
@@ -68,6 +69,7 @@
   --accent-fg:       #13244A;
   --accent-subtle:   rgba(255,255,255,0.08);
   --accent-ghost:    rgba(255,255,255,0.04);
+  --accent-label:    #6EA3F7;
   --navbar-bg:       rgba(10, 21, 42, 0.90);
 }
 

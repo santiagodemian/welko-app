@@ -13,27 +13,34 @@ export default function AIReceptionistPage() {
   const { lang } = useLang()
 
   const [callsPerDay, setCallsPerDay] = useState(20)
+  const [callsPerWeek, setCallsPerWeek] = useState(100)
+  const [useWeekly, setUseWeekly] = useState(false)
   const [unansweredPct, setUnansweredPct] = useState(35)
   const [avgValue, setAvgValue] = useState(800)
 
-  const unansweredPerMonth = Math.round(callsPerDay * (unansweredPct / 100) * 22)
+  // Normalize to daily equivalent for the shared calculation
+  const effectiveDailyContacts = useWeekly ? Math.round(callsPerWeek / 5) : callsPerDay
+  const unansweredPerMonth = Math.round(effectiveDailyContacts * (unansweredPct / 100) * 22)
   const lostPerMonth = unansweredPerMonth * avgValue
   const lostPerYear = lostPerMonth * 12
 
   const labels = {
-    eyebrow:      lang === 'es' ? 'Soluciones' : 'Solutions',
-    heading:      lang === 'es' ? 'Recepcionista IA 24/7' : 'AI Receptionist 24/7',
-    sub:          lang === 'es' ? 'El primer contacto define si un paciente se queda o se va. Welko garantiza que nunca pierdas esa oportunidad.' : 'The first contact defines whether a patient stays or leaves. Welko ensures you never miss that opportunity.',
-    calcTitle:    lang === 'es' ? 'Calculadora de ROI' : 'ROI Calculator',
-    calcSub:      lang === 'es' ? '¿Cuánto estás perdiendo por llamadas no contestadas?' : 'How much are you losing from unanswered calls?',
-    calls:        lang === 'es' ? 'Llamadas o mensajes por día' : 'Calls or messages per day',
-    unanswered:   lang === 'es' ? '% que no reciben respuesta' : '% that go unanswered',
-    value:        lang === 'es' ? 'Valor promedio de una cita (MXN)' : 'Average appointment value (MXN)',
-    lostMonth:    lang === 'es' ? 'Estás perdiendo al mes' : "You're losing per month",
-    lostYear:     lang === 'es' ? 'Al año son' : 'Per year that\'s',
-    unansweredN:  lang === 'es' ? 'consultas sin atender al mes' : 'unanswered inquiries per month',
-    cta:          lang === 'es' ? 'Recuperar esos ingresos con Welko' : 'Recover that revenue with Welko',
-    trust:        lang === 'es' ? 'Instalación en 24 h · Sin contratos · Soporte bilingüe' : '24h setup · No contracts · Bilingual support',
+    eyebrow:       lang === 'es' ? 'Soluciones' : 'Solutions',
+    heading:       lang === 'es' ? 'Recepcionista IA 24/7' : 'AI Receptionist 24/7',
+    sub:           lang === 'es' ? 'El primer contacto define si un paciente se queda o se va. Welko garantiza que nunca pierdas esa oportunidad.' : 'The first contact defines whether a patient stays or leaves. Welko ensures you never miss that opportunity.',
+    calcTitle:     lang === 'es' ? 'Calculadora de ROI' : 'ROI Calculator',
+    calcSub:       lang === 'es' ? '¿Cuánto estás perdiendo por llamadas no contestadas?' : 'How much are you losing from unanswered calls?',
+    calls:         lang === 'es' ? 'Llamadas o mensajes por día' : 'Calls or messages per day',
+    callsWeek:     lang === 'es' ? 'Llamadas o mensajes por semana' : 'Calls or messages per week',
+    toggleDay:     lang === 'es' ? 'Por día' : 'Per day',
+    toggleWeek:    lang === 'es' ? 'Por semana' : 'Per week',
+    unanswered:    lang === 'es' ? '% que no reciben respuesta' : '% that go unanswered',
+    value:         lang === 'es' ? 'Valor promedio de una cita (MXN)' : 'Average appointment value (MXN)',
+    lostMonth:     lang === 'es' ? 'Estás perdiendo al mes' : "You're losing per month",
+    lostYear:      lang === 'es' ? 'Al año son' : "Per year that's",
+    unansweredN:   lang === 'es' ? 'consultas sin atender al mes' : 'unanswered inquiries per month',
+    cta:           lang === 'es' ? 'Recuperar esos ingresos con Welko' : 'Recover that revenue with Welko',
+    trust:         lang === 'es' ? 'Instalación en 24 h · Sin contratos · Soporte bilingüe' : '24h setup · No contracts · Bilingual support',
     featuresTitle: lang === 'es' ? '¿Por qué Welko?' : 'Why Welko?',
   }
 
@@ -93,7 +100,7 @@ export default function AIReceptionistPage() {
               viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE }}
               className="flex flex-col gap-2"
             >
-              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
+              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
                 {labels.calcTitle}
               </span>
               <h2 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
@@ -109,22 +116,68 @@ export default function AIReceptionistPage() {
             >
               {/* Sliders */}
               <div className="flex flex-col gap-6">
-                {/* Calls per day */}
-                <div className="flex flex-col gap-2">
+
+                {/* ── Toggle Day / Week ── */}
+                <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
-                      {labels.calls}
+                      {useWeekly ? labels.callsWeek : labels.calls}
                     </label>
-                    <span className="text-sm font-bold" style={{ color: 'var(--accent)' }}>{callsPerDay}</span>
+                    <div className="flex items-center gap-1 p-0.5 rounded-lg" style={{ background: 'var(--surface-hover)', border: '1px solid var(--border)' }}>
+                      <button
+                        onClick={() => setUseWeekly(false)}
+                        className="px-3 py-1 rounded-md text-xs font-semibold transition-all duration-150"
+                        style={{
+                          background: !useWeekly ? 'var(--accent)' : 'transparent',
+                          color: !useWeekly ? 'var(--accent-fg)' : 'var(--text-muted)',
+                        }}
+                      >
+                        {labels.toggleDay}
+                      </button>
+                      <button
+                        onClick={() => setUseWeekly(true)}
+                        className="px-3 py-1 rounded-md text-xs font-semibold transition-all duration-150"
+                        style={{
+                          background: useWeekly ? 'var(--accent)' : 'transparent',
+                          color: useWeekly ? 'var(--accent-fg)' : 'var(--text-muted)',
+                        }}
+                      >
+                        {labels.toggleWeek}
+                      </button>
+                    </div>
                   </div>
-                  <input
-                    type="range" min={5} max={100} step={5} value={callsPerDay}
-                    onChange={(e) => setCallsPerDay(Number(e.target.value))}
-                    className="w-full accent-[#13244A]"
-                  />
-                  <div className="flex justify-between text-xs" style={{ color: 'var(--text-muted)' }}>
-                    <span>5</span><span>100</span>
-                  </div>
+
+                  {!useWeekly ? (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{lang === 'es' ? 'contactos/día' : 'contacts/day'}</span>
+                        <span className="text-sm font-bold" style={{ color: 'var(--accent)' }}>{callsPerDay}</span>
+                      </div>
+                      <input
+                        type="range" min={5} max={100} step={5} value={callsPerDay}
+                        onChange={(e) => setCallsPerDay(Number(e.target.value))}
+                        className="w-full accent-[#1A2A56]"
+                      />
+                      <div className="flex justify-between text-xs" style={{ color: 'var(--text-muted)' }}>
+                        <span>5</span><span>100</span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{lang === 'es' ? 'contactos/semana' : 'contacts/week'}</span>
+                        <span className="text-sm font-bold" style={{ color: 'var(--accent)' }}>{callsPerWeek}</span>
+                      </div>
+                      <input
+                        type="range" min={10} max={500} step={10} value={callsPerWeek}
+                        onChange={(e) => setCallsPerWeek(Number(e.target.value))}
+                        className="w-full accent-[#1A2A56]"
+                      />
+                      <div className="flex justify-between text-xs" style={{ color: 'var(--text-muted)' }}>
+                        <span>10</span><span>500</span>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Unanswered % */}
