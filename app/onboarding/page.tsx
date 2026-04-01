@@ -263,12 +263,24 @@ export default function OnboardingPage() {
   async function handleNext() {
     if (step === 1 && !name.trim()) { setError('El nombre de la clínica es requerido.'); return }
     setError(null)
+    // In development, advance immediately (save runs in background — no real DB needed)
+    if (process.env.NODE_ENV !== 'production') {
+      save(false).catch(() => {})
+      setStep((s) => s + 1)
+      return
+    }
     const ok = await save(false)
     if (ok) setStep((s) => s + 1)
   }
 
   async function handleFinish() {
     if (!aiAgentName.trim()) { setError('Elige un nombre para tu agente.'); return }
+    // In development, navigate immediately
+    if (process.env.NODE_ENV !== 'production') {
+      save(true).catch(() => {})
+      router.push('/dashboard')
+      return
+    }
     const ok = await save(true)
     if (ok) router.push('/dashboard')
   }

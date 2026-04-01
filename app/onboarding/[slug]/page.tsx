@@ -7,6 +7,7 @@ import { ChevronRight, ChevronLeft, Check } from 'lucide-react'
 import { getSpecialtyConfig } from '@/lib/onboarding-specialties'
 import type { SpecialtyStep } from '@/lib/onboarding-specialties'
 import { notFound } from 'next/navigation'
+import { IndustryRobotVisual } from '@/components/ui/IndustryRobotVisual'
 
 const NAVY   = '#1A2A56'
 const WHITE  = '#FFFFFF'
@@ -259,7 +260,24 @@ export default function SpecialtyOnboardingPage({
 
       {/* Content */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 16px' }}>
-        <div style={{ width: '100%', maxWidth: 560, paddingTop: 40, paddingBottom: 120 }}>
+        <div style={{ width: '100%', maxWidth: 900, paddingTop: 40, paddingBottom: 120, display: 'flex', gap: 40, alignItems: 'flex-start' }}>
+
+          {/* Robot — desktop only */}
+          <div style={{ flexShrink: 0, display: 'none', position: 'sticky', top: 40 }} className="lg:!block">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              style={{ width: 200 }}
+            >
+              <IndustryRobotVisual slug={slug} />
+              <p style={{ textAlign: 'center', fontSize: 11, color: MUTED, marginTop: 8, fontWeight: 500 }}>
+                Recepcionista IA de {config.label}
+              </p>
+            </motion.div>
+          </div>
+
+        <div style={{ flex: 1, maxWidth: 560 }}>
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={step}
@@ -280,6 +298,7 @@ export default function SpecialtyOnboardingPage({
               <StepForm step={current} value={currentValue} onChange={setAnswer} />
             </motion.div>
           </AnimatePresence>
+        </div>
         </div>
       </div>
 

@@ -3,6 +3,14 @@ import { redirect } from 'next/navigation'
 import { Sidebar } from '@/components/dashboard/Sidebar'
 import { db } from '@/lib/db'
 
+// Admin user IDs — comma-separated in ADMIN_USER_IDS env var.
+// Get your Clerk userId from: https://dashboard.clerk.com → Users
+// Example: ADMIN_USER_IDS=user_2abc123,user_2xyz789
+const ADMIN_IDS = (process.env.ADMIN_USER_IDS ?? '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean)
+
 export default async function DashboardLayout({
   children,
 }: {
@@ -12,12 +20,19 @@ export default async function DashboardLayout({
 
   if (!userId) redirect('/login')
 
-  // In development, skip plan & onboarding gates so you can preview the dashboard
+  const isAdmin = ADMIN_IDS.includes(userId)
+
+  // In development or for admin users, skip plan & onboarding gates
   const isDev = process.env.NODE_ENV !== 'production'
-  const plan = (sessionClaims?.plan ?? (isDev ? 'pro' : null)) as string | null
+
+  // Admin always gets business-level access
+  const plan = isAdmin
+    ? 'business'
+    : ((sessionClaims?.plan ?? (isDev ? 'pro' : null)) as string | null)
+
   if (!plan) redirect('/precios')
 
-  if (!isDev) {
+  if (!isDev && !isAdmin) {
     const clinic = await db.clinic.findUnique({
       where: { clerkUserId: userId },
       select: { onboardingCompleted: true },

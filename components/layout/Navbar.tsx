@@ -231,7 +231,7 @@ export function Navbar() {
               </Link>
 
               <Link
-                href="/contacto"
+                href="/registro"
                 className="hidden md:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
                 style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}
                 onMouseEnter={(e) =>
@@ -241,7 +241,7 @@ export function Navbar() {
                   ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--accent)')
                 }
               >
-                {t.nav.bookDemo}
+                {lang === 'es' ? 'Crear cuenta' : 'Get started'}
               </Link>
 
               <button
@@ -352,12 +352,12 @@ export function Navbar() {
                   {t.nav.signIn}
                 </Link>
                 <Link
-                  href="/contacto"
+                  href="/registro"
                   onClick={() => setDrawerOpen(false)}
                   className="w-full flex items-center justify-center py-3 rounded-xl text-sm font-semibold transition-colors duration-150"
                   style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}
                 >
-                  {t.nav.bookDemo}
+                  {lang === 'es' ? 'Crear cuenta' : 'Get started'}
                 </Link>
               </div>
             </motion.div>
