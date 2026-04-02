@@ -13,7 +13,6 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import OpenAI from 'openai'
 import { buildSystemPrompt, EXTRACTION_SYSTEM_PROMPT } from '@/lib/system_prompts'
 import { db } from '@/lib/db'
 import { encrypt } from '@/lib/encryption'
@@ -31,10 +30,35 @@ export interface ExtractedLead {
   listo_para_agendar: boolean
 }
 
-function getOpenAI(): OpenAI {
+const OPENAI_URL = 'https://api.openai.com/v1/chat/completions'
+
+async function openaiChat(
+  messages: { role: string; content: string }[],
+  opts: { max_tokens?: number; temperature?: number; json?: boolean } = {}
+): Promise<string> {
   const key = process.env.OPENAI_API_KEY
   if (!key) throw new Error('[Welko] OPENAI_API_KEY is not set.')
-  return new OpenAI({ apiKey: key })
+
+  const body: Record<string, unknown> = {
+    model: 'gpt-4o-mini',
+    messages,
+    max_tokens: opts.max_tokens ?? 300,
+    temperature: opts.temperature ?? 0.7,
+  }
+  if (opts.json) body.response_format = { type: 'json_object' }
+
+  const res = await fetch(OPENAI_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${key}`,
+    },
+    body: JSON.stringify(body),
+  })
+
+  const data = await res.json()
+  if (!res.ok) throw new Error(data?.error?.message ?? 'OpenAI error')
+  return data.choices[0]?.message?.content?.trim() ?? ''
 }
 
 export async function POST(req: NextRequest) {
@@ -100,34 +124,34 @@ export async function POST(req: NextRequest) {
           hasInvoicing: clinic.hasInvoicing,
           faqs: (clinic.faqs as { question: string; answer: string }[] | null) ?? [],
         }
-        // Infer specialty from clinic specialties if not provided
         if (!specialty && clinic.specialties) {
           const specs = clinic.specialties as string[]
-          if (specs.length > 0) specialty = specs[0].toLowerCase().replace(/[áéíóú]/g, (c) => ({á:'a',é:'e',í:'i',ó:'o',ú:'u'}[c] ?? c))
+          if (specs.length > 0) {
+            specialty = specs[0].toLowerCase()
+              .replace(/á/g,'a').replace(/é/g,'e').replace(/í/g,'i').replace(/ó/g,'o').replace(/ú/g,'u')
+          }
         }
       }
     } catch {
-      // proceed with defaults if DB fails
+      // proceed with defaults
     }
   }
 
   const systemPrompt = buildSystemPrompt(clinicContext, specialty)
-  const openai = getOpenAI()
 
   // ── 1. Generate AI reply ─────────────────────────────────────────────────────
-  const completion = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: [
-      { role: 'system', content: systemPrompt },
-      ...messages,
-    ],
-    max_tokens: 300,
-    temperature: 0.7,
-  })
+  let reply: string
+  try {
+    reply = await openaiChat(
+      [{ role: 'system', content: systemPrompt }, ...messages],
+      { max_tokens: 300, temperature: 0.7 }
+    )
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
+    return NextResponse.json({ error: msg }, { status: 500 })
+  }
 
-  const reply = completion.choices[0]?.message?.content?.trim() ?? 'Un momento, ¿en qué le puedo ayudar?'
-
-  // ── 2. Extract scheduling data (only when conversation has ≥3 user messages) ─
+  // ── 2. Extract scheduling data (after ≥2 user messages) ─────────────────────
   const userMessages = messages.filter(m => m.role === 'user')
   let extractedLead: ExtractedLead | null = null
 
@@ -137,49 +161,37 @@ export async function POST(req: NextRequest) {
         .map(m => `${m.role === 'user' ? 'Paciente' : 'Recepcionista'}: ${m.content}`)
         .join('\n')
 
-      const extraction = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [
+      const raw = await openaiChat(
+        [
           { role: 'system', content: EXTRACTION_SYSTEM_PROMPT },
           { role: 'user', content: conversationText },
         ],
-        max_tokens: 150,
-        temperature: 0,
-        response_format: { type: 'json_object' },
-      })
+        { max_tokens: 150, temperature: 0, json: true }
+      )
 
-      const raw = extraction.choices[0]?.message?.content
-      if (raw) {
-        extractedLead = JSON.parse(raw) as ExtractedLead
+      extractedLead = JSON.parse(raw) as ExtractedLead
 
-        // ── 3. Save lead to CRM if ready ─────────────────────────────────────────
-        if (extractedLead.listo_para_agendar && clinicId) {
-          try {
-            const clinic = await db.clinic.findUnique({
-              where: { id: clinicId },
-              select: { id: true },
-            })
-            if (clinic) {
-              await db.lead.create({
-                data: {
-                  clinicId: clinic.id,
-                  patientName:  extractedLead.nombre  ? encrypt(extractedLead.nombre)  : null,
-                  patientPhone: extractedLead.telefono ? encrypt(extractedLead.telefono) : null,
-                  notes: extractedLead.procedimiento
-                    ? encrypt(`Procedimiento: ${extractedLead.procedimiento}${extractedLead.fecha ? ` | Fecha: ${extractedLead.fecha}` : ''}`)
-                    : null,
-                  status:  'NUEVO',
-                  channel: 'WEB',
-                },
-              })
-            }
-          } catch {
-            // CRM save is non-blocking — don't fail the chat
-          }
+      // ── 3. Save lead to CRM if ready ───────────────────────────────────────────
+      if (extractedLead.listo_para_agendar && clinicId) {
+        try {
+          await db.lead.create({
+            data: {
+              clinicId,
+              patientName:  extractedLead.nombre   ? encrypt(extractedLead.nombre)   : null,
+              patientPhone: extractedLead.telefono  ? encrypt(extractedLead.telefono) : null,
+              notes: extractedLead.procedimiento
+                ? encrypt(`Procedimiento: ${extractedLead.procedimiento}${extractedLead.fecha ? ` | Fecha: ${extractedLead.fecha}` : ''}`)
+                : null,
+              status:  'NUEVO',
+              channel: 'WEB',
+            },
+          })
+        } catch {
+          // non-blocking
         }
       }
     } catch {
-      // Extraction is non-blocking
+      // non-blocking
     }
   }
 
