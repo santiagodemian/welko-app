@@ -25,7 +25,6 @@ import { SimulatorSection } from '@/components/sections/SimulatorSection'
 import { HumanTalentSection } from '@/components/sections/HumanTalentSection'
 import { WelkoDNASection } from '@/components/sections/WelkoDNASection'
 import { PricingSection } from '@/components/sections/PricingSection'
-import { HowItWorksSection } from '@/components/sections/HowItWorksSection'
 import { useLang } from '@/contexts/LangContext'
 import { INDUSTRIES, HOME_INDUSTRIES } from '@/lib/industries'
 
@@ -334,11 +333,6 @@ export default function HomePage() {
             </ul>
           </div>
         </section>
-
-        {/* ════════════════════════════════════════
-            CÓMO FUNCIONA
-        ════════════════════════════════════════ */}
-        <HowItWorksSection />
 
         {/* ════════════════════════════════════════
             ESPECIALIDADES — SVG ICONS
