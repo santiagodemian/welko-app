@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Check, X } from 'lucide-react'
+import { Check, X, Loader2 } from 'lucide-react'
 import { useLang } from '@/contexts/LangContext'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
@@ -23,7 +23,6 @@ interface Plan {
   monthly: number
   annual: number
   featured: boolean
-  stripeUrl: string
   features: { text: { es: string; en: string }; included: boolean }[]
 }
 
@@ -38,7 +37,6 @@ const PLANS: Plan[] = [
     monthly: 1999,
     annual: 1599,
     featured: false,
-    stripeUrl: 'https://buy.stripe.com/test_3cI3cvc3dbCSai57Y67AI00',
     features: [
       { text: { es: 'WhatsApp e Instagram 24/7', en: 'WhatsApp & Instagram 24/7' }, included: true },
       { text: { es: 'Agendamiento básico de citas', en: 'Basic appointment scheduling' }, included: true },
@@ -60,7 +58,6 @@ const PLANS: Plan[] = [
     monthly: 3999,
     annual: 3199,
     featured: true,
-    stripeUrl: 'https://buy.stripe.com/test_00waEX2sD4aqai5emu7AI01',
     features: [
       { text: { es: 'WhatsApp e Instagram 24/7', en: 'WhatsApp & Instagram 24/7' }, included: true },
       { text: { es: 'Agendamiento básico de citas', en: 'Basic appointment scheduling' }, included: true },
@@ -83,7 +80,6 @@ const PLANS: Plan[] = [
     monthly: 6999,
     annual: 5599,
     featured: false,
-    stripeUrl: 'https://buy.stripe.com/test_9B68wP7MX7mC3THbai7AI02',
     features: [
       { text: { es: 'Todo lo del plan Pro', en: 'Everything in Pro' }, included: true },
       { text: { es: 'Multi-clínica (sucursales ilimitadas)', en: 'Multi-clinic (unlimited branches)' }, included: true },
@@ -97,7 +93,33 @@ const PLANS: Plan[] = [
 
 export function PricingSection() {
   const [isAnnual, setIsAnnual] = useState(false)
+  const [loading, setLoading] = useState<string | null>(null)
   const { lang } = useLang()
+
+  async function handleCheckout(planId: string) {
+    if (isAnnual) {
+      // Annual: redirect to WhatsApp to close manually
+      const plan = PLANS.find((p) => p.id === planId)
+      if (plan) window.open(whatsappUrl(plan.name, lang), '_blank')
+      return
+    }
+    setLoading(planId)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: planId }),
+      })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      }
+    } catch {
+      // silently ignore
+    } finally {
+      setLoading(null)
+    }
+  }
 
   const labels = {
     eyebrow:  lang === 'es' ? 'Precios'                     : 'Pricing',
@@ -246,26 +268,29 @@ export function PricingSection() {
                 </ul>
 
                 {/* CTA */}
-                <a
-                  href={isAnnual ? whatsappUrl(plan.name, lang) : plan.stripeUrl}
-                  target="_blank" rel="noopener noreferrer"
-                  className="mt-1 w-full flex items-center justify-center py-3 rounded-xl text-sm font-semibold transition-all duration-150"
+                <button
+                  onClick={() => handleCheckout(plan.id)}
+                  disabled={loading === plan.id}
+                  className="mt-1 w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all duration-150 disabled:opacity-70 disabled:cursor-not-allowed"
                   style={
                     plan.featured
-                      ? { background: '#FFFFFF', color: '#13244A' }
-                      : { background: 'transparent', color: 'var(--text-primary)', border: '1.5px solid var(--border)' }
+                      ? { background: '#FFFFFF', color: '#13244A', border: 'none', cursor: loading === plan.id ? 'not-allowed' : 'pointer' }
+                      : { background: 'transparent', color: 'var(--text-primary)', border: '1.5px solid var(--border)', cursor: loading === plan.id ? 'not-allowed' : 'pointer' }
                   }
                   onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLAnchorElement
+                    if (loading === plan.id) return
+                    const el = e.currentTarget as HTMLButtonElement
                     el.style.background = plan.featured ? '#F0F0F0' : 'var(--surface-hover)'
                   }}
                   onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLAnchorElement
+                    const el = e.currentTarget as HTMLButtonElement
                     el.style.background = plan.featured ? '#FFFFFF' : 'transparent'
                   }}
                 >
-                  {labels.cta}
-                </a>
+                  {loading === plan.id
+                    ? <Loader2 size={14} className="animate-spin" />
+                    : labels.cta}
+                </button>
               </motion.div>
             )
           })}
