@@ -5,6 +5,7 @@ import {
   Phone, MessageCircle, AtSign, Share2, Globe,
   Sparkles, Brain, Bell, Zap, Users, TrendingUp,
   CheckCircle2, Clock, Calendar, PhoneCall,
+  Radio, UserCheck, Send, Pause,
 } from 'lucide-react'
 
 /* ── Design tokens ── */
@@ -87,6 +88,63 @@ const CONVERSION_FUNNEL = [
   { label: 'Cita confirmada',      value: 179, pct: 89,  color: '#0D1C3D' },
 ]
 
+/* ── Live conversations mock ── */
+interface LiveMsg { from: 'patient' | 'ai'; text: string; time: string }
+interface LiveConv {
+  id: string; name: string; initial: string; channel: Channel
+  service: string; status: 'live' | 'closing' | 'booked'
+  messages: LiveMsg[]
+}
+
+const LIVE_CONVS: LiveConv[] = [
+  {
+    id: 'lc1', name: 'Andrea Romero', initial: 'A', channel: 'WHATSAPP',
+    service: 'Blanqueamiento dental', status: 'live',
+    messages: [
+      { from: 'patient', text: 'Hola, quiero saber cuánto cuesta el blanqueamiento', time: '10:42' },
+      { from: 'ai',      text: 'Hola Andrea 👋 El blanqueamiento dental tiene un costo de $1,800 MXN e incluye evaluación previa. ¿Te gustaría agendar una cita?', time: '10:42' },
+      { from: 'patient', text: 'Sí, ¿tienen disponibilidad esta semana?', time: '10:43' },
+      { from: 'ai',      text: 'Claro que sí. Tenemos disponibilidad el miércoles a las 11am y el viernes a las 4pm. ¿Cuál te queda mejor?', time: '10:43' },
+    ],
+  },
+  {
+    id: 'lc2', name: 'Jorge Espinoza', initial: 'J', channel: 'INSTAGRAM',
+    service: 'Consulta de ortodoncia', status: 'closing',
+    messages: [
+      { from: 'patient', text: 'Buenas, vi su perfil. ¿Hacen ortodoncia invisible?', time: '10:38' },
+      { from: 'ai',      text: 'Hola Jorge, sí trabajamos con alineadores invisibles Invisalign y ClearCorrect. El precio depende del caso. ¿Quieres que un especialista te llame para una evaluación gratuita?', time: '10:38' },
+      { from: 'patient', text: 'Sí me interesa', time: '10:40' },
+      { from: 'ai',      text: '¡Perfecto! Para agendar tu evaluación gratuita necesito tu nombre completo y número de teléfono. 😊', time: '10:40' },
+      { from: 'patient', text: 'Jorge Espinoza, 55 1234 5678', time: '10:41' },
+    ],
+  },
+  {
+    id: 'lc3', name: 'Camila Díaz', initial: 'C', channel: 'WHATSAPP',
+    service: 'Limpieza dental urgente', status: 'live',
+    messages: [
+      { from: 'patient', text: 'Me duele una muela desde ayer, ¿tienen cita hoy?', time: '10:51' },
+      { from: 'ai',      text: 'Hola Camila 😟 Lamentamos que estés con dolor. Tenemos un espacio de urgencias hoy a las 2pm. ¿Puedes venir?', time: '10:51' },
+      { from: 'patient', text: 'Sí pero tengo que pedir permiso en el trabajo', time: '10:52' },
+    ],
+  },
+  {
+    id: 'lc4', name: 'Fernando Vargas', initial: 'F', channel: 'LLAMADA',
+    service: 'Implante dental', status: 'booked',
+    messages: [
+      { from: 'patient', text: 'Llamo por información de implantes dentales', time: '10:30' },
+      { from: 'ai',      text: 'Con gusto Fernando. Los implantes tienen un costo de $12,000 MXN por pieza con garantía de 10 años. ¿Le gustaría agendar una valoración sin costo?', time: '10:30' },
+      { from: 'patient', text: 'Sí, el jueves por la tarde', time: '10:31' },
+      { from: 'ai',      text: 'Perfecto, quedó agendada su valoración el jueves 3 de abril a las 5pm. Le envío confirmación por WhatsApp. ✅', time: '10:31' },
+    ],
+  },
+]
+
+const STATUS_META: Record<LiveConv['status'], { label: string; color: string; dot: string }> = {
+  live:    { label: 'En curso',    color: '#22C55E', dot: '#22C55E' },
+  closing: { label: 'Cerrando',   color: AMBER,     dot: AMBER },
+  booked:  { label: 'Agendado ✓', color: NAVY,      dot: NAVY },
+}
+
 /* ── Channel icons ── */
 const CHANNEL_META: Record<Channel, { Icon: React.ElementType; color: string }> = {
   WHATSAPP:  { Icon: MessageCircle, color: '#25D366' },
@@ -104,8 +162,12 @@ function reminderMessage(name: string, time: string) {
 
 /* ── Page ── */
 export default function CRMPage() {
-  const [tab, setTab] = useState<'pipeline' | 'reminders' | 'stats' | 'autonomo'>('pipeline')
+  const [tab, setTab] = useState<'pipeline' | 'reminders' | 'stats' | 'autonomo' | 'live'>('pipeline')
   const [sentReminders, setSentReminders] = useState<string[]>([])
+  const [selectedConv, setSelectedConv] = useState<string>(LIVE_CONVS[0].id)
+  const [intervened, setIntervened] = useState<string[]>([])
+  const [humanMsg, setHumanMsg] = useState('')
+  const [sentHumanMsgs, setSentHumanMsgs] = useState<Record<string, string[]>>({})
 
   const totalRevenue = PATIENTS.filter(p => p.status === 'ATENDIDO').reduce((s, p) => s + (p.value ?? 0), 0)
   const confirmed = PATIENTS.filter(p => p.status === 'CONFIRMADO').length
@@ -119,10 +181,26 @@ export default function CRMPage() {
 
   const TABS: { key: typeof tab; label: string }[] = [
     { key: 'pipeline',   label: 'Pipeline' },
+    { key: 'live',       label: `Convs. en Vivo (${LIVE_CONVS.filter(c => c.status === 'live').length})` },
     { key: 'reminders',  label: `Recordatorios IA${PENDING_REMINDERS.length ? ` (${PENDING_REMINDERS.length})` : ''}` },
     { key: 'stats',      label: 'Estadísticas' },
     { key: 'autonomo',   label: 'Cerebro IA' },
   ]
+
+  const conv = LIVE_CONVS.find(c => c.id === selectedConv)!
+  const isIntervened = intervened.includes(selectedConv)
+
+  function handleIntervene(id: string) {
+    setIntervened(prev => [...prev, id])
+  }
+  function handleSendHuman() {
+    if (!humanMsg.trim()) return
+    setSentHumanMsgs(prev => ({
+      ...prev,
+      [selectedConv]: [...(prev[selectedConv] ?? []), humanMsg.trim()],
+    }))
+    setHumanMsg('')
+  }
 
   return (
     <div style={{ padding: '24px 28px', minHeight: '100vh', background: 'var(--bg)' }}>
@@ -609,6 +687,234 @@ export default function CRMPage() {
                 <p style={{ color: MUTED, fontSize: 12, margin: 0, lineHeight: 1.65 }}>{item.insight}</p>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* ════════════════════════
+          TAB: CONVERSACIONES EN VIVO
+      ════════════════════════ */}
+      {tab === 'live' && (
+        <div style={{ display: 'flex', gap: 16, height: 520 }}>
+
+          {/* Conversation list */}
+          <div style={{
+            width: 240, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 8,
+            overflowY: 'auto',
+          }}>
+            {/* Live indicator */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 4 }}>
+              <Radio size={12} color="#22C55E" />
+              <span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                En tiempo real
+              </span>
+            </div>
+
+            {LIVE_CONVS.map((c) => {
+              const ch = CHANNEL_META[c.channel]
+              const sm = STATUS_META[c.status]
+              const isSelected = selectedConv === c.id
+              const isHuman = intervened.includes(c.id)
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => setSelectedConv(c.id)}
+                  style={{
+                    display: 'flex', alignItems: 'flex-start', gap: 10,
+                    padding: '10px 12px', borderRadius: 12, textAlign: 'left',
+                    border: `1.5px solid ${isSelected ? NAVY : BORD}`,
+                    background: isSelected ? NAVY + '08' : SURF,
+                    cursor: 'pointer', transition: 'all 0.15s',
+                  }}
+                >
+                  <div style={{
+                    width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+                    background: NAVY + '14',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <span style={{ color: NAVY, fontSize: 11, fontWeight: 800 }}>{c.initial}</span>
+                  </div>
+                  <div style={{ flex: 1, overflow: 'hidden' }}>
+                    <p style={{ color: TEXT, fontSize: 12, fontWeight: 600, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {c.name}
+                    </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 2 }}>
+                      <ch.Icon size={9} color={ch.color} />
+                      <span style={{ fontSize: 9, color: MUTED }}>{c.service}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 4 }}>
+                      <div style={{ width: 6, height: 6, borderRadius: '50%', background: isHuman ? AMBER : sm.dot, flexShrink: 0 }} />
+                      <span style={{ fontSize: 9, fontWeight: 700, color: isHuman ? AMBER : sm.color }}>
+                        {isHuman ? 'Tú tienes el control' : sm.label}
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Chat panel */}
+          <div style={{
+            flex: 1, display: 'flex', flexDirection: 'column',
+            background: SURF, border: `1px solid ${BORD}`, borderRadius: 16, overflow: 'hidden',
+          }}>
+            {/* Chat header */}
+            <div style={{
+              padding: '14px 18px', borderBottom: `1px solid ${BORD}`,
+              display: 'flex', alignItems: 'center', gap: 12,
+            }}>
+              <div style={{
+                width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
+                background: NAVY + '14',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <span style={{ color: NAVY, fontSize: 13, fontWeight: 800 }}>{conv.initial}</span>
+              </div>
+              <div style={{ flex: 1 }}>
+                <p style={{ color: TEXT, fontSize: 14, fontWeight: 700, margin: 0 }}>{conv.name}</p>
+                <p style={{ color: MUTED, fontSize: 11, margin: 0 }}>{conv.service}</p>
+              </div>
+
+              {/* Intervene / Resume button */}
+              {!isIntervened ? (
+                <button
+                  onClick={() => handleIntervene(conv.id)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 7,
+                    padding: '8px 16px', borderRadius: 9, fontSize: 12, fontWeight: 700,
+                    border: `1.5px solid ${AMBER}`, background: AMBER + '12', color: AMBER,
+                    cursor: 'pointer', transition: 'all 0.15s',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = AMBER; e.currentTarget.style.color = '#fff' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = AMBER + '12'; e.currentTarget.style.color = AMBER }}
+                >
+                  <UserCheck size={14} />
+                  Intervenir chat
+                </button>
+              ) : (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 12px', borderRadius: 9, background: AMBER + '14' }}>
+                    <Pause size={12} color={AMBER} />
+                    <span style={{ color: AMBER, fontSize: 12, fontWeight: 700 }}>IA pausada</span>
+                  </div>
+                  <button
+                    onClick={() => setIntervened(prev => prev.filter(id => id !== conv.id))}
+                    style={{
+                      padding: '6px 12px', borderRadius: 9, fontSize: 12, fontWeight: 600,
+                      border: `1px solid ${BORD}`, background: 'transparent', color: MUTED,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Reanudar IA
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Messages */}
+            <div style={{ flex: 1, overflowY: 'auto', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {conv.messages.map((msg, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    justifyContent: msg.from === 'ai' ? 'flex-end' : 'flex-start',
+                  }}
+                >
+                  <div style={{
+                    maxWidth: '70%',
+                    padding: '9px 13px', borderRadius: msg.from === 'ai' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
+                    background: msg.from === 'ai' ? NAVY : 'var(--bg-secondary)',
+                    border: msg.from === 'patient' ? `1px solid ${BORD}` : 'none',
+                  }}>
+                    {msg.from === 'ai' && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
+                        <Sparkles size={9} color="rgba(255,255,255,0.5)" />
+                        <span style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                          Welko IA
+                        </span>
+                      </div>
+                    )}
+                    <p style={{
+                      fontSize: 12, lineHeight: 1.6, margin: 0,
+                      color: msg.from === 'ai' ? '#FFFFFF' : TEXT,
+                    }}>
+                      {msg.text}
+                    </p>
+                    <p style={{ fontSize: 9, margin: '4px 0 0', color: msg.from === 'ai' ? 'rgba(255,255,255,0.4)' : MUTED, textAlign: 'right' }}>
+                      {msg.time}
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+              {/* Human-sent messages */}
+              {(sentHumanMsgs[conv.id] ?? []).map((m, i) => (
+                <div key={`h${i}`} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <div style={{
+                    maxWidth: '70%', padding: '9px 13px',
+                    borderRadius: '14px 14px 4px 14px',
+                    background: AMBER,
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
+                      <UserCheck size={9} color="rgba(255,255,255,0.7)" />
+                      <span style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Tú
+                      </span>
+                    </div>
+                    <p style={{ fontSize: 12, lineHeight: 1.6, margin: 0, color: '#fff' }}>{m}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Input — only if intervened */}
+            {isIntervened ? (
+              <div style={{
+                padding: '12px 16px', borderTop: `1px solid ${BORD}`,
+                display: 'flex', gap: 10, alignItems: 'center',
+                background: AMBER + '06',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
+                  <UserCheck size={13} color={AMBER} />
+                  <span style={{ fontSize: 10, fontWeight: 700, color: AMBER }}>Tú</span>
+                </div>
+                <input
+                  type="text"
+                  value={humanMsg}
+                  onChange={e => setHumanMsg(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleSendHuman()}
+                  placeholder="Escribe tu mensaje al paciente..."
+                  style={{
+                    flex: 1, padding: '8px 12px', borderRadius: 9, fontSize: 13,
+                    border: `1.5px solid ${AMBER}40`, outline: 'none',
+                    background: 'var(--surface)', color: TEXT, fontFamily: 'inherit',
+                  }}
+                />
+                <button
+                  onClick={handleSendHuman}
+                  style={{
+                    width: 34, height: 34, borderRadius: 9, flexShrink: 0,
+                    background: AMBER, border: 'none', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}
+                >
+                  <Send size={14} color="#fff" />
+                </button>
+              </div>
+            ) : (
+              <div style={{
+                padding: '10px 16px', borderTop: `1px solid ${BORD}`,
+                background: 'var(--bg-secondary)',
+                display: 'flex', alignItems: 'center', gap: 8,
+              }}>
+                <Sparkles size={12} color={NAVY} />
+                <span style={{ fontSize: 11, color: MUTED }}>
+                  La IA está manejando esta conversación. Pulsa <strong style={{ color: AMBER }}>Intervenir chat</strong> para tomar el control.
+                </span>
+              </div>
+            )}
           </div>
         </div>
       )}

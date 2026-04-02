@@ -26,6 +26,8 @@ import { FAQSection } from '@/components/sections/FAQSection'
 import { HearItSection } from '@/components/sections/HearItSection'
 import { SecurityBadgeSection } from '@/components/sections/SecurityBadgeSection'
 import { SimulatorSection } from '@/components/sections/SimulatorSection'
+import { HumanTalentSection } from '@/components/sections/HumanTalentSection'
+import { WelkoDNASection } from '@/components/sections/WelkoDNASection'
 import { useLang } from '@/contexts/LangContext'
 import { INDUSTRIES, HOME_INDUSTRIES } from '@/lib/industries'
 
@@ -386,6 +388,16 @@ export default function HomePage() {
             </motion.div>
           </div>
         </section>
+
+        {/* ════════════════════════════════════════
+            TALENTO HUMANO
+        ════════════════════════════════════════ */}
+        <HumanTalentSection />
+
+        {/* ════════════════════════════════════════
+            ADN WELKO
+        ════════════════════════════════════════ */}
+        <WelkoDNASection />
 
         {/* ════════════════════════════════════════
             SIMULADOR

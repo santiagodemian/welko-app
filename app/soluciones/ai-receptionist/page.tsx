@@ -6,6 +6,9 @@ import { motion } from 'framer-motion'
 import { PhoneMissed, TrendingUp, Clock, ArrowRight } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
 import { useLang } from '@/contexts/LangContext'
+import { HumanTalentSection } from '@/components/sections/HumanTalentSection'
+import { VsDirectoriosSection } from '@/components/sections/VsDirectoriosSection'
+import { WelkoDNASection } from '@/components/sections/WelkoDNASection'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
@@ -257,6 +260,15 @@ export default function AIReceptionistPage() {
             </motion.div>
           </div>
         </section>
+
+        {/* ── Human Talent ── */}
+        <HumanTalentSection />
+
+        {/* ── Vs Directorios ── */}
+        <VsDirectoriosSection />
+
+        {/* ── Welko DNA ── */}
+        <WelkoDNASection />
 
         {/* ── Why Welko ── */}
         <section className="py-14 sm:py-20 px-4 sm:px-6">
