@@ -58,8 +58,10 @@ model Clinic {
   aiAgentName     String?
   // "profesional" | "amigable" | "empático" | "formal"
   aiTone          String?
-  aiVoiceId       String?
-  vapiAssistantId String?
+  aiVoiceId        String?
+  vapiAssistantId  String?
+  vapiPhoneNumberId String?
+  voicePhoneNumber  String?
 
   // ── AI knowledge base — drives customizationPrompt synthesis ────────────────
   // { question: string; answer: string }[]
