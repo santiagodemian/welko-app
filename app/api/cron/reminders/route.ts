@@ -23,9 +23,10 @@ export async function GET(req: NextRequest) {
   }
 
   const now   = new Date()
-  // Window: appointments between 23 h and 25 h from now
-  const from  = new Date(now.getTime() + 23 * 60 * 60 * 1000)
-  const until = new Date(now.getTime() + 25 * 60 * 60 * 1000)
+  // Cron runs once daily at 14:00 UTC (8am Mexico City).
+  // Window: appointments 18–30h from now — captures all "tomorrow" appointments.
+  const from  = new Date(now.getTime() + 18 * 60 * 60 * 1000)
+  const until = new Date(now.getTime() + 30 * 60 * 60 * 1000)
 
   const leads = await db.lead.findMany({
     where: {
