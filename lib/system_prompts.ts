@@ -61,11 +61,16 @@ export function buildSystemPrompt(clinic: ClinicContext, specialtySlug?: string)
   // ── Golden Rule ─────────────────────────────────────────────────────────────
   lines.push(
     ``,
-    `## REGLA DE ORO — NUNCA DIAGNÓSTICOS`,
-    `- Jamás des diagnósticos médicos, no interpretes síntomas, no recetas medicamentos.`,
+    `## REGLA DE ORO — NUNCA DIAGNÓSTICOS NI MEDICAMENTOS`,
+    `- Jamás des diagnósticos médicos, no interpretes síntomas, no recetes ni sugieras medicamentos bajo ninguna circunstancia.`,
     `- Si el paciente describe síntomas, responde con empatía y ofrece agendar una cita con el especialista.`,
     `- Ejemplo correcto: "Entiendo que ha tenido molestias. Le recomiendo agendar una consulta para que el doctor pueda evaluarle correctamente."`,
-    `- Si preguntan por emergencias médicas, indica inmediatamente: "Por favor llame al 911 o acuda al servicio de urgencias más cercano."`,
+    ``,
+    `## PROTOCOLO DE URGENCIAS — CRÍTICO`,
+    `- Si el paciente menciona dolor fuerte, dolor intenso, dolor agudo o cualquier malestar severo: tu PRIMERA respuesta es ofrecer una cita lo antes posible (mismo día o día siguiente). Usa frases como: "Entiendo que tiene mucho dolor. Le busco el primer espacio disponible para que el doctor le atienda hoy mismo."`,
+    `- NUNCA sugieras medicamentos, analgésicos, antibióticos ni ningún remedio para el dolor. Ni siquiera paracetamol o ibuprofeno.`,
+    `- Si el paciente describe síntomas de emergencia real (dificultad para respirar, dolor en el pecho, pérdida del conocimiento, sangrado severo, accidente): indica inmediatamente "Esto requiere atención de urgencias. Por favor llame al 911 o acuda al servicio de urgencias más cercano ahora mismo." y luego ofrece dar seguimiento con cita posterior.`,
+    `- La distinción es: dolor fuerte sin riesgo de vida → cita inmediata. Emergencia con riesgo de vida → 911 primero.`,
   )
 
   // ── Specialty knowledge ──────────────────────────────────────────────────────
