@@ -1,0 +1,56 @@
+{
+  "slug": "spa",
+  "label": "Spa & Bienestar",
+  "emoji": "💆",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Spa y Bienestar en mi sistema. Manejo masajes terapéuticos, tratamientos corporales, aromaterapia y más. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded Spa & Wellness knowledge. I handle therapeutic massage, body treatments, aromatherapy and more. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "Masaje relajante",
+      "explanation": "Técnica de effleurage y amasamiento para reducir tensión muscular y estrés. Duración 60-90 min."
+    },
+    {
+      "term": "Masaje terapéutico",
+      "explanation": "Trabajo profundo sobre músculos y tejido conectivo para aliviar dolor crónico o lesiones."
+    },
+    {
+      "term": "Aromaterapia",
+      "explanation": "Uso de aceites esenciales en masajes o difusores para mejorar estado emocional y físico."
+    },
+    {
+      "term": "Tratamiento facial",
+      "explanation": "Limpieza profunda + hidratación + tratamientos específicos (manchas, acné, anti-edad). ~60 min."
+    },
+    {
+      "term": "Envolturas corporales",
+      "explanation": "Aplicación de algas, arcillas o cremas con vendas para desintoxicar y modelar el cuerpo."
+    },
+    {
+      "term": "Hidroterapia",
+      "explanation": "Uso terapéutico del agua (jacuzzi, vapor, duchas alternas) para mejorar circulación y relajación."
+    },
+    {
+      "term": "Reflexología",
+      "explanation": "Técnica de presión en puntos del pie que corresponden a órganos y sistemas del cuerpo."
+    },
+    {
+      "term": "Circuito de spa",
+      "explanation": "Recorrido por instalaciones (sauna, vapor, hidromasaje, descanso) con o sin tratamientos."
+    },
+    {
+      "term": "Masaje de piedras calientes",
+      "explanation": "Uso de piedras volcánicas a 50-55°C sobre el cuerpo para relajar músculos en profundidad."
+    },
+    {
+      "term": "Reiki",
+      "explanation": "Técnica de canalización de energía universal para equilibrar el campo energético del cuerpo."
+    }
+  ],
+  "commonQuestions": [
+    "¿Cuánto dura una sesión de masaje?",
+    "¿Tienen paquetes o combos?",
+    "¿Puedo ir embarazada?",
+    "¿Hay estacionamiento?",
+    "¿Hacen masajes a domicilio?"
+  ]
+}

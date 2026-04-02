@@ -1,0 +1,56 @@
+{
+  "slug": "dental",
+  "label": "Odontología",
+  "emoji": "🦷",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Odontología en mi sistema. Conozco la diferencia entre limpiezas, resinas, endodoncias, ortodoncia y carillas. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded Dentistry knowledge into my system. I know the difference between cleanings, fillings, root canals, orthodontics, and veneers. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "Limpieza dental",
+      "explanation": "Procedimiento preventivo que elimina sarro y placa bacteriana. Dura ~45 min y se recomienda cada 6 meses."
+    },
+    {
+      "term": "Resina dental",
+      "explanation": "Restauración estética del color del diente para caries o fracturas. No require anestesia general, dura ~1 hora."
+    },
+    {
+      "term": "Endodoncia",
+      "explanation": "Tratamiento de conductos para dientes con infección profunda. Elimina el nervio y sella el canal. 1-3 sesiones."
+    },
+    {
+      "term": "Ortodoncia",
+      "explanation": "Corrección de la posición dental con brackets o alineadores. Proceso de 12-24 meses según el caso."
+    },
+    {
+      "term": "Carilla dental",
+      "explanation": "Lámina de porcelana o resina que se adhiere al frente del diente para mejorar su forma, color o tamaño. Resultado inmediato."
+    },
+    {
+      "term": "Implante dental",
+      "explanation": "Tornillo de titanio que reemplaza la raíz del diente perdido. Se coloca quirúrgicamente y luego se corona. Proceso de 3-6 meses."
+    },
+    {
+      "term": "Blanqueamiento",
+      "explanation": "Aclaramiento del tono dental con agentes peróxidos. Puede ser en clínica (1h) o en casa (7-14 días)."
+    },
+    {
+      "term": "Extracción",
+      "explanation": "Remoción de un diente que no puede ser tratado. Se realiza con anestesia local. Recuperación 2-3 días."
+    },
+    {
+      "term": "Corona dental",
+      "explanation": "Funda protectora que cubre un diente debilitado o con gran restauración. Porcelana, zirconia o metal-porcelana."
+    },
+    {
+      "term": "Bruxismo",
+      "explanation": "Hábito de apretar o rechinar los dientes, generalmente al dormir. Se trata con guarda oclusal."
+    }
+  ],
+  "commonQuestions": [
+    "¿Cuánto cuesta una limpieza?",
+    "¿Duele la endodoncia?",
+    "¿Cuánto dura el blanqueamiento?",
+    "¿Los implantes son de por vida?",
+    "¿Qué diferencia hay entre resina y porcelana?"
+  ]
+}

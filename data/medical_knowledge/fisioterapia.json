@@ -1,0 +1,56 @@
+{
+  "slug": "fisioterapia",
+  "label": "Fisioterapia",
+  "emoji": "💪",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Fisioterapia en mi sistema. Manejo rehabilitación, lesiones deportivas, electroterapia y más. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded Physiotherapy knowledge. I handle rehabilitation, sports injuries, electrotherapy and more. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "Evaluación fisioterapéutica",
+      "explanation": "Primera cita para diagnosticar la condición musculoesquelética y diseñar el plan de rehabilitación."
+    },
+    {
+      "term": "Rehabilitación",
+      "explanation": "Proceso de recuperación funcional después de lesión, cirugía o evento neurológico. Número de sesiones variable."
+    },
+    {
+      "term": "Electroterapia",
+      "explanation": "Uso de corrientes eléctricas (TENS, ultrasonido, láser) para reducir dolor e inflamación."
+    },
+    {
+      "term": "Lesión de ligamento",
+      "explanation": "Esguince o ruptura de tejido conectivo articular. Tratamiento con inmovilización, hielo y fisioterapia."
+    },
+    {
+      "term": "Hernia de disco",
+      "explanation": "Desplazamiento del núcleo del disco intervertebral que comprime nervios. Fisioterapia como primer tratamiento."
+    },
+    {
+      "term": "Fisioterapia deportiva",
+      "explanation": "Especialidad que trata y previene lesiones en deportistas. Incluye kinesiotaping y ejercicio terapéutico."
+    },
+    {
+      "term": "Dolor lumbar",
+      "explanation": "Uno de los motivos de consulta más frecuentes. En el 90% de casos se resuelve con fisioterapia."
+    },
+    {
+      "term": "Kinesiotaping",
+      "explanation": "Aplicación de vendaje elástico para soporte muscular y articular sin limitar el movimiento."
+    },
+    {
+      "term": "Movilización articular",
+      "explanation": "Técnica manual para restaurar el rango de movimiento de una articulación."
+    },
+    {
+      "term": "Alta fisioterapéutica",
+      "explanation": "Cuando el paciente recuperó la función deseada. Se dan ejercicios de mantenimiento en casa."
+    }
+  ],
+  "commonQuestions": [
+    "¿Cuántas sesiones necesito?",
+    "¿Trabajas con seguros médicos?",
+    "¿Tratas hernias de disco?",
+    "¿Haces domicilios?",
+    "¿Atienden lesiones deportivas?"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "slug": "quiropractica",
+  "label": "Quiropráctica",
+  "emoji": "🔧",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Quiropráctica en mi sistema. Manejo ajustes vertebrales, subluxaciones, dolor crónico y más. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded Chiropractic knowledge. I handle spinal adjustments, subluxations, chronic pain and more. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "Ajuste quiropráctico",
+      "explanation": "Manipulación controlada de las vértebras para restaurar la alineación y movilidad espinal."
+    },
+    {
+      "term": "Subluxación",
+      "explanation": "Desalineación parcial de una vértebra que puede comprimir nervios y causar dolor o disfunción."
+    },
+    {
+      "term": "Evaluación postural",
+      "explanation": "Análisis de la postura para identificar desequilibrios y diseñar el plan de tratamiento."
+    },
+    {
+      "term": "Cervicalgia",
+      "explanation": "Dolor en el cuello. Causa frecuente: postura al usar dispositivos. Muy tratable con quiropráctica."
+    },
+    {
+      "term": "Escoliosis",
+      "explanation": "Curvatura lateral anormal de la columna. Quiropráctica ayuda a manejar síntomas y mejorar postura."
+    },
+    {
+      "term": "Ciática",
+      "explanation": "Dolor que irradia por el nervio ciático desde la espalda baja hasta la pierna. Responde bien a ajustes."
+    },
+    {
+      "term": "Técnica Gonstead",
+      "explanation": "Método quiropráctico de alta precisión basado en análisis de rayos X y palpación segmentaria."
+    },
+    {
+      "term": "Decompresión espinal",
+      "explanation": "Técnica de tracción para aliviar presión en discos y nervios. No quirúrgica."
+    },
+    {
+      "term": "Dolor lumbar crónico",
+      "explanation": "Dolor en zona baja de la espalda de más de 3 meses. La quiropráctica es tratamiento de primera línea."
+    },
+    {
+      "term": "Plan de mantenimiento",
+      "explanation": "Visitas periódicas (cada 2-4 semanas) para mantener la alineación y prevenir recaídas."
+    }
+  ],
+  "commonQuestions": [
+    "¿Cuántas sesiones necesito?",
+    "¿Los ajustes duelen?",
+    "¿Atienden a niños?",
+    "¿Se puede ir durante el embarazo?",
+    "¿Qué diferencia hay con un fisioterapeuta?"
+  ]
+}

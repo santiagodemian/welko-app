@@ -1,0 +1,56 @@
+{
+  "slug": "nutricion",
+  "label": "Nutrición",
+  "emoji": "🥗",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Nutrición Clínica en mi sistema. Manejo conceptos de planes alimenticios, IMC, control de peso y patologías metabólicas. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded Clinical Nutrition knowledge. I handle meal plans, BMI, weight control, and metabolic conditions. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "Consulta inicial nutricional",
+      "explanation": "Primera cita donde se evalúa peso, talla, composición corporal, hábitos y objetivos. Dura ~60 minutos."
+    },
+    {
+      "term": "Plan de alimentación",
+      "explanation": "Dieta personalizada basada en las metas y condición del paciente. Se actualiza en cada seguimiento."
+    },
+    {
+      "term": "IMC (Índice de Masa Corporal)",
+      "explanation": "Relación peso/talla² para clasificar el estado nutricional: bajo peso, normal, sobrepeso u obesidad."
+    },
+    {
+      "term": "Composición corporal",
+      "explanation": "Análisis de porcentaje de grasa, músculo y agua. Se realiza con bioimpedancia."
+    },
+    {
+      "term": "Síndrome metabólico",
+      "explanation": "Conjunto de condiciones (glucosa alta, presión alta, triglicéridos elevados) que aumentan riesgo cardiovascular."
+    },
+    {
+      "term": "Diabetes tipo 2",
+      "explanation": "Condición crónica donde el cuerpo no usa bien la insulina. La dieta es pilar fundamental del tratamiento."
+    },
+    {
+      "term": "Intolerancia al gluten",
+      "explanation": "Reacción adversa al gluten. Requiere plan de alimentación sin trigo, cebada ni centeno."
+    },
+    {
+      "term": "Nutrición deportiva",
+      "explanation": "Plan alimenticio para mejorar rendimiento y recuperación atlética. Incluye timing de macronutrientes."
+    },
+    {
+      "term": "Alimentación intuitiva",
+      "explanation": "Enfoque que enseña a reconocer señales internas de hambre y saciedad, sin contar calorías."
+    },
+    {
+      "term": "Seguimiento nutricional",
+      "explanation": "Citas periódicas (cada 2-4 semanas) para ajustar el plan según el progreso del paciente."
+    }
+  ],
+  "commonQuestions": [
+    "¿Cuánto tarda en verse resultados?",
+    "¿Haces planes para deportistas?",
+    "¿Qué pasa si tengo diabetes?",
+    "¿Con qué frecuencia debo ir?",
+    "¿Cobras por el plan alimenticio?"
+  ]
+}

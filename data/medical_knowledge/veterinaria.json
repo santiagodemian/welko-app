@@ -1,0 +1,56 @@
+{
+  "slug": "veterinaria",
+  "label": "Veterinaria",
+  "emoji": "🐾",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Medicina Veterinaria en mi sistema. Manejo protocolos de vacunación, desparasitación, urgencias y más. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded Veterinary knowledge. I handle vaccination protocols, deworming, emergencies and more. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "Consulta veterinaria",
+      "explanation": "Evaluación general del estado de salud de la mascota. Incluye peso, temperatura y auscultación."
+    },
+    {
+      "term": "Vacuna Triple (perros)",
+      "explanation": "Protege contra Distemper, Hepatitis infecciosa y Parvovirus. Cachorro: 3 dosis + refuerzo anual."
+    },
+    {
+      "term": "Vacuna antirrábica",
+      "explanation": "Obligatoria por ley en México para perros y gatos. Se aplica anualmente a partir de los 3 meses de edad."
+    },
+    {
+      "term": "Desparasitación",
+      "explanation": "Interna (áscaris, tenias) y externa (pulgas, garrapatas). Frecuencia: cada 3 meses en adultos."
+    },
+    {
+      "term": "Esterilización (castración)",
+      "explanation": "Procedimiento quirúrgico para eliminar capacidad reproductiva. Reduce riesgo de cánceres hormonales."
+    },
+    {
+      "term": "Urgencia veterinaria",
+      "explanation": "Signos de emergencia: vómito/diarrea con sangre, dificultad respiratoria, convulsiones, trauma."
+    },
+    {
+      "term": "Microchip",
+      "explanation": "Identificación permanente subcutánea reglamentaria. Registrado en base de datos nacional."
+    },
+    {
+      "term": "Grooming",
+      "explanation": "Baño, corte, secado y limpieza de oídos y uñas. Frecuencia según raza: cada 4-8 semanas."
+    },
+    {
+      "term": "Parvovirus",
+      "explanation": "Enfermedad viral grave en cachorros sin vacunar. Causa vómito, diarrea con sangre y puede ser fatal."
+    },
+    {
+      "term": "Garrapata",
+      "explanation": "Parásito externo que puede transmitir Ehrlichia y Babesia. Control con pipetas, collares o tabletas mensuales."
+    }
+  ],
+  "commonQuestions": [
+    "¿Cuándo vacuno a mi cachorro?",
+    "¿Cada cuánto desparasito a mi mascota?",
+    "¿Atienden urgencias de noche?",
+    "¿Cuánto cuesta la esterilización?",
+    "¿Hacen visitas a domicilio?"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "slug": "ginecologia",
+  "label": "Ginecología",
+  "emoji": "🌸",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Ginecología en mi sistema. Manejo control prenatal, Papanicolaou, colposcopia, anticonceptivos y más. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded Gynecology knowledge. I handle prenatal care, Pap smears, colposcopy, contraceptives and more. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "Papanicolaou (Pap)",
+      "explanation": "Examen preventivo para detectar células anormales en el cuello uterino. Se recomienda anualmente."
+    },
+    {
+      "term": "Colposcopia",
+      "explanation": "Examen visual del cuello uterino con lente de aumento para evaluar células anormales después de un Pap alterado."
+    },
+    {
+      "term": "Control prenatal",
+      "explanation": "Serie de citas durante el embarazo para monitorear la salud de madre e hijo. 1ª cita: antes de semana 12."
+    },
+    {
+      "term": "Ultrasonido obstétrico",
+      "explanation": "Imagen por ultrasonido para evaluar el desarrollo del bebé. Frecuencia: semanas 12, 20 y 32."
+    },
+    {
+      "term": "Anticonceptivos hormonales",
+      "explanation": "Pastillas, parche, inyección o DIU hormonal para prevenir embarazo. Requieren receta médica."
+    },
+    {
+      "term": "DIU (dispositivo intrauterino)",
+      "explanation": "Método anticonceptivo colocado dentro del útero. Puede ser hormonal (Mirena) o de cobre. Dura 5-10 años."
+    },
+    {
+      "term": "Endometriosis",
+      "explanation": "Tejido similar al endometrio crece fuera del útero. Causa dolor pélvico e infertilidad en algunos casos."
+    },
+    {
+      "term": "Síndrome de ovario poliquístico (SOP)",
+      "explanation": "Condición hormonal con quistes en ovarios, ciclos irregulares y exceso de andrógenos."
+    },
+    {
+      "term": "Climaterio / Menopausia",
+      "explanation": "Etapa de cese de menstruación (~50 años). Se manejan síntomas con terapia hormonal o alternativas."
+    },
+    {
+      "term": "Infección vaginal",
+      "explanation": "Puede ser bacteriana, fúngica (candidiasis) o por ITS. Requiere cultivo y tratamiento específico."
+    }
+  ],
+  "commonQuestions": [
+    "¿Cada cuánto debo hacerme el Pap?",
+    "¿Qué anticonceptivo me recomiendas?",
+    "¿Atiendes embarazos de alto riesgo?",
+    "¿La colposcopia duele?",
+    "¿Puedo ir durante mi período?"
+  ]
+}

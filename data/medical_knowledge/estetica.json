@@ -1,0 +1,56 @@
+{
+  "slug": "estetica",
+  "label": "Estética",
+  "emoji": "✨",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Estética Facial y Dental en mi sistema. Conozco botox, bichectomía, lipopapada, carillas y más. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded Facial & Dental Aesthetic knowledge. I know botox, bichectomy, lipopapad, veneers and more. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "Botox (toxina botulínica)",
+      "explanation": "Inyección que relaja músculos faciales para reducir arrugas de expresión. Efecto dura 4-6 meses. Sin cirugía."
+    },
+    {
+      "term": "Bichectomía",
+      "explanation": "Extracción de las bolsas de Bichat para afinar el rostro. Procedimiento quirúrgico ambulatorio de ~1 hora."
+    },
+    {
+      "term": "Lipopapada",
+      "explanation": "Eliminación de grasa submentoniana (doble mentón) con lipo o ácido desoxicólico. Sin cicatrices visibles."
+    },
+    {
+      "term": "Ácido hialurónico",
+      "explanation": "Relleno dérmico para labios, pómulos y surcos. Resultado inmediato, dura 6-18 meses."
+    },
+    {
+      "term": "Rinomodelación",
+      "explanation": "Corrección no quirúrgica de la nariz con relleno. Resultados en 30 minutos, sin anestesia general."
+    },
+    {
+      "term": "Peeling químico",
+      "explanation": "Exfoliación profunda de la piel con ácidos. Mejora manchas, cicatrices y textura. 3-5 sesiones."
+    },
+    {
+      "term": "Láser CO2",
+      "explanation": "Tratamiento de rejuvenecimiento y manchas con láser fraccionado. Recuperación 5-10 días."
+    },
+    {
+      "term": "Hydrafacial",
+      "explanation": "Limpieza facial profunda con hidrodermoabrasión. Sin tiempo de recuperación. Resultados inmediatos."
+    },
+    {
+      "term": "Hilo tensor",
+      "explanation": "Lifting sin cirugía con hilos reabsorbibles. Levanta tejidos caídos. Efecto 12-18 meses."
+    },
+    {
+      "term": "Carilla dental estética",
+      "explanation": "Láminas de porcelana ultra-finas para transformar la sonrisa. Resultado permanente y natural."
+    }
+  ],
+  "commonQuestions": [
+    "¿Cuánto dura el botox?",
+    "¿La bichectomía duele mucho?",
+    "¿Qué rellenos usan?",
+    "¿Qué hago antes del procedimiento?",
+    "¿Tienen financiamiento?"
+  ]
+}

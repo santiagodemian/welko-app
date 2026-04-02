@@ -1,0 +1,56 @@
+{
+  "slug": "psicologia",
+  "label": "Psicología",
+  "emoji": "🧠",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Psicología en mi sistema. Manejo vocabulario de contención, diferencia entre terapias individual, de pareja y cognitivo-conductual. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded Psychology knowledge. I understand containment vocabulary, individual vs couples therapy, and CBT. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "Terapia individual",
+      "explanation": "Sesiones uno a uno entre paciente y psicólogo. Frecuencia habitual: 1 vez por semana, 50 min por sesión."
+    },
+    {
+      "term": "Terapia de pareja",
+      "explanation": "Sesiones con ambos miembros de la pareja para mejorar comunicación y resolver conflictos. 60-90 min."
+    },
+    {
+      "term": "Terapia cognitivo-conductual (TCC)",
+      "explanation": "Enfoque basado en identificar y cambiar patrones de pensamiento y conducta negativos. Alta efectividad en ansiedad y depresión."
+    },
+    {
+      "term": "Contención emocional",
+      "explanation": "Técnicas para acompañar al paciente en momentos de crisis emocional sin minimizar ni amplificar su estado."
+    },
+    {
+      "term": "Primera consulta",
+      "explanation": "Sesión de evaluación inicial donde el psicólogo explora la historia del paciente y define el plan terapéutico."
+    },
+    {
+      "term": "Crisis emocional",
+      "explanation": "Estado de desestabilización emocional aguda. En casos de riesgo, se activa protocolo de urgencia."
+    },
+    {
+      "term": "Ansiedad",
+      "explanation": "Estado de alerta excesiva y preocupación constante. Uno de los motivos de consulta más frecuentes."
+    },
+    {
+      "term": "Depresión",
+      "explanation": "Trastorno del estado de ánimo caracterizado por tristeza persistente, pérdida de interés y energía."
+    },
+    {
+      "term": "Psicoterapia online",
+      "explanation": "Sesiones por videollamada. Misma efectividad que presencial para la mayoría de los casos."
+    },
+    {
+      "term": "Alta terapéutica",
+      "explanation": "Conclusión del proceso cuando el paciente ha alcanzado sus objetivos terapéuticos."
+    }
+  ],
+  "commonQuestions": [
+    "¿Cuántas sesiones necesito?",
+    "¿Es confidencial lo que hablo?",
+    "¿Haces terapia online?",
+    "¿Cuánto cuesta la primera consulta?",
+    "¿Atiendes urgencias?"
+  ]
+}

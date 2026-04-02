@@ -1,0 +1,56 @@
+{
+  "slug": "oftalmologia",
+  "label": "Oftalmología",
+  "emoji": "👁️",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Oftalmología en mi sistema. Manejo cirugía LASIK, cataratas, glaucoma, retinopatía y más. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded Ophthalmology knowledge. I handle LASIK, cataracts, glaucoma, retinopathy and more. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "LASIK",
+      "explanation": "Cirugía con láser para corregir miopía, hipermetropía y astigmatismo. Elimina o reduce la necesidad de lentes. Recuperación 1-2 días."
+    },
+    {
+      "term": "Cataratas",
+      "explanation": "Opacidad del cristalino que reduce la visión. Se trata con cirugía ambulatoria (facoemulsificación) que dura ~20 min."
+    },
+    {
+      "term": "Glaucoma",
+      "explanation": "Daño al nervio óptico por presión intraocular elevada. Tratamiento con gotas, láser o cirugía. Requiere monitoreo de por vida."
+    },
+    {
+      "term": "Retinopatía diabética",
+      "explanation": "Daño en vasos de la retina por diabetes. Se monitorea con fondo de ojo y se trata con láser o inyecciones."
+    },
+    {
+      "term": "Degeneración macular",
+      "explanation": "Deterioro de la mácula (visión central). Hay tipo seca (lenta) y húmeda (más agresiva, tratable con inyecciones)."
+    },
+    {
+      "term": "Pterigión",
+      "explanation": "Tejido que crece sobre la córnea. Si cubre el eje visual, se extirpa quirúrgicamente."
+    },
+    {
+      "term": "Ojo seco",
+      "explanation": "Insuficiente producción de lágrima. Se trata con lágrimas artificiales, tapones lagrimales o calor."
+    },
+    {
+      "term": "Estrabismo",
+      "explanation": "Desalineación ocular. Puede tratarse con prismas, parche, cirugía o terapia visual."
+    },
+    {
+      "term": "Examen de agudeza visual",
+      "explanation": "Prueba para determinar la prescripción óptica (miopia, astigmatismo). Base de toda consulta oftalmológica."
+    },
+    {
+      "term": "Fondo de ojo",
+      "explanation": "Examen que evalúa retina, nervio óptico y vasos sanguíneos. Requiere dilatación pupilar."
+    }
+  ],
+  "commonQuestions": [
+    "¿Soy candidato para LASIK?",
+    "¿Las cataratas se pueden operar con seguro?",
+    "¿Cada cuánto debo hacerme un examen de vista?",
+    "¿Qué tan rápido recupero la visión post-operación?",
+    "¿Atienden urgencias oculares?"
+  ]
+}

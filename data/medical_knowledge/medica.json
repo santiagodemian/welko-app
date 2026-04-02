@@ -1,0 +1,56 @@
+{
+  "slug": "medica",
+  "label": "Medicina General",
+  "emoji": "🩺",
+  "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Medicina General en mi sistema. Manejo triage inicial, urgencias, enfermedades crónicas y más. Solo confírmame tus horarios.",
+  "aiGreetingEn": "Excellent! I've loaded General Medicine knowledge. I handle triage, emergencies, chronic conditions and more. Just confirm your hours.",
+  "terms": [
+    {
+      "term": "Consulta general",
+      "explanation": "Evaluación integral del paciente para diagnóstico, tratamiento o seguimiento. Dura ~20-30 min."
+    },
+    {
+      "term": "Triage",
+      "explanation": "Clasificación de urgencia del paciente: no urgente, urgente o emergencia. Determina el orden de atención."
+    },
+    {
+      "term": "Hipertensión arterial",
+      "explanation": "Presión sanguínea elevada crónica. Tratamiento farmacológico + dieta + ejercicio. Seguimiento mensual."
+    },
+    {
+      "term": "Diabetes mellitus",
+      "explanation": "Alteración del metabolismo de la glucosa. Tipo 1 (insulinodependiente) y Tipo 2 (estilo de vida + medicamentos)."
+    },
+    {
+      "term": "Infección respiratoria",
+      "explanation": "Catarro, gripe, bronquitis o neumonía. La mayoría viral, no requiere antibióticos."
+    },
+    {
+      "term": "Certificado médico",
+      "explanation": "Documento oficial emitido por el médico para trabajo, escuela o deporte. Requiere evaluación presencial."
+    },
+    {
+      "term": "Receta médica",
+      "explanation": "Prescripción de medicamentos o estudios. En México requiere cédula profesional válida."
+    },
+    {
+      "term": "Electrocardiograma (ECG)",
+      "explanation": "Registro eléctrico del corazón. Evalúa ritmo cardíaco y detecta alteraciones. Dura ~5 minutos."
+    },
+    {
+      "term": "Medicina preventiva",
+      "explanation": "Chequeos periódicos para detectar enfermedades antes de que den síntomas. Base de la salud a largo plazo."
+    },
+    {
+      "term": "Urgencia vs emergencia",
+      "explanation": "Urgencia: requiere atención pronto pero no inmediata. Emergencia: riesgo de vida, atención inmediata."
+    }
+  ],
+  "commonQuestions": [
+    "¿Atienden urgencias sin cita?",
+    "¿Dan certificados médicos?",
+    "¿Cuánto cuesta una consulta?",
+    "¿Hacen análisis de laboratorio?",
+    "¿Atienden a domicilio?"
+  ]
+}
