@@ -84,12 +84,20 @@ model Clinic {
   // E.164 format, e.g. "+521234567890" — the Twilio number assigned to this clinic
   whatsappPhone String? @unique
 
+  // ── Meta (Facebook Messenger + Instagram DMs) ────────────────────────────────
+  // Facebook Page ID and long-lived Page Access Token (encrypted)
+  facebookPageId    String? @unique
+  facebookPageToken String? // encrypted with lib/encryption.ts
+  // Instagram Business Account ID (linked to the Facebook Page)
+  instagramAccountId String? @unique
+
   // ── Onboarding state ────────────────────────────────────────────────────────
   onboardingCompleted Boolean @default(false)
 
-  services             Service[]
-  leads                Lead[]
+  services              Service[]
+  leads                 Lead[]
   whatsappConversations WhatsAppConversation[]
+  metaConversations     MetaConversation[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
@@ -168,4 +176,20 @@ model WhatsAppConversation {
   createdAt   DateTime @default(now())
 
   @@index([clinicId, fromPhone, createdAt])
+}
+
+// ─── Meta Conversation ─────────────────────────────────────────────────────────
+// Stores per-sender chat history for Facebook Messenger and Instagram DMs.
+
+model MetaConversation {
+  id        String   @id @default(cuid())
+  clinicId  String
+  clinic    Clinic   @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  senderId  String   // Meta PSID or Instagram IGSID
+  channel   String   // "messenger" | "instagram"
+  role      String   // "user" | "assistant"
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([clinicId, senderId, createdAt])
 }

@@ -19,6 +19,7 @@ import {
   Building2,
   MessageSquare,
   MessageCircle,
+  Share2,
 } from 'lucide-react'
 import { useState } from 'react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
@@ -76,6 +77,12 @@ const NAV_GROUPS = [
         label: 'WhatsApp IA',
         href: '/dashboard/whatsapp',
         icon: MessageCircle,
+        requiredPlan: 'essential' as Plan,
+      },
+      {
+        label: 'Instagram & Facebook',
+        href: '/dashboard/meta',
+        icon: Share2,
         requiredPlan: 'essential' as Plan,
       },
     ],
