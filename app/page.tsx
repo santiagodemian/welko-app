@@ -25,6 +25,7 @@ import { SimulatorSection } from '@/components/sections/SimulatorSection'
 import { HumanTalentSection } from '@/components/sections/HumanTalentSection'
 import { WelkoDNASection } from '@/components/sections/WelkoDNASection'
 import { PricingSection } from '@/components/sections/PricingSection'
+import { HowItWorksSection } from '@/components/sections/HowItWorksSection'
 import { useLang } from '@/contexts/LangContext'
 import { INDUSTRIES, HOME_INDUSTRIES } from '@/lib/industries'
 
@@ -335,56 +336,9 @@ export default function HomePage() {
         </section>
 
         {/* ════════════════════════════════════════
-            LA SOLUCIÓN IA
+            CÓMO FUNCIONA
         ════════════════════════════════════════ */}
-        <section id="producto" className="section-spacing px-4 sm:px-6">
-          <div className="max-w-5xl mx-auto flex flex-col gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE }}
-              className="flex flex-col gap-5 max-w-2xl"
-            >
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
-                {t.solution.eyebrow}
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight" style={{ color: 'var(--text-primary)' }}>
-                {t.solution.headline}
-              </h2>
-            </motion.div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {t.solution.items.map((s, i) => {
-                const Icon = SOLUTION_ICONS[i]
-                return (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }} transition={{ duration: 0.45, ease: EASE, delay: i * 0.07 }}
-                    className="float-shadow p-6 rounded-3xl flex flex-col gap-5"
-                    style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
-                  >
-                    <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: '#E5E9F4' }}>
-                      <Icon size={20} color="#13244A" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <h3 className="text-base font-semibold" style={{ color: 'var(--text-primary)' }}>{s.title}</h3>
-                      <p className="text-sm font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{s.desc}</p>
-                    </div>
-                  </motion.div>
-                )
-              })}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE }}
-              className="flex flex-col items-center gap-4 pt-4"
-            >
-              <CTAButton label={t.hero.cta} />
-              <p className="text-xs font-light" style={{ color: 'var(--text-muted)' }}>{t.hero.trust}</p>
-            </motion.div>
-          </div>
-        </section>
+        <HowItWorksSection />
 
         {/* ════════════════════════════════════════
             ESPECIALIDADES — SVG ICONS

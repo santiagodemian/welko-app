@@ -20,6 +20,7 @@ import {
   MessageSquare,
   MessageCircle,
   Share2,
+  Phone,
 } from 'lucide-react'
 import { useState } from 'react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
@@ -84,6 +85,12 @@ const NAV_GROUPS = [
         href: '/dashboard/meta',
         icon: Share2,
         requiredPlan: 'essential' as Plan,
+      },
+      {
+        label: 'Llamadas de Voz IA',
+        href: '/dashboard/llamadas',
+        icon: Phone,
+        requiredPlan: 'pro' as Plan,
       },
     ],
   },

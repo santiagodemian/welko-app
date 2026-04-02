@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 
 const isDashboard    = createRouteMatcher(['/dashboard(.*)'])
 const isAuthPage     = createRouteMatcher(['/login(.*)', '/registro(.*)'])
-const isProOnly      = createRouteMatcher(['/dashboard/reportes(.*)'])
+const isProOnly      = createRouteMatcher(['/dashboard/reportes(.*)', '/dashboard/llamadas(.*)'])
 const isBusinessOnly = createRouteMatcher([
   '/dashboard/ehr(.*)',
   '/dashboard/analisis(.*)',
