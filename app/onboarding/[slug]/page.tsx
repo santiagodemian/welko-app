@@ -8,6 +8,7 @@ import { getSpecialtyConfig } from '@/lib/onboarding-specialties'
 import type { SpecialtyStep } from '@/lib/onboarding-specialties'
 import { notFound } from 'next/navigation'
 import { IndustryRobotVisual } from '@/components/ui/IndustryRobotVisual'
+import { getKnowledge } from '@/lib/knowledge-base'
 
 const NAVY   = '#1A2A56'
 const WHITE  = '#FFFFFF'
@@ -153,11 +154,13 @@ export default function SpecialtyOnboardingPage({
   const config = getSpecialtyConfig(slug)
   if (!config) notFound()
 
+  const knowledge = getKnowledge(slug)
   const router = useRouter()
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({})
   const [direction, setDirection] = useState(1)
   const [done, setDone] = useState(false)
+  const [showGreeting, setShowGreeting] = useState(false)
 
   const total = config.steps.length
   const current = config.steps[step]
@@ -174,6 +177,18 @@ export default function SpecialtyOnboardingPage({
 
   function goNext() {
     if (!isValid()) return
+    // After step 0 (first question), show AI greeting if knowledge exists
+    if (step === 0 && knowledge && !showGreeting) {
+      setDirection(1)
+      setShowGreeting(true)
+      return
+    }
+    if (showGreeting) {
+      setShowGreeting(false)
+      setDirection(1)
+      setStep((s) => s + 1)
+      return
+    }
     if (step < total - 1) {
       setDirection(1)
       setStep((s) => s + 1)
@@ -279,6 +294,76 @@ export default function SpecialtyOnboardingPage({
 
         <div style={{ flex: 1, maxWidth: 560 }}>
           <AnimatePresence mode="wait" initial={false}>
+
+            {/* ── AI Knowledge Greeting Card ── */}
+            {showGreeting && knowledge ? (
+              <motion.div
+                key="greeting"
+                initial={{ x: 40, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -40, opacity: 0 }}
+                transition={{ duration: 0.28, ease: EASE }}
+                style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
+              >
+                {/* AI avatar + message */}
+                <div style={{
+                  display: 'flex', gap: 12, alignItems: 'flex-start',
+                  background: NAVY, borderRadius: 18, padding: '18px 20px',
+                }}>
+                  <div style={{
+                    width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
+                    background: 'rgba(255,255,255,0.15)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18,
+                  }}>🤖</div>
+                  <div>
+                    <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.5)', margin: '0 0 6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Welko IA
+                    </p>
+                    <p style={{ fontSize: 14, color: WHITE, lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
+                      {knowledge.aiGreeting}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Knowledge preview — top 5 terms */}
+                <div style={{
+                  background: WHITE, border: `1px solid ${BORDER}`,
+                  borderRadius: 14, padding: '14px 16px',
+                }}>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: NAVY, margin: '0 0 10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    📚 Lo que ya sé sobre {knowledge.label}
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {knowledge.terms.slice(0, 5).map((t, i) => (
+                      <div key={i} style={{ display: 'flex', gap: 8 }}>
+                        <span style={{ color: NAVY, fontSize: 11, fontWeight: 700, flexShrink: 0 }}>•</span>
+                        <div>
+                          <span style={{ fontSize: 12, fontWeight: 700, color: '#111827' }}>{t.term}: </span>
+                          <span style={{ fontSize: 12, color: MUTED, lineHeight: 1.5 }}>{t.explanation}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <p style={{ fontSize: 11, color: MUTED, margin: '10px 0 0' }}>
+                    + {knowledge.terms.length - 5} términos más cargados en memoria
+                  </p>
+                </div>
+
+                {/* Common questions badge */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {knowledge.commonQuestions.slice(0, 3).map((q, i) => (
+                    <span key={i} style={{
+                      fontSize: 11, padding: '4px 10px', borderRadius: 99,
+                      background: NAVY + '0D', border: `1px solid ${BORDER}`,
+                      color: NAVY, fontWeight: 500,
+                    }}>
+                      "{q}"
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ) : (
+
             <motion.div
               key={step}
               initial={{ x: direction * 40, opacity: 0 }}
@@ -297,6 +382,7 @@ export default function SpecialtyOnboardingPage({
               </div>
               <StepForm step={current} value={currentValue} onChange={setAnswer} />
             </motion.div>
+            )}
           </AnimatePresence>
         </div>
         </div>
@@ -332,18 +418,18 @@ export default function SpecialtyOnboardingPage({
         <button
           type="button"
           onClick={goNext}
-          disabled={current.field.required && !isValid()}
+          disabled={!showGreeting && current.field.required && !isValid()}
           style={{
             display: 'flex', alignItems: 'center', gap: 6,
             padding: '10px 22px', borderRadius: 10,
             border: 'none',
-            background: isValid() ? NAVY : BORDER,
-            color: isValid() ? WHITE : MUTED,
-            fontSize: 14, fontWeight: 600, cursor: isValid() ? 'pointer' : 'default',
+            background: (showGreeting || isValid()) ? NAVY : BORDER,
+            color: (showGreeting || isValid()) ? WHITE : MUTED,
+            fontSize: 14, fontWeight: 600, cursor: (showGreeting || isValid()) ? 'pointer' : 'default',
             transition: 'all 0.15s',
           }}
         >
-          {step === total - 1 ? 'Finalizar' : 'Continuar'}
+          {showGreeting ? '¡Entendido, vamos!' : step === total - 1 ? 'Finalizar' : 'Continuar'}
           <ChevronRight size={16} />
         </button>
       </div>

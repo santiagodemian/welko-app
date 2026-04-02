@@ -106,8 +106,8 @@ export const INDUSTRIES: Industry[] = [
   },
   {
     slug: 'nutricion',
-    color: '#22C55E',
-    lightColor: '#F0FDF4',
+    color: '#0EA5E9',
+    lightColor: '#F0F9FF',
     imagePrompt: 'Elegant futuristic AI beauty consultant, wearing a minimalist silk professional green-white uniform, sleek modern headset, clean wellness nutrition center background, soft natural lighting, 8k --ar 16:9',
     es: {
       name: 'Nutrición',

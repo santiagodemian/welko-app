@@ -44,6 +44,7 @@ export function Navbar() {
   const NAV_LINKS = [
     { label: t.nav.product,    href: '/', scrollTo: 'producto' },
     { label: t.nav.industries, href: '/industrias' },
+    { label: lang === 'es' ? 'Por qué Welko' : 'Why Welko', href: '/por-que' },
     { label: t.nav.pricing,    href: '/precios' },
     { label: t.nav.partners,   href: '/partners' },
   ]
