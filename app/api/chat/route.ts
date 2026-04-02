@@ -14,6 +14,16 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { buildSystemPrompt, EXTRACTION_SYSTEM_PROMPT } from '@/lib/system_prompts'
+
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 204, headers: CORS })
+}
 import { db } from '@/lib/db'
 import { encrypt } from '@/lib/encryption'
 
@@ -195,8 +205,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({
-    reply,
-    ...(extractedLead ? { lead: extractedLead } : {}),
-  })
+  return NextResponse.json(
+    { reply, ...(extractedLead ? { lead: extractedLead } : {}) },
+    { headers: CORS }
+  )
 }

@@ -17,6 +17,7 @@ import {
   Menu,
   X,
   Building2,
+  MessageSquare,
 } from 'lucide-react'
 import { useState } from 'react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
@@ -63,6 +64,12 @@ const NAV_GROUPS = [
         href: '/dashboard/analisis',
         icon: GitBranch,
         requiredPlan: 'pro' as Plan,
+      },
+      {
+        label: 'Widget para tu Web',
+        href: '/dashboard/widget',
+        icon: MessageSquare,
+        requiredPlan: 'essential' as Plan,
       },
     ],
   },
