@@ -2,7 +2,7 @@
  * Welko — Motor de Inteligencia Médica
  * Sistema de prompts para la Recepcionista Senior de Clínicas en México.
  *
- * REGLA DE ORO: Nunca dar diagnósticos médicos.
+ * REGLA DE ORO: Nunca dar diagnósticos médicos ni recetar medicamentos.
  * Solo agendar y resolver dudas administrativas/comerciales.
  */
 
@@ -169,21 +169,32 @@ export function buildSystemPrompt(clinic: ClinicContext, specialtySlug?: string)
 }
 
 // ─── Extraction prompt ────────────────────────────────────────────────────────
-// Used in a second OpenAI call to extract structured scheduling data.
+// Called as a function so "hoy" is always current at request time.
 
-export const EXTRACTION_SYSTEM_PROMPT = `
+export function buildExtractionPrompt(): string {
+  const today = new Date().toLocaleDateString('es-MX', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    timeZone: 'America/Mexico_City',
+  })
+  return `
 Eres un sistema de extracción de datos de conversaciones de clínicas médicas en México.
 Analiza el historial de conversación y extrae los datos de agendamiento si están presentes.
 Responde SOLO con un objeto JSON válido, sin explicaciones adicionales.
+Hoy es: ${today}.
 
 Formato de respuesta:
 {
   "nombre": "nombre completo del paciente o null",
   "procedimiento": "procedimiento o motivo de consulta o null",
-  "fecha": "fecha mencionada en formato ISO o descripción textual, o null",
-  "telefono": "número de teléfono en formato mexicano (10 dígitos) o null",
+  "fecha": "fecha mencionada como texto legible, o null",
+  "fecha_iso": "fecha de la cita en formato ISO 8601 (YYYY-MM-DDTHH:mm:ss) si se puede determinar, o null. Calcula fechas relativas como 'mañana', 'el lunes', 'el martes que viene' usando el día de hoy. Si no hay hora, usa 09:00:00.",
+  "telefono": "número de teléfono en formato mexicano (10 dígitos, sin +52) o null",
   "listo_para_agendar": true/false (true solo si tienes nombre, procedimiento y telefono)
 }
 
 Si no hay suficiente información para algún campo, usa null.
 `.trim()
+}
+
+/** @deprecated Use buildExtractionPrompt() for current-date accuracy */
+export const EXTRACTION_SYSTEM_PROMPT = buildExtractionPrompt()

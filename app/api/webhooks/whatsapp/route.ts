@@ -14,7 +14,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { buildSystemPrompt, EXTRACTION_SYSTEM_PROMPT } from '@/lib/system_prompts'
+import { buildSystemPrompt, buildExtractionPrompt } from '@/lib/system_prompts'
 import { encrypt } from '@/lib/encryption'
 import { sendWhatsApp } from '@/lib/twilio'
 
@@ -163,7 +163,7 @@ export async function POST(req: NextRequest) {
 
       const raw = await openaiChat(
         [
-          { role: 'system', content: EXTRACTION_SYSTEM_PROMPT },
+          { role: 'system', content: buildExtractionPrompt() },
           { role: 'user', content: conversationText },
         ],
         { max_tokens: 150, temperature: 0, json: true }
@@ -179,6 +179,9 @@ export async function POST(req: NextRequest) {
           : null
 
         if (!existing) {
+          const appointmentAt = lead.fecha_iso
+            ? new Date(lead.fecha_iso)
+            : null
           await db.lead.create({
             data: {
               clinicId:    clinic.id,
@@ -187,6 +190,7 @@ export async function POST(req: NextRequest) {
               notes: lead.procedimiento
                 ? encrypt(`Procedimiento: ${lead.procedimiento}${lead.fecha ? ` | Fecha: ${lead.fecha}` : ''}`)
                 : null,
+              appointmentAt: appointmentAt && !isNaN(appointmentAt.getTime()) ? appointmentAt : null,
               status:  'NUEVO',
               channel: 'WHATSAPP',
             },

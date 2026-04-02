@@ -134,6 +134,10 @@ model Lead {
 
   appointmentValue Float?
 
+  // Appointment scheduling & reminders
+  appointmentAt  DateTime? // UTC — used for 24h reminder cron
+  reminderSentAt DateTime? // set when 24h WhatsApp reminder is sent
+
   // From voice provider webhook
   callId         String?  @unique
   callDurationMs Int?
