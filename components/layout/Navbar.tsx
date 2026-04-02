@@ -42,7 +42,7 @@ export function Navbar() {
   const { lang, t, toggle } = useLang()
 
   const NAV_LINKS = [
-    { label: t.nav.product,    href: '/', scrollTo: 'producto' },
+    { label: t.nav.product,    href: '/', scrollTo: 'como-funciona' },
     { label: t.nav.industries, href: '/industrias' },
     { label: lang === 'es' ? 'Por qué Welko' : 'Why Welko', href: '/por-que' },
     { label: t.nav.pricing,    href: '/precios' },
