@@ -228,7 +228,7 @@ export default function MetaPage() {
             <a href="/api/meta/connect"
               className="flex items-center gap-2 self-start ml-8 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all"
               style={{ background: '#1877F2', color: '#fff' }}>
-              <Facebook size={16} /> Conectar con Facebook
+              <Share2 size={16} /> Conectar con Facebook
             </a>
             <p className="text-xs pl-8" style={{ color: 'var(--text-muted)' }}>
               Instagram se conecta automáticamente si tu cuenta de Instagram está vinculada a la Página de Facebook.
