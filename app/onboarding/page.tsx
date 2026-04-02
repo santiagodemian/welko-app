@@ -15,6 +15,12 @@ import {
   Stethoscope,
   Brain,
   Sparkles,
+  Plug,
+  MessageCircle,
+  Share2,
+  Phone,
+  CheckCircle,
+  ExternalLink,
 } from 'lucide-react'
 
 /* ─── Design tokens (light — matches landing page + logo) ─── */
@@ -68,6 +74,7 @@ const STEPS = [
   { num: 3, label: 'Servicios',   Icon: Plus        },
   { num: 4, label: 'Conocimiento',Icon: Brain       },
   { num: 5, label: 'Agente IA',   Icon: Bot         },
+  { num: 6, label: 'Canales',     Icon: Plug        },
 ]
 
 /* ─── Shared UI primitives ─── */
@@ -185,7 +192,11 @@ export default function OnboardingPage() {
   // Step 5 — Agente IA
   const [aiAgentName,      setAiAgentName]     = useState('')
   const [aiTone,           setAiTone]          = useState('profesional')
-  const [vapiAssistantId,  setVapiAssistantId] = useState('')
+
+  // Step 6 — Canales
+  const [voiceActivating,  setVoiceActivating] = useState(false)
+  const [voiceActive,      setVoiceActive]     = useState(false)
+  const [voicePhone,       setVoicePhone]      = useState<string | null>(null)
 
   /* ─── Helpers ─── */
   function toggleSpecialty(s: string) {
@@ -245,7 +256,7 @@ export default function OnboardingPage() {
           hasParking, hasInvoicing, cancellationPolicy,
           paymentMethods, insurancesAccepted,
           faqs: faqs.filter((f) => f.question.trim() && f.answer.trim()).map(({ question, answer }) => ({ question, answer })),
-          aiAgentName, aiTone, vapiAssistantId,
+          aiAgentName, aiTone,
           onboardingCompleted: completed,
         }),
       })
@@ -275,14 +286,24 @@ export default function OnboardingPage() {
 
   async function handleFinish() {
     if (!aiAgentName.trim()) { setError('Elige un nombre para tu agente.'); return }
-    // In development, navigate immediately
     if (process.env.NODE_ENV !== 'production') {
       save(true).catch(() => {})
-      router.push('/dashboard')
+      setStep(6)
       return
     }
     const ok = await save(true)
-    if (ok) router.push('/dashboard')
+    if (ok) setStep(6)
+  }
+
+  async function activateVoice() {
+    setVoiceActivating(true)
+    try {
+      const r = await fetch('/api/voice/activate', { method: 'POST' })
+      const d = await r.json()
+      if (r.ok) { setVoiceActive(true); setVoicePhone(d.phoneNumber ?? null) }
+    } finally {
+      setVoiceActivating(false)
+    }
   }
 
   /* ─── Render ─── */
@@ -365,7 +386,8 @@ export default function OnboardingPage() {
             {step === 2 && <StepHeader title="Horarios de Atención" desc="La IA rechazará citas fuera de tu horario configurado." />}
             {step === 3 && <StepHeader title="Servicios y Precios" desc="Cada servicio con precio alimenta el cálculo de Revenue Asegurado." />}
             {step === 4 && <StepHeader title="Conocimiento de la IA" desc="Entre más detalle, mejor y más personalizada será tu recepcionista." />}
-            {step === 5 && <StepHeader title="Tu Agente Recepcionista" desc="Define la identidad de tu IA y conecta con Vapi." />}
+            {step === 5 && <StepHeader title="Tu Agente Recepcionista" desc="Define el nombre y tono de tu IA. En el siguiente paso conectas los canales." />}
+            {step === 6 && <StepHeader title="Conecta tus Canales" desc="Elige por dónde quieres que tu IA atienda pacientes. Puedes activarlos ahora o después desde el dashboard." />}
           </div>
 
           {/* Card body */}
@@ -579,21 +601,12 @@ export default function OnboardingPage() {
             {/* ══ STEP 5 — AGENTE IA ══ */}
             {step === 5 && (
               <>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-                  <div>
-                    <Label>Nombre de tu agente IA *</Label>
-                    <Input value={aiAgentName} onChange={setAiAgentName} placeholder="Ej. Sofía, Ana, Luna..." />
-                    <p style={{ color: MUTED, fontSize: 11, marginTop: 6 }}>
-                      El paciente conocerá a tu IA por este nombre.
-                    </p>
-                  </div>
-                  <div>
-                    <Label>Vapi Assistant ID (opcional)</Label>
-                    <Input value={vapiAssistantId} onChange={setVapiAssistantId} placeholder="asst_xxxxxxxx..." />
-                    <p style={{ color: MUTED, fontSize: 11, marginTop: 6 }}>
-                      Déjalo vacío si Welko te asignará uno.
-                    </p>
-                  </div>
+                <div>
+                  <Label>Nombre de tu agente IA *</Label>
+                  <Input value={aiAgentName} onChange={setAiAgentName} placeholder="Ej. Sofía, Ana, Luna..." />
+                  <p style={{ color: MUTED, fontSize: 11, marginTop: 6 }}>
+                    El paciente conocerá a tu IA por este nombre.
+                  </p>
                 </div>
 
                 {/* Tono */}
@@ -640,6 +653,139 @@ export default function OnboardingPage() {
               </>
             )}
 
+            {/* ══ STEP 6 — CANALES ══ */}
+            {step === 6 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+
+                {/* WhatsApp */}
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 14,
+                  padding: '16px 18px', borderRadius: 14,
+                  border: `1px solid ${BORDER}`, background: SURF2,
+                }}>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: 12, flexShrink: 0,
+                    background: 'rgba(37,211,102,0.12)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <MessageCircle size={18} color="#16a34a" />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ color: TEXT, fontSize: 13, fontWeight: 600, margin: '0 0 2px' }}>WhatsApp IA</p>
+                    <p style={{ color: MUTED, fontSize: 11, margin: 0 }}>
+                      Conecta tu número de Twilio para responder WhatsApp 24/7
+                    </p>
+                  </div>
+                  <a
+                    href="/dashboard/whatsapp"
+                    target="_blank"
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 5,
+                      background: NAVY, color: '#fff', border: 'none',
+                      borderRadius: 8, padding: '7px 14px',
+                      fontSize: 12, fontWeight: 600, cursor: 'pointer',
+                      textDecoration: 'none', flexShrink: 0,
+                    }}
+                  >
+                    Configurar <ExternalLink size={11} />
+                  </a>
+                </div>
+
+                {/* Instagram & Facebook */}
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 14,
+                  padding: '16px 18px', borderRadius: 14,
+                  border: `1px solid ${BORDER}`, background: SURF2,
+                }}>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: 12, flexShrink: 0,
+                    background: 'rgba(24,119,242,0.1)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <Share2 size={18} color="#1877F2" />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ color: TEXT, fontSize: 13, fontWeight: 600, margin: '0 0 2px' }}>Instagram & Facebook DMs</p>
+                    <p style={{ color: MUTED, fontSize: 11, margin: 0 }}>
+                      Autoriza tu página de Facebook para responder DMs e Instagram
+                    </p>
+                  </div>
+                  <a
+                    href="/dashboard/meta"
+                    target="_blank"
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 5,
+                      background: '#1877F2', color: '#fff', border: 'none',
+                      borderRadius: 8, padding: '7px 14px',
+                      fontSize: 12, fontWeight: 600, cursor: 'pointer',
+                      textDecoration: 'none', flexShrink: 0,
+                    }}
+                  >
+                    Conectar <ExternalLink size={11} />
+                  </a>
+                </div>
+
+                {/* Llamadas IA */}
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 14,
+                  padding: '16px 18px', borderRadius: 14,
+                  border: voiceActive ? '1px solid rgba(34,197,94,0.35)' : `1px solid ${BORDER}`,
+                  background: voiceActive ? 'rgba(34,197,94,0.05)' : SURF2,
+                }}>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: 12, flexShrink: 0,
+                    background: 'rgba(99,102,241,0.12)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <Phone size={18} color="#6366f1" />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ color: TEXT, fontSize: 13, fontWeight: 600, margin: '0 0 2px' }}>
+                      Llamadas de Voz IA
+                      {voiceActive && (
+                        <span style={{
+                          marginLeft: 8, fontSize: 10, fontWeight: 600,
+                          color: '#16a34a', background: 'rgba(34,197,94,0.12)',
+                          padding: '2px 7px', borderRadius: 99,
+                        }}>Activo</span>
+                      )}
+                    </p>
+                    <p style={{ color: MUTED, fontSize: 11, margin: 0 }}>
+                      {voiceActive && voicePhone
+                        ? `Número asignado: ${voicePhone}`
+                        : voiceActive
+                        ? 'Asistente creado. El número se asignará en breve.'
+                        : 'Welko crea tu asistente de voz y te asigna un número al instante (Plan Pro)'}
+                    </p>
+                  </div>
+                  {!voiceActive ? (
+                    <button
+                      onClick={activateVoice}
+                      disabled={voiceActivating}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 5,
+                        background: '#6366f1', color: '#fff', border: 'none',
+                        borderRadius: 8, padding: '7px 14px',
+                        fontSize: 12, fontWeight: 600,
+                        cursor: voiceActivating ? 'not-allowed' : 'pointer',
+                        opacity: voiceActivating ? 0.7 : 1, flexShrink: 0,
+                      }}
+                    >
+                      {voiceActivating
+                        ? <><Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} /> Activando…</>
+                        : 'Activar'}
+                    </button>
+                  ) : (
+                    <CheckCircle size={20} color="#16a34a" style={{ flexShrink: 0 }} />
+                  )}
+                </div>
+
+                <p style={{ color: MUTED, fontSize: 11, textAlign: 'center', marginTop: 4 }}>
+                  Puedes configurar o cambiar cualquier canal en cualquier momento desde el dashboard.
+                </p>
+              </div>
+            )}
+
             {/* ── Error ── */}
             {error && (
               <div style={{
@@ -668,7 +814,7 @@ export default function OnboardingPage() {
               <ChevronLeft size={16} /> Anterior
             </button>
 
-            {step < STEPS.length ? (
+            {step < 5 && (
               <button
                 onClick={handleNext}
                 disabled={saving}
@@ -683,7 +829,8 @@ export default function OnboardingPage() {
                 {saving ? <Loader2 size={15} className="animate-spin" /> : null}
                 Siguiente <ChevronRight size={15} />
               </button>
-            ) : (
+            )}
+            {step === 5 && (
               <button
                 onClick={handleFinish}
                 disabled={saving}
@@ -695,8 +842,21 @@ export default function OnboardingPage() {
                   opacity: saving ? 0.7 : 1,
                 }}
               >
-                {saving ? <Loader2 size={15} /> : <Sparkles size={15} />}
+                {saving ? <Loader2 size={15} className="animate-spin" /> : <Sparkles size={15} />}
                 {saving ? 'Guardando...' : 'Activar mi recepcionista'}
+              </button>
+            )}
+            {step === 6 && (
+              <button
+                onClick={() => router.push('/dashboard')}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 7,
+                  background: GREEN, color: '#FFFFFF', border: 'none',
+                  borderRadius: 10, padding: '10px 24px',
+                  fontSize: 13, fontWeight: 700, cursor: 'pointer',
+                }}
+              >
+                <CheckCircle size={15} /> Ir al Dashboard
               </button>
             )}
           </div>
