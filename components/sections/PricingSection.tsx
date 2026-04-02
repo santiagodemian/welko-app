@@ -97,18 +97,12 @@ export function PricingSection() {
   const { lang } = useLang()
 
   async function handleCheckout(planId: string) {
-    if (isAnnual) {
-      // Annual: redirect to WhatsApp to close manually
-      const plan = PLANS.find((p) => p.id === planId)
-      if (plan) window.open(whatsappUrl(plan.name, lang), '_blank')
-      return
-    }
     setLoading(planId)
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: planId }),
+        body: JSON.stringify({ plan: planId, annual: isAnnual }),
       })
       const data = await res.json()
       if (data.url) {
@@ -117,7 +111,7 @@ export function PricingSection() {
         throw new Error('No URL')
       }
     } catch {
-      // Fallback: open WhatsApp to close manually
+      // Fallback: WhatsApp
       const plan = PLANS.find((p) => p.id === planId)
       if (plan) window.open(whatsappUrl(plan.name, lang), '_blank')
     } finally {

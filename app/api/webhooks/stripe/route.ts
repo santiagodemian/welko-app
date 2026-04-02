@@ -6,9 +6,14 @@ import { clerkClient } from '@clerk/nextjs/server'
 // ─── Map your Stripe Price IDs to plan names ──────────────────────────────────
 // Find Price IDs: Stripe Dashboard → Products → [Product] → Prices → price_xxx
 const PRICE_TO_PLAN: Record<string, 'essential' | 'pro' | 'business'> = {
+  // Monthly
   price_1THbwaCtJS5pRlClQRhTvUbd: 'essential',
   price_1THbxDCtJS5pRlClJDIns0Xf: 'pro',
   price_1THby5CtJS5pRlClmW2z59y2: 'business',
+  // Annual
+  price_1THcqLCtJS5pRlClpnUIkakz: 'essential',
+  price_1THcqMCtJS5pRlClen4F7iA1: 'pro',
+  price_1THcqMCtJS5pRlClxMhIk8o6: 'business',
 }
 
 async function syncPlanToClerk(email: string, plan: 'essential' | 'pro' | 'business' | null) {
