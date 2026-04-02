@@ -132,7 +132,7 @@ export function PricingSection() {
   }
 
   return (
-    <section id="precios" className="py-16 sm:py-24 px-4 sm:px-6" style={{ background: 'var(--bg-secondary)' }}>
+    <section id="precios" className="section-spacing px-4 sm:px-6" style={{ background: 'var(--bg-secondary)' }}>
       <div className="max-w-5xl mx-auto flex flex-col gap-12">
 
         {/* Header */}
@@ -188,17 +188,13 @@ export function PricingSection() {
                 key={plan.id}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE, delay: i * 0.1 }}
-                className="relative flex flex-col gap-5 p-5 sm:p-7 rounded-2xl"
-                style={{
-                  background: plan.featured ? '#13244A' : 'var(--surface)',
-                  border: plan.featured ? '2px solid #13244A' : '1px solid var(--border)',
-                  boxShadow: plan.featured ? '0 8px 40px rgba(19,36,74,0.20)' : 'none',
-                }}
+                className={`relative flex flex-col gap-5 p-6 sm:p-8 rounded-3xl ${plan.featured ? 'glass-card-featured' : 'glass-card float-shadow'}`}
+                style={plan.featured ? { transform: 'scale(1.03)' } : {}}
               >
                 {plan.featured && (
                   <span
-                    className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold tracking-wide whitespace-nowrap"
-                    style={{ background: '#FFFFFF', color: '#13244A' }}
+                    className="absolute -top-4 left-1/2 -translate-x-1/2 px-5 py-1.5 rounded-full text-xs font-bold tracking-widest whitespace-nowrap uppercase"
+                    style={{ background: '#FFFFFF', color: '#13244A', boxShadow: '0 4px 12px rgba(19,36,74,0.20)' }}
                   >
                     {labels.popular}
                   </span>
@@ -269,20 +265,37 @@ export function PricingSection() {
                 <button
                   onClick={() => handleCheckout(plan.id)}
                   disabled={loading === plan.id}
-                  className="mt-1 w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all duration-150 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="mt-1 w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-semibold tracking-wide transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
                   style={
                     plan.featured
-                      ? { background: '#FFFFFF', color: '#13244A', border: 'none', cursor: loading === plan.id ? 'not-allowed' : 'pointer' }
-                      : { background: 'transparent', color: 'var(--text-primary)', border: '1.5px solid var(--border)', cursor: loading === plan.id ? 'not-allowed' : 'pointer' }
+                      ? {
+                          background: '#FFFFFF',
+                          color: '#13244A',
+                          border: 'none',
+                          boxShadow: '0 4px 16px rgba(255,255,255,0.25)',
+                          cursor: loading === plan.id ? 'not-allowed' : 'pointer',
+                        }
+                      : {
+                          background: 'transparent',
+                          color: 'var(--text-primary)',
+                          border: '1.5px solid var(--border)',
+                          cursor: loading === plan.id ? 'not-allowed' : 'pointer',
+                        }
                   }
                   onMouseEnter={(e) => {
                     if (loading === plan.id) return
                     const el = e.currentTarget as HTMLButtonElement
-                    el.style.background = plan.featured ? '#F0F0F0' : 'var(--surface-hover)'
+                    if (plan.featured) {
+                      el.style.background = '#F0F4FF'
+                      el.style.transform = 'translateY(-1px)'
+                    } else {
+                      el.style.background = 'var(--surface-hover)'
+                    }
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget as HTMLButtonElement
                     el.style.background = plan.featured ? '#FFFFFF' : 'transparent'
+                    el.style.transform = 'translateY(0)'
                   }}
                 >
                   {loading === plan.id

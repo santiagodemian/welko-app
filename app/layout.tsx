@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Montserrat, Geist_Mono } from 'next/font/google'
 import { Providers } from './providers'
 import { SplashScreen } from '@/components/ui/SplashScreen'
 import './globals.css'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const montserrat = Montserrat({
+  variable: '--font-montserrat',
   subsets: ['latin'],
+  weight: ['300', '400', '600', '700', '800'],
+  display: 'swap',
 })
 
 const geistMono = Geist_Mono({
@@ -41,7 +43,7 @@ export default function RootLayout({
     <html
       lang="es"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${montserrat.variable} ${geistMono.variable}`}
     >
       <body className="min-h-screen flex flex-col">
         <SplashScreen />

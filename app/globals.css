@@ -25,7 +25,7 @@
   --color-zinc-950:  #09090B;
 
   /* Typography */
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-sans: var(--font-montserrat), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
 
   /* Spacing / radius */
@@ -53,24 +53,24 @@
   --navbar-bg:       rgba(255, 255, 255, 0.85);
 }
 
-/* ─── CSS semantic tokens — Dark Mode (Welko Navy) ─── */
+/* ─── CSS semantic tokens — Dark Mode (Welko Navy Deep) ─── */
 .dark {
-  --bg:              #0A152A;
-  --bg-secondary:    #0D1B36;
-  --surface:         #13244A;
-  --surface-hover:   #1A2E5A;
-  --border:          rgba(255,255,255,0.10);
-  --border-subtle:   rgba(255,255,255,0.06);
-  --text-primary:    #F9FAFB;
-  --text-secondary:  rgba(255,255,255,0.60);
-  --text-muted:      rgba(255,255,255,0.35);
+  --bg:              #05101F;
+  --bg-secondary:    #081628;
+  --surface:         #0E1F38;
+  --surface-hover:   #152845;
+  --border:          rgba(255,255,255,0.09);
+  --border-subtle:   rgba(255,255,255,0.05);
+  --text-primary:    #F0F4FC;
+  --text-secondary:  rgba(240,244,252,0.58);
+  --text-muted:      rgba(240,244,252,0.32);
   --accent:          #FFFFFF;
   --accent-hover:    rgba(255,255,255,0.88);
-  --accent-fg:       #13244A;
+  --accent-fg:       #0E1F38;
   --accent-subtle:   rgba(255,255,255,0.08);
   --accent-ghost:    rgba(255,255,255,0.04);
-  --accent-label:    #6EA3F7;
-  --navbar-bg:       rgba(10, 21, 42, 0.90);
+  --accent-label:    #7EB3FF;
+  --navbar-bg:       rgba(5, 16, 31, 0.88);
 }
 
 /* ─── Welko logo rendering ─── */
@@ -146,6 +146,68 @@ html {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-duration: 0.25s;
   transition-timing-function: ease;
+}
+
+/* ─── Glassmorphism utilities ─── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 8px 32px rgba(19, 36, 74, 0.10), 0 2px 8px rgba(19, 36, 74, 0.06);
+}
+.dark .glass-card {
+  background: rgba(14, 31, 56, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+.glass-card-featured {
+  background: rgba(19, 36, 74, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(100, 160, 255, 0.30);
+  box-shadow: 0 16px 64px rgba(19, 36, 74, 0.40), 0 0 0 1px rgba(100,160,255,0.15);
+}
+.dark .glass-card-featured {
+  background: rgba(19, 36, 74, 0.85);
+  border: 1.5px solid rgba(126, 179, 255, 0.35);
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.60), 0 0 0 1px rgba(126,179,255,0.15);
+}
+
+/* ─── Premium section spacing ─── */
+.section-spacing {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+@media (max-width: 640px) {
+  .section-spacing {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+}
+
+/* ─── Floating card shadow ─── */
+.float-shadow {
+  box-shadow: 0 4px 24px rgba(19, 36, 74, 0.08), 0 1px 4px rgba(19, 36, 74, 0.04);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.float-shadow:hover {
+  box-shadow: 0 12px 40px rgba(19, 36, 74, 0.14), 0 4px 12px rgba(19, 36, 74, 0.08);
+  transform: translateY(-2px);
+}
+.dark .float-shadow {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.30), 0 1px 4px rgba(0,0,0,0.20);
+}
+.dark .float-shadow:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.50), 0 4px 12px rgba(0,0,0,0.30);
+}
+
+/* ─── Electric accent border glow (active states) ─── */
+.accent-glow {
+  box-shadow: 0 0 0 3px rgba(19, 36, 74, 0.15);
+}
+.dark .accent-glow {
+  box-shadow: 0 0 0 3px rgba(126, 179, 255, 0.25);
 }
 
 /* ─── Levitation animation for industry robot visuals ─── */
