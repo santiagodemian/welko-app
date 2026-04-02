@@ -31,16 +31,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid plan' }, { status: 400 })
   }
 
-  const session = await stripe.checkout.sessions.create({
-    mode: 'subscription',
-    line_items: [{ price: PRICE_IDS[priceKey], quantity: 1 }],
-    success_url: 'https://welko.agency/onboarding?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url: 'https://welko.agency/precios',
-    billing_address_collection: 'required',
-    customer_creation: 'always',
-    allow_promotion_codes: true,
-    metadata: { plan, billing: annual ? 'annual' : 'monthly' },
-  })
-
-  return NextResponse.json({ url: session.url })
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: 'subscription',
+      line_items: [{ price: PRICE_IDS[priceKey], quantity: 1 }],
+      success_url: 'https://welko.agency/onboarding?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://welko.agency/precios',
+      billing_address_collection: 'required',
+      customer_creation: 'always',
+      allow_promotion_codes: true,
+      metadata: { plan, billing: annual ? 'annual' : 'monthly' },
+    })
+    return NextResponse.json({ url: session.url })
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
+    return NextResponse.json({ error: msg }, { status: 500 })
+  }
 }
