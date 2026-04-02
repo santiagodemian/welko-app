@@ -2,6 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 
 const isDashboard    = createRouteMatcher(['/dashboard(.*)'])
+const isAuthPage     = createRouteMatcher(['/login(.*)', '/registro(.*)'])
 const isProOnly      = createRouteMatcher(['/dashboard/reportes(.*)'])
 const isBusinessOnly = createRouteMatcher([
   '/dashboard/ehr(.*)',
@@ -18,9 +19,14 @@ const ADMIN_IDS = (process.env.ADMIN_USER_IDS ?? '')
   .filter(Boolean)
 
 export const proxy = clerkMiddleware(async (auth, req) => {
-  if (!isDashboard(req)) return
-
   const { userId, sessionClaims } = await auth()
+
+  // Redirect logged-in users away from login/registro pages
+  if (userId && isAuthPage(req)) {
+    return NextResponse.redirect(new URL('/dashboard', req.url))
+  }
+
+  if (!isDashboard(req)) return
 
   if (!userId) {
     return NextResponse.redirect(new URL('/login', req.url))
