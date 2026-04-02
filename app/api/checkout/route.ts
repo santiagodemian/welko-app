@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@clerk/nextjs/server'
 import { stripe } from '@/lib/stripe'
 
 const PRICE_IDS = {
@@ -11,11 +10,6 @@ const PRICE_IDS = {
 type PlanId = keyof typeof PRICE_IDS
 
 export async function POST(req: NextRequest) {
-  const { userId } = await auth()
-  if (!userId) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   let plan: PlanId
   try {
     const body = await req.json()
@@ -33,8 +27,10 @@ export async function POST(req: NextRequest) {
     line_items: [{ price: PRICE_IDS[plan], quantity: 1 }],
     success_url: 'https://welko.agency/onboarding?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'https://welko.agency/precios',
-    metadata: { clerkUserId: userId, plan },
+    billing_address_collection: 'required',
+    customer_creation: 'always',
     allow_promotion_codes: true,
+    metadata: { plan },
   })
 
   return NextResponse.json({ url: session.url })

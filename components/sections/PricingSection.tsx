@@ -113,9 +113,13 @@ export function PricingSection() {
       const data = await res.json()
       if (data.url) {
         window.location.href = data.url
+      } else {
+        throw new Error('No URL')
       }
     } catch {
-      // silently ignore
+      // Fallback: open WhatsApp to close manually
+      const plan = PLANS.find((p) => p.id === planId)
+      if (plan) window.open(whatsappUrl(plan.name, lang), '_blank')
     } finally {
       setLoading(null)
     }
