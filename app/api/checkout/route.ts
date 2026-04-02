@@ -41,7 +41,6 @@ export async function POST(req: NextRequest) {
     success_url: 'https://welko.agency/onboarding?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'https://welko.agency/precios',
     billing_address_collection: 'required',
-    customer_creation: 'always',
     allow_promotion_codes: 'true',
     'metadata[plan]': plan,
     'metadata[billing]': annual ? 'annual' : 'monthly',
