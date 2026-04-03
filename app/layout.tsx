@@ -22,12 +22,12 @@ const SITE_URL = 'https://welko.agency'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Welko | Recepcionista IA para Clínicas de Élite',
+    default: 'Welko | Recepcionista IA',
     template: '%s | Welko',
   },
   description:
-    'Welko automatiza la recepción de tu clínica con IA: agenda citas, responde por WhatsApp e Instagram y atiende llamadas 24/7. Sin contratos forzosos. Activo en 24 horas.',
-  keywords: ['recepcionista IA', 'automatización clínicas', 'agendamiento automático', 'WhatsApp IA', 'SaaS médico', 'Welko'],
+    'Tu negocio siempre disponible. Welko automatiza la atención al cliente con IA: responde al instante, agenda citas y nunca deja un mensaje sin contestar — 24/7, sin esfuerzo.',
+  keywords: ['recepcionista IA', 'automatización', 'atención al cliente IA', 'agendamiento automático', 'WhatsApp IA', 'Welko'],
   authors: [{ name: 'Welko', url: SITE_URL }],
   creator: 'Welko',
   publisher: 'Welko',
@@ -49,22 +49,22 @@ export const metadata: Metadata = {
     type:        'website',
     url:         SITE_URL,
     siteName:    'Welko',
-    title:       'Welko | Recepcionista IA para Clínicas de Élite',
-    description: 'Automatiza tu recepción con IA. Welko agenda citas, responde WhatsApp, Instagram y llamadas 24/7. Activo en 24 horas. Sin contratos.',
+    title:       'Welko | Recepcionista IA',
+    description: 'Tu negocio siempre disponible. Welko automatiza la atención al cliente con IA: responde al instante, agenda y nunca deja un mensaje sin contestar — 24/7.',
     images: [
       {
         url:    OG_IMAGE,
         width:  1200,
         height: 630,
-        alt:    'Welko — Recepcionista IA para Clínicas',
+        alt:    'Welko — Recepcionista IA',
       },
     ],
     locale: 'es_MX',
   },
   twitter: {
     card:        'summary_large_image',
-    title:       'Welko | Recepcionista IA para Clínicas de Élite',
-    description: 'Automatiza tu recepción con IA. Agenda citas, responde WhatsApp e Instagram 24/7.',
+    title:       'Welko | Recepcionista IA',
+    description: 'Tu negocio siempre disponible. Welko automatiza la atención con IA: responde al instante, agenda y nunca pierde un mensaje — 24/7.',
     images:      [OG_IMAGE],
     site:        '@welkoai',
     creator:     '@welkoai',
