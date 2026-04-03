@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#05101F"/>
+      <stop offset="55%" style="stop-color:#0E1F38"/>
+      <stop offset="100%" style="stop-color:#081628"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#13244A;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#13244A;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="blur1">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Glow orb top-right -->
+  <circle cx="980" cy="120" r="320" fill="#13244A" opacity="0.55" filter="url(#blur1)"/>
+  <!-- Glow orb bottom-left -->
+  <circle cx="180" cy="520" r="220" fill="#1A3A6A" opacity="0.35" filter="url(#blur1)"/>
+
+  <!-- Grid lines (subtle) -->
+  <g stroke="rgba(255,255,255,0.035)" stroke-width="1">
+    <line x1="0" y1="157" x2="1200" y2="157"/>
+    <line x1="0" y1="314" x2="1200" y2="314"/>
+    <line x1="0" y1="471" x2="1200" y2="471"/>
+    <line x1="200" y1="0" x2="200" y2="630"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- Logo icon — three hexagons (W mark) -->
+  <g transform="translate(96, 200)">
+    <rect width="72" height="72" rx="16" fill="#13244A"/>
+    <polygon points="10,35 18,21 32,21 40,35 32,49 18,49"
+      stroke="white" stroke-width="2.8" fill="none" stroke-linejoin="round"/>
+    <polygon points="21,40 29,26 43,26 51,40 43,54 29,54"
+      stroke="white" stroke-width="2.8" fill="none" stroke-linejoin="round"/>
+    <polygon points="32,35 40,21 54,21 62,35 54,49 40,49"
+      stroke="white" stroke-width="2.8" fill="none" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="188" y="252" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="800" fill="#F0F4FC" letter-spacing="-1">Welko</text>
+
+  <!-- Tagline pill -->
+  <rect x="96" y="278" width="240" height="28" rx="14" fill="rgba(19,36,74,0.6)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="216" y="297" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#7EB3FF" text-anchor="middle" letter-spacing="1.5">RECEPCIONISTA IA · 24/7</text>
+
+  <!-- Main headline -->
+  <text x="96" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="800" fill="#FFFFFF" letter-spacing="-1.5">Automatiza tu clínica.</text>
+  <text x="96" y="452" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="800" letter-spacing="-1.5">
+    <tspan fill="#7EB3FF">Nunca</tspan>
+    <tspan fill="#FFFFFF"> pierdas</tspan>
+    <tspan fill="#FFFFFF"> un paciente.</tspan>
+  </text>
+
+  <!-- Sub -->
+  <text x="96" y="510" font-family="system-ui, sans-serif" font-size="22" font-weight="300" fill="rgba(240,244,252,0.55)">WhatsApp · Instagram · Llamadas · Dashboard CRM</text>
+
+  <!-- Right side: chat mockup card -->
+  <rect x="740" y="80" width="380" height="470" rx="24" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
+
+  <!-- Card header -->
+  <rect x="740" y="80" width="380" height="60" rx="24" fill="rgba(19,36,74,0.5)"/>
+  <rect x="740" y="116" width="380" height="24" fill="rgba(19,36,74,0.5)"/>
+  <circle cx="774" cy="110" r="16" fill="#13244A"/>
+  <text x="774" y="115" font-family="system-ui" font-size="11" font-weight="800" fill="white" text-anchor="middle">W</text>
+  <text x="800" y="105" font-family="system-ui" font-size="13" font-weight="700" fill="#F0F4FC">Welko IA</text>
+  <text x="800" y="122" font-family="system-ui" font-size="11" fill="rgba(240,244,252,0.40)">WhatsApp Business</text>
+  <circle cx="1090" cy="108" r="5" fill="#22C55E"/>
+
+  <!-- Chat bubbles -->
+  <!-- Patient -->
+  <rect x="860" y="168" width="240" height="44" rx="12" fill="rgba(255,255,255,0.08)"/>
+  <text x="980" y="186" font-family="system-ui" font-size="13" fill="#F0F4FC" text-anchor="middle">Quiero agendar una limpieza dental</text>
+  <text x="980" y="202" font-family="system-ui" font-size="11" fill="rgba(240,244,252,0.4)" text-anchor="middle">Paciente · 10:24</text>
+
+  <!-- AI reply -->
+  <rect x="756" y="230" width="260" height="56" rx="12" fill="rgba(19,36,74,0.55)" stroke="rgba(19,100,200,0.3)" stroke-width="1"/>
+  <text x="766" y="247" font-family="system-ui" font-size="9" font-weight="800" fill="#7EB3FF" letter-spacing="1">WELKO IA</text>
+  <text x="766" y="264" font-family="system-ui" font-size="12" fill="#F0F4FC">Tenemos disponibilidad el</text>
+  <text x="766" y="280" font-family="system-ui" font-size="12" fill="#F0F4FC">jueves a las 10 AM. ¿Le confirmo?</text>
+
+  <!-- Patient 2 -->
+  <rect x="876" y="306" width="216" height="36" rx="12" fill="rgba(255,255,255,0.08)"/>
+  <text x="984" y="329" font-family="system-ui" font-size="13" fill="#F0F4FC" text-anchor="middle">Sí, perfecto. Muchas gracias.</text>
+
+  <!-- AI reply 2 -->
+  <rect x="756" y="360" width="260" height="44" rx="12" fill="rgba(19,36,74,0.55)" stroke="rgba(19,100,200,0.3)" stroke-width="1"/>
+  <text x="766" y="377" font-family="system-ui" font-size="9" font-weight="800" fill="#7EB3FF" letter-spacing="1">WELKO IA</text>
+  <text x="766" y="394" font-family="system-ui" font-size="12" fill="#F0F4FC">✓ Cita confirmada. Le recuerdo 24h antes.</text>
+
+  <!-- Typing indicator -->
+  <rect x="756" y="422" width="80" height="32" rx="12" fill="rgba(19,36,74,0.4)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <circle cx="780" cy="438" r="4" fill="rgba(255,255,255,0.4)"/>
+  <circle cx="796" cy="438" r="4" fill="rgba(255,255,255,0.55)"/>
+  <circle cx="812" cy="438" r="4" fill="rgba(255,255,255,0.4)"/>
+
+  <!-- Bottom metrics on card -->
+  <rect x="756" y="478" width="100" height="52" rx="10" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text x="806" y="500" font-family="system-ui" font-size="16" font-weight="800" fill="#F0F4FC" text-anchor="middle">&lt;2s</text>
+  <text x="806" y="518" font-family="system-ui" font-size="10" fill="rgba(240,244,252,0.4)" text-anchor="middle">respuesta</text>
+
+  <rect x="866" y="478" width="100" height="52" rx="10" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text x="916" y="500" font-family="system-ui" font-size="16" font-weight="800" fill="#F0F4FC" text-anchor="middle">24/7</text>
+  <text x="916" y="518" font-family="system-ui" font-size="10" fill="rgba(240,244,252,0.4)" text-anchor="middle">disponible</text>
+
+  <rect x="976" y="478" width="100" height="52" rx="10" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text x="1026" y="500" font-family="system-ui" font-size="16" font-weight="800" fill="#22C55E" text-anchor="middle">100%</text>
+  <text x="1026" y="518" font-family="system-ui" font-size="10" fill="rgba(240,244,252,0.4)" text-anchor="middle">automático</text>
+
+  <!-- Bottom bar -->
+  <text x="96" y="595" font-family="system-ui" font-size="14" fill="rgba(240,244,252,0.25)">welko.agency</text>
+  <text x="1104" y="595" font-family="system-ui" font-size="14" fill="rgba(240,244,252,0.25)" text-anchor="end">🌱 1% Carbon Initiative</text>
+</svg>

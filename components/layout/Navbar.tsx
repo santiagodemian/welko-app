@@ -67,26 +67,6 @@ export function Navbar() {
         <span style={{ fontSize: 11, color: '#6ee7b7', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           🌱 Welko Carbon Initiative: 1% de cada suscripción elimina CO₂ de la atmósfera
         </span>
-        <a
-          href="https://climate.stripe.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            flexShrink: 0,
-            display: 'flex', alignItems: 'center', gap: 4,
-            background: 'rgba(255,255,255,0.10)',
-            border: '1px solid rgba(167,243,208,0.25)',
-            borderRadius: 6, padding: '2px 8px',
-            textDecoration: 'none',
-          }}
-        >
-          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden>
-            <path d="M8 1C4.13 1 1 4.13 1 8s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7z" fill="#a7f3d0" opacity=".3"/>
-            <path d="M8 3c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" fill="#a7f3d0" opacity=".5"/>
-            <circle cx="8" cy="8" r="2.5" fill="#a7f3d0"/>
-          </svg>
-          <span style={{ fontSize: 9, fontWeight: 800, color: '#a7f3d0', letterSpacing: '0.07em' }}>STRIPE CLIMATE</span>
-        </a>
       </div>
 
       <motion.header
@@ -106,24 +86,38 @@ export function Navbar() {
             boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
           }}
         >
-          <div className="flex items-center justify-between h-14">
+          <div className="flex items-center justify-between h-16">
 
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5" aria-label="Welko inicio">
-              <WelkoLogo size={22} />
-              <span className="text-base font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+            <Link href="/" className="flex items-center gap-3" aria-label="Welko inicio">
+              <WelkoLogo size={26} />
+              <span
+                style={{
+                  color: 'var(--text-primary)',
+                  fontSize: 18,
+                  fontWeight: 800,
+                  letterSpacing: '-0.02em',
+                  fontFamily: 'var(--font-montserrat), sans-serif',
+                  lineHeight: 1,
+                }}
+              >
                 Welko
               </span>
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden md:flex items-center gap-6" aria-label="Navegación principal">
+            <nav className="hidden md:flex items-center gap-7" aria-label="Navegación principal">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="text-sm font-medium transition-colors duration-150"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className="text-sm transition-colors duration-150"
+                  style={{
+                    color: 'var(--text-secondary)',
+                    fontWeight: 500,
+                    letterSpacing: '0.01em',
+                    fontFamily: 'var(--font-montserrat), sans-serif',
+                  }}
                   onClick={link.scrollTo ? (e) => handleScrollLink(e, link.scrollTo) : undefined}
                   onMouseEnter={(e) =>
                     ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')
@@ -144,8 +138,14 @@ export function Navbar() {
                 onMouseLeave={() => setSolutionsOpen(false)}
               >
                 <button
-                  className="flex items-center gap-1 text-sm font-medium transition-colors duration-150"
-                  style={{ color: solutionsOpen ? 'var(--text-primary)' : 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer' }}
+                  className="flex items-center gap-1 text-sm transition-colors duration-150"
+                  style={{
+                    color: solutionsOpen ? 'var(--text-primary)' : 'var(--text-secondary)',
+                    fontWeight: 500,
+                    letterSpacing: '0.01em',
+                    fontFamily: 'var(--font-montserrat), sans-serif',
+                    background: 'none', border: 'none', cursor: 'pointer',
+                  }}
                 >
                   {lang === 'es' ? 'Soluciones' : 'Solutions'}
                   <ChevronDown
