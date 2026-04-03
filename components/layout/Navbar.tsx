@@ -41,7 +41,7 @@ export function Navbar() {
   const solutionsRef = useRef<HTMLDivElement>(null)
   const { lang, t, toggle } = useLang()
 
-  const NAV_LINKS = [
+  const NAV_LINKS: { label: string; href: string; scrollTo?: string }[] = [
     { label: t.nav.product,    href: '/como-funciona' },
     { label: t.nav.industries, href: '/industrias' },
     { label: lang === 'es' ? 'Por qué Welko' : 'Why Welko', href: '/por-que' },
