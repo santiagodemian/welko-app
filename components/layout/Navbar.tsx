@@ -59,11 +59,41 @@ export function Navbar() {
 
   return (
     <>
+      {/* ── CO₂ Top Bar ── */}
+      <div
+        className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-center gap-2 px-4"
+        style={{ height: 30, background: 'linear-gradient(90deg, #022c22 0%, #064e3b 50%, #022c22 100%)' }}
+      >
+        <span style={{ fontSize: 11, color: '#6ee7b7', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          🌱 Welko Carbon Initiative: 1% de cada suscripción elimina CO₂ de la atmósfera
+        </span>
+        <a
+          href="https://climate.stripe.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            flexShrink: 0,
+            display: 'flex', alignItems: 'center', gap: 4,
+            background: 'rgba(255,255,255,0.10)',
+            border: '1px solid rgba(167,243,208,0.25)',
+            borderRadius: 6, padding: '2px 8px',
+            textDecoration: 'none',
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <path d="M8 1C4.13 1 1 4.13 1 8s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7z" fill="#a7f3d0" opacity=".3"/>
+            <path d="M8 3c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" fill="#a7f3d0" opacity=".5"/>
+            <circle cx="8" cy="8" r="2.5" fill="#a7f3d0"/>
+          </svg>
+          <span style={{ fontSize: 9, fontWeight: 800, color: '#a7f3d0', letterSpacing: '0.07em' }}>STRIPE CLIMATE</span>
+        </a>
+      </div>
+
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
-        className="fixed top-0 left-0 right-0 z-50"
+        className="fixed top-[30px] left-0 right-0 z-50"
         data-no-transition
       >
         <div

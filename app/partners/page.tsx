@@ -64,8 +64,8 @@ export default function PartnersPage() {
               style={{ color: 'var(--text-primary)' }}
             >
               {lang === 'es'
-                ? <>Gana comisiones recurrentes recomendando la <span style={{ color: 'var(--accent)' }}>mejor IA médica en México</span></>
-                : <>Earn recurring commissions recommending the <span style={{ color: 'var(--accent)' }}>best medical AI in Mexico</span></>}
+                ? <>Gana comisiones recurrentes distribuyendo <span style={{ color: 'var(--accent)' }}>la infraestructura de atención inteligente líder en LATAM</span></>
+                : <>Earn recurring commissions distributing <span style={{ color: 'var(--accent)' }}>the leading intelligent engagement infrastructure in LATAM</span></>}
             </motion.h1>
 
             <motion.p
@@ -75,8 +75,8 @@ export default function PartnersPage() {
               style={{ color: 'var(--text-secondary)' }}
             >
               {lang === 'es'
-                ? 'Únete a nuestra red de partners y distribuye el recepcionista IA líder para clínicas en México. Sin inventario, sin riesgo, con comisiones mensuales mientras tus clientes sigan activos.'
-                : 'Join our partner network and distribute the leading AI receptionist for clinics in Mexico. No inventory, no risk, with monthly commissions as long as your clients remain active.'}
+                ? 'Únete a nuestra red de partners y lleva automatización de élite a empresas de alta demanda en toda Latinoamérica. Sin inventario, sin riesgo, con comisiones mensuales recurrentes.'
+                : 'Join our partner network and bring elite automation to high-demand businesses across Latin America. No inventory, no risk, with monthly recurring commissions.'}
             </motion.p>
 
             <motion.div
@@ -196,8 +196,8 @@ export default function PartnersPage() {
           <p className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
             © {new Date().getFullYear()} Welko —{' '}
             {lang === 'es'
-              ? 'El recepcionista IA líder para Clínicas de Salud y Estética.'
-              : 'The leading AI receptionist for Health & Aesthetic Clinics.'}
+              ? 'La infraestructura de atención inteligente líder en Latinoamérica.'
+              : 'The leading intelligent engagement infrastructure in Latin America.'}
           </p>
         </div>
       </footer>

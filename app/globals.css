@@ -111,6 +111,24 @@ body {
   min-height: 100%;
 }
 
+/* ─── Typography — Montserrat system ─── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+h1 { font-weight: 800; letter-spacing: -0.04em; }
+h2 { font-weight: 700; letter-spacing: -0.03em; }
+h3 { font-weight: 600; letter-spacing: -0.02em; }
+
+p {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.65;
+}
+
 /* ─── Infinite marquee ─── */
 @keyframes welko-marquee {
   0%   { transform: translateX(0); }

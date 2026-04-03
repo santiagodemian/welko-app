@@ -13,7 +13,6 @@ import {
   Bot,
   CalendarCheck,
   ArrowRight,
-  Leaf,
 } from 'lucide-react'
 import Link from 'next/link'
 import { Navbar } from '@/components/layout/Navbar'
@@ -153,7 +152,7 @@ export default function HomePage() {
     <>
       <Navbar />
 
-      <main className="flex flex-col flex-1 pt-24">
+      <main className="flex flex-col flex-1 pt-28">
 
         {/* ════════════════════════════════════════
             HERO
@@ -235,26 +234,8 @@ export default function HomePage() {
                 <CTAButton label={t.hero.cta} />
               </motion.div>
 
-              {/* CO₂ badge */}
-              <motion.div {...fadeUp(0.4)}
-                className="flex items-center gap-2 w-fit"
-              >
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full"
-                  style={{
-                    background: 'rgba(34,197,94,0.08)',
-                    border: '1px solid rgba(34,197,94,0.20)',
-                  }}
-                >
-                  <Leaf size={12} style={{ color: '#4ade80', flexShrink: 0 }} strokeWidth={1.8} />
-                  <span className="text-xs font-light tracking-wide"
-                    style={{ color: 'rgba(74,222,128,0.85)' }}>
-                    Welko dona el 1% de tu suscripción para eliminar CO₂ de la atmósfera
-                  </span>
-                </div>
-              </motion.div>
-
               {/* Trust */}
-              <motion.p {...fadeUp(0.5)} className="text-xs font-light" style={{ color: 'var(--text-muted)' }}>
+              <motion.p {...fadeUp(0.4)} className="text-xs font-light" style={{ color: 'var(--text-muted)' }}>
                 {t.hero.trust}
               </motion.p>
             </div>
