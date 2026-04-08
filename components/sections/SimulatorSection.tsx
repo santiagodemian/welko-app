@@ -227,7 +227,7 @@ export function SimulatorSection() {
                     onMouseLeave={e => (e.currentTarget.style.background = NAVY)}
                   >
                     <Play size={14} fill={WHITE} />
-                    Probar ahora — es gratis
+                    Comenzar ahora
                   </button>
                 </motion.div>
               )}

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <!-- W mark -->
+  <path
+    d="M20 20C14 20 12 24 14 30L36 82C38 88 43 91 50 91C57 91 61 88 64 82L72 58L80 82C83 88 87 91 94 91C101 91 105 88 108 82L130 30C132 24 130 20 124 20"
+    stroke="#FFFFFF"
+    stroke-width="18"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <!-- Welko wordmark -->
+  <text
+    x="158"
+    y="76"
+    font-family="Montserrat, -apple-system, system-ui, sans-serif"
+    font-weight="800"
+    font-size="62"
+    letter-spacing="-2"
+    fill="#FFFFFF"
+  >Welko</text>
+</svg>

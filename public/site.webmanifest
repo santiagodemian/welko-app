@@ -1,15 +1,33 @@
 {
-  "name": "Welko",
+  "name": "Welko — Recepcionista IA",
   "short_name": "Welko",
-  "description": "Recepcionista IA para Clínicas de Élite",
+  "description": "Tu recepcionista IA para clínicas de salud y estética. Responde mensajes, agenda citas y reduce no-shows — 24/7.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#05101F",
   "theme_color": "#13244A",
+  "orientation": "portrait-primary",
+  "lang": "es",
+  "categories": ["business", "productivity", "medical"],
   "icons": [
-    { "src": "/favicon-32.png",      "sizes": "32x32",   "type": "image/png" },
-    { "src": "/apple-touch-icon.png","sizes": "180x180", "type": "image/png" },
-    { "src": "/icon-192.png",        "sizes": "192x192", "type": "image/png" },
-    { "src": "/icon-512.png",        "sizes": "512x512", "type": "image/png" }
+    { "src": "/favicon-32.png",       "sizes": "32x32",   "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-192.png",         "sizes": "192x192", "type": "image/png", "purpose": "maskable any" },
+    { "src": "/icon-512.png",         "sizes": "512x512", "type": "image/png", "purpose": "maskable any" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Demo en vivo",
+      "short_name": "Demo",
+      "url": "/demo",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Ver precios",
+      "short_name": "Precios",
+      "url": "/precios",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
   ]
 }

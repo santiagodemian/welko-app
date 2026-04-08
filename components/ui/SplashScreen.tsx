@@ -8,7 +8,7 @@ export function SplashScreen() {
   const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    const t = setTimeout(() => setVisible(false), 1500)
+    const t = setTimeout(() => setVisible(false), 1600)
     return () => clearTimeout(t)
   }, [])
 
@@ -19,12 +19,12 @@ export function SplashScreen() {
           key="splash"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          transition={{ duration: 0.55, ease: 'easeInOut' }}
           style={{
             position: 'fixed',
             inset: 0,
             zIndex: 9999,
-            background: '#FFFFFF',
+            background: '#05101F',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -32,16 +32,17 @@ export function SplashScreen() {
           }}
         >
           <motion.div
-            animate={{ scale: [1, 1.07, 1], opacity: [0.75, 1, 0.75] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}
+            animate={{ opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}
           >
-            <WelkoLogo size={52} />
+            <WelkoLogo size={56} variant="dark" />
             <span style={{
-              color: '#13244A',
-              fontSize: 22,
-              fontWeight: 700,
-              letterSpacing: '-0.02em',
+              color: 'rgba(240,244,252,0.75)',
+              fontSize: 20,
+              fontWeight: 800,
+              letterSpacing: '-0.03em',
+              fontFamily: 'var(--font-montserrat), sans-serif',
             }}>
               Welko
             </span>

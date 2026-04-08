@@ -1,61 +1,43 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronDown, Bot, Clock } from 'lucide-react'
+import { Menu, X, AlignJustify } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
-import { WelkoLogo } from '@/components/ui/WelkoLogo'
 import { useLang } from '@/contexts/LangContext'
 
-const SOLUTIONS = [
-  {
-    slug: 'ai-receptionist',
-    label: { es: 'AI Receptionist', en: 'AI Receptionist' },
-    desc:  { es: 'Recepcionista IA 24/7 para tu clínica', en: '24/7 AI Receptionist for your clinic' },
-    href:  '/soluciones/ai-receptionist',
-    icon:  Bot,
-    soon:  false,
-  },
-  {
-    slug: 'voice-ai',
-    label: { es: 'Voice AI', en: 'Voice AI' },
-    desc:  { es: 'Llamadas automatizadas con IA de voz', en: 'Automated calls with voice AI' },
-    href:  '#',
-    icon:  Clock,
-    soon:  true,
-  },
-  {
-    slug: 'crm',
-    label: { es: 'CRM Médico', en: 'Medical CRM' },
-    desc:  { es: 'Gestión de pacientes integrada', en: 'Integrated patient management' },
-    href:  '#',
-    icon:  Clock,
-    soon:  true,
-  },
-]
-
 export function Navbar() {
-  const [drawerOpen, setDrawerOpen]   = useState(false)
-  const [solutionsOpen, setSolutionsOpen] = useState(false)
-  const solutionsRef = useRef<HTMLDivElement>(null)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [moreOpen, setMoreOpen] = useState(false)
+  const moreRef = useRef<HTMLDivElement>(null)
   const { lang, t, toggle } = useLang()
 
-  const NAV_LINKS: { label: string; href: string; scrollTo?: string }[] = [
-    { label: t.nav.product,    href: '/como-funciona' },
-    { label: t.nav.industries, href: '/industrias' },
-    { label: lang === 'es' ? 'Por qué Welko' : 'Why Welko', href: '/por-que' },
-    { label: t.nav.pricing,    href: '/precios' },
-    { label: t.nav.partners,   href: '/partners' },
+  const NAV_LINKS: { label: string; href: string }[] = [
+    { label: t.nav.product,  href: '/como-funciona' },
+    { label: t.nav.pricing,  href: '/precios' },
+    { label: lang === 'es' ? 'Demo' : 'Demo', href: '/demo' },
   ]
 
-  function handleScrollLink(e: React.MouseEvent, scrollTo?: string) {
-    if (!scrollTo) return
-    e.preventDefault()
-    const el = document.getElementById(scrollTo)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-    setDrawerOpen(false)
-  }
+  const MORE_LINKS: { label: string; href: string; group?: string }[] = [
+    { label: lang === 'es' ? '🦷 Clínicas Dentales'  : '🦷 Dental Clinics',     href: '/dental',    group: lang === 'es' ? 'Especialidades' : 'Specialties' },
+    { label: lang === 'es' ? '✨ Centros Estéticos'  : '✨ Aesthetic Centers',   href: '/estetica',  group: lang === 'es' ? 'Especialidades' : 'Specialties' },
+    { label: lang === 'es' ? 'Industrias'    : 'Industries',  href: '/industrias' },
+    { label: lang === 'es' ? 'Soluciones'    : 'Solutions',   href: '/soluciones/ai-receptionist' },
+    { label: lang === 'es' ? 'Por qué Welko' : 'Why Welko',   href: '/por-que' },
+    { label: 'Partners',                                        href: '/partners' },
+  ]
+
+  // Close "more" dropdown when clicking outside
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
+        setMoreOpen(false)
+      }
+    }
+    if (moreOpen) document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [moreOpen])
 
   return (
     <>
@@ -89,16 +71,16 @@ export function Navbar() {
           <div className="flex items-center justify-between h-16">
 
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3" aria-label="Welko inicio">
-              <WelkoLogo size={26} />
+            <Link href="/" aria-label="Welko inicio">
               <span
                 style={{
                   color: 'var(--text-primary)',
-                  fontSize: 18,
+                  fontSize: 22,
                   fontWeight: 800,
-                  letterSpacing: '-0.02em',
+                  letterSpacing: '-0.04em',
                   fontFamily: 'var(--font-montserrat), sans-serif',
                   lineHeight: 1,
+                  transition: 'color 0.4s ease',
                 }}
               >
                 Welko
@@ -118,7 +100,6 @@ export function Navbar() {
                     letterSpacing: '0.01em',
                     fontFamily: 'var(--font-montserrat), sans-serif',
                   }}
-                  onClick={link.scrollTo ? (e) => handleScrollLink(e, link.scrollTo) : undefined}
                   onMouseEnter={(e) =>
                     ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')
                   }
@@ -130,99 +111,79 @@ export function Navbar() {
                 </Link>
               ))}
 
-              {/* Solutions dropdown */}
-              <div
-                ref={solutionsRef}
-                className="relative"
-                onMouseEnter={() => setSolutionsOpen(true)}
-                onMouseLeave={() => setSolutionsOpen(false)}
-              >
+              {/* ── Tres rayitas — secondary menu ── */}
+              <div ref={moreRef} className="relative">
                 <button
-                  className="flex items-center gap-1 text-sm transition-colors duration-150"
+                  onClick={() => setMoreOpen((v) => !v)}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors duration-150"
+                  aria-label="Más páginas"
                   style={{
-                    color: solutionsOpen ? 'var(--text-primary)' : 'var(--text-secondary)',
-                    fontWeight: 500,
-                    letterSpacing: '0.01em',
-                    fontFamily: 'var(--font-montserrat), sans-serif',
-                    background: 'none', border: 'none', cursor: 'pointer',
+                    color: moreOpen ? 'var(--text-primary)' : 'var(--text-secondary)',
+                    background: moreOpen ? 'var(--surface-hover)' : 'transparent',
+                    border: '1px solid var(--border)',
                   }}
                 >
-                  {lang === 'es' ? 'Soluciones' : 'Solutions'}
-                  <ChevronDown
-                    size={14}
-                    style={{
-                      transform: solutionsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                      transition: 'transform 0.2s ease',
-                    }}
-                  />
+                  <AlignJustify size={15} />
                 </button>
 
                 <AnimatePresence>
-                  {solutionsOpen && (
+                  {moreOpen && (
                     <motion.div
                       initial={{ opacity: 0, y: 8, scale: 0.97 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.97 }}
-                      transition={{ duration: 0.18, ease: 'easeOut' }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-64"
+                      transition={{ duration: 0.16, ease: 'easeOut' }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-52"
                       style={{ zIndex: 100 }}
                     >
                       <div
-                        className="flex flex-col gap-1 p-2 rounded-2xl"
+                        className="flex flex-col gap-0.5 p-2 rounded-2xl"
                         style={{
                           background: 'var(--surface)',
                           border: '1px solid var(--border)',
                           boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
                         }}
                       >
-                        {SOLUTIONS.map((sol) => {
-                          const label = lang === 'es' ? sol.label.es : sol.label.en
-                          const desc  = lang === 'es' ? sol.desc.es  : sol.desc.en
-                          return (
-                            <Link
-                              key={sol.slug}
-                              href={sol.href}
-                              onClick={sol.soon ? (e) => e.preventDefault() : undefined}
-                              className="flex items-start gap-3 px-3 py-2.5 rounded-xl transition-colors duration-150"
-                              style={{
-                                cursor: sol.soon ? 'default' : 'pointer',
-                                opacity: sol.soon ? 0.55 : 1,
-                              }}
-                              onMouseEnter={(e) => {
-                                if (!sol.soon)
-                                  (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)'
-                              }}
-                              onMouseLeave={(e) => {
-                                (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'
-                              }}
-                            >
-                              <div
-                                className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
-                                style={{ background: 'var(--bg-secondary)' }}
-                              >
-                                <sol.icon size={14} color="var(--accent)" />
-                              </div>
-                              <div className="flex flex-col gap-0.5 min-w-0">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>
-                                    {label}
-                                  </span>
-                                  {sol.soon && (
-                                    <span
-                                      className="text-[10px] font-bold px-1.5 py-0.5 rounded-full"
-                                      style={{ background: 'var(--bg-secondary)', color: 'var(--text-muted)' }}
-                                    >
-                                      {lang === 'es' ? 'Próx.' : 'Soon'}
-                                    </span>
-                                  )}
-                                </div>
-                                <span className="text-[11px] leading-snug" style={{ color: 'var(--text-secondary)' }}>
-                                  {desc}
-                                </span>
-                              </div>
-                            </Link>
-                          )
-                        })}
+                        {/* Especialidades group label */}
+                        <p className="px-3 pt-1.5 pb-0.5 text-[10px] font-bold uppercase tracking-widest"
+                          style={{ color: 'var(--text-muted)' }}>
+                          {lang === 'es' ? 'Especialidades' : 'Specialties'}
+                        </p>
+                        {MORE_LINKS.filter(l => l.group).map((link) => (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            onClick={() => setMoreOpen(false)}
+                            className="flex items-center px-3 py-2 rounded-xl text-sm transition-colors duration-150"
+                            style={{ color: 'var(--text-primary)', fontWeight: 500 }}
+                            onMouseEnter={(e) =>
+                              ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')
+                            }
+                            onMouseLeave={(e) =>
+                              ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')
+                            }
+                          >
+                            {link.label}
+                          </Link>
+                        ))}
+                        <div style={{ height: 1, background: 'var(--border)', margin: '4px 8px' }} />
+                        {MORE_LINKS.filter(l => !l.group).map((link) => (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            onClick={() => setMoreOpen(false)}
+                            className="flex items-center px-3 py-2.5 rounded-xl text-sm transition-colors duration-150"
+                            style={{ color: 'var(--text-primary)', fontWeight: 500 }}
+                            onMouseEnter={(e) =>
+                              ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')
+                            }
+                            onMouseLeave={(e) =>
+                              ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')
+                            }
+                          >
+                            {link.label}
+                          </Link>
+                        ))}
                       </div>
                     </motion.div>
                   )}
@@ -248,21 +209,16 @@ export function Navbar() {
               <ThemeToggle />
 
               <Link
-                href="/login"
-                className="hidden md:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
-                style={{ background: 'transparent', color: 'var(--text-primary)', border: '1px solid var(--border)' }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')
-                }
-              >
-                {t.nav.signIn}
-              </Link>
-
-              <Link
                 href="/registro"
+                className="hidden md:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
+                style={{ background: 'var(--surface)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)'; (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface)'; (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)' }}
+              >
+                {lang === 'es' ? 'Crear cuenta' : 'Sign up'}
+              </Link>
+              <Link
+                href="/login"
                 className="hidden md:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
                 style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}
                 onMouseEnter={(e) =>
@@ -272,7 +228,7 @@ export function Navbar() {
                   ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--accent)')
                 }
               >
-                {lang === 'es' ? 'Crear cuenta' : 'Get started'}
+                {t.nav.signIn}
               </Link>
 
               <button
@@ -309,10 +265,7 @@ export function Navbar() {
               style={{ background: 'var(--surface)', borderLeft: '1px solid var(--border)', boxShadow: '-4px 0 24px rgba(0,0,0,0.12)' }}
             >
               <div className="flex items-center justify-between px-5 h-16 flex-shrink-0" style={{ borderBottom: '1px solid var(--border)' }}>
-                <div className="flex items-center gap-2.5">
-                  <WelkoLogo size={22} />
-                  <span className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>Welko</span>
-                </div>
+                <span style={{ fontWeight: 800, fontSize: 20, letterSpacing: '-0.04em', color: 'var(--text-primary)', fontFamily: 'var(--font-montserrat), sans-serif', transition: 'color 0.4s ease' }}>Welko</span>
                 <button
                   onClick={() => setDrawerOpen(false)}
                   className="w-8 h-8 rounded-lg flex items-center justify-center"
@@ -322,12 +275,12 @@ export function Navbar() {
                 </button>
               </div>
 
-              <nav className="flex flex-col gap-1 px-4 py-5 flex-1">
+              <nav className="flex flex-col gap-1 px-4 py-5 flex-1 overflow-y-auto">
                 {NAV_LINKS.map((link) => (
                   <Link
                     key={link.label}
                     href={link.href}
-                    onClick={(e) => { handleScrollLink(e, link.scrollTo); if (!link.scrollTo) setDrawerOpen(false) }}
+                    onClick={() => setDrawerOpen(false)}
                     className="flex items-center px-3 py-3 rounded-xl text-sm font-medium transition-colors duration-150"
                     style={{ color: 'var(--text-primary)' }}
                     onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')}
@@ -337,30 +290,25 @@ export function Navbar() {
                   </Link>
                 ))}
 
-                {/* Solutions in mobile */}
-                <div className="px-3 pt-1 pb-0.5">
+                {/* Divider + secondary links */}
+                <div className="px-3 pt-4 pb-1">
                   <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-                    {lang === 'es' ? 'Soluciones' : 'Solutions'}
+                    {lang === 'es' ? 'Más' : 'More'}
                   </span>
                 </div>
-                {SOLUTIONS.map((sol) => {
-                  const label = lang === 'es' ? sol.label.es : sol.label.en
-                  return (
-                    <Link
-                      key={sol.slug}
-                      href={sol.href}
-                      onClick={sol.soon ? (e) => e.preventDefault() : () => setDrawerOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150"
-                      style={{ color: 'var(--text-primary)', opacity: sol.soon ? 0.45 : 1 }}
-                      onMouseEnter={(e) => { if (!sol.soon) (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)' }}
-                      onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}
-                    >
-                      <sol.icon size={15} color="var(--text-secondary)" />
-                      {label}
-                      {sol.soon && <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{lang === 'es' ? '· Pronto' : '· Soon'}</span>}
-                    </Link>
-                  )
-                })}
+                {MORE_LINKS.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setDrawerOpen(false)}
+                    className="flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150"
+                    style={{ color: 'var(--text-secondary)' }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
               </nav>
 
               <div className="px-4 pb-6 flex flex-col gap-3" style={{ borderTop: '1px solid var(--border)', paddingTop: 20 }}>
@@ -375,20 +323,20 @@ export function Navbar() {
                   <ThemeToggle />
                 </div>
                 <Link
-                  href="/login"
+                  href="/registro"
                   onClick={() => setDrawerOpen(false)}
-                  className="w-full flex items-center justify-center py-3 rounded-xl text-sm font-medium transition-colors duration-150"
-                  style={{ border: '1px solid var(--border)', color: 'var(--text-primary)', background: 'transparent' }}
+                  className="w-full flex items-center justify-center py-3 rounded-xl text-sm font-semibold transition-colors duration-150"
+                  style={{ background: 'var(--surface-hover)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }}
                 >
-                  {t.nav.signIn}
+                  {lang === 'es' ? 'Crear cuenta' : 'Sign up'}
                 </Link>
                 <Link
-                  href="/registro"
+                  href="/login"
                   onClick={() => setDrawerOpen(false)}
                   className="w-full flex items-center justify-center py-3 rounded-xl text-sm font-semibold transition-colors duration-150"
                   style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}
                 >
-                  {lang === 'es' ? 'Crear cuenta' : 'Get started'}
+                  {t.nav.signIn}
                 </Link>
               </div>
             </motion.div>

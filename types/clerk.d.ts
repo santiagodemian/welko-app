@@ -2,6 +2,6 @@ export {}
 
 declare global {
   interface CustomJwtSessionClaims {
-    plan?: 'essential' | 'pro' | 'business'
+    plan?: 'starter' | 'essential' | 'pro' | 'business'
   }
 }

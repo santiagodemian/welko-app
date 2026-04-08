@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- W mark solo, blanco sin fondo -->
+  <path
+    d="M14 18C8 18 6 22 8 28L30 80C32 86 37 90 44 90C51 90 55 86 58 80L66 56L74 80C77 86 81 90 88 90C95 90 99 86 102 80L124 28C126 22 124 18 118 18"
+    stroke="#FFFFFF"
+    stroke-width="18"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+</svg>

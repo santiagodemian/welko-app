@@ -60,7 +60,7 @@ export default function PorQuePage() {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold"
                 style={{ background: NAVY, color: '#fff' }}
               >
-                {lang === 'es' ? 'Empezar gratis' : 'Get started free'} →
+                {lang === 'es' ? 'Comenzar ahora' : 'Get started now'} →
               </Link>
               <Link
                 href="/precios"
@@ -83,7 +83,7 @@ export default function PorQuePage() {
       <footer className="py-8 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)' }}>
         <div className="max-w-5xl mx-auto">
           <p className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
-            © {new Date().getFullYear()} Welko — {lang === 'es' ? 'El recepcionista IA líder para Clínicas de Salud y Estética.' : 'The leading AI receptionist for Health & Aesthetic Clinics.'}
+            © {new Date().getFullYear()} Welko — {lang === 'es' ? 'El recepcionista IA lider.' : 'The leading AI receptionist for Health & Aesthetic Clinics.'}
           </p>
         </div>
       </footer>

@@ -1,7 +1,7 @@
 // ─── Welko — Prisma Schema ────────────────────────────────────────────────────
 //
 // Encrypted fields (AES-256-GCM via lib/encryption.ts):
-//   Clinic.customizationPrompt, Clinic.crmApiKeys
+//   Clinic.customizationPrompt, Clinic.crmApiKeys, Clinic.googleRefreshToken
 //   Lead.patientName, Lead.patientPhone, Lead.callTranscript, Lead.notes
 //
 // After any schema change:
@@ -93,11 +93,16 @@ model Clinic {
   // Instagram Business Account ID (linked to the Facebook Page)
   instagramAccountId String? @unique
 
+  // ── Google Calendar ──────────────────────────────────────────────────────────
+  // Encrypted OAuth2 refresh token — set via /api/calendar/callback
+  googleRefreshToken String?
+
   // ── Onboarding state ────────────────────────────────────────────────────────
   onboardingCompleted Boolean @default(false)
 
   services              Service[]
   leads                 Lead[]
+  branches              Branch[]
   whatsappConversations WhatsAppConversation[]
   metaConversations     MetaConversation[]
   createdAt DateTime  @default(now())
@@ -156,12 +161,39 @@ model Lead {
 
   notes String? // encrypted
 
+  // Google Calendar event ID — set when a calendar event is created for this appointment
+  googleCalendarEventId String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([clinicId, status])
   @@index([clinicId, createdAt])
   @@index([callId])
+}
+
+// ─── Branch ───────────────────────────────────────────────────────────────────
+// A physical location / sucursal belonging to a multi-branch clinic (Business plan).
+
+model Branch {
+  id        String @id @default(cuid())
+  clinicId  String
+  clinic    Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+
+  name         String
+  address      String?
+  phone        String?
+  whatsappPhone String?
+  managerName  String?
+  active       Boolean @default(true)
+
+  // Shape: { "lunes": { "open": "09:00", "close": "18:00", "active": true }, ... }
+  workingHours Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clinicId])
 }
 
 // ─── WhatsApp Conversation ────────────────────────────────────────────────────

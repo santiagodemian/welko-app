@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Navy rounded square background -->
+  <rect width="64" height="64" rx="14" fill="#13244A"/>
+  <!-- White W mark — inner viewBox 64x48, scaled to 46x34.5 centered in 64x64 -->
+  <g transform="translate(9, 15) scale(0.718)">
+    <path
+      d="M8 8C5 8 4 10.5 5 14L15 39C16 43 18.5 45 22 45C25.5 45 27.5 43 29 39L32 28L35 39C36.5 43 38.5 45 42 45C45.5 45 48 43 49 39L59 14C60 10.5 59 8 56 8"
+      stroke="white"
+      stroke-width="9"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+  </g>
+</svg>

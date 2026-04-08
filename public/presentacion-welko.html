@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Welko — Presentación</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy:  #13244A;
+      --navy2: #0D1A36;
+      --blue:  #1D4ED8;
+      --sky:   #3B82F6;
+      --green: #059669;
+      --red:   #DC2626;
+      --gold:  #D97706;
+      --white: #FFFFFF;
+    }
+
+    html {
+      font-family: 'Montserrat', sans-serif;
+      background: #1a1a2e;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ── SLIDE BASE ── */
+    .slide {
+      width: 297mm;
+      height: 167mm;  /* 16:9 approx on A4 landscape */
+      margin: 0 auto 4mm;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+    }
+
+    /* ── PRINT BUTTON ── */
+    .print-bar {
+      text-align: center;
+      padding: 16px 0 8px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .print-bar button {
+      background: #13244A; color: #fff; border: none;
+      padding: 11px 32px; border-radius: 10px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      letter-spacing: 0.02em; font-family: 'Montserrat', sans-serif;
+    }
+    .print-bar p {
+      font-size: 11px; color: #9CA3AF; margin-top: 6px;
+    }
+    @media print {
+      html { background: none; }
+      .print-bar { display: none !important; }
+      .slide { margin: 0; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       SLIDE 1 — COVER
+    ═══════════════════════════════════════════════ */
+    .s1 {
+      background: linear-gradient(140deg, #050D1E 0%, #0D1A36 45%, #162B52 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .s1 .bg-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .s1 .bg-glow {
+      position: absolute; top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%);
+    }
+    .s1 .content {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      gap: 0;
+    }
+    .s1 .logo-wrap {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 8mm;
+    }
+    .s1 .logo-box {
+      width: 48px; height: 48px; background: #FFFFFF; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .s1 .brand { font-size: 32pt; font-weight: 900; color: #fff; letter-spacing: -0.05em; }
+    .s1 h1 {
+      font-size: 26pt; font-weight: 800; color: #fff;
+      letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 5mm;
+    }
+    .s1 h1 em { font-style: normal; color: #60A5FA; }
+    .s1 .sub {
+      font-size: 11pt; font-weight: 300; color: rgba(255,255,255,0.62);
+      line-height: 1.55; max-width: 180mm;
+    }
+    .s1 .pill-row {
+      display: flex; gap: 3mm; margin-top: 7mm;
+    }
+    .s1 .pill {
+      padding: 3px 11px; border-radius: 20px;
+      font-size: 7pt; font-weight: 700; letter-spacing: 0.06em;
+      background: rgba(255,255,255,0.10); color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+    .s1 .slide-num { position: absolute; bottom: 5mm; right: 7mm; font-size: 7pt; color: rgba(255,255,255,0.22); font-weight: 600; }
+
+    /* ═══════════════════════════════════════════════
+       SLIDE 2 — PROBLEMA
+    ═══════════════════════════════════════════════ */
+    .s2 { background: #F9FAFB; display: flex; }
+    .s2 .left {
+      width: 90mm; background: linear-gradient(160deg, #0D1A36, #13244A);
+      padding: 10mm 9mm; display: flex; flex-direction: column; justify-content: center;
+    }
+    .s2 .left .eyebrow {
+      font-size: 6pt; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.45); margin-bottom: 4mm;
+    }
+    .s2 .left h2 {
+      font-size: 18pt; font-weight: 900; color: #fff; letter-spacing: -0.04em; line-height: 1.1;
+      margin-bottom: 5mm;
+    }
+    .s2 .left h2 em { font-style: normal; color: #FCA5A5; }
+    .s2 .left p {
+      font-size: 8pt; font-weight: 300; color: rgba(255,255,255,0.60); line-height: 1.65;
+    }
+    .s2 .right {
+      flex: 1; padding: 9mm 8mm; display: flex; flex-direction: column; justify-content: center; gap: 3.5mm;
+    }
+    .prob-card {
+      background: #fff; border-radius: 10px; padding: 4mm 4.5mm;
+      border: 1px solid #F3F4F6;
+      display: flex; gap: 3.5mm; align-items: flex-start;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .prob-card .ic {
+      width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13pt; flex-shrink: 0;
+    }
+    .prob-card .ic-red { background: #FEF2F2; }
+    .prob-card h4 { font-size: 8.5pt; font-weight: 800; color: #0A0F1A; margin-bottom: 1px; }
+    .prob-card p  { font-size: 7pt; font-weight: 400; color: #6B7280; line-height: 1.5; }
+    .s2 .slide-num { position: absolute; bottom: 5mm; right: 7mm; font-size: 7pt; color: #CBD5E1; font-weight: 600; }
+
+    /* ═══════════════════════════════════════════════
+       SLIDE 3 — SOLUCIÓN
+    ═══════════════════════════════════════════════ */
+    .s3 { background: #fff; padding: 9mm 10mm; display: flex; flex-direction: column; }
+    .s3 .top { display: flex; flex-direction: column; gap: 1.5mm; margin-bottom: 6mm; }
+    .s3 .eyebrow { font-size: 6pt; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--navy); }
+    .s3 h2 { font-size: 18pt; font-weight: 900; color: #0A0F1A; letter-spacing: -0.04em; line-height: 1.1; }
+    .s3 h2 em { font-style: normal; color: var(--blue); }
+    .sol-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; flex: 1;
+    }
+    .sol-card {
+      background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 12px;
+      padding: 5mm 4.5mm; display: flex; flex-direction: column; gap: 2.5mm;
+    }
+    .sol-card .ic-sol {
+      width: 32px; height: 32px; border-radius: 9px;
+      background: var(--navy); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14pt; flex-shrink: 0;
+    }
+    .sol-card h4 { font-size: 9pt; font-weight: 800; color: #0A0F1A; line-height: 1.2; }
+    .sol-card p  { font-size: 7pt; font-weight: 400; color: #6B7280; line-height: 1.5; }
+    .sol-card .tag {
+      margin-top: auto; display: inline-block;
+      background: rgba(19,36,74,0.08); color: var(--navy);
+      font-size: 6pt; font-weight: 700; padding: 2px 7px; border-radius: 20px;
+      width: fit-content;
+    }
+    .s3 .slide-num { position: absolute; bottom: 5mm; right: 7mm; font-size: 7pt; color: #CBD5E1; font-weight: 600; }
+
+    /* ═══════════════════════════════════════════════
+       SLIDE 4 — CÓMO FUNCIONA
+    ═══════════════════════════════════════════════ */
+    .s4 {
+      background: linear-gradient(140deg, #050D1E 0%, #0D1A36 50%, #13244A 100%);
+      padding: 9mm 10mm; display: flex; flex-direction: column;
+    }
+    .s4 .eyebrow { font-size: 6pt; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.45); margin-bottom: 2mm; }
+    .s4 h2 { font-size: 18pt; font-weight: 900; color: #fff; letter-spacing: -0.04em; margin-bottom: 7mm; }
+    .steps-row { display: flex; gap: 5mm; flex: 1; align-items: stretch; }
+    .step-card {
+      flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px; padding: 5mm 5mm; display: flex; flex-direction: column; gap: 3mm;
+    }
+    .step-num-big {
+      font-size: 26pt; font-weight: 900; color: rgba(255,255,255,0.10); letter-spacing: -0.05em; line-height: 1;
+    }
+    .step-card h4 { font-size: 11pt; font-weight: 800; color: #fff; line-height: 1.2; }
+    .step-card p  { font-size: 7.5pt; font-weight: 300; color: rgba(255,255,255,0.58); line-height: 1.6; }
+    .step-card .time-badge {
+      margin-top: auto;
+      background: rgba(255,255,255,0.10); color: rgba(255,255,255,0.80);
+      font-size: 6.5pt; font-weight: 700; padding: 2.5px 8px; border-radius: 20px;
+      width: fit-content; border: 1px solid rgba(255,255,255,0.14);
+    }
+    .arrow-sep {
+      display: flex; align-items: center; color: rgba(255,255,255,0.20); font-size: 16pt; flex-shrink: 0;
+    }
+    .s4 .slide-num { position: absolute; bottom: 5mm; right: 7mm; font-size: 7pt; color: rgba(255,255,255,0.22); font-weight: 600; }
+
+    /* ═══════════════════════════════════════════════
+       SLIDE 5 — ESPECIALIDADES
+    ═══════════════════════════════════════════════ */
+    .s5 { background: #F9FAFB; padding: 9mm 10mm; display: flex; flex-direction: column; }
+    .s5 .eyebrow { font-size: 6pt; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--navy); margin-bottom: 2mm; }
+    .s5 h2 { font-size: 18pt; font-weight: 900; color: #0A0F1A; letter-spacing: -0.04em; margin-bottom: 6mm; }
+    .spec-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; flex: 1; }
+    .spec-card {
+      background: #fff; border: 1px solid #E5E7EB; border-radius: 12px;
+      padding: 5mm 4mm; display: flex; flex-direction: column; gap: 2.5mm;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .spec-card .emoji { font-size: 20pt; }
+    .spec-card h4 { font-size: 9pt; font-weight: 800; color: #0A0F1A; }
+    .spec-card ul { list-style: none; display: flex; flex-direction: column; gap: 1.5mm; }
+    .spec-card ul li { font-size: 6.5pt; color: #6B7280; display: flex; gap: 2mm; align-items: baseline; }
+    .spec-card ul li::before { content: "·"; color: var(--navy); font-weight: 900; flex-shrink: 0; }
+    .s5 .slide-num { position: absolute; bottom: 5mm; right: 7mm; font-size: 7pt; color: #CBD5E1; font-weight: 600; }
+
+    /* ═══════════════════════════════════════════════
+       SLIDE 6 — PLANES
+    ═══════════════════════════════════════════════ */
+    .s6 { background: #fff; padding: 9mm 10mm; display: flex; flex-direction: column; }
+    .s6 .eyebrow { font-size: 6pt; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--navy); margin-bottom: 2mm; }
+    .s6 h2 { font-size: 18pt; font-weight: 900; color: #0A0F1A; letter-spacing: -0.04em; margin-bottom: 6mm; }
+    .plans-row { display: flex; gap: 4mm; flex: 1; align-items: stretch; }
+    .p-card {
+      flex: 1; border-radius: 12px; padding: 5mm 4mm;
+      display: flex; flex-direction: column; gap: 2mm;
+      border: 1px solid #E5E7EB; background: #F9FAFB;
+    }
+    .p-card.pop {
+      background: var(--navy); border-color: var(--navy);
+      box-shadow: 0 8px 32px rgba(19,36,74,0.28);
+    }
+    .p-card .p-name { font-size: 9pt; font-weight: 800; color: #0A0F1A; }
+    .p-card.pop .p-name { color: #fff; }
+    .p-card .p-badge {
+      display: inline-block; font-size: 5.5pt; font-weight: 700; padding: 1.5px 6px;
+      border-radius: 20px; background: rgba(255,255,255,0.18); color: rgba(255,255,255,0.90);
+      width: fit-content; margin-bottom: 1mm;
+    }
+    .p-card .p-price { font-size: 17pt; font-weight: 900; color: var(--navy); letter-spacing: -0.04em; line-height: 1; }
+    .p-card.pop .p-price { color: #fff; }
+    .p-card .p-period { font-size: 6pt; color: #9CA3AF; font-weight: 500; }
+    .p-card.pop .p-period { color: rgba(255,255,255,0.50); }
+    .p-card .p-for { font-size: 6.5pt; color: #6B7280; font-weight: 500; margin-bottom: 1.5mm; }
+    .p-card.pop .p-for { color: rgba(255,255,255,0.55); }
+    .p-card .p-feats { display: flex; flex-direction: column; gap: 1.5mm; margin-top: auto; }
+    .p-card .p-feat { font-size: 6.5pt; color: #374151; display: flex; gap: 2mm; align-items: baseline; }
+    .p-card.pop .p-feat { color: rgba(255,255,255,0.78); }
+    .p-card .p-feat::before { content: "✓"; color: var(--green); font-weight: 800; flex-shrink: 0; font-size: 7pt; }
+    .p-card.pop .p-feat::before { color: #86EFAC; }
+    .s6 .slide-num { position: absolute; bottom: 5mm; right: 7mm; font-size: 7pt; color: #CBD5E1; font-weight: 600; }
+
+    /* ═══════════════════════════════════════════════
+       SLIDE 7 — POR QUÉ AHORA
+    ═══════════════════════════════════════════════ */
+    .s7 { background: #F9FAFB; display: flex; }
+    .s7 .left {
+      width: 100mm; background: linear-gradient(160deg, #0D1A36, #13244A);
+      padding: 10mm 9mm; display: flex; flex-direction: column; justify-content: center;
+    }
+    .s7 .left .eyebrow { font-size: 6pt; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.40); margin-bottom: 3mm; }
+    .s7 .left h2 { font-size: 17pt; font-weight: 900; color: #fff; letter-spacing: -0.04em; line-height: 1.15; margin-bottom: 4mm; }
+    .s7 .left h2 em { font-style: normal; color: #FCD34D; }
+    .s7 .left p { font-size: 8pt; font-weight: 300; color: rgba(255,255,255,0.58); line-height: 1.65; }
+    .s7 .right {
+      flex: 1; padding: 9mm 8mm; display: flex; flex-direction: column; justify-content: center; gap: 3.5mm;
+    }
+    .why-card {
+      background: #fff; border-radius: 10px; padding: 3.5mm 4mm;
+      border: 1px solid #F3F4F6; display: flex; gap: 3.5mm; align-items: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .why-card .wc-num {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--navy); color: #fff;
+      font-size: 9pt; font-weight: 900; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .why-card h4 { font-size: 8.5pt; font-weight: 800; color: #0A0F1A; }
+    .why-card p  { font-size: 7pt; color: #6B7280; line-height: 1.45; }
+    .s7 .slide-num { position: absolute; bottom: 5mm; right: 7mm; font-size: 7pt; color: #CBD5E1; font-weight: 600; }
+
+    /* ═══════════════════════════════════════════════
+       SLIDE 8 — GARANTÍA + CTA
+    ═══════════════════════════════════════════════ */
+    .s8 {
+      background: linear-gradient(140deg, #050D1E 0%, #0D1A36 40%, #13244A 100%);
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+    }
+    .s8 .bg-glow2 {
+      position: absolute; bottom: -80px; left: -80px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(59,130,246,0.14) 0%, transparent 65%);
+    }
+    .s8 .content { position: relative; z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0; }
+    .s8 .g-badge {
+      background: rgba(5,150,105,0.18); border: 1px solid rgba(5,150,105,0.35);
+      color: #6EE7B7; font-size: 7pt; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+      margin-bottom: 4mm; width: fit-content;
+    }
+    .s8 h2 {
+      font-size: 22pt; font-weight: 900; color: #fff; letter-spacing: -0.04em;
+      line-height: 1.1; margin-bottom: 3mm;
+    }
+    .s8 h2 em { font-style: normal; color: #60A5FA; }
+    .s8 .sub {
+      font-size: 9pt; font-weight: 300; color: rgba(255,255,255,0.55); line-height: 1.6;
+      max-width: 160mm; margin-bottom: 7mm;
+    }
+    .s8 .cta-row { display: flex; gap: 4mm; align-items: center; }
+    .s8 .btn-main {
+      padding: 3.5mm 10mm; background: #fff; color: var(--navy);
+      font-size: 9.5pt; font-weight: 800; border-radius: 10px; letter-spacing: -0.01em;
+    }
+    .s8 .btn-sec {
+      padding: 3.5mm 8mm; background: transparent; color: rgba(255,255,255,0.75);
+      font-size: 8.5pt; font-weight: 600; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.22);
+    }
+    .s8 .contact-row {
+      display: flex; gap: 6mm; margin-top: 5mm; justify-content: center;
+    }
+    .s8 .contact-item { font-size: 7pt; color: rgba(255,255,255,0.40); font-weight: 500; }
+    .s8 .contact-item span { color: rgba(255,255,255,0.70); font-weight: 700; }
+    .s8 .slide-num { position: absolute; bottom: 5mm; right: 7mm; font-size: 7pt; color: rgba(255,255,255,0.22); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<div class="print-bar">
+  <button onclick="window.print()">Imprimir / Guardar como PDF</button>
+  <p>Al imprimir → Guardar como PDF · Orientación: Horizontal · Tamaño: A4 · Márgenes: Ninguno · Activar gráficos de fondo</p>
+</div>
+
+<!-- ══════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════ -->
+<div class="slide s1">
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="content">
+    <div class="logo-wrap">
+      <div class="logo-box">
+        <svg width="28" height="28" viewBox="0 0 24 24"><text x="2" y="20" font-family="Montserrat,sans-serif" font-weight="900" font-size="20" fill="#13244A">W</text></svg>
+      </div>
+      <span class="brand">Welko</span>
+    </div>
+    <h1>Tu recepcionista <em>con IA</em>.<br>Tu clínica. 24/7.</h1>
+    <p class="sub">Welko automatiza la comunicación con tus pacientes — responde, agenda citas y reduce no-shows en WhatsApp, Instagram y Facebook, sin que tú tengas que hacer nada.</p>
+    <div class="pill-row">
+      <span class="pill">Clínicas Dentales</span>
+      <span class="pill">Centros Estéticos</span>
+      <span class="pill">Medicina General</span>
+      <span class="pill">Psicología</span>
+    </div>
+  </div>
+  <span class="slide-num">1 / 8</span>
+</div>
+
+<!-- ══════════════════════════════
+     SLIDE 2 — EL PROBLEMA
+══════════════════════════════ -->
+<div class="slide s2">
+  <div class="left">
+    <p class="eyebrow">El problema</p>
+    <h2>Tu clínica pierde<br>dinero <em>cada semana</em><br>sin saberlo</h2>
+    <p>Los pacientes escriben fuera del horario, no reciben respuesta y se van con la competencia. Nadie tiene tiempo para atender cada mensaje a tiempo.</p>
+  </div>
+  <div class="right">
+    <div class="prob-card">
+      <div class="ic ic-red">📵</div>
+      <div><h4>Mensajes sin respuesta</h4><p>El 68% de los pacientes elige la primera clínica que les contesta. Si tardas horas, ya perdiste la cita.</p></div>
+    </div>
+    <div class="prob-card">
+      <div class="ic ic-red">🪑</div>
+      <div><h4>No-shows que cuestan hasta $2,000 MXN</h4><p>Sin recordatorios automáticos, entre el 20–35% de las citas no se presentan.</p></div>
+    </div>
+    <div class="prob-card">
+      <div class="ic ic-red">🔁</div>
+      <div><h4>Preguntas repetitivas que consumen tiempo</h4><p>"¿Cuánto cuesta?", "¿A qué hora abren?", "¿Tienen cita esta semana?" — tu equipo responde esto decenas de veces al día.</p></div>
+    </div>
+    <div class="prob-card">
+      <div class="ic ic-red">📸</div>
+      <div><h4>Instagram y Facebook sin atender</h4><p>DMs acumulados por días dañan tu reputación y pierdes leads que ya llegaron a ti.</p></div>
+    </div>
+  </div>
+  <span class="slide-num">2 / 8</span>
+</div>
+
+<!-- ══════════════════════════════
+     SLIDE 3 — LA SOLUCIÓN
+══════════════════════════════ -->
+<div class="slide s3">
+  <div class="top">
+    <p class="eyebrow">La solución</p>
+    <h2>Welko hace el trabajo de una <em>recepcionista experta</em></h2>
+  </div>
+  <div class="sol-grid">
+    <div class="sol-card">
+      <div class="ic-sol">💬</div>
+      <h4>Responde 24/7 en todos tus canales</h4>
+      <p>WhatsApp Business, Instagram DMs, Facebook Messenger y widget web — un solo sistema, todos conectados.</p>
+      <span class="tag">WhatsApp · Instagram · Facebook</span>
+    </div>
+    <div class="sol-card">
+      <div class="ic-sol">📅</div>
+      <h4>Agenda citas en tu calendario</h4>
+      <p>Se conecta a Google Calendar y agenda, mueve o cancela citas automáticamente según tu disponibilidad real.</p>
+      <span class="tag">Google Calendar</span>
+    </div>
+    <div class="sol-card">
+      <div class="ic-sol">🔔</div>
+      <h4>Recordatorios que eliminan no-shows</h4>
+      <p>Envía confirmación 24h antes, reconfirma en la mañana y registra si el paciente confirma o cancela.</p>
+      <span class="tag">Automático</span>
+    </div>
+    <div class="sol-card">
+      <div class="ic-sol">🧠</div>
+      <h4>IA entrenada en tu especialidad</h4>
+      <p>Conoce tu clínica, tus precios, tus servicios y la terminología médica de tu área. No es un chatbot genérico.</p>
+      <span class="tag">Dental · Estética · Psicología</span>
+    </div>
+    <div class="sol-card">
+      <div class="ic-sol">🚨</div>
+      <h4>Detecta urgencias y transfiere</h4>
+      <p>Cuando un paciente tiene una emergencia real, Welko lo detecta y lo transfiere al humano de inmediato.</p>
+      <span class="tag">Control total</span>
+    </div>
+    <div class="sol-card">
+      <div class="ic-sol">📊</div>
+      <h4>CRM de pacientes incluido</h4>
+      <p>Historial de conversaciones, leads capturados, métricas de respuesta y reportes semanales automáticos.</p>
+      <span class="tag">Plan Pro y Business</span>
+    </div>
+  </div>
+  <span class="slide-num">3 / 8</span>
+</div>
+
+<!-- ══════════════════════════════
+     SLIDE 4 — CÓMO FUNCIONA
+══════════════════════════════ -->
+<div class="slide s4">
+  <p class="eyebrow">Proceso</p>
+  <h2>Listo y funcionando en menos de 24 horas</h2>
+  <div class="steps-row">
+    <div class="step-card">
+      <div class="step-num-big">01</div>
+      <h4>Crea tu cuenta y configura tu clínica</h4>
+      <p>Ingresa los datos de tu negocio: servicios, precios, horarios, nombre del agente IA, tono de comunicación. El sistema aprende tu clínica.</p>
+      <span class="time-badge">⏱ 15–20 minutos</span>
+    </div>
+    <div class="arrow-sep">→</div>
+    <div class="step-card">
+      <div class="step-num-big">02</div>
+      <h4>Conecta tu WhatsApp Business y canales</h4>
+      <p>Usas tu mismo número de WhatsApp existente, sin cambiarlo. También puedes conectar Instagram y Facebook en el mismo paso.</p>
+      <span class="time-badge">⏱ 5 minutos</span>
+    </div>
+    <div class="arrow-sep">→</div>
+    <div class="step-card">
+      <div class="step-num-big">03</div>
+      <h4>Tu clínica opera sola 24/7</h4>
+      <p>Desde ese momento, Welko responde, agenda y confirma citas automáticamente. Tú recibes un resumen de todo en tu dashboard.</p>
+      <span class="time-badge">✓ Activo inmediatamente</span>
+    </div>
+  </div>
+  <span class="slide-num">4 / 8</span>
+</div>
+
+<!-- ══════════════════════════════
+     SLIDE 5 — ESPECIALIDADES
+══════════════════════════════ -->
+<div class="slide s5">
+  <p class="eyebrow">Industrias</p>
+  <h2>Diseñado para tu tipo de clínica</h2>
+  <div class="spec-grid">
+    <div class="spec-card">
+      <span class="emoji">🦷</span>
+      <h4>Clínicas Dentales</h4>
+      <ul>
+        <li>Terminología: endodoncia, ortodoncia, implantes</li>
+        <li>Detecta urgencias por dolor agudo</li>
+        <li>Confirmación de limpiezas y revisiones</li>
+        <li>Agendado de consultas iniciales</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <span class="emoji">✨</span>
+      <h4>Centros Estéticos</h4>
+      <ul>
+        <li>Botox, rellenos, rinomodelación, bichectomía</li>
+        <li>Seguimiento post-tratamiento automático</li>
+        <li>Convierte consultas de precio en citas</li>
+        <li>Instagram DMs integrados</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <span class="emoji">🧠</span>
+      <h4>Psicología</h4>
+      <ul>
+        <li>Tono empático y confidencial</li>
+        <li>Agendado de sesiones y seguimiento</li>
+        <li>Recordatorio sutil previo a la consulta</li>
+        <li>Gestión de lista de espera</li>
+      </ul>
+    </div>
+    <div class="spec-card">
+      <span class="emoji">🩺</span>
+      <h4>Medicina General</h4>
+      <ul>
+        <li>Triaje inicial de síntomas</li>
+        <li>Diferencia urgencias de consultas programadas</li>
+        <li>Verifica seguros y métodos de pago</li>
+        <li>Recordatorio de estudios y resultados</li>
+      </ul>
+    </div>
+  </div>
+  <span class="slide-num">5 / 8</span>
+</div>
+
+<!-- ══════════════════════════════
+     SLIDE 6 — PLANES
+══════════════════════════════ -->
+<div class="slide s6">
+  <p class="eyebrow">Planes y precios</p>
+  <h2>Sin costos ocultos. Cancela cuando quieras.</h2>
+  <div class="plans-row">
+    <div class="p-card">
+      <p class="p-name">Starter</p>
+      <p class="p-price">$799</p>
+      <p class="p-period">MXN / mes</p>
+      <p class="p-for">Solo profesional · negocio pequeño</p>
+      <div class="p-feats">
+        <span class="p-feat">WhatsApp Business API</span>
+        <span class="p-feat">Respuestas automáticas 24/7</span>
+        <span class="p-feat">300 conversaciones/mes</span>
+        <span class="p-feat">100 recordatorios/mes</span>
+        <span class="p-feat">Panel de métricas básico</span>
+      </div>
+    </div>
+    <div class="p-card">
+      <p class="p-name">Essential</p>
+      <p class="p-price">$1,499</p>
+      <p class="p-period">MXN / mes</p>
+      <p class="p-for">Profesional establecido · 1 sede</p>
+      <div class="p-feats">
+        <span class="p-feat">Todo Starter incluido</span>
+        <span class="p-feat">Agenda inteligente (Google Cal)</span>
+        <span class="p-feat">Recordatorios ilimitados</span>
+        <span class="p-feat">Widget web embebible</span>
+        <span class="p-feat">Reportes semanales automáticos</span>
+      </div>
+    </div>
+    <div class="p-card pop">
+      <p class="p-name">Pro <span class="p-badge">Más popular</span></p>
+      <p class="p-price">$2,999</p>
+      <p class="p-period">MXN / mes</p>
+      <p class="p-for">2–5 personas · cualquier especialidad</p>
+      <div class="p-feats">
+        <span class="p-feat">WhatsApp + Instagram + Facebook</span>
+        <span class="p-feat">CRM de pacientes completo</span>
+        <span class="p-feat">Confirmación 24h antes de cita</span>
+        <span class="p-feat">2,000 conversaciones/mes</span>
+        <span class="p-feat">Soporte prioritario &lt; 8 h</span>
+      </div>
+    </div>
+    <div class="p-card">
+      <p class="p-name">Business</p>
+      <p class="p-price">$5,999</p>
+      <p class="p-period">MXN / mes</p>
+      <p class="p-for">Multi-sede · franquicia · alto volumen</p>
+      <div class="p-feats">
+        <span class="p-feat">Todo Pro incluido</span>
+        <span class="p-feat">Voz IA — responde por llamada</span>
+        <span class="p-feat">Hasta 3 sedes incluidas</span>
+        <span class="p-feat">API + Zapier + HubSpot</span>
+        <span class="p-feat">Account manager dedicado</span>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">6 / 8</span>
+</div>
+
+<!-- ══════════════════════════════
+     SLIDE 7 — POR QUÉ AHORA
+══════════════════════════════ -->
+<div class="slide s7">
+  <div class="left">
+    <p class="eyebrow">¿Por qué ahora?</p>
+    <h2>El momento ideal para<br>automatizar tu clínica<br>es <em>hoy</em></h2>
+    <p>Cada semana sin Welko es una semana con citas perdidas, no-shows evitables y horas de tu equipo dedicadas a responder lo mismo de siempre. El costo de no actuar es mayor que el de actuar.</p>
+  </div>
+  <div class="right">
+    <div class="why-card">
+      <div class="wc-num">1</div>
+      <div><h4>La competencia ya está adoptando IA</h4><p>Las clínicas que implementen automatización hoy captarán los pacientes que la competencia sigue dejando ir.</p></div>
+    </div>
+    <div class="why-card">
+      <div class="wc-num">2</div>
+      <div><h4>Recuperas la inversión en el primer mes</h4><p>Con solo 2–3 citas rescatadas que antes se perdían, el plan Starter se paga solo. El ROI es inmediato.</p></div>
+    </div>
+    <div class="why-card">
+      <div class="wc-num">3</div>
+      <div><h4>Configuración en menos de 24 horas</h4><p>No es un proyecto de meses. Welko se activa rápido y funciona desde el primer día. Sin contratar personal.</p></div>
+    </div>
+    <div class="why-card">
+      <div class="wc-num">4</div>
+      <div><h4>Garantía de 14 días sin riesgo</h4><p>Si Welko no reduce tus no-shows ni te ahorra tiempo en las primeras dos semanas, te devolvemos todo.</p></div>
+    </div>
+  </div>
+  <span class="slide-num">7 / 8</span>
+</div>
+
+<!-- ══════════════════════════════
+     SLIDE 8 — CTA FINAL
+══════════════════════════════ -->
+<div class="slide s8">
+  <div class="bg-glow2"></div>
+  <div class="content">
+    <div class="g-badge">🛡 Garantía de devolución — 14 días</div>
+    <h2>¿Listo para tener una<br><em>recepcionista que nunca duerme?</em></h2>
+    <p class="sub">Únete a las clínicas que ya automatizan su comunicación con Welko. Empieza hoy, configura en menos de 24 horas y ve los resultados en tu primera semana.</p>
+    <div class="cta-row">
+      <div class="btn-main">Empezar en welko.agency</div>
+      <div class="btn-sec">Ver demo en vivo →</div>
+    </div>
+    <div class="contact-row">
+      <span class="contact-item">Web: <span>welko.agency</span></span>
+      <span class="contact-item">Demo: <span>welko.agency/demo</span></span>
+      <span class="contact-item">Dental: <span>welko.agency/dental</span></span>
+      <span class="contact-item">Estética: <span>welko.agency/estetica</span></span>
+    </div>
+  </div>
+  <span class="slide-num">8 / 8</span>
+</div>
+
+</body>
+</html>

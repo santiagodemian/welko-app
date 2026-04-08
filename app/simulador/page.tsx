@@ -13,7 +13,7 @@ export default function SimuladorPage() {
       <footer className="py-8 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)' }}>
         <div className="max-w-5xl mx-auto">
           <p className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
-            © {new Date().getFullYear()} Welko — El recepcionista IA líder para Clínicas de Salud y Estética.
+            © {new Date().getFullYear()} Welko — El recepcionista IA lider.
           </p>
         </div>
       </footer>

@@ -306,27 +306,83 @@ export default function OnboardingPage() {
     }
   }
 
+  /* ─── AI Completeness Score ─── */
+  const scoreItems = [
+    { label: 'Nombre de la clínica',    done: !!name.trim(),                              pts: 10 },
+    { label: 'Teléfono de contacto',    done: !!phone.trim(),                             pts: 5  },
+    { label: 'Dirección',               done: !!address.trim(),                           pts: 5  },
+    { label: 'Especialidades',          done: specialties.length > 0,                     pts: 10 },
+    { label: 'Horarios configurados',   done: Object.values(hours).some(h => h.active),   pts: 10 },
+    { label: 'Al menos 1 servicio',     done: services.some(s => s.name.trim()),          pts: 15 },
+    { label: 'Precio en servicios',     done: services.some(s => s.priceMin.trim()),      pts: 5  },
+    { label: 'Métodos de pago',         done: paymentMethods.length > 0,                  pts: 5  },
+    { label: 'Política de cancelación', done: !!cancellationPolicy.trim(),               pts: 5  },
+    { label: '3+ FAQs completas',       done: faqs.filter(f => f.question.trim() && f.answer.trim()).length >= 3, pts: 15 },
+    { label: 'Nombre del agente IA',    done: !!aiAgentName.trim(),                       pts: 10 },
+    { label: 'Tono configurado',        done: !!aiTone,                                   pts: 5  },
+  ]
+  const totalPts   = scoreItems.reduce((s, i) => s + i.pts, 0)
+  const earnedPts  = scoreItems.filter(i => i.done).reduce((s, i) => s + i.pts, 0)
+  const aiScore    = Math.round((earnedPts / totalPts) * 100)
+  const missing    = scoreItems.filter(i => !i.done)
+  const nextAction = missing[0]
+
+  const scoreColor = aiScore >= 80 ? '#22C55E' : aiScore >= 50 ? '#F59E0B' : '#60A5FA'
+
   /* ─── Render ─── */
   return (
     <div style={{ minHeight: '100vh', background: BG, display: 'flex', flexDirection: 'column' }}>
 
       {/* ── Topbar ── */}
       <div style={{
-        height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 28px', borderBottom: `1px solid ${BORDER}`, flexShrink: 0,
-        background: SURF, boxShadow: '0 1px 0 #E5E7EB',
+        background: SURF, boxShadow: '0 1px 0 #E5E7EB', gap: 16,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 28, height: 28, borderRadius: 8,
-            background: NAVY,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+          <div style={{ width: 28, height: 28, borderRadius: 8, background: NAVY, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Image src="/welko_logo_purewhite.png" alt="Welko" width={18} height={18} style={{ objectFit: 'contain' }} />
           </div>
-          <span style={{ color: NAVY, fontWeight: 700, fontSize: 15 }}>Welko</span>
+          <span style={{ color: NAVY, fontWeight: 800, fontSize: 16 }}>Welko</span>
         </div>
-        <span style={{ color: MUTED, fontSize: 12 }}>Configuración inicial · Paso {step} de {STEPS.length}</span>
+
+        {/* AI Score pill — grows to fill center */}
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14 }}>
+          {/* Progress bar */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 200, maxWidth: 340 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: NAVY }}>
+                Tu IA está al <span style={{ color: scoreColor }}>{aiScore}%</span> de su potencial
+              </span>
+              <span style={{ fontSize: 10, color: MUTED }}>{earnedPts}/{totalPts} pts</span>
+            </div>
+            <div style={{ height: 6, borderRadius: 99, background: '#E5E7EB', overflow: 'hidden' }}>
+              <div style={{
+                height: '100%', borderRadius: 99,
+                width: `${aiScore}%`,
+                background: scoreColor,
+                transition: 'width 0.5s ease, background 0.3s',
+              }} />
+            </div>
+          </div>
+          {/* Next action nudge */}
+          {nextAction && (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              padding: '5px 12px', borderRadius: 99,
+              background: `${scoreColor}15`, border: `1px solid ${scoreColor}30`,
+              flexShrink: 0,
+            }}>
+              <Sparkles size={11} color={scoreColor} />
+              <span style={{ fontSize: 11, color: NAVY, fontWeight: 500 }}>
+                +{nextAction.pts}pts: <strong>{nextAction.label}</strong>
+              </span>
+            </div>
+          )}
+        </div>
+
+        <span style={{ color: MUTED, fontSize: 12, flexShrink: 0 }}>Paso {step} de {STEPS.length}</span>
       </div>
 
       {/* ── Stepper ── */}

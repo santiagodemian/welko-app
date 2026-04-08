@@ -34,15 +34,11 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   icons: {
     icon: [
-      { url: '/icon.svg',        type: 'image/svg+xml' },
-      { url: '/favicon-32.png',  type: 'image/png', sizes: '32x32' },
-      { url: '/favicon-16.png',  type: 'image/png', sizes: '16x16' },
+      { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/icon-192.png',   type: 'image/png', sizes: '192x192' },
     ],
     shortcut:   '/favicon-32.png',
     apple:      '/apple-touch-icon.png',
-    other: [
-      { rel: 'apple-touch-icon', url: '/apple-touch-icon.png' },
-    ],
   },
   manifest: '/site.webmanifest',
   openGraph: {

@@ -396,7 +396,7 @@ function ConfigForm({
           style={{
             flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
             padding: '10px 20px', background: '#1A2A56', borderRadius: 8,
-            color: '#000000', fontSize: 13, fontWeight: 700, cursor: 'pointer', border: 'none',
+            color: '#ffffff', fontSize: 13, fontWeight: 700, cursor: 'pointer', border: 'none',
           }}
         >
           <Plug size={14} />

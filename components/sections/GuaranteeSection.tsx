@@ -23,12 +23,11 @@ export function GuaranteeSection() {
           {/* Text */}
           <div className="flex flex-col gap-1.5 text-center sm:text-left">
             <p className="text-base font-semibold" style={{ color: '#1A2A56' }}>
-              Garantía de Satisfacción Welko
+              Garantía de Satisfacción — 14 días
             </p>
             <p className="text-sm leading-relaxed" style={{ color: '#374151' }}>
-              Prueba el servicio por{' '}
-              <strong style={{ color: '#111827' }}>7 días</strong>. Si no estás
-              convencido, te devolvemos tu dinero sin preguntas.
+              Prueba Welko por{' '}
+              <strong style={{ color: '#111827' }}>14 días completos</strong>. Si no ves el valor, te devolvemos el 100% de tu pago sin preguntas ni trámites.
             </p>
             <Link
               href="/reembolsos"

@@ -60,7 +60,7 @@ export default function VendeWelkoPage() {
               <span style={{ color: 'var(--accent)' }}>ingresos recurrentes</span>
             </h1>
             <p className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              Únete a nuestra red de partners y distribuye el recepcionista IA líder para clínicas
+              Únete a nuestra red de partners y distribuye el recepcionista IA lider para clínicas
               en México. Sin inventario, sin riesgo, con comisiones mensuales mientras tus clientes
               sigan activos.
             </p>
@@ -162,7 +162,7 @@ export default function VendeWelkoPage() {
       </main>
 
       <footer className="py-6 px-4 text-center text-xs" style={{ color: '#9CA3AF', borderTop: '1px solid var(--border)' }}>
-        © {new Date().getFullYear()} Welko — El recepcionista IA líder para Clínicas de Salud y Estética.
+        © {new Date().getFullYear()} Welko — El recepcionista IA lider.
       </footer>
     </>
   )

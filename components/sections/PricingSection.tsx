@@ -2,11 +2,10 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Check, X, Loader2 } from 'lucide-react'
+import { Check, X, Loader2, Zap } from 'lucide-react'
 import { useLang } from '@/contexts/LangContext'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
-
 const WA_NUMBER = '525628443738'
 
 function whatsappUrl(planName: string, lang: string): string {
@@ -16,78 +15,128 @@ function whatsappUrl(planName: string, lang: string): string {
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`
 }
 
+interface Feature {
+  text: { es: string; en: string }
+  included: boolean
+  highlight?: boolean
+}
+
 interface Plan {
   id: string
   name: string
+  badge?: { es: string; en: string }
   tagline: { es: string; en: string }
+  for: { es: string; en: string }
   monthly: number
   annual: number
   featured: boolean
-  features: { text: { es: string; en: string }; included: boolean }[]
+  cta?: { es: string; en: string }
+  features: Feature[]
+  roi?: { es: string; en: string }
 }
 
 const PLANS: Plan[] = [
   {
-    id: 'essential',
-    name: 'Essential',
-    tagline: {
-      es: 'Eficiencia pura para tu consulta',
-      en: 'Pure efficiency for your practice',
-    },
-    monthly: 1999,
-    annual: 1599,
+    id: 'starter',
+    name: 'Starter',
+    tagline: { es: 'Para arrancar sin riesgos', en: 'Start with no risk' },
+    for: { es: 'Solo profesional · negocio chico', en: 'Solo professional · small business' },
+    monthly: 799,
+    annual: 639,
     featured: false,
     features: [
-      { text: { es: 'WhatsApp e Instagram 24/7', en: 'WhatsApp & Instagram 24/7' }, included: true },
-      { text: { es: 'Agendamiento básico de citas', en: 'Basic appointment scheduling' }, included: true },
-      { text: { es: 'Respuestas a preguntas frecuentes', en: 'FAQ auto-responses' }, included: true },
-      { text: { es: 'Recordatorios automáticos', en: 'Automatic reminders' }, included: true },
-      { text: { es: 'CRM Médico Welko', en: 'Welko Medical CRM' }, included: false },
-      { text: { es: 'Estadísticas de conversión', en: 'Conversion analytics' }, included: false },
-      { text: { es: 'Llamadas de voz (IA)', en: 'AI voice calls' }, included: false },
-      { text: { es: 'Multi-clínica', en: 'Multi-clinic' }, included: false },
+      { text: { es: '1 canal: WhatsApp Business API', en: '1 channel: WhatsApp Business API' }, included: true },
+      { text: { es: 'IA responde precios, horarios, ubicación', en: 'AI answers prices, hours, location' }, included: true },
+      { text: { es: 'Hasta 300 conversaciones/mes', en: 'Up to 300 conversations/month' }, included: true },
+      { text: { es: 'Recordatorios de cita (hasta 100/mes)', en: 'Appointment reminders (up to 100/mo)' }, included: true },
+      { text: { es: 'Panel básico de métricas', en: 'Basic metrics dashboard' }, included: true },
+      { text: { es: 'Configuración en < 24 horas', en: 'Setup in < 24 hours' }, included: true },
+      { text: { es: 'Agenda inteligente', en: 'Smart scheduling' }, included: false },
+      { text: { es: 'Multi-canal (Instagram, Facebook)', en: 'Multi-channel (Instagram, Facebook)' }, included: false },
+      { text: { es: 'Recordatorios ilimitados', en: 'Unlimited reminders' }, included: false },
+      { text: { es: 'CRM de clientes', en: 'Client CRM' }, included: false },
     ],
+    roi: {
+      es: 'Recupera 1 cita/mes para que se pague solo',
+      en: 'Recover 1 appointment/month to break even',
+    },
+  },
+  {
+    id: 'essential',
+    name: 'Essential',
+    tagline: { es: 'Automatización completa del canal digital', en: 'Full digital channel automation' },
+    for: { es: 'Profesional establecido · 1 sede', en: 'Established professional · 1 location' },
+    monthly: 1499,
+    annual: 1199,
+    featured: false,
+    features: [
+      { text: { es: '1 canal: WhatsApp Business API', en: '1 channel: WhatsApp Business API' }, included: true },
+      { text: { es: 'IA conversacional 24/7', en: '24/7 conversational AI' }, included: true },
+      { text: { es: 'Hasta 500 conversaciones/mes', en: 'Up to 500 conversations/month' }, included: true },
+      { text: { es: 'Agenda inteligente (Google Calendar)', en: 'Smart scheduling (Google Calendar)' }, included: true, highlight: true },
+      { text: { es: 'Recordatorios + confirmaciones ilimitadas', en: 'Unlimited reminders + confirmations' }, included: true, highlight: true },
+      { text: { es: 'Widget web embebible', en: 'Embeddable web widget' }, included: true },
+      { text: { es: 'Reportes semanales automáticos', en: 'Automatic weekly reports' }, included: true },
+      { text: { es: 'Soporte por chat (< 24 h)', en: 'Chat support (< 24 h)' }, included: true },
+      { text: { es: 'Multi-canal (Instagram, Facebook)', en: 'Multi-channel (Instagram, Facebook)' }, included: false },
+      { text: { es: 'CRM de clientes', en: 'Client CRM' }, included: false },
+    ],
+    roi: {
+      es: '2 citas recuperadas/mes = plan pagado',
+      en: '2 recovered appointments/month = plan paid',
+    },
   },
   {
     id: 'pro',
     name: 'Pro',
-    tagline: {
-      es: 'Potencia y Control Total',
-      en: 'Full Power and Control',
-    },
-    monthly: 3999,
-    annual: 3199,
+    badge: { es: 'Más popular', en: 'Most popular' },
+    tagline: { es: 'Tu secretaria se enfoca en vender, no en contestar', en: 'Your staff sells, not answers messages' },
+    for: { es: 'Equipos de 2–5 personas · cualquier industria', en: '2–5 person teams · any industry' },
+    monthly: 2999,
+    annual: 2399,
     featured: true,
     features: [
-      { text: { es: 'WhatsApp e Instagram 24/7', en: 'WhatsApp & Instagram 24/7' }, included: true },
-      { text: { es: 'Agendamiento básico de citas', en: 'Basic appointment scheduling' }, included: true },
-      { text: { es: 'Respuestas a preguntas frecuentes', en: 'FAQ auto-responses' }, included: true },
-      { text: { es: 'Recordatorios automáticos', en: 'Automatic reminders' }, included: true },
-      { text: { es: 'CRM Médico Welko', en: 'Welko Medical CRM' }, included: true },
-      { text: { es: 'Estadísticas de conversión', en: 'Conversion analytics' }, included: true },
-      { text: { es: 'Llamadas de voz (IA)', en: 'AI voice calls' }, included: true },
-      { text: { es: 'Tono de marca personalizado', en: 'Custom brand voice' }, included: true },
-      { text: { es: 'Multi-clínica', en: 'Multi-clinic' }, included: false },
+      { text: { es: '3 canales: WhatsApp + Instagram + Facebook', en: '3 channels: WhatsApp + Instagram + Facebook' }, included: true, highlight: true },
+      { text: { es: 'IA conversacional 24/7', en: '24/7 conversational AI' }, included: true },
+      { text: { es: 'Hasta 2,000 conversaciones/mes', en: 'Up to 2,000 conversations/month' }, included: true },
+      { text: { es: 'Agenda inteligente + waitlist automático', en: 'Smart scheduling + automatic waitlist' }, included: true, highlight: true },
+      { text: { es: 'Recordatorios + reconfirmación 24h antes', en: 'Reminders + 24h reconfirmation' }, included: true },
+      { text: { es: 'CRM de clientes (historial + contexto)', en: 'Client CRM (history + context)' }, included: true, highlight: true },
+      { text: { es: 'Widget web + 2 integraciones (Stripe / Calendly)', en: 'Web widget + 2 integrations (Stripe / Calendly)' }, included: true },
+      { text: { es: 'Reportes semanales automáticos', en: 'Automatic weekly reports' }, included: true },
+      { text: { es: 'Soporte prioritario (< 8 h)', en: 'Priority support (< 8 h)' }, included: true },
+      { text: { es: 'Voz IA / llamadas automáticas', en: 'Voice AI / automatic calls' }, included: false },
     ],
+    roi: {
+      es: 'Recupera 6–8 citas/mes = $6,000–$9,600 MXN salvados',
+      en: 'Recover 6–8 appts/month = $6,000–$9,600 MXN saved',
+    },
   },
   {
     id: 'business',
     name: 'Business',
-    tagline: {
-      es: 'Escalabilidad Multisucursal',
-      en: 'Multi-location Scalability',
-    },
-    monthly: 6999,
-    annual: 5599,
+    tagline: { es: 'Escalabilidad total sin límites', en: 'Total scalability, no limits' },
+    for: { es: 'Multi-sede · alto volumen · franquicia', en: 'Multi-location · high volume · franchise' },
+    monthly: 5999,
+    annual: 4799,
     featured: false,
+    cta: { es: 'Hablar con ventas', en: 'Talk to sales' },
     features: [
       { text: { es: 'Todo lo del plan Pro', en: 'Everything in Pro' }, included: true },
-      { text: { es: 'Multi-clínica (sucursales ilimitadas)', en: 'Multi-clinic (unlimited branches)' }, included: true },
-      { text: { es: 'Integración EHR / HIS', en: 'EHR / HIS Integration' }, included: true },
-      { text: { es: 'Soporte prioritario 24/7', en: 'Priority support 24/7' }, included: true },
-      { text: { es: 'Análisis avanzado de ROI', en: 'Advanced ROI analytics' }, included: true },
-      { text: { es: 'Onboarding dedicado', en: 'Dedicated onboarding' }, included: true },
+      { text: { es: 'Canales ilimitados', en: 'Unlimited channels' }, included: true },
+      { text: { es: 'Conversaciones ilimitadas', en: 'Unlimited conversations' }, included: true },
+      { text: { es: 'Voz IA: responde y agenda por llamada', en: 'Voice AI: answers and books by call' }, included: true, highlight: true },
+      { text: { es: 'Hasta 3 sedes incluidas (+$999/sede extra)', en: 'Up to 3 locations (+$999/extra)' }, included: true, highlight: true },
+      { text: { es: 'Campañas de reactivación automáticas', en: 'Automatic reactivation campaigns' }, included: true, highlight: true },
+      { text: { es: 'API access + Zapier + HubSpot', en: 'API access + Zapier + HubSpot' }, included: true },
+      { text: { es: '2 sesiones onboarding 1:1', en: '2 onboarding 1:1 sessions' }, included: true },
+      { text: { es: 'Account manager dedicado', en: 'Dedicated account manager' }, included: true },
+      { text: { es: 'SLA soporte < 4 horas', en: 'Support SLA < 4 hours' }, included: true },
     ],
+    roi: {
+      es: '1 prospecto cerrado extra/mes = plan pagado 5×',
+      en: '1 extra closed lead/month = plan paid 5×',
+    },
   },
 ]
 
@@ -96,7 +145,7 @@ export function PricingSection() {
   const [loading, setLoading] = useState<string | null>(null)
   const { lang } = useLang()
 
-  async function handleCheckout(planId: string) {
+  async function handleCheckout(planId: string, planName: string) {
     setLoading(planId)
     try {
       const res = await fetch('/api/checkout', {
@@ -105,35 +154,31 @@ export function PricingSection() {
         body: JSON.stringify({ plan: planId, annual: isAnnual }),
       })
       const data = await res.json()
-      if (data.url) {
-        window.location.href = data.url
-      } else {
-        throw new Error('No URL')
-      }
+      if (data.url) { window.location.href = data.url; return }
+      throw new Error('No URL')
     } catch {
-      // Fallback: WhatsApp
-      const plan = PLANS.find((p) => p.id === planId)
-      if (plan) window.open(whatsappUrl(plan.name, lang), '_blank')
+      window.location.href = '/registro'
     } finally {
       setLoading(null)
     }
   }
 
-  const labels = {
-    eyebrow:  lang === 'es' ? 'Precios'                     : 'Pricing',
-    heading:  lang === 'es' ? 'Planes simples, resultados claros' : 'Simple plans, clear results',
-    sub:      lang === 'es' ? 'Sin costos ocultos. Cancela cuando quieras.' : 'No hidden fees. Cancel anytime.',
-    monthly:  lang === 'es' ? 'Mensual'                     : 'Monthly',
-    annual:   lang === 'es' ? 'Anual'                       : 'Annual',
-    popular:  lang === 'es' ? 'Más Popular'                 : 'Most Popular',
-    cta:      lang === 'es' ? 'Elegir plan'                 : 'Choose plan',
-    trust:    lang === 'es' ? '🔒 Pagos seguros por Stripe. Sin permanencia.' : '🔒 Secure payments by Stripe. No lock-in.',
-    iva:      lang === 'es' ? 'MXN/mes + IVA'               : 'MXN/mo + VAT',
+  const L = {
+    eyebrow: lang === 'es' ? 'Planes y precios'                          : 'Plans & pricing',
+    heading: lang === 'es' ? 'Planes simples, resultados claros'         : 'Simple plans, clear results',
+    sub:     lang === 'es' ? 'Sin costos ocultos. Cancela cuando quieras.' : 'No hidden fees. Cancel anytime.',
+    monthly: lang === 'es' ? 'Mensual'                                   : 'Monthly',
+    annual:  lang === 'es' ? 'Anual'                                     : 'Annual',
+    cta:     lang === 'es' ? 'Comenzar ahora'                            : 'Get started now',
+    trust:   lang === 'es' ? '🔒 Pagos seguros por Stripe · Sin permanencia · Cancela cuando quieras' : '🔒 Secure payments via Stripe · No lock-in · Cancel anytime',
+    iva:     lang === 'es' ? 'MXN/mes + IVA'                             : 'MXN/mo + VAT',
+    forLabel:lang === 'es' ? 'Para:'                                     : 'For:',
+    roi:     lang === 'es' ? '💡 ROI:'                                   : '💡 ROI:',
   }
 
   return (
-    <section id="precios" className="section-spacing px-4 sm:px-6" style={{ background: 'var(--bg-secondary)' }}>
-      <div className="max-w-5xl mx-auto flex flex-col gap-12">
+    <section id="precios" className="py-20 sm:py-28 px-4 sm:px-6" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border)' }}>
+      <div className="max-w-6xl mx-auto flex flex-col gap-12">
 
         {/* Header */}
         <motion.div
@@ -141,19 +186,19 @@ export function PricingSection() {
           viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE }}
           className="flex flex-col items-center gap-4 text-center"
         >
-          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
-            {labels.eyebrow}
+          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
+            {L.eyebrow}
           </span>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
-            {labels.heading}
+          <h2 className="text-2xl sm:text-4xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+            {L.heading}
           </h2>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            {labels.sub}
+          <p className="text-base font-light" style={{ color: 'var(--text-secondary)' }}>
+            {L.sub}
           </p>
 
-          {/* Toggle */}
+          {/* Toggle mensual / anual */}
           <div
-            className="flex items-center gap-1 p-1 rounded-xl"
+            className="flex items-center gap-1 p-1 rounded-xl mt-2"
             style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
           >
             <button
@@ -161,17 +206,17 @@ export function PricingSection() {
               className="px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200"
               style={{ background: !isAnnual ? 'var(--accent)' : 'transparent', color: !isAnnual ? '#FFFFFF' : 'var(--text-secondary)' }}
             >
-              {labels.monthly}
+              {L.monthly}
             </button>
             <button
               onClick={() => setIsAnnual(true)}
               className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200"
               style={{ background: isAnnual ? 'var(--accent)' : 'transparent', color: isAnnual ? '#FFFFFF' : 'var(--text-secondary)' }}
             >
-              {labels.annual}
+              {L.annual}
               <span
                 className="text-xs font-bold px-1.5 py-0.5 rounded-full"
-                style={{ background: isAnnual ? 'rgba(255,255,255,0.18)' : '#E5E9F4', color: isAnnual ? '#FFFFFF' : 'var(--accent)' }}
+                style={{ background: isAnnual ? 'rgba(255,255,255,0.2)' : '#E5E9F4', color: isAnnual ? '#fff' : 'var(--accent)' }}
               >
                 −20%
               </span>
@@ -179,79 +224,120 @@ export function PricingSection() {
           </div>
         </motion.div>
 
-        {/* Plans */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
+        {/* Plans grid — 4 columns */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
           {PLANS.map((plan, i) => {
             const price = isAnnual ? plan.annual : plan.monthly
+            const isFeatured = plan.featured
+            const ctaLabel = plan.cta ? (lang === 'es' ? plan.cta.es : plan.cta.en) : L.cta
+
             return (
               <motion.div
                 key={plan.id}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE, delay: i * 0.1 }}
-                className={`relative flex flex-col gap-5 p-6 sm:p-8 rounded-3xl ${plan.featured ? 'glass-card-featured' : 'glass-card float-shadow'}`}
-                style={plan.featured ? { transform: 'scale(1.03)' } : {}}
+                viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE, delay: i * 0.08 }}
+                className="relative flex flex-col gap-5 p-6 rounded-3xl"
+                style={
+                  isFeatured
+                    ? {
+                        background: 'linear-gradient(145deg, #13244A 0%, #0E1F38 100%)',
+                        border: '1.5px solid rgba(96,165,250,0.35)',
+                        boxShadow: '0 20px 60px rgba(19,36,74,0.35), 0 0 0 1px rgba(96,165,250,0.15)',
+                        transform: 'scale(1.02)',
+                      }
+                    : {
+                        background: 'var(--surface)',
+                        border: '1px solid var(--border)',
+                        boxShadow: '0 4px 24px rgba(19,36,74,0.07)',
+                      }
+                }
               >
-                {plan.featured && (
+                {/* Popular badge */}
+                {plan.badge && (
                   <span
-                    className="absolute -top-4 left-1/2 -translate-x-1/2 px-5 py-1.5 rounded-full text-xs font-bold tracking-widest whitespace-nowrap uppercase"
-                    style={{ background: '#FFFFFF', color: '#13244A', boxShadow: '0 4px 12px rgba(19,36,74,0.20)' }}
+                    className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-4 py-1 rounded-full text-xs font-bold whitespace-nowrap"
+                    style={{ background: '#60A5FA', color: '#05101F', boxShadow: '0 4px 12px rgba(96,165,250,0.4)' }}
                   >
-                    {labels.popular}
+                    <Zap size={10} fill="#05101F" />
+                    {lang === 'es' ? plan.badge.es : plan.badge.en}
                   </span>
                 )}
 
-                {/* Name + tagline */}
-                <div className="flex flex-col gap-0.5">
+                {/* Plan name + tagline */}
+                <div className="flex flex-col gap-1 pt-1">
                   <span
                     className="text-xs font-bold uppercase tracking-widest"
-                    style={{ color: plan.featured ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)' }}
+                    style={{ color: isFeatured ? 'rgba(255,255,255,0.45)' : 'var(--text-muted)' }}
                   >
                     {plan.name}
                   </span>
                   <p
-                    className="text-sm font-semibold"
-                    style={{ color: plan.featured ? 'rgba(255,255,255,0.9)' : 'var(--text-primary)' }}
+                    className="text-sm font-semibold leading-snug"
+                    style={{ color: isFeatured ? '#F0F4FC' : 'var(--text-primary)' }}
                   >
                     {lang === 'es' ? plan.tagline.es : plan.tagline.en}
+                  </p>
+                  <p
+                    className="text-xs font-light"
+                    style={{ color: isFeatured ? 'rgba(255,255,255,0.35)' : 'var(--text-muted)' }}
+                  >
+                    {L.forLabel} {lang === 'es' ? plan.for.es : plan.for.en}
                   </p>
                 </div>
 
                 {/* Price */}
                 <div className="flex items-end gap-1.5">
                   <span
-                    className="text-3xl font-black tracking-tight leading-none"
-                    style={{ color: plan.featured ? '#FFFFFF' : 'var(--text-primary)' }}
+                    className="text-4xl font-black tracking-tight leading-none"
+                    style={{ color: isFeatured ? '#FFFFFF' : 'var(--text-primary)' }}
                   >
                     ${price.toLocaleString('es-MX')}
                   </span>
                   <span
-                    className="text-xs mb-1"
-                    style={{ color: plan.featured ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)' }}
+                    className="text-xs mb-1.5"
+                    style={{ color: isFeatured ? 'rgba(255,255,255,0.4)' : 'var(--text-muted)' }}
                   >
-                    {labels.iva}
+                    {L.iva}
                   </span>
                 </div>
 
-                <hr style={{ borderColor: plan.featured ? 'rgba(255,255,255,0.1)' : 'var(--border)', margin: 0 }} />
+                {/* ROI pill */}
+                {plan.roi && (
+                  <div
+                    className="px-3 py-2 rounded-xl text-xs font-medium leading-snug"
+                    style={
+                      isFeatured
+                        ? { background: 'rgba(96,165,250,0.15)', color: '#93C5FD', border: '1px solid rgba(96,165,250,0.2)' }
+                        : { background: 'var(--bg-secondary)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }
+                    }
+                  >
+                    {L.roi} {lang === 'es' ? plan.roi.es : plan.roi.en}
+                  </div>
+                )}
+
+                <hr style={{ borderColor: isFeatured ? 'rgba(255,255,255,0.08)' : 'var(--border)', margin: 0 }} />
 
                 {/* Features */}
                 <ul className="flex flex-col gap-2.5 flex-1">
                   {plan.features.map((f, fi) => (
-                    <li key={fi} className="flex items-start gap-2.5">
+                    <li key={fi} className="flex items-start gap-2">
                       <span
-                        className="mt-0.5 flex-shrink-0 w-4.5 h-4.5"
-                        style={{ color: f.included ? (plan.featured ? '#FFFFFF' : '#13244A') : (plan.featured ? 'rgba(255,255,255,0.25)' : 'var(--text-muted)') }}
+                        className="mt-0.5 flex-shrink-0"
+                        style={{
+                          color: f.included
+                            ? (isFeatured ? (f.highlight ? '#60A5FA' : 'rgba(255,255,255,0.7)') : (f.highlight ? 'var(--accent)' : 'var(--text-secondary)'))
+                            : (isFeatured ? 'rgba(255,255,255,0.2)' : 'var(--border)'),
+                        }}
                       >
-                        {f.included
-                          ? <Check size={14} />
-                          : <X size={14} />}
+                        {f.included ? <Check size={13} strokeWidth={2.5} /> : <X size={13} />}
                       </span>
                       <span
                         className="text-xs leading-snug"
                         style={{
+                          fontWeight: f.highlight && f.included ? 600 : 400,
                           color: f.included
-                            ? (plan.featured ? 'rgba(255,255,255,0.85)' : 'var(--text-secondary)')
-                            : (plan.featured ? 'rgba(255,255,255,0.3)' : 'var(--text-muted)'),
+                            ? (isFeatured ? (f.highlight ? '#E0EEFF' : 'rgba(255,255,255,0.75)') : (f.highlight ? 'var(--text-primary)' : 'var(--text-secondary)'))
+                            : (isFeatured ? 'rgba(255,255,255,0.25)' : 'var(--text-muted)'),
                           textDecoration: f.included ? 'none' : 'line-through',
                         }}
                       >
@@ -263,59 +349,43 @@ export function PricingSection() {
 
                 {/* CTA */}
                 <button
-                  onClick={() => handleCheckout(plan.id)}
+                  onClick={() => handleCheckout(plan.id, plan.name)}
                   disabled={loading === plan.id}
-                  className="mt-1 w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-semibold tracking-wide transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="mt-2 w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-semibold tracking-wide transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
                   style={
-                    plan.featured
-                      ? {
-                          background: '#FFFFFF',
-                          color: '#13244A',
-                          border: 'none',
-                          boxShadow: '0 4px 16px rgba(255,255,255,0.25)',
-                          cursor: loading === plan.id ? 'not-allowed' : 'pointer',
-                        }
-                      : {
-                          background: 'transparent',
-                          color: 'var(--text-primary)',
-                          border: '1.5px solid var(--border)',
-                          cursor: loading === plan.id ? 'not-allowed' : 'pointer',
-                        }
+                    isFeatured
+                      ? { background: '#FFFFFF', color: '#0A0F1A', border: 'none', boxShadow: '0 4px 16px rgba(255,255,255,0.2)', cursor: 'pointer' }
+                      : { background: 'transparent', color: 'var(--text-primary)', border: '1.5px solid var(--border)', cursor: 'pointer' }
                   }
                   onMouseEnter={(e) => {
                     if (loading === plan.id) return
                     const el = e.currentTarget as HTMLButtonElement
-                    if (plan.featured) {
-                      el.style.background = '#F0F4FF'
-                      el.style.transform = 'translateY(-1px)'
-                    } else {
-                      el.style.background = 'var(--surface-hover)'
-                    }
+                    if (isFeatured) { el.style.background = '#EEF2FF'; el.style.transform = 'translateY(-1px)' }
+                    else el.style.background = 'var(--surface-hover)'
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget as HTMLButtonElement
-                    el.style.background = plan.featured ? '#FFFFFF' : 'transparent'
+                    el.style.background = isFeatured ? '#FFFFFF' : 'transparent'
                     el.style.transform = 'translateY(0)'
                   }}
                 >
-                  {loading === plan.id
-                    ? <Loader2 size={14} className="animate-spin" />
-                    : labels.cta}
+                  {loading === plan.id ? <Loader2 size={14} className="animate-spin" /> : ctaLabel}
                 </button>
               </motion.div>
             )
           })}
         </div>
 
-        {/* Trust */}
+        {/* Trust line */}
         <motion.p
           initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
           viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}
           className="text-center text-xs"
           style={{ color: 'var(--text-muted)' }}
         >
-          {labels.trust}
+          {L.trust}
         </motion.p>
+
       </div>
     </section>
   )

@@ -1,468 +1,413 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
-  Building2, Plus, Edit3, Check, Sparkles, ChevronDown,
-  MessageSquare, Phone, Globe, Mic, Save, Trash2,
+  Building2, MapPin, Phone, MessageCircle, Plus, Edit2,
+  Trash2, Check, X, Loader2, Users, Zap, ArrowUpRight,
+  CheckCircle, AlertCircle,
 } from 'lucide-react'
+import Link from 'next/link'
 
-const NAVY  = '#1A2A56'
-const NAVY2 = '#2B3F7A'
-const WHITE = '#FFFFFF'
 const SURF  = 'var(--surface)'
-const SURF2 = 'var(--surface-hover)'
 const BORD  = 'var(--border)'
 const TEXT  = 'var(--text-primary)'
 const MUTED = 'var(--text-secondary)'
+const NAVY  = '#13244A'
+const GREEN = '#22C55E'
+const AMBER = '#F59E0B'
+const BLUE  = '#3B82F6'
+const PURPLE= '#A78BFA'
 
-/* ── Tone presets ── */
-const TONE_PRESETS = [
-  {
-    id: 'profesional',
-    label: 'Profesional',
-    desc: 'Claro, directo y confiable. Ideal para especialidades clínicas.',
-    sample: 'Buenos días, le habla el asistente virtual de Clínica XYZ. ¿En qué le puedo ayudar?',
-  },
-  {
-    id: 'amigable',
-    label: 'Amigable y cercana',
-    desc: 'Cálido, conversacional. Ideal para estética y nutrición.',
-    sample: '¡Hola! 😊 Soy el asistente de tu clínica. ¿Cómo te puedo ayudar hoy?',
-  },
-  {
-    id: 'empatico',
-    label: 'Empático',
-    desc: 'Comprensivo, prioriza el bienestar del paciente. Ideal para psicología.',
-    sample: 'Hola, entendemos que dar el primer paso puede ser difícil. Estamos aquí para acompañarte.',
-  },
-  {
-    id: 'formal',
-    label: 'Formal y ejecutivo',
-    desc: 'Preciso, sin lenguaje coloquial. Ideal para corporativos y multisucursal.',
-    sample: 'Bienvenido al sistema de atención de Grupo Clínico XYZ. Por favor indique su solicitud.',
-  },
-]
-
-/* ── Channel toggles ── */
-const CHANNELS = [
-  { id: 'whatsapp',  label: 'WhatsApp',  Icon: MessageSquare },
-  { id: 'llamadas',  label: 'Llamadas',  Icon: Phone },
-  { id: 'instagram', label: 'Instagram', Icon: Globe },
-  { id: 'web',       label: 'Chat Web',  Icon: Globe },
-]
+// ── Types ─────────────────────────────────────────────────────────────────────
 
 interface Branch {
-  id: string
-  name: string
-  city: string
-  specialty: string
-  tone: string
-  customGreeting: string
-  channels: string[]
-  active: boolean
+  id: string; name: string; address: string | null; phone: string | null
+  whatsappPhone: string | null; managerName: string | null; active: boolean
+  createdAt: string
 }
 
-const INITIAL_BRANCHES: Branch[] = [
-  {
-    id: '1',
-    name: 'Sucursal Centro',
-    city: 'CDMX',
-    specialty: 'Odontología',
-    tone: 'profesional',
-    customGreeting: 'Buenos días, bienvenido a Clínica Dental Centro. ¿En qué le puedo ayudar?',
-    channels: ['whatsapp', 'llamadas', 'instagram'],
-    active: true,
-  },
-  {
-    id: '2',
-    name: 'Sucursal Santa Fe',
-    city: 'CDMX',
-    specialty: 'Medicina Estética',
-    tone: 'amigable',
-    customGreeting: '¡Hola! 😊 Soy el asistente de Santa Fe Beauty. ¿Cómo te puedo ayudar?',
-    channels: ['whatsapp', 'instagram', 'web'],
-    active: true,
-  },
-  {
-    id: '3',
-    name: 'Sucursal Monterrey',
-    city: 'Monterrey',
-    specialty: 'Psicología',
-    tone: 'empatico',
-    customGreeting: 'Hola, estamos aquí para escucharte. ¿Quieres agendar tu primera sesión?',
-    channels: ['whatsapp', 'llamadas'],
-    active: false,
-  },
-]
+// ── Plan gate ─────────────────────────────────────────────────────────────────
 
-/* ── Branch card ── */
-function BranchCard({
-  branch,
-  selected,
-  onClick,
-}: {
-  branch: Branch
-  selected: boolean
-  onClick: () => void
-}) {
+function PlanGate() {
   return (
-    <button
-      onClick={onClick}
-      style={{
-        width: '100%', textAlign: 'left',
-        padding: '14px 16px', borderRadius: 12,
-        border: `1.5px solid ${selected ? NAVY : BORD}`,
-        background: selected ? `${NAVY}06` : SURF,
-        cursor: 'pointer', transition: 'all 0.15s',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-        <div style={{
-          width: 32, height: 32, borderRadius: 9, flexShrink: 0,
-          background: selected ? NAVY : SURF2,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <Building2 size={15} color={selected ? WHITE : NAVY} />
+    <div style={{
+      flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: '60px 28px',
+    }}>
+      <div style={{
+        maxWidth: 480, textAlign: 'center', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', gap: 20,
+      }}>
+        <div style={{ width: 64, height: 64, borderRadius: 18, background: `${AMBER}18`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Building2 size={28} color={AMBER} />
         </div>
-        <div style={{ flex: 1 }}>
-          <p style={{ color: TEXT, fontSize: 13, fontWeight: 700, margin: 0 }}>{branch.name}</p>
-          <p style={{ color: MUTED, fontSize: 11, margin: 0 }}>{branch.city} · {branch.specialty}</p>
+        <div>
+          <p style={{ fontSize: 18, fontWeight: 700, color: TEXT, margin: '0 0 8px' }}>
+            Gestión multi-sucursal
+          </p>
+          <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0 }}>
+            Administra todas tus clínicas desde un solo dashboard. Cada sucursal tiene su propio número de WhatsApp, horarios, encargado y métricas independientes.
+          </p>
         </div>
-        <span style={{
-          fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 99,
-          background: branch.active ? `${NAVY}12` : '#F3F4F6',
-          color: branch.active ? NAVY : '#9CA3AF',
-        }}>
-          {branch.active ? 'Activa' : 'Inactiva'}
-        </span>
-      </div>
-      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-        {branch.channels.map(ch => (
-          <span key={ch} style={{
-            fontSize: 9, fontWeight: 600, padding: '2px 7px', borderRadius: 99,
-            background: SURF2, color: MUTED, textTransform: 'capitalize',
-          }}>
-            {ch}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, width: '100%', textAlign: 'left' }}>
+          {[
+            { icon:'📍', title:'N sucursales', desc:'Sin límite de ubicaciones' },
+            { icon:'📊', title:'BI cross-sucursal', desc:'Métricas comparativas' },
+            { icon:'🤖', title:'IA por sucursal', desc:'Agente y tono independientes' },
+            { icon:'👤', title:'Encargado por sede', desc:'Control de acceso por rol' },
+          ].map(f => (
+            <div key={f.title} style={{ padding: '12px 14px', borderRadius: 10, background: SURF, border: `1px solid ${BORD}` }}>
+              <p style={{ fontSize: 16, margin: '0 0 4px' }}>{f.icon}</p>
+              <p style={{ fontSize: 12, fontWeight: 600, color: TEXT, margin: 0 }}>{f.title}</p>
+              <p style={{ fontSize: 11, color: MUTED, margin: '2px 0 0' }}>{f.desc}</p>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 99, background: `${AMBER}18`, color: AMBER }}>
+            Plan Business
           </span>
-        ))}
+          <Link href="/precios"
+            style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '10px 22px', borderRadius: 12, background: NAVY, color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>
+            <Zap size={14} />
+            Actualizar a Business
+          </Link>
+          <p style={{ fontSize: 11, color: MUTED, margin: 0 }}>14 días de prueba · Cancela cuando quieras</p>
+        </div>
       </div>
-    </button>
+    </div>
   )
 }
 
-export default function SucursalesPage() {
-  const [branches, setBranches] = useState<Branch[]>(INITIAL_BRANCHES)
-  const [selectedId, setSelectedId] = useState<string>('1')
-  const [saved, setSaved] = useState(false)
-  const [addingNew, setAddingNew] = useState(false)
-  const [newName, setNewName] = useState('')
+// ── Form modal ────────────────────────────────────────────────────────────────
 
-  const selected = branches.find(b => b.id === selectedId)!
+interface BranchFormProps {
+  initial?: Partial<Branch>
+  onSave: (data: Partial<Branch>) => Promise<void>
+  onClose: () => void
+  saving: boolean
+}
 
-  function updateSelected(patch: Partial<Branch>) {
-    setBranches(prev => prev.map(b => b.id === selectedId ? { ...b, ...patch } : b))
-    setSaved(false)
-  }
+function BranchForm({ initial, onSave, onClose, saving }: BranchFormProps) {
+  const [name, setName]           = useState(initial?.name ?? '')
+  const [address, setAddress]     = useState(initial?.address ?? '')
+  const [phone, setPhone]         = useState(initial?.phone ?? '')
+  const [wp, setWp]               = useState(initial?.whatsappPhone ?? '')
+  const [manager, setManager]     = useState(initial?.managerName ?? '')
 
-  function toggleChannel(ch: string) {
-    const current = selected.channels
-    const next = current.includes(ch) ? current.filter(c => c !== ch) : [...current, ch]
-    updateSelected({ channels: next })
-  }
-
-  function handleSave() {
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2000)
-  }
-
-  function addBranch() {
-    if (!newName.trim()) return
-    const nb: Branch = {
-      id: Date.now().toString(),
-      name: newName.trim(),
-      city: 'Nueva ciudad',
-      specialty: 'General',
-      tone: 'profesional',
-      customGreeting: `Bienvenido a ${newName.trim()}. ¿En qué le puedo ayudar?`,
-      channels: ['whatsapp'],
-      active: false,
-    }
-    setBranches(prev => [...prev, nb])
-    setSelectedId(nb.id)
-    setNewName('')
-    setAddingNew(false)
-  }
-
-  const selectedTone = TONE_PRESETS.find(t => t.id === selected.tone)!
+  const isEdit = !!initial?.id
 
   return (
-    <div style={{ padding: '24px 28px', minHeight: '100vh', background: 'var(--bg)' }}>
-
-      {/* Header */}
-      <div style={{ marginBottom: 22 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-          <Building2 size={20} color={NAVY} />
-          <h1 style={{ color: TEXT, fontSize: 20, fontWeight: 700, margin: 0 }}>
-            Sucursales & Tono de Marca
-          </h1>
-          <span style={{
-            fontSize: 10, fontWeight: 800, padding: '3px 9px', borderRadius: 99,
-            background: '#F59E0B14', color: '#D97706', marginLeft: 4,
-          }}>
-            BUSINESS
-          </span>
+    <div style={{
+      position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100,
+    }} onClick={onClose}>
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: SURF, borderRadius: 18, padding: '24px', width: 440, display: 'flex', flexDirection: 'column', gap: 16, boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <p style={{ fontSize: 15, fontWeight: 700, color: TEXT, margin: 0 }}>
+            {isEdit ? 'Editar sucursal' : 'Nueva sucursal'}
+          </p>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: MUTED, padding: 4 }}>
+            <X size={18} />
+          </button>
         </div>
-        <p style={{ color: MUTED, fontSize: 13, margin: 0 }}>
-          Configura cómo habla la IA en cada sucursal. Cada ubicación puede tener un tono, canales y saludo distintos.
-        </p>
+
+        {[
+          { label: 'Nombre *', value: name, set: setName, placeholder: 'Ej. Sucursal Centro', required: true },
+          { label: 'Dirección', value: address, set: setAddress, placeholder: 'Av. Insurgentes 123, Col. Roma' },
+          { label: 'Teléfono', value: phone, set: setPhone, placeholder: '+52 55 1234 5678' },
+          { label: 'WhatsApp Business', value: wp, set: setWp, placeholder: '+52 55 1234 5678' },
+          { label: 'Encargado', value: manager, set: setManager, placeholder: 'Dr. Juan García' },
+        ].map(f => (
+          <div key={f.label}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: MUTED, display: 'block', marginBottom: 5 }}>{f.label}</label>
+            <input
+              value={f.value}
+              onChange={e => f.set(e.target.value)}
+              placeholder={f.placeholder}
+              style={{ width: '100%', padding: '9px 12px', borderRadius: 10, border: `1px solid ${BORD}`, background: 'var(--bg)', color: TEXT, fontSize: 13, outline: 'none', boxSizing: 'border-box' }}
+            />
+          </div>
+        ))}
+
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 4 }}>
+          <button onClick={onClose} style={{ padding: '9px 18px', borderRadius: 10, border: `1px solid ${BORD}`, background: SURF, color: MUTED, fontSize: 13, cursor: 'pointer' }}>
+            Cancelar
+          </button>
+          <button
+            onClick={() => onSave({ name, address, phone, whatsappPhone: wp, managerName: manager })}
+            disabled={!name.trim() || saving}
+            style={{ padding: '9px 18px', borderRadius: 10, background: NAVY, color: '#fff', fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer', opacity: !name.trim() || saving ? 0.6 : 1, display: 'flex', alignItems: 'center', gap: 6 }}>
+            {saving ? <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> : <Check size={13} />}
+            {saving ? 'Guardando…' : isEdit ? 'Actualizar' : 'Crear sucursal'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Branch card ───────────────────────────────────────────────────────────────
+
+function BranchCard({ branch, onEdit, onDelete, onToggle }: {
+  branch: Branch
+  onEdit: () => void
+  onDelete: () => void
+  onToggle: () => void
+}) {
+  const color = branch.active ? GREEN : AMBER
+
+  return (
+    <div style={{ background: SURF, border: `1px solid ${BORD}`, borderRadius: 16, padding: '20px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
+          <div style={{ width: 40, height: 40, borderRadius: 11, background: `${NAVY}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <Building2 size={18} color={NAVY} />
+          </div>
+          <div>
+            <p style={{ fontSize: 14, fontWeight: 700, color: TEXT, margin: 0 }}>{branch.name}</p>
+            {branch.managerName && (
+              <p style={{ fontSize: 11, color: MUTED, margin: '2px 0 0', display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Users size={10} /> {branch.managerName}
+              </p>
+            )}
+          </div>
+        </div>
+        <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 99, background: `${color}18`, color, flexShrink: 0 }}>
+          {branch.active ? 'Activa' : 'Inactiva'}
+        </span>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 20 }}>
-
-        {/* ── Left: branch list ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-            <p style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>
-              Sucursales ({branches.length})
-            </p>
-            <button
-              onClick={() => setAddingNew(true)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 4,
-                fontSize: 11, fontWeight: 700, color: NAVY,
-                background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-              }}
-            >
-              <Plus size={13} />
-              Agregar
-            </button>
+      {/* Details */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+        {branch.address && (
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 7 }}>
+            <MapPin size={12} color={MUTED} style={{ marginTop: 1, flexShrink: 0 }} />
+            <span style={{ fontSize: 12, color: MUTED, lineHeight: 1.4 }}>{branch.address}</span>
           </div>
+        )}
+        {branch.phone && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+            <Phone size={12} color={MUTED} />
+            <span style={{ fontSize: 12, color: MUTED }}>{branch.phone}</span>
+          </div>
+        )}
+        {branch.whatsappPhone && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+            <MessageCircle size={12} color="#22C55E" />
+            <span style={{ fontSize: 12, color: MUTED }}>{branch.whatsappPhone}</span>
+            <span style={{ fontSize: 10, color: GREEN, fontWeight: 600, background: '#F0FDF4', padding: '1px 6px', borderRadius: 99 }}>WA activo</span>
+          </div>
+        )}
+        {!branch.address && !branch.phone && !branch.whatsappPhone && (
+          <p style={{ fontSize: 11, color: MUTED, fontStyle: 'italic', margin: 0 }}>Sin datos de contacto</p>
+        )}
+      </div>
 
-          {branches.map(b => (
+      {/* Actions */}
+      <div style={{ display: 'flex', gap: 7, borderTop: `1px solid ${BORD}`, paddingTop: 12, marginTop: 2 }}>
+        <button onClick={onEdit}
+          style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '7px', borderRadius: 8, border: `1px solid ${BORD}`, background: 'var(--bg)', color: TEXT, fontSize: 11, fontWeight: 500, cursor: 'pointer' }}>
+          <Edit2 size={12} /> Editar
+        </button>
+        <button onClick={onToggle}
+          style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '7px', borderRadius: 8, border: `1px solid ${BORD}`, background: 'var(--bg)', color: branch.active ? AMBER : GREEN, fontSize: 11, fontWeight: 500, cursor: 'pointer' }}>
+          {branch.active ? <AlertCircle size={12} /> : <CheckCircle size={12} />}
+          {branch.active ? 'Desactivar' : 'Activar'}
+        </button>
+        <button onClick={onDelete}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '7px 10px', borderRadius: 8, border: '1px solid #FECACA', background: '#FEF2F2', color: '#EF4444', cursor: 'pointer' }}>
+          <Trash2 size={12} />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ── Main Page ─────────────────────────────────────────────────────────────────
+
+export default function SucursalesPage() {
+  const [branches, setBranches] = useState<Branch[]>([])
+  const [plan, setPlan]         = useState<string | null>(null)
+  const [loading, setLoading]   = useState(true)
+  const [saving, setSaving]     = useState(false)
+  const [showForm, setShowForm] = useState(false)
+  const [editing, setEditing]   = useState<Branch | null>(null)
+  const [error, setError]       = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch('/api/branches')
+      .then(r => r.json())
+      .then(({ branches: b, plan: p }: { branches: Branch[]; plan: string }) => {
+        setBranches(b)
+        setPlan(p)
+      })
+      .catch(() => null)
+      .finally(() => setLoading(false))
+  }, [])
+
+  async function handleSave(data: Partial<Branch>) {
+    setSaving(true)
+    setError(null)
+    try {
+      if (editing) {
+        const res  = await fetch(`/api/branches/${editing.id}`, {
+          method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
+        })
+        const json = await res.json()
+        if (!res.ok) throw new Error(json.error)
+        setBranches(prev => prev.map(b => b.id === editing.id ? json.branch : b))
+      } else {
+        const res  = await fetch('/api/branches', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
+        })
+        const json = await res.json()
+        if (!res.ok) throw new Error(json.error)
+        setBranches(prev => [...prev, json.branch])
+      }
+      setShowForm(false)
+      setEditing(null)
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Error al guardar')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function handleDelete(branch: Branch) {
+    if (!confirm(`¿Eliminar la sucursal "${branch.name}"? Esta acción no se puede deshacer.`)) return
+    await fetch(`/api/branches/${branch.id}`, { method: 'DELETE' })
+    setBranches(prev => prev.filter(b => b.id !== branch.id))
+  }
+
+  async function handleToggle(branch: Branch) {
+    const res  = await fetch(`/api/branches/${branch.id}`, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ active: !branch.active }),
+    })
+    const json = await res.json()
+    if (res.ok) setBranches(prev => prev.map(b => b.id === branch.id ? json.branch : b))
+  }
+
+  const activeBranches = branches.filter(b => b.active).length
+
+  if (loading) {
+    return (
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Loader2 size={24} color={MUTED} style={{ animation: 'spin 1s linear infinite' }} />
+      </div>
+    )
+  }
+
+  if (plan !== 'business') return <PlanGate />
+
+  return (
+    <div style={{ background: 'var(--bg)', minHeight: '100%', padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+        <div>
+          <h1 style={{ color: TEXT, fontSize: 18, fontWeight: 700, margin: 0 }}>Sucursales</h1>
+          <p style={{ color: MUTED, fontSize: 12, margin: '3px 0 0' }}>
+            {branches.length === 0 ? 'Sin sucursales configuradas' : `${branches.length} sucursal${branches.length > 1 ? 'es' : ''} · ${activeBranches} activa${activeBranches !== 1 ? 's' : ''}`}
+          </p>
+        </div>
+        <button
+          onClick={() => { setEditing(null); setShowForm(true) }}
+          style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '9px 18px', borderRadius: 11, background: NAVY, color: '#fff', fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer' }}>
+          <Plus size={15} /> Nueva sucursal
+        </button>
+      </div>
+
+      {/* Summary KPIs */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+        {[
+          { Icon: Building2,  color: NAVY,   label: 'Total sucursales', value: String(branches.length) },
+          { Icon: CheckCircle,color: GREEN,  label: 'Activas',          value: String(activeBranches) },
+          { Icon: MessageCircle, color: '#22C55E', label: 'Con WhatsApp', value: String(branches.filter(b => b.whatsappPhone).length) },
+        ].map(k => (
+          <div key={k.label} style={{ background: SURF, border: `1px solid ${BORD}`, borderRadius: 12, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ width: 38, height: 38, borderRadius: 10, background: `${k.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <k.Icon size={17} color={k.color} />
+            </div>
+            <div>
+              <p style={{ fontSize: 22, fontWeight: 800, color: k.color, margin: 0 }}>{k.value}</p>
+              <p style={{ fontSize: 11, color: MUTED, margin: '1px 0 0' }}>{k.label}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {error && (
+        <div style={{ padding: '10px 16px', borderRadius: 10, background: '#FEF2F2', border: '1px solid #FECACA', fontSize: 13, color: '#EF4444' }}>
+          {error}
+        </div>
+      )}
+
+      {/* Branch grid */}
+      {branches.length === 0 ? (
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14, padding: 48 }}>
+          <div style={{ width: 56, height: 56, borderRadius: 16, background: `${NAVY}10`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Building2 size={24} color={NAVY} />
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: 15, fontWeight: 600, color: TEXT, margin: '0 0 6px' }}>Agrega tu primera sucursal</p>
+            <p style={{ fontSize: 13, color: MUTED, margin: 0, maxWidth: 320 }}>
+              Cada sucursal tiene su propio número de WhatsApp, horarios y encargado. Welko IA responde de forma independiente en cada ubicación.
+            </p>
+          </div>
+          <button
+            onClick={() => { setEditing(null); setShowForm(true) }}
+            style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '10px 22px', borderRadius: 11, background: NAVY, color: '#fff', fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer' }}>
+            <Plus size={15} /> Agregar sucursal
+          </button>
+        </div>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
+          {branches.map(branch => (
             <BranchCard
-              key={b.id}
-              branch={b}
-              selected={selectedId === b.id}
-              onClick={() => setSelectedId(b.id)}
+              key={branch.id}
+              branch={branch}
+              onEdit={() => { setEditing(branch); setShowForm(true) }}
+              onDelete={() => handleDelete(branch)}
+              onToggle={() => handleToggle(branch)}
             />
           ))}
 
-          {addingNew && (
-            <div style={{
-              padding: '12px', borderRadius: 12,
-              border: `1.5px solid ${NAVY}`, background: `${NAVY}04`,
-            }}>
-              <input
-                autoFocus
-                value={newName}
-                onChange={e => setNewName(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && addBranch()}
-                placeholder="Nombre de la sucursal"
-                style={{
-                  width: '100%', padding: '8px 10px', borderRadius: 8,
-                  border: `1px solid ${BORD}`, fontSize: 13, marginBottom: 8,
-                  outline: 'none', boxSizing: 'border-box',
-                }}
-              />
-              <div style={{ display: 'flex', gap: 6 }}>
-                <button
-                  onClick={addBranch}
-                  style={{
-                    flex: 1, padding: '7px', borderRadius: 8, fontSize: 12, fontWeight: 700,
-                    background: NAVY, color: WHITE, border: 'none', cursor: 'pointer',
-                  }}
-                >
-                  Crear
-                </button>
-                <button
-                  onClick={() => { setAddingNew(false); setNewName('') }}
-                  style={{
-                    padding: '7px 10px', borderRadius: 8, fontSize: 12,
-                    background: 'transparent', border: `1px solid ${BORD}`, cursor: 'pointer', color: MUTED,
-                  }}
-                >
-                  Cancelar
-                </button>
-              </div>
+          {/* Add card */}
+          <button
+            onClick={() => { setEditing(null); setShowForm(true) }}
+            style={{
+              background: 'transparent', border: `2px dashed ${BORD}`, borderRadius: 16,
+              padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center',
+              justifyContent: 'center', gap: 10, cursor: 'pointer', minHeight: 160,
+              color: MUTED, transition: 'border-color 0.15s',
+            }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = NAVY}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = BORD}
+          >
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: `${NAVY}10`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Plus size={18} color={NAVY} />
             </div>
-          )}
+            <p style={{ fontSize: 13, fontWeight: 600, color: NAVY, margin: 0 }}>Agregar sucursal</p>
+          </button>
         </div>
+      )}
 
-        {/* ── Right: config panel ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* Form modal */}
+      {showForm && (
+        <BranchForm
+          initial={editing ?? undefined}
+          onSave={handleSave}
+          onClose={() => { setShowForm(false); setEditing(null); setError(null) }}
+          saving={saving}
+        />
+      )}
 
-          {/* Branch name + status */}
-          <div style={{
-            background: SURF, border: `1px solid ${BORD}`, borderRadius: 16,
-            padding: '20px 22px',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div style={{
-                  width: 40, height: 40, borderRadius: 11, background: NAVY,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <Building2 size={18} color={WHITE} />
-                </div>
-                <div>
-                  <p style={{ color: TEXT, fontSize: 16, fontWeight: 700, margin: 0 }}>{selected.name}</p>
-                  <p style={{ color: MUTED, fontSize: 12, margin: 0 }}>{selected.city} · {selected.specialty}</p>
-                </div>
-              </div>
-              <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
-                <span style={{ fontSize: 12, color: MUTED }}>IA Activa</span>
-                <div
-                  onClick={() => updateSelected({ active: !selected.active })}
-                  style={{
-                    width: 40, height: 22, borderRadius: 99,
-                    background: selected.active ? NAVY : '#D1D5DB',
-                    position: 'relative', cursor: 'pointer', transition: 'background 0.2s',
-                  }}
-                >
-                  <div style={{
-                    position: 'absolute', top: 3, left: selected.active ? 20 : 3,
-                    width: 16, height: 16, borderRadius: '50%', background: WHITE,
-                    transition: 'left 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
-                  }} />
-                </div>
-              </label>
-            </div>
-
-            {/* Channels */}
-            <p style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
-              Canales activos
-            </p>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {CHANNELS.map(ch => {
-                const on = selected.channels.includes(ch.id)
-                return (
-                  <button
-                    key={ch.id}
-                    onClick={() => toggleChannel(ch.id)}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: 6,
-                      padding: '8px 14px', borderRadius: 10, fontSize: 12, fontWeight: 600,
-                      border: `1.5px solid ${on ? NAVY : BORD}`,
-                      background: on ? `${NAVY}0A` : 'transparent',
-                      color: on ? NAVY : MUTED, cursor: 'pointer', transition: 'all 0.15s',
-                    }}
-                  >
-                    <ch.Icon size={13} />
-                    {ch.label}
-                    {on && <Check size={11} />}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Brand tone */}
-          <div style={{
-            background: SURF, border: `1px solid ${BORD}`, borderRadius: 16,
-            padding: '20px 22px',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-              <Mic size={15} color={NAVY} />
-              <p style={{ color: TEXT, fontSize: 14, fontWeight: 700, margin: 0 }}>
-                Tono de Comunicación IA
-              </p>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
-              {TONE_PRESETS.map(tone => {
-                const sel = selected.tone === tone.id
-                return (
-                  <button
-                    key={tone.id}
-                    onClick={() => updateSelected({ tone: tone.id })}
-                    style={{
-                      textAlign: 'left', padding: '14px 16px', borderRadius: 12,
-                      border: `1.5px solid ${sel ? NAVY : BORD}`,
-                      background: sel ? `${NAVY}08` : 'transparent',
-                      cursor: 'pointer', transition: 'all 0.15s',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                      {sel && (
-                        <div style={{
-                          width: 16, height: 16, borderRadius: '50%', background: NAVY,
-                          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                        }}>
-                          <Check size={10} color={WHITE} />
-                        </div>
-                      )}
-                      <span style={{ color: TEXT, fontSize: 13, fontWeight: 700 }}>{tone.label}</span>
-                    </div>
-                    <p style={{ color: MUTED, fontSize: 11, margin: 0, lineHeight: 1.5 }}>{tone.desc}</p>
-                  </button>
-                )
-              })}
-            </div>
-
-            {/* Sample message */}
-            <div style={{
-              background: SURF2, borderRadius: 12, padding: '14px 16px',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-                <Sparkles size={12} color={NAVY} />
-                <span style={{ color: MUTED, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  Vista previa del saludo
-                </span>
-              </div>
-              <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6, fontStyle: 'italic' }}>
-                &quot;{selectedTone.sample}&quot;
-              </p>
-            </div>
-          </div>
-
-          {/* Custom greeting */}
-          <div style={{
-            background: SURF, border: `1px solid ${BORD}`, borderRadius: 16,
-            padding: '20px 22px',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-              <Edit3 size={15} color={NAVY} />
-              <p style={{ color: TEXT, fontSize: 14, fontWeight: 700, margin: 0 }}>
-                Saludo personalizado de esta sucursal
-              </p>
-            </div>
-            <textarea
-              value={selected.customGreeting}
-              onChange={e => updateSelected({ customGreeting: e.target.value })}
-              rows={3}
-              style={{
-                width: '100%', padding: '12px 14px', borderRadius: 10,
-                border: `1.5px solid ${BORD}`, fontSize: 13, color: TEXT,
-                resize: 'none', outline: 'none', fontFamily: 'inherit',
-                background: 'var(--bg)', boxSizing: 'border-box', lineHeight: 1.6,
-              }}
-              onFocus={e => (e.currentTarget.style.borderColor = NAVY)}
-              onBlur={e => (e.currentTarget.style.borderColor = BORD)}
-            />
-            <p style={{ color: MUTED, fontSize: 11, margin: '6px 0 0' }}>
-              Este texto reemplaza al saludo por defecto del tono seleccionado, solo para esta sucursal.
-            </p>
-          </div>
-
-          {/* Save button */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
-            <button
-              onClick={handleSave}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 7,
-                padding: '11px 22px', borderRadius: 11, fontSize: 14, fontWeight: 700,
-                background: saved ? '#1A2A5618' : NAVY,
-                color: saved ? NAVY : WHITE,
-                border: `1.5px solid ${NAVY}`,
-                cursor: 'pointer', transition: 'all 0.2s',
-              }}
-            >
-              {saved ? <Check size={15} /> : <Save size={15} />}
-              {saved ? 'Guardado' : 'Guardar cambios'}
-            </button>
-          </div>
-        </div>
-      </div>
+      <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
     </div>
   )
 }

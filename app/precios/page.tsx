@@ -32,7 +32,7 @@ export default function PreciosPage() {
       >
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            © {new Date().getFullYear()} Welko — El recepcionista IA líder para Clínicas de Salud y Estética.
+            © {new Date().getFullYear()} Welko — El recepcionista IA lider.
           </p>
           <nav className="flex items-center gap-5">
             {[

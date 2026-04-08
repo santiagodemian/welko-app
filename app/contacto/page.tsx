@@ -177,7 +177,7 @@ export default function ContactoPage() {
       </main>
 
       <footer className="py-6 px-4 text-center text-xs" style={{ color: '#9CA3AF', borderTop: '1px solid #E5E7EB' }}>
-        © {new Date().getFullYear()} Welko — El recepcionista IA líder para Clínicas de Salud y Estética.
+        © {new Date().getFullYear()} Welko — El recepcionista IA lider.
       </footer>
     </>
   )

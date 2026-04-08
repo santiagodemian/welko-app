@@ -1,6 +1,8 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { Sidebar } from '@/components/dashboard/Sidebar'
+import { ProductTour } from '@/components/dashboard/ProductTour'
+import { BrandColorApplier } from '@/components/dashboard/BrandColorApplier'
 import { db } from '@/lib/db'
 
 // Admin user IDs — comma-separated in ADMIN_USER_IDS env var.
@@ -26,9 +28,11 @@ export default async function DashboardLayout({
   const isDev = process.env.NODE_ENV !== 'production'
 
   // Admin always gets business-level access
-  const plan = isAdmin
+  const VALID_PLANS = ['starter', 'essential', 'pro', 'business']
+  const rawPlan = isAdmin
     ? 'business'
     : ((sessionClaims?.plan ?? (isDev ? 'pro' : null)) as string | null)
+  const plan = rawPlan && VALID_PLANS.includes(rawPlan) ? rawPlan : null
 
   if (!plan) redirect('/precios')
 
@@ -44,6 +48,8 @@ export default async function DashboardLayout({
     <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg)' }}>
       <Sidebar plan={plan} />
       <main className="flex-1 overflow-y-auto">{children}</main>
+      <ProductTour />
+      <BrandColorApplier />
     </div>
   )
 }

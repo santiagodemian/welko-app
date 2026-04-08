@@ -360,7 +360,7 @@ export default function IndustryPage({ params }: Props) {
           <p className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
             © {new Date().getFullYear()} Welko —{' '}
             {lang === 'es'
-              ? 'El recepcionista IA líder para Clínicas de Salud y Estética.'
+              ? 'El recepcionista IA lider.'
               : 'The leading AI receptionist for Health & Aesthetic Clinics.'}
           </p>
         </div>

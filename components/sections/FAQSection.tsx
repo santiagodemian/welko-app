@@ -8,40 +8,44 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 const FAQS = [
   {
-    q: '¿La IA puede entender términos técnicos de mi especialidad?',
-    a: 'Sí. Welko no es una IA genérica — está entrenada por rama médica. Una clínica dental tendrá una IA que conoce términos como "endodoncia", "periodoncia" o "bruxismo". Una clínica de psicología entiende "terapia cognitivo-conductual" o "episodio disociativo". Cada especialidad tiene su propio modelo de conocimiento clínico.',
+    q: '¿Funciona con mi WhatsApp Business normal o necesito contratar algo extra?',
+    a: 'Funciona con WhatsApp Business API, que es la versión oficial de Meta para empresas. No es el app que descargas en tu teléfono — es la versión profesional. Nosotros gestionamos todo el proceso de activación contigo: en menos de 24 horas tienes tu mismo número conectado, sin cambiarlo, sin perder tu historial de contactos.',
   },
   {
-    q: '¿Cómo se integra con mi agenda o sistema actual?',
-    a: 'Welko se conecta a Google Calendar y sistemas de agenda digital de forma nativa. Para clínicas con sistemas más avanzados (EHR/HIS como Doctoralia, Cliniccloud, o sistemas propietarios), el plan Business incluye integración directa: la IA puede leer tu agenda y agendar citas en tiempo real, sin duplicar trabajo. En menos de 24 horas tienes todo configurado.',
+    q: '¿Tengo que cambiar mi número de WhatsApp?',
+    a: 'No. Tu número actual se migra a WhatsApp Business API sin cambiarlo. Tus pacientes siguen escribiéndote al mismo número de siempre, y ahora la IA responde desde ahí. El único cambio visible para ellos es que las respuestas llegan más rápido.',
   },
   {
-    q: '¿Es seguro guardar datos de mis pacientes en Welko?',
-    a: 'Absolutamente. Los datos se almacenan con cifrado AES-256 y nunca se comparten con terceros ni se usan para entrenar modelos de IA públicos. Welko cumple con la Ley Federal de Protección de Datos Personales (LFPDPPP) de México y los estándares internacionales de confidencialidad médica (HIPAA-ready). Tus pacientes y sus datos son solo tuyos.',
+    q: '¿Qué pasa si la IA no sabe responder algo?',
+    a: 'La IA no inventa respuestas. Cuando detecta una pregunta fuera de su conocimiento, transfiere automáticamente la conversación a tu equipo y te manda una alerta. Tú decides qué temas maneja sola y cuáles siempre llegan a un humano — desde el panel de control, sin tocar código.',
   },
   {
-    q: '¿Qué pasa si mi clínica crece o abro más sucursales?',
-    a: 'Precisamente para eso existe el plan Business. Con él puedes gestionar sucursales ilimitadas desde un solo panel, cada una con su propio tono de comunicación, canales activos y saludo personalizado. La IA de la sucursal Centro puede sonar diferente a la de Santa Fe. Sin costos extra por sucursal.',
+    q: '¿Mis pacientes van a saber que están hablando con una IA?',
+    a: 'Eso lo decides tú. Puedes configurarla para que se presente como "Asistente virtual de [nombre de tu clínica]", o darle un nombre humano como "María". Muchas clínicas prefieren ser transparentes — y sus pacientes valoran la rapidez más que saber si es IA o humano. Lo que importa es que se sientan atendidos.',
+  },
+  {
+    q: '¿La IA puede entender términos médicos de mi especialidad?',
+    a: 'Sí. Welko no es una IA genérica. Durante el onboarding configuras tus servicios, precios y FAQs específicos. Una clínica dental tendrá una IA que conoce "endodoncia" o "bruxismo". Una clínica estética reconoce "rinomodelación" o "bichectomía". Y si falta algo, lo agregas en minutos desde el panel.',
+  },
+  {
+    q: '¿Funciona para clínicas de estética, spa o bienestar?',
+    a: 'Sí, es uno de nuestros casos de uso principales. Welko funciona para cualquier negocio donde los clientes necesitan agendar, confirmar, pagar o preguntar — dental, estética, dermatología, medicina general, psicología, nutrición, spa y más.',
   },
   {
     q: '¿Es caro? No sé si el retorno justifica la inversión.',
-    a: 'Welko cuesta menos que una sola consulta perdida al mes. Si tu clínica tiene 20 contactos diarios y el 35% no recibe respuesta, estás perdiendo ~$53,000 MXN mensuales en oportunidades. El plan Essential arranca en $1,999 MXN/mes — menos del 4% de ese valor en riesgo. El ROI promedio de nuestras clínicas es positivo desde el primer mes.',
+    a: 'El plan Starter arranca en $999 MXN/mes — menos del costo de una sola consulta perdida. Si tu clínica recibe 15 mensajes diarios y el 30% no obtiene respuesta rápida, estás perdiendo ~$27,000 MXN al mes en oportunidades. La mayoría de clínicas recupera el costo de Welko en los primeros 3–5 días de uso.',
   },
   {
-    q: '¿La IA puede cometer errores o dar información incorrecta?',
-    a: 'La IA está diseñada para ser honesta sobre lo que no sabe. Si no puede responder con certeza, no inventa — transfiere la conversación a un humano de inmediato y te notifica. Tú defines qué preguntas la IA responde sola y cuáles siempre escalan a un humano. El control es tuyo.',
+    q: '¿Cómo se integra con mi agenda o sistema actual?',
+    a: 'Welko se conecta con Google Calendar de forma nativa en todos los planes. Para sistemas como Doctoralia, Cliniccloud u otros EHR, el plan Business incluye integración directa: la IA puede ver tu disponibilidad real y agendar citas sin duplicar trabajo.',
   },
   {
-    q: '¿Qué es Welko y cómo funciona?',
-    a: 'Welko es un recepcionista virtual con inteligencia artificial que atiende a tus pacientes por WhatsApp, Instagram y otros canales. Responde preguntas, agenda citas, envía recordatorios automáticos y hace seguimiento de leads — todo sin intervención humana, las 24 horas del día.',
+    q: '¿Es seguro guardar datos de mis pacientes en Welko?',
+    a: 'Sí. Los datos se almacenan con cifrado AES-256 y nunca se comparten con terceros ni se usan para entrenar modelos de IA externos. Cumplimos con la Ley Federal de Protección de Datos (LFPDPPP) de México. Tus pacientes y sus datos son únicamente tuyos.',
   },
   {
-    q: '¿En cuánto tiempo se configura Welko para mi clínica?',
-    a: 'En menos de 24 horas desde que te registras. Nuestro equipo te contacta para personalizar el tono de comunicación, tratamientos, horarios y preguntas frecuentes de tu especialidad. Sin instalaciones, sin contratos, sin tecnicismos.',
-  },
-  {
-    q: '¿Puedo cancelar mi suscripción cuando quiera?',
-    a: 'Sí. Sin plazos forzosos ni penalizaciones. Cancelas en cualquier momento desde tu panel. Además ofrecemos garantía de 7 días: si no estás satisfecho, te devolvemos el 100% de tu pago sin preguntas.',
+    q: '¿Puedo cancelar cuando quiera?',
+    a: 'Sí. Sin contratos, sin plazos forzosos, sin penalizaciones. Cancelas desde tu panel en cualquier momento. Además tenemos garantía de 14 días: si en las primeras dos semanas no ves el valor, te devolvemos el 100% de tu pago sin preguntas.',
   },
 ]
 
@@ -70,10 +74,10 @@ export function FAQSection() {
             className="text-xl sm:text-2xl font-bold tracking-tight"
             style={{ color: 'var(--text-primary)' }}
           >
-            Resolvemos las dudas que frenan la decisión
+            Las preguntas que siempre hacen antes de empezar
           </h2>
           <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            Desde precio hasta seguridad de datos — aquí está todo lo que necesitas saber antes de empezar.
+            WhatsApp Business, errores de IA, privacidad, precio — todo respondido sin rodeos.
           </p>
         </motion.div>
 

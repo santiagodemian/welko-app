@@ -179,7 +179,7 @@ export function HowItWorksSection() {
             className="flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-200"
             style={{ background: 'var(--accent)', color: 'var(--accent-fg)', boxShadow: '0 4px 20px rgba(19,36,74,0.22)' }}
           >
-            {lang === 'es' ? 'Comenzar gratis' : 'Get started free'}
+            {lang === 'es' ? 'Comenzar ahora' : 'Get started now'}
             <ChevronRight size={15} />
           </a>
           <p className="text-xs font-light" style={{ color: 'var(--text-muted)' }}>

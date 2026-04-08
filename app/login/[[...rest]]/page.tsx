@@ -1,6 +1,6 @@
 import { SignIn } from '@clerk/nextjs'
-import Image from 'next/image'
 import Link from 'next/link'
+import { WelkoLogo } from '@/components/ui/WelkoLogo'
 
 export default function LoginPage() {
   return (
@@ -9,15 +9,8 @@ export default function LoginPage() {
       style={{ background: 'var(--bg-secondary)' }}
     >
       <Link href="/" className="flex items-center gap-2.5">
-        <Image
-          src="/welko_logo_purewhite.png"
-          alt="Welko"
-          width={32}
-          height={32}
-          className="h-8 w-8 object-contain"
-          priority
-        />
-        <span className="text-xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+        <WelkoLogo size={32} />
+        <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.04em', color: 'var(--text-primary)', fontFamily: 'var(--font-montserrat), sans-serif' }}>
           Welko
         </span>
       </Link>
