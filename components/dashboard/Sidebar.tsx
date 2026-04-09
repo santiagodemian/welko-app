@@ -10,6 +10,7 @@ import {
   CalendarCheck,
   Radio,
   Bot,
+  Package,
   Settings2,
   LogOut,
   Menu,
@@ -26,6 +27,7 @@ const NAV_ITEMS = [
   { label: 'Conversaciones',  href: '/dashboard/conversaciones',   icon: MessageSquare,   requiredPlan: 'starter'   as Plan },
   { label: 'Citas',           href: '/dashboard/citas',            icon: CalendarCheck,   requiredPlan: 'starter'   as Plan },
   { label: 'Canales',         href: '/dashboard/canales',          icon: Radio,           requiredPlan: 'essential' as Plan },
+  { label: 'Servicios',       href: '/dashboard/servicios',        icon: Package,         requiredPlan: 'starter'   as Plan },
   { label: 'IA & Negocio',    href: '/dashboard/ia',               icon: Bot,             requiredPlan: 'starter'   as Plan },
   { label: 'Ajustes',         href: '/dashboard/ajustes',          icon: Settings2,       requiredPlan: 'starter'   as Plan },
 ]

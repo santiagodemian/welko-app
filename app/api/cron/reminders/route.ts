@@ -1,7 +1,7 @@
 /**
  * GET /api/cron/reminders
  *
- * Vercel Cron Job — runs every hour.
+ * Vercel Cron Job — runs once daily at 14:00 UTC (schedule: "0 14 * * *").
  * Finds appointments in the next 24-25 h that haven't been reminded yet,
  * sends a WhatsApp confirmation message to the patient, and marks the lead.
  *

@@ -12,6 +12,7 @@
  *   MessageSid — unique message ID
  */
 
+import * as Sentry from '@sentry/nextjs'
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { buildSystemPrompt, buildExtractionPrompt } from '@/lib/system_prompts'
@@ -144,6 +145,7 @@ export async function POST(req: NextRequest) {
     )
   } catch (err) {
     console.error('[WA] AI error:', err)
+    Sentry.captureException(err, { tags: { webhook: 'whatsapp', step: 'openai_reply' }, extra: { clinicId: clinic.id } })
     return new NextResponse('OK', { status: 200 })
   }
 
@@ -207,6 +209,7 @@ export async function POST(req: NextRequest) {
     await sendWhatsApp(fromPhone, reply)
   } catch (err) {
     console.error('[WA] Send error:', err)
+    Sentry.captureException(err, { tags: { webhook: 'whatsapp', step: 'send_message' }, extra: { clinicId: clinic.id } })
   }
 
   // Twilio expects a 200 response (can be empty or TwiML — we handle via REST)

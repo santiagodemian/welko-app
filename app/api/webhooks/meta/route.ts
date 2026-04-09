@@ -10,6 +10,7 @@
  *     .message.text     — message text
  */
 
+import * as Sentry from '@sentry/nextjs'
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { buildSystemPrompt, buildExtractionPrompt } from '@/lib/system_prompts'
@@ -152,6 +153,7 @@ export async function POST(req: NextRequest) {
         )
       } catch (err) {
         console.error('[Meta] AI error:', err)
+        Sentry.captureException(err, { tags: { webhook: 'meta', step: 'openai_reply' }, extra: { clinicId: clinic.id, channel } })
         continue
       }
 
@@ -195,6 +197,7 @@ export async function POST(req: NextRequest) {
         await sendMetaMessage(senderId, reply, pageToken)
       } catch (err) {
         console.error('[Meta] Send error:', err)
+        Sentry.captureException(err, { tags: { webhook: 'meta', step: 'send_message' }, extra: { clinicId: clinic.id, senderId } })
       }
     }
   }

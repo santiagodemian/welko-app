@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { withSentryConfig } from '@sentry/nextjs'
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Content Security Policy
@@ -99,4 +100,7 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default withSentryConfig(nextConfig, {
+  // Suppress source map upload unless SENTRY_AUTH_TOKEN is set
+  silent: !process.env.SENTRY_AUTH_TOKEN,
+})

@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs'
 import { NextRequest, NextResponse } from 'next/server'
 import type { Stripe } from '@/lib/stripe'
 import { stripe } from '@/lib/stripe'
@@ -68,7 +69,8 @@ export async function POST(req: NextRequest) {
   let event: Stripe.Event
   try {
     event = stripe.webhooks.constructEvent(rawBody, signature, process.env.STRIPE_WEBHOOK_SECRET!)
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err, { tags: { webhook: 'stripe', step: 'signature_verify' } })
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
   }
 
@@ -92,7 +94,8 @@ export async function POST(req: NextRequest) {
       email        = customer.email
       customerName = (customer as Stripe.Customer).name ?? ''
     }
-  } catch {
+  } catch (err) {
+    Sentry.captureException(err, { tags: { webhook: 'stripe', step: 'retrieve_customer' }, extra: { customerId } })
     return NextResponse.json({ error: 'Cannot retrieve customer' }, { status: 400 })
   }
 
