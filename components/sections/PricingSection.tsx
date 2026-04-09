@@ -27,12 +27,17 @@ interface Plan {
   badge?: { es: string; en: string }
   tagline: { es: string; en: string }
   for: { es: string; en: string }
+  // MXN prices
   monthly: number
   annual: number
+  // USD prices (USA / Canada / international)
+  monthlyUSD: number
+  annualUSD: number
   featured: boolean
   cta?: { es: string; en: string }
   features: Feature[]
   roi?: { es: string; en: string }
+  roiUSD?: { es: string; en: string }
 }
 
 const PLANS: Plan[] = [
@@ -41,8 +46,8 @@ const PLANS: Plan[] = [
     name: 'Starter',
     tagline: { es: 'Para arrancar sin riesgos', en: 'Start with no risk' },
     for: { es: 'Solo profesional · negocio chico', en: 'Solo professional · small business' },
-    monthly: 799,
-    annual: 639,
+    monthly: 799,    annual: 639,
+    monthlyUSD: 49,  annualUSD: 39,
     featured: false,
     features: [
       { text: { es: '1 canal: WhatsApp Business API', en: '1 channel: WhatsApp Business API' }, included: true },
@@ -60,14 +65,18 @@ const PLANS: Plan[] = [
       es: 'Recupera 1 cita/mes para que se pague solo',
       en: 'Recover 1 appointment/month to break even',
     },
+    roiUSD: {
+      es: 'Recover 1 booking/month and it pays for itself',
+      en: 'Recover 1 booking/month and it pays for itself',
+    },
   },
   {
     id: 'essential',
     name: 'Essential',
     tagline: { es: 'Automatización completa del canal digital', en: 'Full digital channel automation' },
     for: { es: 'Profesional establecido · 1 sede', en: 'Established professional · 1 location' },
-    monthly: 1499,
-    annual: 1199,
+    monthly: 1499,   annual: 1199,
+    monthlyUSD: 99,  annualUSD: 79,
     featured: false,
     features: [
       { text: { es: '1 canal: WhatsApp Business API', en: '1 channel: WhatsApp Business API' }, included: true },
@@ -85,6 +94,10 @@ const PLANS: Plan[] = [
       es: '2 citas recuperadas/mes = plan pagado',
       en: '2 recovered appointments/month = plan paid',
     },
+    roiUSD: {
+      es: '2 recovered bookings/month = plan paid',
+      en: '2 recovered bookings/month = plan paid',
+    },
   },
   {
     id: 'pro',
@@ -92,8 +105,8 @@ const PLANS: Plan[] = [
     badge: { es: 'Más popular', en: 'Most popular' },
     tagline: { es: 'Tu secretaria se enfoca en vender, no en contestar', en: 'Your staff sells, not answers messages' },
     for: { es: 'Equipos de 2–5 personas · cualquier industria', en: '2–5 person teams · any industry' },
-    monthly: 2999,
-    annual: 2399,
+    monthly: 2999,    annual: 2399,
+    monthlyUSD: 199,  annualUSD: 159,
     featured: true,
     features: [
       { text: { es: '3 canales: WhatsApp + Instagram + Facebook', en: '3 channels: WhatsApp + Instagram + Facebook' }, included: true, highlight: true },
@@ -111,14 +124,18 @@ const PLANS: Plan[] = [
       es: 'Recupera 6–8 citas/mes = $6,000–$9,600 MXN salvados',
       en: 'Recover 6–8 appts/month = $6,000–$9,600 MXN saved',
     },
+    roiUSD: {
+      es: 'Recover 3–4 bookings/month = plan pays itself 3×',
+      en: 'Recover 3–4 bookings/month = plan pays itself 3×',
+    },
   },
   {
     id: 'business',
     name: 'Business',
     tagline: { es: 'Escalabilidad total sin límites', en: 'Total scalability, no limits' },
     for: { es: 'Multi-sede · alto volumen · franquicia', en: 'Multi-location · high volume · franchise' },
-    monthly: 5999,
-    annual: 4799,
+    monthly: 5999,    annual: 4799,
+    monthlyUSD: 399,  annualUSD: 319,
     featured: false,
     cta: { es: 'Hablar con ventas', en: 'Talk to sales' },
     features: [
@@ -137,13 +154,18 @@ const PLANS: Plan[] = [
       es: '1 prospecto cerrado extra/mes = plan pagado 5×',
       en: '1 extra closed lead/month = plan paid 5×',
     },
+    roiUSD: {
+      es: '1 extra closed deal/month = plan paid 5×',
+      en: '1 extra closed deal/month = plan paid 5×',
+    },
   },
 ]
 
 export function PricingSection() {
   const [isAnnual, setIsAnnual] = useState(false)
   const [loading, setLoading] = useState<string | null>(null)
-  const { lang } = useLang()
+  const { lang, currency } = useLang()
+  const isUSD = currency === 'USD'
 
   async function handleCheckout(planId: string, planName: string) {
     setLoading(planId)
@@ -164,16 +186,18 @@ export function PricingSection() {
   }
 
   const L = {
-    eyebrow: lang === 'es' ? 'Planes y precios'                          : 'Plans & pricing',
-    heading: lang === 'es' ? 'Planes simples, resultados claros'         : 'Simple plans, clear results',
+    eyebrow: lang === 'es' ? 'Planes y precios'                            : 'Plans & pricing',
+    heading: lang === 'es' ? 'Planes simples, resultados claros'           : 'Simple plans, clear results',
     sub:     lang === 'es' ? 'Sin costos ocultos. Cancela cuando quieras.' : 'No hidden fees. Cancel anytime.',
-    monthly: lang === 'es' ? 'Mensual'                                   : 'Monthly',
-    annual:  lang === 'es' ? 'Anual'                                     : 'Annual',
-    cta:     lang === 'es' ? 'Comenzar ahora'                            : 'Get started now',
+    monthly: lang === 'es' ? 'Mensual'                                     : 'Monthly',
+    annual:  lang === 'es' ? 'Anual'                                       : 'Annual',
+    cta:     lang === 'es' ? 'Comenzar ahora'                              : 'Get started now',
     trust:   lang === 'es' ? '🔒 Pagos seguros por Stripe · Sin permanencia · Cancela cuando quieras' : '🔒 Secure payments via Stripe · No lock-in · Cancel anytime',
-    iva:     lang === 'es' ? 'MXN/mes + IVA'                             : 'MXN/mo + VAT',
-    forLabel:lang === 'es' ? 'Para:'                                     : 'For:',
-    roi:     lang === 'es' ? '💡 ROI:'                                   : '💡 ROI:',
+    iva:     isUSD
+              ? (lang === 'es' ? 'USD/mes + impuestos' : 'USD/mo + tax')
+              : (lang === 'es' ? 'MXN/mes + IVA'       : 'MXN/mo + VAT'),
+    forLabel: lang === 'es' ? 'Para:'                                      : 'For:',
+    roi:      lang === 'es' ? '💡 ROI:'                                    : '💡 ROI:',
   }
 
   return (
@@ -227,9 +251,14 @@ export function PricingSection() {
         {/* Plans grid — 4 columns */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
           {PLANS.map((plan, i) => {
-            const price = isAnnual ? plan.annual : plan.monthly
+            const price = isUSD
+              ? (isAnnual ? plan.annualUSD : plan.monthlyUSD)
+              : (isAnnual ? plan.annual    : plan.monthly)
             const isFeatured = plan.featured
             const ctaLabel = plan.cta ? (lang === 'es' ? plan.cta.es : plan.cta.en) : L.cta
+            const roiText = isUSD && plan.roiUSD
+              ? (lang === 'es' ? plan.roiUSD.es : plan.roiUSD.en)
+              : plan.roi ? (lang === 'es' ? plan.roi.es : plan.roi.en) : null
 
             return (
               <motion.div
@@ -291,7 +320,7 @@ export function PricingSection() {
                     className="text-4xl font-black tracking-tight leading-none"
                     style={{ color: isFeatured ? '#FFFFFF' : 'var(--text-primary)' }}
                   >
-                    ${price.toLocaleString('es-MX')}
+                    {isUSD ? `$${price}` : `$${price.toLocaleString('es-MX')}`}
                   </span>
                   <span
                     className="text-xs mb-1.5"
@@ -302,7 +331,7 @@ export function PricingSection() {
                 </div>
 
                 {/* ROI pill */}
-                {plan.roi && (
+                {roiText && (
                   <div
                     className="px-3 py-2 rounded-xl text-xs font-medium leading-snug"
                     style={
@@ -311,7 +340,7 @@ export function PricingSection() {
                         : { background: 'var(--bg-secondary)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }
                     }
                   >
-                    {L.roi} {lang === 'es' ? plan.roi.es : plan.roi.en}
+                    {L.roi} {roiText}
                   </div>
                 )}
 

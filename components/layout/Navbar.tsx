@@ -19,10 +19,16 @@ export function Navbar() {
     { label: lang === 'es' ? 'Demo' : 'Demo', href: '/demo' },
   ]
 
-  const MORE_LINKS: { label: string; href: string; group?: string }[] = [
-    { label: lang === 'es' ? '🦷 Clínicas Dentales'  : '🦷 Dental Clinics',     href: '/dental',    group: lang === 'es' ? 'Especialidades' : 'Specialties' },
-    { label: lang === 'es' ? '✨ Centros Estéticos'  : '✨ Aesthetic Centers',   href: '/estetica',  group: lang === 'es' ? 'Especialidades' : 'Specialties' },
-    { label: lang === 'es' ? 'Industrias'    : 'Industries',  href: '/industrias' },
+  type MoreLink = { label: string; href: string; group?: string }
+  const MORE_LINKS: MoreLink[] = [
+    // Industries by category
+    { label: lang === 'es' ? '🦷 Clínicas de Salud'     : '🦷 Health Clinics',    href: '/industrias/dental',       group: lang === 'es' ? 'Industrias' : 'Industries' },
+    { label: lang === 'es' ? '🍽️ Restaurantes & Cafés'  : '🍽️ Restaurants',      href: '/industrias/restaurante',  group: lang === 'es' ? 'Industrias' : 'Industries' },
+    { label: lang === 'es' ? '✂️ Barberías & Spas'      : '✂️ Barbershops & Spas', href: '/industrias/barberia',     group: lang === 'es' ? 'Industrias' : 'Industries' },
+    { label: lang === 'es' ? '💪 Fitness & Wellness'    : '💪 Fitness & Wellness', href: '/industrias/fitness',      group: lang === 'es' ? 'Industrias' : 'Industries' },
+    { label: lang === 'es' ? '🏨 Hospitalidad'          : '🏨 Hospitality',        href: '/industrias/hotel',        group: lang === 'es' ? 'Industrias' : 'Industries' },
+    { label: lang === 'es' ? '→ Ver todas las industrias' : '→ All industries',    href: '/industrias' },
+    // Pages
     { label: lang === 'es' ? 'Soluciones'    : 'Solutions',   href: '/soluciones/ai-receptionist' },
     { label: lang === 'es' ? 'Por qué Welko' : 'Why Welko',   href: '/por-que' },
     { label: 'Partners',                                        href: '/partners' },
@@ -47,7 +53,9 @@ export function Navbar() {
         style={{ height: 30, background: 'linear-gradient(90deg, #022c22 0%, #064e3b 50%, #022c22 100%)' }}
       >
         <span style={{ fontSize: 11, color: '#6ee7b7', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          🌱 Welko Carbon Initiative: 1% de cada suscripción elimina CO₂ de la atmósfera
+          {lang === 'es'
+            ? '🌱 Welko Carbon Initiative: 1% de cada suscripción elimina CO₂ de la atmósfera'
+            : '🌱 Welko Carbon Initiative: 1% of every subscription removes CO₂ from the atmosphere'}
         </span>
       </div>
 
@@ -144,18 +152,18 @@ export function Navbar() {
                           boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
                         }}
                       >
-                        {/* Especialidades group label */}
+                        {/* Industries group */}
                         <p className="px-3 pt-1.5 pb-0.5 text-[10px] font-bold uppercase tracking-widest"
                           style={{ color: 'var(--text-muted)' }}>
-                          {lang === 'es' ? 'Especialidades' : 'Specialties'}
+                          {lang === 'es' ? 'Industrias' : 'Industries'}
                         </p>
                         {MORE_LINKS.filter(l => l.group).map((link) => (
                           <Link
                             key={link.href}
                             href={link.href}
                             onClick={() => setMoreOpen(false)}
-                            className="flex items-center px-3 py-2 rounded-xl text-sm transition-colors duration-150"
-                            style={{ color: 'var(--text-primary)', fontWeight: 500 }}
+                            className="flex items-center px-3 py-1.5 rounded-xl text-sm transition-colors duration-150"
+                            style={{ color: 'var(--text-secondary)', fontWeight: 500 }}
                             onMouseEnter={(e) =>
                               ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')
                             }
@@ -166,8 +174,29 @@ export function Navbar() {
                             {link.label}
                           </Link>
                         ))}
+                        {/* "Ver todas" + divider */}
+                        {(() => {
+                          const allLink = MORE_LINKS.find(l => !l.group && l.href === '/industrias')
+                          if (!allLink) return null
+                          return (
+                            <Link
+                              href={allLink.href}
+                              onClick={() => setMoreOpen(false)}
+                              className="flex items-center px-3 py-1.5 rounded-xl text-xs transition-colors duration-150"
+                              style={{ color: 'var(--accent)', fontWeight: 600 }}
+                              onMouseEnter={(e) =>
+                                ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')
+                              }
+                              onMouseLeave={(e) =>
+                                ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')
+                              }
+                            >
+                              {allLink.label}
+                            </Link>
+                          )
+                        })()}
                         <div style={{ height: 1, background: 'var(--border)', margin: '4px 8px' }} />
-                        {MORE_LINKS.filter(l => !l.group).map((link) => (
+                        {MORE_LINKS.filter(l => !l.group && l.href !== '/industrias').map((link) => (
                           <Link
                             key={link.href}
                             href={link.href}

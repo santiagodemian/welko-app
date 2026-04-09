@@ -43,6 +43,10 @@ model Clinic {
   name        String
   plan        String @default("essential")
 
+  // ── Industry ────────────────────────────────────────────────────────────────
+  // Slug from lib/industries.ts — e.g. "dental", "restaurante", "barberia"
+  industry String @default("dental")
+
   // ── Contact & Location ──────────────────────────────────────────────────────
   phone   String?
   address String?

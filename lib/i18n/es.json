@@ -10,54 +10,61 @@
   },
   "hero": {
     "labels": [
-      "Para Dueños de Spa",
+      "Para Dueños de Restaurante",
       "Para Clínicas Dentales",
-      "Para Clínicas Estéticas",
+      "Para Barberías & Peluquerías",
+      "Para Spas & Salones",
+      "Para Gyms & Centros de Fitness",
+      "Para Hoteles & Hospitalidad",
       "Para Consultorios de Salud",
-      "Para Especialistas en Nutrición",
       "Para Centros de Bienestar"
     ],
-    "headline1": "No Pierdas una Sola Llamada:",
+    "headline1": "No Pierdas una Sola Consulta:",
     "headline2": "Tu Recepcionista IA Disponible 24/7",
-    "subheadline": "Transforma cada consulta en una cita confirmada. Nuestra IA atiende a tus pacientes por WhatsApp, Instagram y llamadas, asegurando que nunca pierdas un ingreso por falta de atención.",
+    "subheadline": "Transforma cada mensaje en una cita confirmada o pedido tomado. Nuestra IA atiende a tus clientes por WhatsApp, Instagram y llamadas — para cualquier tipo de negocio.",
     "cta": "Quiero mi recepcionista virtual",
     "trust": "Instalación en 24 horas • Sin contratos forzosos • Soporte bilingüe"
   },
   "flow": [
-    { "label": "Paciente Llama o Escribe", "sub": "WhatsApp · Instagram · FB" },
+    { "label": "Cliente Llama o Escribe", "sub": "WhatsApp · Instagram · FB" },
     { "label": "Procesa IA de Welko", "sub": "Respuesta segura en segundos" },
-    { "label": "Agenda en tu Calendario", "sub": "Sincronizado con tu CRM" }
+    { "label": "Agenda o Toma el Pedido", "sub": "Sincronizado con tu CRM" }
   ],
   "stats": [
     { "value": "100%", "label": "de mensajes contestados sin intervención humana" },
-    { "value": "24/7", "label": "disponibilidad total para agendar citas" },
-    { "value": "+40%", "label": "incremento en citas agendadas mensualmente" }
+    { "value": "24/7", "label": "disponibilidad total para atender clientes" },
+    { "value": "+40%", "label": "incremento en citas y pedidos confirmados" }
   ],
   "problem": {
     "eyebrow": "El Problema",
-    "headline": "¿Cuántos pacientes estás perdiendo mientras tu recepcionista está ocupada/o?",
-    "sub": "La falta de respuesta inmediata es la causa #1 de abandono en clínicas de salud.",
+    "headline": "¿Cuántos clientes estás perdiendo mientras tu equipo está ocupado?",
+    "sub": "La falta de respuesta inmediata es la causa #1 de pérdida de clientes en cualquier negocio.",
     "items": [
-      "Pacientes que llaman fuera de horario y nunca vuelven a intentar.",
-      "Llamadas perdidas en horas pico que se convierten en citas para tu competencia.",
+      "Clientes que llaman fuera de horario y nunca vuelven a intentar.",
+      "Mensajes perdidos en horas pico que se convierten en ventas para tu competencia.",
       "Equipo administrativo saturado repitiendo las mismas respuestas.",
-      "Seguimiento manual ineficiente de pacientes que no confirman."
+      "Seguimiento manual ineficiente de clientes que no confirman."
     ]
   },
   "solution": {
     "eyebrow": "La Solución",
     "headline": "Un recepcionista que trabaja como tú quieres",
     "items": [
-      { "title": "Agenda automática", "desc": "Citas por WhatsApp o chat sin intervención humana, disponible las 24 horas." },
-      { "title": "Respuestas inmediatas", "desc": "Resuelve dudas sobre tratamientos y precios al instante, sin esperas." },
-      { "title": "Recordatorios inteligentes", "desc": "Reduce inasistencias con confirmaciones automáticas antes de cada cita." },
-      { "title": "Personalizada a tu marca", "desc": "La IA habla con la voz y el tono de tu clínica, como si fuera tu equipo." },
-      { "title": "Reportes en tiempo real", "desc": "Visualiza métricas de llamadas y citas cada día desde tu dashboard." },
-      { "title": "Privacidad garantizada", "desc": "Protección de datos con estándares de seguridad médica en cada interacción." }
+      { "title": "Agenda automática", "desc": "Citas y reservaciones por WhatsApp o chat sin intervención humana, disponible las 24 horas." },
+      { "title": "Respuestas inmediatas", "desc": "Resuelve dudas sobre precios, servicios y disponibilidad al instante, sin esperas." },
+      { "title": "Recordatorios inteligentes", "desc": "Reduce inasistencias y cancelaciones con confirmaciones automáticas antes de cada cita." },
+      { "title": "Personalizada a tu negocio", "desc": "La IA habla con la voz y el tono de tu marca, como si fuera tu propio equipo." },
+      { "title": "Reportes en tiempo real", "desc": "Visualiza métricas de conversaciones y conversiones cada día desde tu dashboard." },
+      { "title": "Privacidad garantizada", "desc": "Protección de datos con estándares de seguridad empresarial en cada interacción." }
     ]
   },
+  "industries": {
+    "eyebrow": "Industrias",
+    "headline": "Welko para tu Tipo de Negocio",
+    "sub": "Configurado específicamente para cada industria — no es una solución genérica."
+  },
   "footer": {
-    "copy": "Welko — El recepcionista IA lider.",
+    "copy": "Welko — El recepcionista IA líder.",
     "terms": "Términos",
     "privacy": "Privacidad",
     "refunds": "Reembolsos",

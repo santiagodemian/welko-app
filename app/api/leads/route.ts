@@ -35,9 +35,9 @@ export async function GET(req: NextRequest) {
 
   const clinic = await db.clinic.findUnique({
     where: { clerkUserId: userId },
-    select: { id: true },
+    select: { id: true, industry: true },
   })
-  if (!clinic) return NextResponse.json({ leads: [] })
+  if (!clinic) return NextResponse.json({ leads: [], industry: 'dental' })
 
   const { searchParams } = new URL(req.url)
   const withAppointment  = searchParams.get('withAppointment') === 'true'
@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
     relativeTime:     relativeTime(l.createdAt),
   }))
 
-  return NextResponse.json({ leads: result })
+  return NextResponse.json({ leads: result, industry: clinic.industry })
 }
 
 export async function POST(req: NextRequest) {

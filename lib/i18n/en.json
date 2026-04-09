@@ -10,54 +10,61 @@
   },
   "hero": {
     "labels": [
-      "For Spa Owners",
+      "For Restaurant Owners",
       "For Dental Clinics",
-      "For Aesthetic Clinics",
-      "For Health Offices",
-      "For Nutrition Specialists",
-      "For Wellness Centers"
+      "For Barbershops & Salons",
+      "For Spas & Beauty Salons",
+      "For Gyms & Fitness Centers",
+      "For Hotels & Hospitality",
+      "For Health Practices",
+      "For Wellness Studios"
     ],
-    "headline1": "Never Miss a Call:",
+    "headline1": "Never Miss a Client Again:",
     "headline2": "Your AI Receptionist Available 24/7",
-    "subheadline": "Turn every inquiry into a confirmed appointment. Our AI handles your patients via WhatsApp, Instagram, and calls — ensuring you never lose revenue from lack of attention.",
-    "cta": "I want my virtual receptionist",
+    "subheadline": "Turn every message into a confirmed appointment or order. Our AI handles your clients via WhatsApp, Instagram, and calls — for any type of business.",
+    "cta": "Get my virtual receptionist",
     "trust": "Setup in 24 hours • No forced contracts • Bilingual support"
   },
   "flow": [
-    { "label": "Patient Calls or Messages", "sub": "WhatsApp · Instagram · FB" },
+    { "label": "Client Calls or Messages", "sub": "WhatsApp · Instagram · FB" },
     { "label": "Welko AI Processes", "sub": "Secure response in seconds" },
-    { "label": "Books in Your Calendar", "sub": "Synced with your CRM" }
+    { "label": "Books or Takes the Order", "sub": "Synced with your CRM" }
   ],
   "stats": [
     { "value": "100%", "label": "of messages answered without human intervention" },
-    { "value": "24/7", "label": "total availability to schedule appointments" },
-    { "value": "+40%", "label": "increase in monthly scheduled appointments" }
+    { "value": "24/7", "label": "total availability to attend clients" },
+    { "value": "+40%", "label": "increase in confirmed appointments and orders" }
   ],
   "problem": {
     "eyebrow": "The Problem",
-    "headline": "How many patients are you losing while your receptionist is busy?",
-    "sub": "Lack of immediate response is the #1 cause of patient abandonment in health clinics.",
+    "headline": "How many clients are you losing while your team is busy?",
+    "sub": "Lack of immediate response is the #1 cause of customer loss in any business.",
     "items": [
-      "Patients who call after hours and never try again.",
-      "Missed calls during peak hours that become appointments for your competition.",
+      "Clients who message after hours and never try again.",
+      "Missed messages during peak hours that become sales for your competition.",
       "Administrative staff overwhelmed repeating the same answers.",
-      "Inefficient manual follow-up of patients who don't confirm."
+      "Inefficient manual follow-up of clients who don't confirm."
     ]
   },
   "solution": {
     "eyebrow": "The Solution",
     "headline": "A receptionist that works the way you want",
     "items": [
-      { "title": "Automatic scheduling", "desc": "Appointments via WhatsApp or chat without human intervention, available 24 hours." },
-      { "title": "Instant responses", "desc": "Resolve questions about treatments and pricing instantly — no wait times." },
-      { "title": "Smart reminders", "desc": "Reduce no-shows with automatic confirmations before each appointment." },
-      { "title": "Personalized to your brand", "desc": "The AI speaks with your clinic's voice and tone, as if it were your own team." },
-      { "title": "Real-time reports", "desc": "View call and appointment metrics every day from your dashboard." },
-      { "title": "Guaranteed privacy", "desc": "Data protection meeting medical security standards in every interaction." }
+      { "title": "Automatic scheduling", "desc": "Appointments and reservations via WhatsApp or chat without human intervention, available 24 hours." },
+      { "title": "Instant responses", "desc": "Resolve questions about prices, services, and availability instantly — no wait times." },
+      { "title": "Smart reminders", "desc": "Reduce no-shows and cancellations with automatic confirmations before each appointment." },
+      { "title": "Personalized to your business", "desc": "The AI speaks with your brand's voice and tone, as if it were your own team." },
+      { "title": "Real-time reports", "desc": "View conversation and conversion metrics every day from your dashboard." },
+      { "title": "Guaranteed privacy", "desc": "Data protection meeting enterprise security standards in every interaction." }
     ]
   },
+  "industries": {
+    "eyebrow": "Industries",
+    "headline": "Welko for Your Type of Business",
+    "sub": "Configured specifically for each industry — not a one-size-fits-all solution."
+  },
   "footer": {
-    "copy": "Welko — The leading AI receptionist for Health & Aesthetic Clinics.",
+    "copy": "Welko — The leading AI receptionist.",
     "terms": "Terms",
     "privacy": "Privacy",
     "refunds": "Refunds",

@@ -6,6 +6,7 @@ import {
   Bell, Zap, AlertTriangle, CheckCircle2, Clock,
   Sparkles, Send, UserCheck,
 } from 'lucide-react'
+import { getCRMConfig } from '@/lib/industry-crm'
 
 const SURF  = 'var(--surface)'
 const BORD  = 'var(--border)'
@@ -92,12 +93,13 @@ const CH_COLOR: Record<Channel, string> = {
   WHATSAPP: '#22C55E', INSTAGRAM: '#E1306C', LLAMADA: BLUE, WEB: PURPLE,
 }
 
-const PIPELINE: { key: UiStatus; label: string; color: string; sub: string }[] = [
-  { key: 'NUEVO',      label: 'Nuevo',      color: BLUE,   sub: 'Contacto inicial' },
-  { key: 'AGENDADO',   label: 'Agendado',   color: PURPLE, sub: 'Cita programada'  },
-  { key: 'CONFIRMADO', label: 'Confirmado', color: '#2563EB', sub: 'Asistencia confirmada' },
-  { key: 'ATENDIDO',   label: 'Atendido',   color: NAVY,   sub: 'Consulta completada' },
-]
+// PIPELINE is built dynamically from CRM config inside the component
+const PIPELINE_COLORS: Record<UiStatus, string> = {
+  NUEVO:      BLUE,
+  AGENDADO:   PURPLE,
+  CONFIRMADO: '#2563EB',
+  ATENDIDO:   NAVY,
+}
 
 const RISK_BADGE: Record<string, { bg: string; color: string }> = {
   ALTO:  { bg: '#FEF2F2', color: '#EF4444' },
@@ -109,16 +111,20 @@ export default function ConversacionesPage() {
   const [patients, setPatients]  = useState<Patient[]>([])
   const [loading, setLoading]    = useState(true)
   const [selected, setSelected]  = useState<Patient | null>(null)
+  const [industry, setIndustry]  = useState<string>('dental')
 
   useEffect(() => {
     fetch('/api/leads')
       .then(r => r.json())
-      .then(({ leads }: { leads: ApiLead[] }) => {
+      .then(({ leads, industry: ind }: { leads: ApiLead[]; industry?: string }) => {
+        if (ind) setIndustry(ind)
         setPatients(leads.map(toPatient))
       })
       .catch(() => null)
       .finally(() => setLoading(false))
   }, [])
+
+  const crm = getCRMConfig(industry)
 
   // Move a card to a new status and persist to API
   async function moveStatus(patient: Patient, newUiStatus: UiStatus) {
@@ -141,22 +147,32 @@ export default function ConversacionesPage() {
   const colCount = (key: UiStatus) => patients.filter(p => p.status === key).length
   const colValue = (key: UiStatus) => patients.filter(p => p.status === key && p.value).reduce((s, p) => s + (p.value ?? 0), 0)
 
+  // Dynamic pipeline based on industry CRM config
+  const PIPELINE: { key: UiStatus; label: string; color: string }[] = [
+    { key: 'NUEVO',      label: crm.kanban.NUEVO.es,             color: crm.kanban.NUEVO.color             },
+    { key: 'AGENDADO',   label: crm.kanban.EN_SEGUIMIENTO_IA.es, color: crm.kanban.EN_SEGUIMIENTO_IA.color },
+    { key: 'CONFIRMADO', label: crm.kanban.CITA_CONFIRMADA.es,   color: crm.kanban.CITA_CONFIRMADA.color   },
+    { key: 'ATENDIDO',   label: crm.kanban.REVENUE_CERRADO.es,   color: crm.kanban.REVENUE_CERRADO.color   },
+  ]
+
   // AI tasks: pending confirmations + follow-ups
   const pendingConfirm = patients.filter(p => p.pendingConfirm)
+  const eventLabelEs = crm.eventLabel.es
+  const clientLabelEs = crm.clientLabel.es
   const aiTasks = [
     ...pendingConfirm.map(p => ({
       Icon: Bell, color: AMBER, name: p.name,
-      detail: `Sin confirmar cita ${p.time}. Welko enviará recordatorio automáticamente.`, urgent: true,
+      detail: `Sin confirmar ${eventLabelEs.toLowerCase()} ${p.time}. Welko enviará recordatorio automáticamente.`, urgent: true,
     })),
     {
       Icon: Zap, color: BLUE,
-      name: `${patients.filter(p => p.status === 'NUEVO').length} nuevos leads`,
+      name: `${patients.filter(p => p.status === 'NUEVO').length} ${clientLabelEs.toLowerCase()}s nuevos`,
       detail: 'En seguimiento activo por IA. Respondidos en < 2 seg.', urgent: false,
     },
     {
       Icon: CheckCircle2, color: GREEN,
-      name: `${patients.filter(p => p.status === 'ATENDIDO').length} atendidos`,
-      detail: 'Consultas completadas este mes.', urgent: false,
+      name: `${patients.filter(p => p.status === 'ATENDIDO').length} completados`,
+      detail: `${crm.kanban.REVENUE_CERRADO.es} este mes.`, urgent: false,
     },
   ].slice(0, 4)
 
@@ -167,7 +183,9 @@ export default function ConversacionesPage() {
       <div style={{ padding: '20px 28px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h1 style={{ color: TEXT, fontSize: 18, fontWeight: 700, margin: 0 }}>Conversaciones</h1>
-          <p style={{ color: MUTED, fontSize: 12, margin: '3px 0 0' }}>Pipeline de pacientes · gestionado por IA en tiempo real</p>
+          <p style={{ color: MUTED, fontSize: 12, margin: '3px 0 0' }}>
+            Pipeline de {crm.clientLabel.es.toLowerCase()}s · gestionado por IA en tiempo real
+          </p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           {loading ? (

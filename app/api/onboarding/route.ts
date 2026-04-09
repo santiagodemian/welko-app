@@ -34,7 +34,10 @@ type WorkingHoursInput = Record<
 >
 
 interface OnboardingPayload {
-  // Step 1 — Perfil
+  // Step 1 — Industria
+  industry?: string
+
+  // Step 2 — Perfil
   name?: string
   phone?: string
   address?: string
@@ -196,6 +199,7 @@ export async function POST(req: NextRequest) {
   // Upsert Clinic + bulk-replace Services in a single transaction
   const clinic = await db.$transaction(async (tx) => {
     const clinicData = {
+      ...(body.industry !== undefined ? { industry: body.industry } : {}),
       ...(body.name    !== undefined ? { name:    body.name.trim() } : {}),
       ...(body.phone   !== undefined ? { phone:   body.phone   } : {}),
       ...(body.address !== undefined ? { address: body.address } : {}),

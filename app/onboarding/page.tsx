@@ -12,7 +12,7 @@ import {
   Loader2,
   Bot,
   Clock,
-  Stethoscope,
+  Building2,
   Brain,
   Sparkles,
   Plug,
@@ -22,6 +22,7 @@ import {
   CheckCircle,
   ExternalLink,
 } from 'lucide-react'
+import { INDUSTRIES, INDUSTRY_CATEGORIES } from '@/lib/industries'
 
 /* ─── Design tokens (light — matches landing page + logo) ─── */
 const BG     = '#F9FAFB'
@@ -54,12 +55,22 @@ const DEFAULT_HOURS: WorkingHours = {
   sábado:    { open: '10:00', close: '14:00', active: false },
   domingo:   { open: '10:00', close: '14:00', active: false },
 }
-const SPECIALTIES_LIST = [
-  'Odontología General', 'Ortodoncia', 'Implantes Dentales', 'Blanqueamiento',
-  'Endodoncia', 'Periodoncia', 'Cirugía Oral', 'Odontopediatría',
-  'Medicina Estética', 'Nutrición Clínica', 'Dermatología', 'Spa & Bienestar',
-  'Medicina General', 'Psicología',
-]
+// Specialties per industry category
+const SPECIALTIES_BY_CATEGORY: Record<string, string[]> = {
+  health:       ['Odontología General', 'Ortodoncia', 'Implantes Dentales', 'Endodoncia', 'Periodoncia', 'Odontopediatría', 'Medicina Estética', 'Medicina General', 'Psicología', 'Nutrición Clínica', 'Fisioterapia', 'Oftalmología', 'Ginecología', 'Pediatría', 'Dermatología'],
+  food:         ['Comida mexicana', 'Pizza', 'Sushi', 'Hamburguesas', 'Tacos', 'Mariscos', 'Mariscos', 'Comida rápida', 'Cafetería', 'Pastelería', 'Brunch', 'Comida italiana', 'Comida a domicilio'],
+  beauty:       ['Corte de cabello', 'Coloración', 'Barba', 'Tratamientos capilares', 'Manicure & Pedicure', 'Masajes', 'Faciales', 'Depilación', 'Maquillaje', 'Extensiones de cabello'],
+  fitness:      ['Crossfit', 'Yoga', 'Pilates', 'Spinning', 'Natación', 'Boxeo', 'Musculación', 'Entrenamiento personal', 'Zumba', 'Meditación'],
+  hospitality:  ['Hotel boutique', 'Hotel de negocios', 'Resort', 'Airbnb', 'Hostal', 'Eventos y banquetes', 'Catering'],
+  professional: ['Derecho civil', 'Derecho corporativo', 'Contabilidad', 'Consultoría fiscal', 'Recursos humanos', 'Consultoría empresarial', 'Notaría'],
+  retail:       ['Ropa y accesorios', 'Electrónica', 'Joyería', 'Perfumería', 'Artículos del hogar', 'Mascotas', 'Deportes'],
+}
+
+function getSpecialtiesList(industry: string): string[] {
+  const ind = INDUSTRIES.find(i => i.slug === industry)
+  if (!ind) return SPECIALTIES_BY_CATEGORY.health
+  return SPECIALTIES_BY_CATEGORY[ind.category] ?? SPECIALTIES_BY_CATEGORY.health
+}
 const PAYMENT_OPTIONS = ['Efectivo', 'Tarjeta de crédito', 'Tarjeta de débito', 'Transferencia SPEI', 'Pago en línea', 'PayPal']
 const INSURANCE_OPTIONS = ['IMSS', 'ISSSTE', 'GNP', 'AXA', 'BUPA', 'Metlife', 'Seguros Monterrey', 'Mapfre']
 const TONE_OPTIONS = [
@@ -69,12 +80,13 @@ const TONE_OPTIONS = [
   { value: 'formal',      label: 'Formal y ejecutivo',   desc: 'Preciso, sin lenguaje coloquial.' },
 ]
 const STEPS = [
-  { num: 1, label: 'Perfil',      Icon: Stethoscope },
-  { num: 2, label: 'Horarios',    Icon: Clock       },
-  { num: 3, label: 'Servicios',   Icon: Plus        },
-  { num: 4, label: 'Conocimiento',Icon: Brain       },
-  { num: 5, label: 'Agente IA',   Icon: Bot         },
-  { num: 6, label: 'Canales',     Icon: Plug        },
+  { num: 1, label: 'Industria',   Icon: Building2   },
+  { num: 2, label: 'Perfil',      Icon: Building2   },
+  { num: 3, label: 'Horarios',    Icon: Clock       },
+  { num: 4, label: 'Servicios',   Icon: Plus        },
+  { num: 5, label: 'Conocimiento',Icon: Brain       },
+  { num: 6, label: 'Agente IA',   Icon: Bot         },
+  { num: 7, label: 'Canales',     Icon: Plug        },
 ]
 
 /* ─── Shared UI primitives ─── */
@@ -162,7 +174,10 @@ export default function OnboardingPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError]   = useState<string | null>(null)
 
-  // Step 1 — Perfil
+  // Step 1 — Industria
+  const [industry, setIndustry] = useState('dental')
+
+  // Step 2 — Perfil
   const [name,         setName]         = useState('')
   const [phone,        setPhone]        = useState('')
   const [address,      setAddress]      = useState('')
@@ -242,6 +257,7 @@ export default function OnboardingPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          industry,
           name, phone, address, website, specialties,
           workingHours: hours,
           services: services
@@ -272,7 +288,8 @@ export default function OnboardingPage() {
   }
 
   async function handleNext() {
-    if (step === 1 && !name.trim()) { setError('El nombre de la clínica es requerido.'); return }
+    if (step === 1 && !industry) { setError('Selecciona tu industria para continuar.'); return }
+    if (step === 2 && !name.trim()) { setError('El nombre del negocio es requerido.'); return }
     setError(null)
     // In development, advance immediately (save runs in background — no real DB needed)
     if (process.env.NODE_ENV !== 'production') {
@@ -288,11 +305,11 @@ export default function OnboardingPage() {
     if (!aiAgentName.trim()) { setError('Elige un nombre para tu agente.'); return }
     if (process.env.NODE_ENV !== 'production') {
       save(true).catch(() => {})
-      setStep(6)
+      setStep(7)
       return
     }
     const ok = await save(true)
-    if (ok) setStep(6)
+    if (ok) setStep(7)
   }
 
   async function activateVoice() {
@@ -438,22 +455,63 @@ export default function OnboardingPage() {
         }}>
           {/* Card header */}
           <div style={{ padding: '22px 28px 18px', borderBottom: `1px solid ${BORDER}` }}>
-            {step === 1 && <StepHeader title="Perfil de tu Clínica" desc="Esta información le da contexto a tu recepcionista IA." />}
-            {step === 2 && <StepHeader title="Horarios de Atención" desc="La IA rechazará citas fuera de tu horario configurado." />}
-            {step === 3 && <StepHeader title="Servicios y Precios" desc="Cada servicio con precio alimenta el cálculo de Revenue Asegurado." />}
-            {step === 4 && <StepHeader title="Conocimiento de la IA" desc="Entre más detalle, mejor y más personalizada será tu recepcionista." />}
-            {step === 5 && <StepHeader title="Tu Agente Recepcionista" desc="Define el nombre y tono de tu IA. En el siguiente paso conectas los canales." />}
-            {step === 6 && <StepHeader title="Conecta tus Canales" desc="Elige por dónde quieres que tu IA atienda pacientes. Puedes activarlos ahora o después desde el dashboard." />}
+            {step === 1 && <StepHeader title="¿Cuál es tu tipo de negocio?" desc="Welko personaliza tu IA y CRM según tu industria." />}
+            {step === 2 && <StepHeader title="Perfil de tu Negocio" desc="Esta información le da contexto a tu recepcionista IA." />}
+            {step === 3 && <StepHeader title="Horarios de Atención" desc="La IA rechazará citas fuera de tu horario configurado." />}
+            {step === 4 && <StepHeader title="Servicios y Precios" desc="Cada servicio con precio alimenta el cálculo de Revenue Asegurado." />}
+            {step === 5 && <StepHeader title="Conocimiento de la IA" desc="Entre más detalle, mejor y más personalizada será tu recepcionista." />}
+            {step === 6 && <StepHeader title="Tu Agente Recepcionista" desc="Define el nombre y tono de tu IA. En el siguiente paso conectas los canales." />}
+            {step === 7 && <StepHeader title="Conecta tus Canales" desc="Elige por dónde quieres que tu IA atienda pacientes. Puedes activarlos ahora o después desde el dashboard." />}
           </div>
 
           {/* Card body */}
           <div style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}>
 
-            {/* ══ STEP 1 — PERFIL ══ */}
+            {/* ══ STEP 1 — INDUSTRIA ══ */}
             {step === 1 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                {INDUSTRY_CATEGORIES.map((cat) => {
+                  const catIndustries = INDUSTRIES.filter(i => i.category === cat.id)
+                  if (!catIndustries.length) return null
+                  return (
+                    <div key={cat.id}>
+                      <p style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px' }}>
+                        {cat.icon} {cat.es}
+                      </p>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+                        {catIndustries.map((ind) => {
+                          const selected = industry === ind.slug
+                          return (
+                            <button
+                              key={ind.slug}
+                              onClick={() => setIndustry(ind.slug)}
+                              style={{
+                                display: 'flex', alignItems: 'center', gap: 8,
+                                padding: '10px 12px', borderRadius: 10, cursor: 'pointer',
+                                textAlign: 'left', transition: 'all 0.15s',
+                                background: selected ? 'rgba(19,36,74,0.07)' : SURF2,
+                                border: selected ? `1.5px solid ${NAVY}` : `1px solid ${BORDER}`,
+                              }}
+                            >
+                              <span style={{ fontSize: 18, lineHeight: 1 }}>{ind.icon}</span>
+                              <span style={{ color: selected ? NAVY : TEXT, fontWeight: selected ? 600 : 400, fontSize: 12, lineHeight: 1.3 }}>
+                                {ind.es.name}
+                              </span>
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* ══ STEP 2 — PERFIL ══ */}
+            {step === 2 && (
               <>
                 <div>
-                  <Label>Nombre de la clínica *</Label>
+                  <Label>Nombre del negocio *</Label>
                   <Input value={name} onChange={setName} placeholder="Ej. Clínica Dental Pérez" />
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
@@ -473,7 +531,7 @@ export default function OnboardingPage() {
                 <div>
                   <Label>Especialidades (selecciona todas las que apliquen)</Label>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 8 }}>
-                    {SPECIALTIES_LIST.map((s) => (
+                    {getSpecialtiesList(industry).map((s) => (
                       <Chip key={s} label={s} selected={specialties.includes(s)} onClick={() => toggleSpecialty(s)} />
                     ))}
                   </div>
@@ -481,8 +539,8 @@ export default function OnboardingPage() {
               </>
             )}
 
-            {/* ══ STEP 2 — HORARIOS ══ */}
-            {step === 2 && (
+            {/* ══ STEP 3 — HORARIOS ══ */}
+            {step === 3 && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {DAYS.map((day) => (
                   <div key={day} style={{
@@ -519,8 +577,8 @@ export default function OnboardingPage() {
               </div>
             )}
 
-            {/* ══ STEP 3 — SERVICIOS ══ */}
-            {step === 3 && (
+            {/* ══ STEP 4 — SERVICIOS ══ */}
+            {step === 4 && (
               <>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {services.map((svc, i) => (
@@ -577,8 +635,8 @@ export default function OnboardingPage() {
               </>
             )}
 
-            {/* ══ STEP 4 — CONOCIMIENTO IA ══ */}
-            {step === 4 && (
+            {/* ══ STEP 5 — CONOCIMIENTO IA ══ */}
+            {step === 5 && (
               <>
                 {/* Toggles */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
@@ -654,8 +712,8 @@ export default function OnboardingPage() {
               </>
             )}
 
-            {/* ══ STEP 5 — AGENTE IA ══ */}
-            {step === 5 && (
+            {/* ══ STEP 6 — AGENTE IA ══ */}
+            {step === 6 && (
               <>
                 <div>
                   <Label>Nombre de tu agente IA *</Label>
@@ -709,8 +767,8 @@ export default function OnboardingPage() {
               </>
             )}
 
-            {/* ══ STEP 6 — CANALES ══ */}
-            {step === 6 && (
+            {/* ══ STEP 7 — CANALES ══ */}
+            {step === 7 && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
 
                 {/* WhatsApp */}
@@ -870,7 +928,7 @@ export default function OnboardingPage() {
               <ChevronLeft size={16} /> Anterior
             </button>
 
-            {step < 5 && (
+            {step < 6 && (
               <button
                 onClick={handleNext}
                 disabled={saving}
@@ -886,7 +944,7 @@ export default function OnboardingPage() {
                 Siguiente <ChevronRight size={15} />
               </button>
             )}
-            {step === 5 && (
+            {step === 6 && (
               <button
                 onClick={handleFinish}
                 disabled={saving}
@@ -902,7 +960,7 @@ export default function OnboardingPage() {
                 {saving ? 'Guardando...' : 'Activar mi recepcionista'}
               </button>
             )}
-            {step === 6 && (
+            {step === 7 && (
               <button
                 onClick={() => router.push('/dashboard')}
                 style={{
