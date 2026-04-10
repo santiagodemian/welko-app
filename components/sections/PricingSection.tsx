@@ -46,7 +46,7 @@ const PLANS: Plan[] = [
     name: 'Starter',
     tagline: { es: 'Para arrancar sin riesgos', en: 'Start with no risk' },
     for: { es: 'Solo profesional · negocio chico', en: 'Solo professional · small business' },
-    monthly: 799,    annual: 639,
+    monthly: 299,    annual: 239,
     monthlyUSD: 49,  annualUSD: 39,
     featured: false,
     features: [
@@ -75,7 +75,7 @@ const PLANS: Plan[] = [
     name: 'Essential',
     tagline: { es: 'Automatización completa del canal digital', en: 'Full digital channel automation' },
     for: { es: 'Profesional establecido · 1 sede', en: 'Established professional · 1 location' },
-    monthly: 1499,   annual: 1199,
+    monthly: 799,    annual: 639,
     monthlyUSD: 99,  annualUSD: 79,
     featured: false,
     features: [
@@ -91,12 +91,12 @@ const PLANS: Plan[] = [
       { text: { es: 'CRM de clientes', en: 'Client CRM' }, included: false },
     ],
     roi: {
-      es: '2 citas recuperadas/mes = plan pagado',
-      en: '2 recovered appointments/month = plan paid',
+      es: '1 cita recuperada/mes = plan pagado',
+      en: '1 recovered appointment/month = plan paid',
     },
     roiUSD: {
-      es: '2 recovered bookings/month = plan paid',
-      en: '2 recovered bookings/month = plan paid',
+      es: '1 recovered booking/month = plan paid',
+      en: '1 recovered booking/month = plan paid',
     },
   },
   {
@@ -105,7 +105,7 @@ const PLANS: Plan[] = [
     badge: { es: 'Más popular', en: 'Most popular' },
     tagline: { es: 'Tu secretaria se enfoca en vender, no en contestar', en: 'Your staff sells, not answers messages' },
     for: { es: 'Equipos de 2–5 personas · cualquier industria', en: '2–5 person teams · any industry' },
-    monthly: 2999,    annual: 2399,
+    monthly: 1499,    annual: 1199,
     monthlyUSD: 199,  annualUSD: 159,
     featured: true,
     features: [
@@ -121,8 +121,8 @@ const PLANS: Plan[] = [
       { text: { es: 'Voz IA / llamadas automáticas', en: 'Voice AI / automatic calls' }, included: false },
     ],
     roi: {
-      es: 'Recupera 6–8 citas/mes = $6,000–$9,600 MXN salvados',
-      en: 'Recover 6–8 appts/month = $6,000–$9,600 MXN saved',
+      es: 'Recupera 3–4 citas/mes = plan pagado 2–3×',
+      en: 'Recover 3–4 appts/month = plan paid 2–3×',
     },
     roiUSD: {
       es: 'Recover 3–4 bookings/month = plan pays itself 3×',
@@ -134,7 +134,7 @@ const PLANS: Plan[] = [
     name: 'Business',
     tagline: { es: 'Escalabilidad total sin límites', en: 'Total scalability, no limits' },
     for: { es: 'Multi-sede · alto volumen · franquicia', en: 'Multi-location · high volume · franchise' },
-    monthly: 5999,    annual: 4799,
+    monthly: 2999,    annual: 2399,
     monthlyUSD: 399,  annualUSD: 319,
     featured: false,
     cta: { es: 'Hablar con ventas', en: 'Talk to sales' },

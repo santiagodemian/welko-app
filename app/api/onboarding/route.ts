@@ -67,33 +67,131 @@ interface OnboardingPayload {
   onboardingCompleted?: boolean
 }
 
+/* ─── Industry vocabulary ─── */
+
+interface IndustryVocab {
+  businessLabel: string   // "la clínica" / "el restaurante"
+  clientLabel:   string   // "el paciente" / "el cliente"
+  eventLabel:    string   // "cita" / "pedido"
+  roleDesc:      string   // "agendar citas" / "tomar pedidos"
+  infoSection:   string   // "## Información de la Clínica"
+  rules:         string[]
+}
+
+function getIndustryVocab(industry?: string): IndustryVocab {
+  switch (industry) {
+    case 'restaurante':
+      return {
+        businessLabel: 'el restaurante', clientLabel: 'el cliente', eventLabel: 'pedido o reservación',
+        roleDesc: 'tomar pedidos, gestionar reservaciones y responder preguntas',
+        infoSection: '## Información del Restaurante',
+        rules: [
+          '- Nunca inventes precios ni disponibilidad. Si no sabes algo, ofrece comunicar con el equipo.',
+          '- Confirma siempre la hora de reservación y número de personas.',
+          '- Si hay lista de espera, informa el tiempo estimado.',
+          '- Mantén la conversación en español mexicano.',
+        ],
+      }
+    case 'barberia': case 'spa-salon':
+      return {
+        businessLabel: 'el establecimiento', clientLabel: 'el cliente', eventLabel: 'turno o cita',
+        roleDesc: 'agendar turnos, confirmar citas y responder preguntas sobre servicios',
+        infoSection: '## Información del Establecimiento',
+        rules: [
+          '- Nunca inventes precios ni disponibilidad de estilistas.',
+          '- Confirma siempre el servicio, el estilista y el horario al agendar.',
+          '- Mantén la conversación en español mexicano.',
+        ],
+      }
+    case 'fitness': case 'yoga-wellness':
+      return {
+        businessLabel: 'el gimnasio', clientLabel: 'el prospecto o miembro', eventLabel: 'tour o inscripción',
+        roleDesc: 'agendar tours, responder sobre planes de membresía y procesar inscripciones',
+        infoSection: '## Información del Gimnasio',
+        rules: [
+          '- Siempre invita al prospecto a agendar un tour antes de decidir.',
+          '- Nunca inventes precios de membresías.',
+          '- Mantén la conversación en español mexicano.',
+        ],
+      }
+    case 'hotel':
+      return {
+        businessLabel: 'el hotel', clientLabel: 'el huésped', eventLabel: 'reservación',
+        roleDesc: 'gestionar reservaciones, informar sobre disponibilidad y responder preguntas',
+        infoSection: '## Información del Hotel',
+        rules: [
+          '- Confirma siempre fechas de llegada, salida y tipo de habitación.',
+          '- Nunca confirmes disponibilidad sin verificar. Ofrece consultar y confirmar.',
+          '- Mantén la conversación en español mexicano.',
+        ],
+      }
+    case 'legal':
+      return {
+        businessLabel: 'el despacho', clientLabel: 'el cliente potencial', eventLabel: 'consulta',
+        roleDesc: 'agendar consultas iniciales, calificar el tipo de caso y responder preguntas generales',
+        infoSection: '## Información del Despacho',
+        rules: [
+          '- Nunca des asesoría legal específica; agenda una consulta.',
+          '- Confirma siempre el tipo de caso antes de agendar.',
+          '- Mantén un tono profesional y discreto.',
+          '- Mantén la conversación en español mexicano.',
+        ],
+      }
+    case 'contabilidad':
+      return {
+        businessLabel: 'el despacho contable', clientLabel: 'el cliente o empresa', eventLabel: 'reunión',
+        roleDesc: 'agendar reuniones, identificar necesidades del cliente y responder preguntas sobre servicios',
+        infoSection: '## Información del Despacho Contable',
+        rules: [
+          '- Nunca des asesoría fiscal específica; agenda una reunión.',
+          '- Identifica el tipo de empresa y necesidad antes de agendar.',
+          '- Mantén la conversación en español mexicano.',
+        ],
+      }
+    default:
+      // Health industries (dental, estetica, psicologia, medicina, etc.) and generic
+      return {
+        businessLabel: 'la clínica o consultorio', clientLabel: 'el paciente', eventLabel: 'cita',
+        roleDesc: 'agendar citas, confirmar asistencias y responder preguntas frecuentes',
+        infoSection: '## Información del Consultorio',
+        rules: [
+          '- Nunca inventes información médica ni diagnósticos.',
+          '- Siempre confirma la cita repitiendo día, hora y servicio antes de finalizar.',
+          '- Si el paciente menciona una emergencia médica, indícale que llame al 911.',
+          '- Mantén la conversación en español mexicano.',
+          '- No compartas información personal de otros pacientes.',
+        ],
+      }
+  }
+}
+
 /* ─── Prompt builder ─── */
 
 function buildCustomizationPrompt(d: OnboardingPayload): string {
   const lines: string[] = []
+  const vocab = getIndustryVocab(d.industry)
 
-  const agentName = d.aiAgentName?.trim() || 'la recepcionista virtual'
-  const clinicName = d.name?.trim() || 'la clínica'
+  const agentName  = d.aiAgentName?.trim() || 'tu asistente virtual'
+  const bizName    = d.name?.trim()        || 'el negocio'
 
   lines.push(
-    `Eres ${agentName}, recepcionista virtual de ${clinicName}. Tu rol es atender a los pacientes de manera eficiente, agendar citas y responder preguntas frecuentes.`,
+    `Eres ${agentName}, asistente virtual de ${bizName}. Tu rol es ${vocab.roleDesc} para ${vocab.clientLabel}s de manera eficiente y profesional.`,
   )
 
   const toneMap: Record<string, string> = {
     profesional: 'Mantén un tono profesional, claro y directo.',
     amigable:    'Usa un tono cálido, amigable y cercano. Usa emojis con moderación.',
-    empático:    'Sé empático y comprensivo. Prioriza que el paciente se sienta escuchado.',
+    empático:    'Sé empático y comprensivo. Prioriza que el cliente se sienta escuchado.',
     formal:      'Sé formal y ejecutivo. Evita contracciones y lenguaje coloquial.',
   }
   lines.push(toneMap[d.aiTone ?? ''] ?? toneMap.profesional)
 
-  lines.push('\n## Información de la Clínica')
+  lines.push(`\n${vocab.infoSection}`)
   if (d.address)  lines.push(`Dirección: ${d.address}`)
   if (d.phone)    lines.push(`Teléfono: ${d.phone}`)
   if (d.website)  lines.push(`Sitio web: ${d.website}`)
-
   if (d.specialties?.length)
-    lines.push(`Especialidades: ${d.specialties.join(', ')}.`)
+    lines.push(`Especialidades / servicios principales: ${d.specialties.join(', ')}.`)
 
   lines.push('\n## Horarios de Atención')
   if (d.workingHours) {
@@ -102,19 +200,14 @@ function buildCustomizationPrompt(d: OnboardingPayload): string {
       jueves: 'Jueves', viernes: 'Viernes', sábado: 'Sábado', domingo: 'Domingo',
     }
     for (const [day, h] of Object.entries(d.workingHours)) {
-      if (h.active) {
-        lines.push(`${DAY_ES[day] ?? day}: ${h.open} – ${h.close}`)
-      }
+      if (h.active) lines.push(`${DAY_ES[day] ?? day}: ${h.open} – ${h.close}`)
     }
     const closed = Object.entries(d.workingHours)
-      .filter(([, h]) => !h.active)
-      .map(([day]) => DAY_ES[day] ?? day)
+      .filter(([, h]) => !h.active).map(([day]) => DAY_ES[day] ?? day)
     if (closed.length) lines.push(`Cerrado: ${closed.join(', ')}.`)
   }
 
   lines.push('\n## Servicios y Precios')
-  // Services come from the DB after being saved in the transaction.
-  // We pass them via payload for prompt generation.
   if ((d as { _services?: ServiceInput[] })._services?.length) {
     for (const s of (d as { _services?: ServiceInput[] })._services!) {
       const price = s.priceMin
@@ -125,37 +218,28 @@ function buildCustomizationPrompt(d: OnboardingPayload): string {
     }
   }
 
-  lines.push('\n## Políticas y Preguntas Frecuentes')
+  lines.push('\n## Políticas')
   lines.push(d.hasParking   ? 'Sí contamos con estacionamiento.' : 'No contamos con estacionamiento propio.')
   lines.push(d.hasInvoicing ? 'Sí se emite factura electrónica (CFDI).' : 'No emitimos facturas por el momento.')
 
   if (d.paymentMethods?.length)
-    lines.push(`Métodos de pago aceptados: ${d.paymentMethods.join(', ')}.`)
+    lines.push(`Métodos de pago: ${d.paymentMethods.join(', ')}.`)
 
   if (d.insurancesAccepted?.length)
-    lines.push(`Seguros aceptados: ${d.insurancesAccepted.join(', ')}.`)
-  else
-    lines.push('No trabajamos con seguros médicos directamente.')
+    lines.push(`Convenios / seguros aceptados: ${d.insurancesAccepted.join(', ')}.`)
 
   if (d.cancellationPolicy)
     lines.push(`Política de cancelación: ${d.cancellationPolicy}`)
 
   if (d.faqs?.length) {
-    lines.push('\n## Otras Preguntas Frecuentes')
+    lines.push('\n## Preguntas Frecuentes')
     for (const faq of d.faqs) {
       if (faq.question && faq.answer)
         lines.push(`P: ${faq.question}\nR: ${faq.answer}`)
     }
   }
 
-  lines.push(
-    '\n## Reglas de Comportamiento',
-    '- Nunca inventes información. Si no sabes algo, ofrece transferir la llamada.',
-    '- Siempre confirma la cita repitiendo día, hora y servicio antes de finalizar.',
-    '- Si el paciente menciona una emergencia médica, indícale que llame al 911.',
-    '- Mantén la conversación en español mexicano.',
-    '- No compartas información personal de otros pacientes.',
-  )
+  lines.push('\n## Reglas de Comportamiento', ...vocab.rules, '- Nunca inventes información. Si no sabes algo, ofrece comunicarte con el equipo.')
 
   return lines.join('\n')
 }
@@ -173,9 +257,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  // Require name only on first step
+  // Require name only when sent
   if (body.name !== undefined && !body.name.trim())
-    return NextResponse.json({ error: 'El nombre de la clínica es requerido.' }, { status: 422 })
+    return NextResponse.json({ error: 'El nombre del negocio es requerido.' }, { status: 422 })
 
   // Validate service prices
   for (const svc of body.services ?? []) {

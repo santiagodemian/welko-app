@@ -20,7 +20,7 @@ import { WelkoLogo } from '@/components/ui/WelkoLogo'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 const FLOW_ICONS = [MessageCircle, Bot, CalendarCheck]
-const HERO_SLUGS = ['estetica', 'dental', 'estetica', 'medicina', 'nutricion', 'psicologia']
+const HERO_SLUGS = ['restaurante', 'dental', 'barberia', 'fitness', 'hotel', 'spa-salon', 'legal']
 
 function fadeUp(delay = 0) {
   return {
@@ -72,109 +72,109 @@ export default function HomePage() {
       <main className="flex flex-col flex-1 pt-28">
 
         {/* ════════════════════════════════════════
-            HERO — Fresha-style centered
+            HERO — 2-col: text left, demo right
         ════════════════════════════════════════ */}
-        <section className="relative px-4 sm:px-6 pt-16 pb-24 sm:pt-24 sm:pb-32 overflow-hidden">
+        <section className="relative px-4 sm:px-6 pt-14 pb-20 sm:pt-20 sm:pb-28 overflow-hidden">
 
           {/* Spotlight gradient orbs */}
           <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full blur-3xl opacity-[0.08]"
+            <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full blur-3xl opacity-[0.07]"
               style={{ background: 'radial-gradient(ellipse at center, #13244A 0%, #1A3A7A 40%, transparent 70%)' }} />
-            <div className="absolute top-40 right-[-100px] w-[400px] h-[400px] rounded-full blur-3xl opacity-[0.05]"
+            <div className="absolute top-40 right-[-60px] w-[400px] h-[400px] rounded-full blur-3xl opacity-[0.04]"
               style={{ background: '#1A3A7A' }} />
-            <div className="absolute bottom-0 left-[-80px] w-[350px] h-[350px] rounded-full blur-3xl opacity-[0.04]"
-              style={{ background: '#13244A' }} />
           </div>
 
-          <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center text-center gap-8">
+          <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-            {/* Rotating eyebrow badge */}
-            <motion.div {...fadeUp(0)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
-              style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--accent-label)', boxShadow: '0 2px 12px rgba(19,36,74,0.08)' }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse flex-shrink-0" style={{ background: 'var(--accent-label)' }} />
-              <span style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.3s ease', minWidth: 200, display: 'inline-block' }}>
-                {labels[labelIdx]}
-              </span>
-            </motion.div>
-
-            {/* Headline — very large */}
-            <motion.h1 {...fadeUp(0.08)}
-              className="text-[2rem] sm:text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.08]"
-              style={{ color: 'var(--text-primary)' }}
-            >
-              {t.hero.headline1}{' '}
-              <span style={{ color: 'var(--accent)' }}>{t.hero.headline2}</span>
-            </motion.h1>
-
-            {/* Subheadline */}
-            <motion.p {...fadeUp(0.16)}
-              className="text-lg sm:text-xl font-light leading-relaxed max-w-2xl"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              {t.hero.subheadline}
-            </motion.p>
-
-            {/* CTA row */}
-            <motion.div {...fadeUp(0.22)} className="flex flex-col sm:flex-row items-center gap-3">
-              <Link
-                href="/precios"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-semibold transition-all duration-200"
-                style={{ background: 'var(--accent)', color: 'var(--accent-fg)', boxShadow: '0 4px 24px rgba(19,36,74,0.25)' }}
-                onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'var(--accent-hover)'; el.style.transform = 'translateY(-2px)' }}
-                onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'var(--accent)'; el.style.transform = 'translateY(0)' }}
+            {/* ── Left column: copy ── */}
+            <div className="flex flex-col gap-7">
+              {/* Rotating eyebrow badge */}
+              <motion.div {...fadeUp(0)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold self-start"
+                style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--accent-label)', boxShadow: '0 2px 12px rgba(19,36,74,0.08)' }}
               >
-                {lang === 'es' ? 'Comenzar ahora' : 'Get started now'}
-                <ArrowRight size={16} />
-              </Link>
-              <Link
-                href="/simulador"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-medium transition-all duration-200"
-                style={{ border: '1.5px solid var(--border)', color: 'var(--text-primary)', background: 'var(--surface)' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)' }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface)' }}
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse flex-shrink-0" style={{ background: 'var(--accent-label)' }} />
+                <span style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.3s ease', minWidth: 180, display: 'inline-block' }}>
+                  {labels[labelIdx]}
+                </span>
+              </motion.div>
+
+              {/* Headline */}
+              <motion.h1 {...fadeUp(0.08)}
+                className="text-[2.2rem] sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.07]"
+                style={{ color: 'var(--text-primary)' }}
               >
-                {lang === 'es' ? 'Ver simulador' : 'Try simulator'}
-              </Link>
-            </motion.div>
+                {t.hero.headline1}{' '}
+                <span style={{ color: 'var(--accent)' }}>{t.hero.headline2}</span>
+              </motion.h1>
 
-            {/* Trust line */}
-            <motion.p {...fadeUp(0.28)} className="text-sm font-light" style={{ color: 'var(--text-muted)' }}>
-              {t.hero.trust}
-            </motion.p>
+              {/* Subheadline */}
+              <motion.p {...fadeUp(0.16)}
+                className="text-lg sm:text-xl font-light leading-relaxed max-w-lg"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                {t.hero.subheadline}
+              </motion.p>
 
-            {/* Flow pill */}
-            <motion.div {...fadeUp(0.34)} className="hidden sm:block w-full max-w-2xl">
-              <div className="glass-card flex items-center justify-center gap-0 rounded-full px-4 py-2">
-                {t.flow.map((step, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 12px' }}>
-                      <div style={{ width: 30, height: 30, borderRadius: '50%', flexShrink: 0, background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        {(() => { const Icon = FLOW_ICONS[i]; return <Icon size={13} color="#1A2A56" strokeWidth={2} /> })()}
+              {/* CTA row */}
+              <motion.div {...fadeUp(0.22)} className="flex flex-col sm:flex-row items-start gap-3">
+                <Link
+                  href="/precios"
+                  className="inline-flex items-center gap-2 px-7 py-4 rounded-2xl text-base font-semibold transition-all duration-200"
+                  style={{ background: 'var(--accent)', color: 'var(--accent-fg)', boxShadow: '0 4px 24px rgba(19,36,74,0.25)' }}
+                  onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.transform = 'translateY(-2px)' }}
+                  onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.transform = 'translateY(0)' }}
+                >
+                  {lang === 'es' ? 'Comenzar ahora' : 'Get started now'}
+                  <ArrowRight size={16} />
+                </Link>
+                <Link
+                  href="/simulador"
+                  className="inline-flex items-center gap-2 px-7 py-4 rounded-2xl text-base font-medium transition-all duration-200"
+                  style={{ border: '1.5px solid var(--border)', color: 'var(--text-primary)', background: 'var(--surface)' }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)' }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface)' }}
+                >
+                  {lang === 'es' ? 'Ver demo' : 'Try demo'}
+                </Link>
+              </motion.div>
+
+              {/* Trust line */}
+              <motion.p {...fadeUp(0.28)} className="text-sm font-light" style={{ color: 'var(--text-muted)' }}>
+                {t.hero.trust}
+              </motion.p>
+
+              {/* Flow pill — desktop only */}
+              <motion.div {...fadeUp(0.34)} className="hidden lg:block">
+                <div className="glass-card flex items-center gap-0 rounded-2xl px-4 py-3 self-start">
+                  {t.flow.map((step, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 10px' }}>
+                        <div style={{ width: 28, height: 28, borderRadius: '50%', flexShrink: 0, background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {(() => { const Icon = FLOW_ICONS[i]; return <Icon size={12} color="#1A2A56" strokeWidth={2} /> })()}
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <span style={{ fontSize: 10, fontWeight: 700, color: '#1A2A56', whiteSpace: 'nowrap', lineHeight: 1.3 }}>{step.label}</span>
+                          <span style={{ fontSize: 9, color: '#6B7280', whiteSpace: 'nowrap' }}>{step.sub}</span>
+                        </div>
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <span style={{ fontSize: 9, fontWeight: 700, color: '#1A2A56', opacity: 0.38, letterSpacing: '0.07em', textTransform: 'uppercase' }}>{`Step ${i + 1}`}</span>
-                        <span style={{ fontSize: 11, fontWeight: 700, color: '#1A2A56', whiteSpace: 'nowrap', lineHeight: 1.3 }}>{step.label}</span>
-                        <span style={{ fontSize: 10, color: '#6B7280', whiteSpace: 'nowrap' }}>{step.sub}</span>
-                      </div>
+                      {i < t.flow.length - 1 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                          <div style={{ width: 14, borderTop: '1.5px dashed rgba(26,42,86,0.18)' }} />
+                          <ArrowRight size={9} color="rgba(26,42,86,0.25)" strokeWidth={2.5} />
+                        </div>
+                      )}
                     </div>
-                    {i < t.flow.length - 1 && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <div style={{ width: 18, borderTop: '1.5px dashed rgba(26,42,86,0.18)' }} />
-                        <ArrowRight size={10} color="rgba(26,42,86,0.25)" strokeWidth={2.5} />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
 
-            {/* Hero visual — floating card, centered */}
+            {/* ── Right column: hero visual ── */}
             <motion.div
-              initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.4 }}
-              className="w-full max-w-sm mx-auto"
+              initial={{ opacity: 0, y: 40, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
+              className="w-full max-w-sm mx-auto lg:max-w-none"
             >
               <IndustryHeroVisual slug={HERO_SLUGS[labelIdx] ?? 'dental'} />
             </motion.div>
@@ -207,27 +207,31 @@ export default function HomePage() {
         </section>
 
         {/* ════════════════════════════════════════
-            ESPECIALIDADES — links a /dental y /estetica
+            INDUSTRIAS — multi-industry pill strip
         ════════════════════════════════════════ */}
         <section className="py-10 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)' }}>
-          <div className="max-w-3xl mx-auto flex flex-col items-center gap-5">
+          <div className="max-w-5xl mx-auto flex flex-col items-center gap-5">
             <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-              {lang === 'es' ? '¿En qué tipo de clínica trabajas?' : 'What type of clinic do you run?'}
+              {lang === 'es' ? '¿Para qué industria?' : 'For which industry?'}
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 w-full max-w-lg">
+            <div className="flex flex-wrap items-center justify-center gap-2.5">
               {[
-                { href: '/dental',   emoji: '🦷', label: lang === 'es' ? 'Clínica Dental'    : 'Dental Clinic',      color: '#2563EB', bg: '#EFF6FF', border: '#BFDBFE' },
-                { href: '/estetica', emoji: '✨', label: lang === 'es' ? 'Centro de Estética' : 'Aesthetic Center',   color: '#BE185D', bg: '#FFF1F2', border: '#FECDD3' },
-                { href: '/industrias', emoji: '🏥', label: lang === 'es' ? 'Otra especialidad' : 'Other specialty',  color: 'var(--text-secondary)', bg: 'var(--surface)', border: 'var(--border)' },
+                { href: '/industrias/dental',       emoji: '🏥', es: 'Salud & Clínicas',         en: 'Health & Clinics',      color: '#3B82F6' },
+                { href: '/industrias/restaurante',  emoji: '🍽️', es: 'Restaurantes & Cafés',      en: 'Restaurants & Cafés',   color: '#F59E0B' },
+                { href: '/industrias/barberia',     emoji: '✂️', es: 'Barberías & Salones',        en: 'Barbershops & Salons',  color: '#8B5CF6' },
+                { href: '/industrias/spa-salon',    emoji: '💆', es: 'Spa & Bienestar',            en: 'Spa & Wellness',        color: '#EC4899' },
+                { href: '/industrias/fitness',      emoji: '💪', es: 'Fitness & Gyms',             en: 'Fitness & Gyms',        color: '#EF4444' },
+                { href: '/industrias/hotel',        emoji: '🏨', es: 'Hoteles & Hospitalidad',     en: 'Hotels & Hospitality',  color: '#0EA5E9' },
+                { href: '/industrias/legal',        emoji: '⚖️', es: 'Despachos Legales',          en: 'Law Firms',             color: '#374151' },
+                { href: '/industrias/contabilidad', emoji: '📊', es: 'Contabilidad & Finanzas',    en: 'Accounting & Finance',  color: '#0F766E' },
               ].map(item => (
                 <Link key={item.href} href={item.href}
-                  className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-semibold text-sm transition-all duration-150"
-                  style={{ background: item.bg, border: `1.5px solid ${item.border}`, color: item.color }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 4px 14px rgba(0,0,0,0.08)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none' }}>
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-150"
+                  style={{ background: item.color + '12', border: `1px solid ${item.color}28`, color: item.color }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = item.color + '22'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = item.color + '12'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)' }}>
                   <span>{item.emoji}</span>
-                  {item.label}
-                  <ArrowRight size={13} />
+                  {lang === 'es' ? item.es : item.en}
                 </Link>
               ))}
             </div>
@@ -354,31 +358,87 @@ export default function HomePage() {
       </main>
 
       {/* ── Footer ── */}
-      <footer className="py-12 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)' }}>
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-5">
-          <div className="flex items-center gap-2.5">
-            <WelkoLogo size={22} />
-            <p className="text-xs font-light" style={{ color: 'var(--text-muted)' }}>
-              © {new Date().getFullYear()} {t.footer.copy}
-            </p>
+      <footer className="py-14 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
+        <div className="max-w-5xl mx-auto flex flex-col gap-8">
+
+          {/* Top row: brand + contact */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            {/* Brand */}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <WelkoLogo size={22} />
+                <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Welko</span>
+              </div>
+              <p className="text-xs font-light max-w-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                {lang === 'es' ? 'El Recepcionista IA Líder para negocios en LATAM.' : 'The leading AI Receptionist for businesses in LATAM.'}
+              </p>
+            </div>
+
+            {/* Contact */}
+            <div className="flex flex-col gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+              <a href="mailto:hello@welko.org" className="hover:underline transition-colors" style={{ color: 'var(--text-muted)' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}>
+                hello@welko.org
+              </a>
+              <a href="tel:+525628443738" className="hover:underline transition-colors" style={{ color: 'var(--text-muted)' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}>
+                +52 56 2844 3738
+              </a>
+              <span>CDMX, México</span>
+            </div>
+
+            {/* Social icons */}
+            <div className="flex items-center gap-3">
+              <a href="https://instagram.com/welko.mx" target="_blank" rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-150"
+                style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = '#E1306C'; el.style.borderColor = '#E1306C44' }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = 'var(--text-muted)'; el.style.borderColor = 'var(--border)' }}
+                aria-label="Instagram">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+              </a>
+              <a href="https://linkedin.com/company/welko-mx" target="_blank" rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-150"
+                style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = '#0A66C2'; el.style.borderColor = '#0A66C244' }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = 'var(--text-muted)'; el.style.borderColor = 'var(--border)' }}
+                aria-label="LinkedIn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+                </svg>
+              </a>
+            </div>
           </div>
-          <nav className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
-            {[
-              { label: t.footer.terms,   href: '/terminos' },
-              { label: t.footer.privacy, href: '/privacidad' },
-              { label: t.footer.refunds, href: '/reembolsos' },
-              { label: t.footer.support, href: '/contacto' },
-            ].map((link) => (
-              <Link key={link.href} href={link.href}
-                className="text-xs font-medium transition-colors duration-150"
-                style={{ color: 'var(--text-muted)' }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-muted)')}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+
+          <hr style={{ borderColor: 'var(--border)', margin: 0 }} />
+
+          {/* Bottom row: copyright + legal */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs font-light text-center sm:text-left" style={{ color: 'var(--text-muted)' }}>
+              © {new Date().getFullYear()} Demian Santiago Mendoza Ledesma — Welko &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
+            </p>
+            <nav className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
+              {[
+                { label: lang === 'es' ? 'Términos y Condiciones' : 'Terms & Conditions', href: '/terminos' },
+                { label: lang === 'es' ? 'Política de Privacidad' : 'Privacy Policy',       href: '/privacidad' },
+                { label: lang === 'es' ? '🇲🇽 Hecho en México'    : '🇲🇽 Made in Mexico',   href: '#' },
+              ].map((link) => (
+                <Link key={link.href} href={link.href}
+                  className="text-xs font-medium transition-colors duration-150"
+                  style={{ color: 'var(--text-muted)' }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-muted)')}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
         </div>
       </footer>
     </>

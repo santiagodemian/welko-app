@@ -71,6 +71,28 @@ function getSpecialtiesList(industry: string): string[] {
   if (!ind) return SPECIALTIES_BY_CATEGORY.health
   return SPECIALTIES_BY_CATEGORY[ind.category] ?? SPECIALTIES_BY_CATEGORY.health
 }
+
+const NAME_PLACEHOLDER: Record<string, string> = {
+  health:       'Ej. Clínica Dental García',
+  food:         'Ej. Restaurante El Rincón Mexicano',
+  beauty:       'Ej. Barbería El Corte Fino',
+  fitness:      'Ej. Gym Iron Power',
+  hospitality:  'Ej. Hotel Boutique Casa Real',
+  professional: 'Ej. Despacho Jurídico Martínez',
+  retail:       'Ej. Tienda de Ropa La Moda',
+}
+const SPECIALTIES_LABEL: Record<string, string> = {
+  health:       'Especialidades (selecciona todas las que apliquen)',
+  food:         'Tipo de cocina o especialidad',
+  beauty:       'Servicios principales',
+  fitness:      'Disciplinas que ofrecen',
+  hospitality:  'Tipo de establecimiento',
+  professional: 'Áreas de práctica',
+  retail:       'Tipo de productos',
+}
+function getIndustryCategory(slug: string): string {
+  return INDUSTRIES.find(i => i.slug === slug)?.category ?? 'health'
+}
 const PAYMENT_OPTIONS = ['Efectivo', 'Tarjeta de crédito', 'Tarjeta de débito', 'Transferencia SPEI', 'Pago en línea', 'PayPal']
 const INSURANCE_OPTIONS = ['IMSS', 'ISSSTE', 'GNP', 'AXA', 'BUPA', 'Metlife', 'Seguros Monterrey', 'Mapfre']
 const TONE_OPTIONS = [
@@ -324,8 +346,9 @@ export default function OnboardingPage() {
   }
 
   /* ─── AI Completeness Score ─── */
+  const industryCategory = getIndustryCategory(industry)
   const scoreItems = [
-    { label: 'Nombre de la clínica',    done: !!name.trim(),                              pts: 10 },
+    { label: 'Nombre del negocio',    done: !!name.trim(),                              pts: 10 },
     { label: 'Teléfono de contacto',    done: !!phone.trim(),                             pts: 5  },
     { label: 'Dirección',               done: !!address.trim(),                           pts: 5  },
     { label: 'Especialidades',          done: specialties.length > 0,                     pts: 10 },
@@ -512,7 +535,7 @@ export default function OnboardingPage() {
               <>
                 <div>
                   <Label>Nombre del negocio *</Label>
-                  <Input value={name} onChange={setName} placeholder="Ej. Clínica Dental Pérez" />
+                  <Input value={name} onChange={setName} placeholder={NAME_PLACEHOLDER[industryCategory] ?? 'Ej. Mi Negocio'} />
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                   <div>
@@ -521,15 +544,15 @@ export default function OnboardingPage() {
                   </div>
                   <div>
                     <Label>Sitio web</Label>
-                    <Input value={website} onChange={setWebsite} placeholder="https://tuclinica.com" />
+                    <Input value={website} onChange={setWebsite} placeholder="https://tunegocio.com" />
                   </div>
                 </div>
                 <div>
-                  <Label>Dirección completa</Label>
+                  <Label>Dirección</Label>
                   <Textarea value={address} onChange={setAddress} placeholder="Av. Constitución 123, Col. Centro, Monterrey, N.L." rows={2} />
                 </div>
                 <div>
-                  <Label>Especialidades (selecciona todas las que apliquen)</Label>
+                  <Label>{SPECIALTIES_LABEL[industryCategory] ?? 'Especialidades'}</Label>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 8 }}>
                     {getSpecialtiesList(industry).map((s) => (
                       <Chip key={s} label={s} selected={specialties.includes(s)} onClick={() => toggleSpecialty(s)} />
