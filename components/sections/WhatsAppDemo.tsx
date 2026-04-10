@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLang } from '@/contexts/LangContext'
 
@@ -14,7 +14,7 @@ const TABS = [
   { slug: 'barberia',    emoji: '✂️', es: 'Barbería',     en: 'Barbershop',  color: '#8B5CF6' },
   { slug: 'hotel',       emoji: '🏨', es: 'Hotel',        en: 'Hotel',       color: '#0EA5E9' },
   { slug: 'fitness',     emoji: '💪', es: 'Fitness',      en: 'Fitness',     color: '#EF4444' },
-  { slug: 'psicologia',  emoji: '🧠', es: 'Psicología',   en: 'Psychology',  color: '#6366F1' },
+  { slug: 'legal',       emoji: '⚖️', es: 'Legal',        en: 'Legal',       color: '#6366F1' },
 ]
 
 const DEMOS: Record<string, { es: { name: string; msgs: Msg[] }; en: { name: string; msgs: Msg[] } }> = {
@@ -138,27 +138,27 @@ const DEMOS: Record<string, { es: { name: string; msgs: Msg[] }; en: { name: str
       ],
     },
   },
-  psicologia: {
+  legal: {
     es: {
-      name: 'Centro de Psicología Bienestar',
+      name: 'Despacho Legal Garza & Asociados',
       msgs: [
-        { from: 'user', text: 'Hola, ¿cuánto cuesta una consulta de psicología?', delay: 0 },
-        { from: 'ai',   text: 'Hola 😊 La consulta inicial es $950 MXN (50 min). ¿Te gustaría agendar?', delay: 1200 },
-        { from: 'user', text: 'Sí, ¿tienen esta semana?', delay: 2400 },
-        { from: 'ai',   text: 'Tengo el miércoles a las 6:00 PM o el jueves a las 10:00 AM. ¿Cuál prefieres?', delay: 3400 },
-        { from: 'user', text: 'El miércoles a las 6 🙏', delay: 4800 },
-        { from: 'ai',   text: '✅ Sesión agendada para el miércoles a las 6:00 PM. Te envío recordatorio el día anterior. ¡Aquí estamos para ti! 🌱', delay: 5900 },
+        { from: 'user', text: 'Necesito asesoría para un contrato de arrendamiento', delay: 0 },
+        { from: 'ai',   text: '¡Hola! ⚖️ Claro, podemos ayudarte. La consulta inicial es gratuita. ¿Cuándo te queda bien?', delay: 1200 },
+        { from: 'user', text: 'Mañana por la tarde si es posible', delay: 2400 },
+        { from: 'ai',   text: 'Tenemos disponibilidad mañana a las 3:00 PM o a las 5:00 PM. ¿Cuál prefieres?', delay: 3300 },
+        { from: 'user', text: 'A las 3 PM, gracias', delay: 4600 },
+        { from: 'ai',   text: '✅ Cita agendada mañana a las 3:00 PM. Te envío la dirección y los documentos que debes traer. ¡Hasta mañana! 📋', delay: 5700 },
       ],
     },
     en: {
-      name: 'Bienestar Psychology Center',
+      name: 'Garza & Associates Law Firm',
       msgs: [
-        { from: 'user', text: 'Hi, how much is a psychology session?', delay: 0 },
-        { from: 'ai',   text: 'Hi 😊 Initial session is $950 MXN (50 min). Would you like to book?', delay: 1200 },
-        { from: 'user', text: 'Yes, do you have availability this week?', delay: 2400 },
-        { from: 'ai',   text: 'Wednesday at 6:00 PM or Thursday at 10:00 AM. Which do you prefer?', delay: 3400 },
-        { from: 'user', text: 'Wednesday at 6 🙏', delay: 4800 },
-        { from: 'ai',   text: '✅ Session booked for Wednesday at 6:00 PM. I\'ll send a reminder the day before. We\'re here for you! 🌱', delay: 5900 },
+        { from: 'user', text: 'I need advice on a lease agreement', delay: 0 },
+        { from: 'ai',   text: 'Hi! ⚖️ We can help with that. Initial consultation is free. When works for you?', delay: 1200 },
+        { from: 'user', text: 'Tomorrow afternoon if possible', delay: 2400 },
+        { from: 'ai',   text: 'We have tomorrow at 3:00 PM or 5:00 PM. Which do you prefer?', delay: 3300 },
+        { from: 'user', text: 'At 3 PM, thank you', delay: 4600 },
+        { from: 'ai',   text: '✅ Appointment set for tomorrow at 3:00 PM. I\'ll send the address and documents to bring. See you then! 📋', delay: 5700 },
       ],
     },
   },
@@ -185,6 +185,7 @@ export function WhatsAppDemo() {
   const [typing,  setTyping]  = useState(false)
   const [running, setRunning] = useState(false)
   const [done,    setDone]    = useState(false)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   const tabInfo  = TABS.find(t => t.slug === tab) ?? TABS[0]
   const demoData = (DEMOS[tab] ?? DEMOS.dental)[isEN ? 'en' : 'es']
@@ -195,6 +196,11 @@ export function WhatsAppDemo() {
   function selectTab(slug: string) {
     setTab(slug); setShown([]); setTyping(false); setDone(false); setRunning(false)
   }
+
+  // Auto-scroll to bottom as messages appear
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [shown, typing])
 
   useEffect(() => {
     if (!running) return
@@ -291,7 +297,7 @@ export function WhatsAppDemo() {
                 </div>
 
                 {/* Messages */}
-                <div className="flex flex-col gap-2 px-3 py-4 min-h-[380px]" style={{ background: '#ECE5DD' }}>
+                <div className="flex flex-col gap-2 px-3 py-4 overflow-y-auto" style={{ background: '#ECE5DD', minHeight: 380, maxHeight: 380 }}>
                   <AnimatePresence>
                     {shown.map((msg, i) => (
                       <motion.div key={i}
@@ -319,6 +325,7 @@ export function WhatsAppDemo() {
                       </motion.div>
                     )}
                   </AnimatePresence>
+                  <div ref={bottomRef} />
 
                   {!running && !done && shown.length === 0 && (
                     <div className="flex-1 flex items-center justify-center">

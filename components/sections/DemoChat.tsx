@@ -14,51 +14,57 @@ interface Message {
 }
 
 const SPECIALTIES = [
-  { slug: 'dental',      es: 'Dental',          en: 'Dental',        emoji: '🦷' },
-  { slug: 'psicologia',  es: 'Psicología',       en: 'Psychology',    emoji: '🧠' },
-  { slug: 'estetica',    es: 'Estética',          en: 'Aesthetics',    emoji: '✨' },
-  { slug: 'general',     es: 'Medicina general', en: 'General med.',  emoji: '🩺' },
+  { slug: 'salud',        es: 'Salud',       en: 'Health',      emoji: '🏥' },
+  { slug: 'restaurante',  es: 'Restaurante', en: 'Restaurant',  emoji: '🍽️' },
+  { slug: 'barberia',     es: 'Barbería',    en: 'Barbershop',  emoji: '✂️' },
+  { slug: 'hotel',        es: 'Hotel',       en: 'Hotel',       emoji: '🏨' },
+  { slug: 'fitness',      es: 'Fitness',     en: 'Fitness',     emoji: '💪' },
+  { slug: 'legal',        es: 'Legal',       en: 'Legal',       emoji: '⚖️' },
 ]
 
 // Fallback responses when /api/chat fails — keeps the demo working
 function getDemoFallback(text: string, specialty: string, lang: string): string {
   const t = text.toLowerCase()
   if (lang === 'es') {
-    if (/precio|costo|cu[aá]nto/.test(t)) {
+    if (/precio|costo|cu[aá]nto|tarifa/.test(t)) {
       const p: Record<string, string> = {
-        dental:     'Los precios varían: limpieza desde $350, blanqueamiento desde $1,500. ¿Qué servicio te interesa? 🦷',
-        estetica:   'Botox desde $3,500, rellenos desde $5,000. Cuéntame qué tratamiento buscas. ✨',
-        psicologia: 'La sesión es $800 por 50 min. ¿Te agendo una consulta inicial? 🧠',
-        general:    'La consulta general cuesta $450. Estudios adicionales se cotizan aparte. ¿Te ayudo con algo más? 🩺',
+        salud:       'Los precios varían según el servicio. Limpieza desde $350, consulta desde $450. ¿Qué necesitas? 🏥',
+        restaurante: 'Nuestro menú tiene opciones desde $120. ¿Te envío la carta completa? 🍽️',
+        barberia:    'Corte desde $120, barba desde $80, combo desde $180. ¿Qué servicio buscas? ✂️',
+        hotel:       'Las tarifas varían por temporada. ¿Me das las fechas para cotizarte? 🏨',
+        fitness:     'Membresía mensual desde $699, trimestral desde $1,799. ¿Te agendo una visita? 💪',
+        legal:       'La consulta inicial es gratuita. Honorarios según el caso. ¿Me platicas qué necesitas? ⚖️',
       }
-      return p[specialty] ?? 'Los precios dependen del tratamiento. ¿Qué servicio te interesa para darte el costo exacto?'
+      return p[specialty] ?? '¡Hola! Con gusto te doy los precios. ¿Qué servicio te interesa?'
     }
-    if (/cita|disponib|agendar|agenda/.test(t))
-      return 'Tenemos disponibilidad esta semana. 📅 ¿Prefieres turno de mañana (9am–1pm) o tarde (3pm–7pm)?'
+    if (/cita|disponib|agendar|agenda|reserva|reservar|mesa|turno/.test(t))
+      return 'Tenemos disponibilidad esta semana. 📅 ¿Prefieres por la mañana o por la tarde?'
     if (/hora|abre|cierra|horario/.test(t))
-      return 'Atendemos de lunes a viernes 9am–7pm y sábados 9am–2pm. ¿Te agendo una cita?'
+      return 'Atendemos de lunes a viernes 9am–8pm y sábados 9am–3pm. ¿Te agendo?'
     if (/tarjeta|pago|efectivo|transferencia/.test(t))
-      return 'Aceptamos efectivo, tarjeta de crédito/débito y transferencia bancaria. 💳 ¿Algo más?'
+      return 'Aceptamos efectivo, tarjeta y transferencia bancaria. 💳 ¿En qué más te ayudo?'
     if (/urgencia|urgente|dolor|emergencia/.test(t))
-      return '¡Entendido! Tenemos espacios de emergencia hoy. ¿Me das tu nombre y número para coordinar? 🚨'
-    return '¡Hola! Soy la recepcionista virtual de la clínica. ¿En qué te puedo apoyar hoy? 😊'
+      return '¡Entendido! Tenemos espacio de urgencia hoy mismo. ¿Me das tu nombre? 🚨'
+    return '¡Hola! Soy la recepcionista IA. ¿En qué te puedo apoyar hoy? 😊'
   } else {
-    if (/price|cost|how much/.test(t)) {
+    if (/price|cost|how much|rate|fee/.test(t)) {
       const p: Record<string, string> = {
-        dental:     'Prices vary: cleaning from $25, whitening from $120. What service interests you? 🦷',
-        estetica:   'Botox from $250, fillers from $350. What treatment are you looking for? ✨',
-        psicologia: 'Sessions are $60 / 50 min. Would you like to book a consultation? 🧠',
-        general:    'General consultation is $35. Tests quoted separately. How can I help? 🩺',
+        salud:       'Prices vary by service. Cleaning from $25, consultation from $35. What do you need? 🏥',
+        restaurante: 'Our menu starts at $10. Would you like me to send you the full menu? 🍽️',
+        barberia:    'Haircut from $10, beard from $8, combo from $16. Which service? ✂️',
+        hotel:       'Rates vary by season. Give me your dates and I\'ll quote you right away. 🏨',
+        fitness:     'Monthly membership from $49, quarterly from $129. Want to schedule a visit? 💪',
+        legal:       'Initial consultation is free. Fees depend on the case. Tell me what you need? ⚖️',
       }
-      return p[specialty] ?? 'Prices depend on the treatment. What service are you interested in?'
+      return p[specialty] ?? 'Hi! I\'d be happy to help with pricing. What service are you looking for?'
     }
-    if (/appointment|available|book|schedule/.test(t))
-      return 'We have availability this week! 📅 Do you prefer morning (9–1pm) or afternoon (3–7pm)?'
+    if (/appointment|available|book|schedule|reservation|table|slot/.test(t))
+      return 'We have availability this week! 📅 Morning or afternoon?'
     if (/hours|open|close/.test(t))
-      return 'Open Monday–Friday 9am–7pm and Saturdays 9am–2pm. Would you like to book?'
+      return 'Open Monday–Friday 9am–8pm and Saturdays 9am–3pm. Would you like to book?'
     if (/card|payment|cash/.test(t))
       return 'We accept cash, credit/debit cards, and bank transfers. 💳 Anything else?'
-    return 'Hi! I\'m the clinic\'s AI receptionist. How can I help you today? 😊'
+    return 'Hi! I\'m the AI receptionist. How can I help you today? 😊'
   }
 }
 

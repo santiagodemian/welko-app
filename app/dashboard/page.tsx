@@ -15,6 +15,26 @@ const TEXT  = 'var(--text-primary)'
 const MUTED = 'var(--text-secondary)'
 const NAVY  = '#13244A'
 
+/* ── Industry presets for CRM preview ── */
+const CRM_INDUSTRIES = [
+  { slug: 'salud',       emoji: '🏥', label: 'Salud',       color: '#3B82F6',
+    client: 'paciente', event: 'cita', metric: 'No-shows evitados', metricVal: '18,400' },
+  { slug: 'restaurante', emoji: '🍽️', label: 'Restaurante', color: '#F59E0B',
+    client: 'comensal', event: 'reservación', metric: 'Reservaciones hoy', metricVal: '43' },
+  { slug: 'barberia',    emoji: '✂️', label: 'Barbería',     color: '#8B5CF6',
+    client: 'cliente',  event: 'turno', metric: 'Turnos confirmados', metricVal: '28' },
+  { slug: 'hotel',       emoji: '🏨', label: 'Hotel',        color: '#0EA5E9',
+    client: 'huésped',  event: 'reserva', metric: 'Ocupación hoy', metricVal: '87%' },
+  { slug: 'fitness',     emoji: '💪', label: 'Fitness',      color: '#EF4444',
+    client: 'miembro',  event: 'clase', metric: 'Inscripciones mes', metricVal: '31' },
+  { slug: 'legal',       emoji: '⚖️', label: 'Legal',        color: '#6366F1',
+    client: 'cliente',  event: 'consulta', metric: 'Consultas calificadas', metricVal: '12' },
+  { slug: 'spa',         emoji: '💆', label: 'Spa',          color: '#EC4899',
+    client: 'cliente',  event: 'sesión', metric: 'Sesiones del día', metricVal: '19' },
+  { slug: 'retail',      emoji: '🛍️', label: 'Retail',       color: '#14B8A6',
+    client: 'comprador', event: 'pedido', metric: 'Pedidos procesados', metricVal: '67' },
+]
+
 /* ── Mock cerebro IA observations ── */
 const CEREBRO_FEED = [
   { id:1, icon:'📈', time:'hace 5 min',  color:'#34D399', text:'Desde que activaste recordatorios, los no-shows bajaron 18% — ahorro estimado $4,200 MXN este mes.' },
@@ -169,6 +189,9 @@ export default function DashboardPage() {
   const [stats, setStats]         = useState<StatsResponse | null>(null)
   const [modoOcupado, setModo]    = useState(false)
   const [savedModo, setSavedModo] = useState(false)
+  const [industrySlug, setIndustrySlug] = useState('salud')
+
+  const industry = CRM_INDUSTRIES.find(i => i.slug === industrySlug) ?? CRM_INDUSTRIES[0]
 
   useEffect(() => {
     const stored = localStorage.getItem('welko_modo_ocupado')
@@ -200,15 +223,15 @@ export default function DashboardPage() {
     },
     {
       Icon: Calendar, color: '#A78BFA',
-      label: 'Citas agendadas',
+      label: `${industry.event.charAt(0).toUpperCase() + industry.event.slice(1)}s agendadas`,
       value: String((stats?.pipelineByStage?.AGENDADO ?? 0) + (stats?.pipelineByStage?.CONFIRMADO ?? 0) || '18'),
       sub: '+3 vs ayer',
     },
     {
       Icon: TrendingUp, color: '#34D399',
-      label: 'Ingresos recuperados',
-      value: stats ? `$${Intl.NumberFormat('es-MX').format(Math.round(stats.revenueAsegurado))}` : '$18,400',
-      sub: 'No-shows evitados este mes',
+      label: industry.metric,
+      value: industry.metricVal,
+      sub: 'Este mes',
     },
     {
       Icon: Zap, color: '#F59E0B',
@@ -224,6 +247,34 @@ export default function DashboardPage() {
     <div style={{ background: 'var(--bg)', minHeight: '100%', padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 16 }}>
 
       <CRMTour />
+
+      {/* ── Industry selector ── */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
+        padding: '10px 14px', borderRadius: 14,
+        background: SURF, border: `1px solid ${BORD}`,
+      }}>
+        <span style={{ fontSize: 11, fontWeight: 700, color: MUTED, marginRight: 4, whiteSpace: 'nowrap' }}>
+          Vista de industria:
+        </span>
+        {CRM_INDUSTRIES.map(ind => (
+          <button
+            key={ind.slug}
+            onClick={() => setIndustrySlug(ind.slug)}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 5,
+              padding: '5px 12px', borderRadius: 99,
+              background: industrySlug === ind.slug ? ind.color : ind.color + '12',
+              border: `1px solid ${industrySlug === ind.slug ? ind.color : ind.color + '30'}`,
+              color: industrySlug === ind.slug ? '#fff' : ind.color,
+              fontSize: 11, fontWeight: 600, cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+          >
+            {ind.emoji} {ind.label}
+          </button>
+        ))}
+      </div>
 
       {/* ── Header ── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>

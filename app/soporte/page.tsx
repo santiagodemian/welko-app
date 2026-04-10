@@ -17,11 +17,11 @@ export default function SoportePage() {
 
   const channels = isEN ? [
     { icon: MessageCircle, color: '#22C55E', title: 'WhatsApp', desc: 'Chat with our team directly. Usually responds in under 2 hours on business days.', action: 'Open WhatsApp', href: 'https://wa.me/525628443738?text=Hi%2C%20I%20need%20support%20with%20Welko' },
-    { icon: Mail, color: '#3B82F6', title: 'Email', desc: 'Write to us at hello@welko.org. We respond within 24 hours on business days.', action: 'Send email', href: 'mailto:hello@welko.org' },
+    { icon: Mail, color: '#3B82F6', title: 'Email', desc: 'Write to us at hola@welko.org. We respond within 24 hours on business days.', action: 'Send email', href: 'mailto:hola@welko.org' },
     { icon: Phone, color: '#8B5CF6', title: 'Phone', desc: 'Call us at +52 56 2844 3738. Available Mon–Fri 9am–7pm (Mexico City time).', action: 'Call now', href: 'tel:+525628443738' },
   ] : [
     { icon: MessageCircle, color: '#22C55E', title: 'WhatsApp', desc: 'Escríbenos directamente. Solemos responder en menos de 2 horas en días hábiles.', action: 'Abrir WhatsApp', href: 'https://wa.me/525628443738?text=Hola%2C%20necesito%20soporte%20con%20Welko' },
-    { icon: Mail, color: '#3B82F6', title: 'Correo', desc: 'Escríbenos a hello@welko.org. Respondemos en menos de 24 horas en días hábiles.', action: 'Enviar correo', href: 'mailto:hello@welko.org' },
+    { icon: Mail, color: '#3B82F6', title: 'Correo', desc: 'Escríbenos a hola@welko.org. Respondemos en menos de 24 horas en días hábiles.', action: 'Enviar correo', href: 'mailto:hola@welko.org' },
     { icon: Phone, color: '#8B5CF6', title: 'Teléfono', desc: 'Llámanos al +52 56 2844 3738. Disponible lun–vie 9am–7pm (hora CDMX).', action: 'Llamar ahora', href: 'tel:+525628443738' },
   ]
 

@@ -19,7 +19,7 @@ export default function TerminosPage() {
     { title: '6. Limitation of Liability', body: 'Welko is provided "as is." We do not guarantee uninterrupted service. To the maximum extent permitted by law, Welko is not liable for indirect or consequential damages from use of the Service.' },
     { title: '7. Governing Law', body: 'These Terms are governed by the laws of Mexico. Disputes shall be resolved in the courts of Mexico City, Mexico.' },
     { title: '8. Changes', body: 'We may update these Terms at any time. Continued use after changes constitutes acceptance. Material changes will be notified by email with at least 15 days notice.' },
-    { title: '9. Contact', body: 'For questions, email hello@welko.org or call +52 56 2844 3738.' },
+    { title: '9. Contact', body: 'For questions, email hola@welko.org or call +52 56 2844 3738.' },
   ] : [
     { title: '1. Descripción del Servicio', body: 'Welko es una plataforma SaaS que proporciona un recepcionista con inteligencia artificial para negocios de todas las industrias. El servicio incluye agendamiento automático, comunicación con clientes por WhatsApp, Instagram, Facebook Messenger y otros canales, funciones de CRM e insights generados por IA.' },
     { title: '2. Suscripción y Pago', body: 'Welko ofrece planes de suscripción mensual y anual. Los pagos se procesan de forma segura a través de Stripe. Los precios están en MXN para México y en USD para uso internacional, sin IVA incluido. Las suscripciones se renuevan automáticamente salvo cancelación previa.' },
@@ -29,7 +29,7 @@ export default function TerminosPage() {
     { title: '6. Limitación de Responsabilidad', body: 'Welko se proporciona "tal como es". No garantizamos disponibilidad ininterrumpida. En la máxima medida permitida por la ley, Welko no es responsable de daños indirectos o consecuentes derivados del uso del Servicio.' },
     { title: '7. Ley Aplicable', body: 'Estos Términos se rigen por las leyes de México. Las disputas se resolverán en los tribunales de la Ciudad de México, México.' },
     { title: '8. Cambios', body: 'Podemos actualizar estos Términos en cualquier momento. El uso continuado del Servicio tras los cambios constituye aceptación. Los cambios materiales serán notificados por correo electrónico con al menos 15 días de anticipación.' },
-    { title: '9. Contacto', body: 'Para preguntas, escríbenos a hello@welko.org o llámanos al +52 56 2844 3738.' },
+    { title: '9. Contacto', body: 'Para preguntas, escríbenos a hola@welko.org o llámanos al +52 56 2844 3738.' },
   ]
 
   return (

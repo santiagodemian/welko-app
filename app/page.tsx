@@ -303,7 +303,7 @@ export default function HomePage() {
             className="relative z-10 max-w-3xl mx-auto flex flex-col items-center text-center gap-8"
           >
             <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#60A5FA' }}>
-              {lang === 'es' ? 'La infraestructura IA #1 para negocios en LATAM' : 'The #1 AI infrastructure for businesses in LATAM'}
+              {lang === 'es' ? 'La infraestructura IA #1 para negocios' : 'The #1 AI infrastructure for businesses'}
             </span>
 
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight" style={{ color: '#FFFFFF' }}>
@@ -379,10 +379,10 @@ export default function HomePage() {
 
             {/* Contact */}
             <div className="flex flex-col gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
-              <a href="mailto:hello@welko.org" className="hover:underline transition-colors" style={{ color: 'var(--text-muted)' }}
+              <a href="mailto:hola@welko.org" className="hover:underline transition-colors" style={{ color: 'var(--text-muted)' }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
                 onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}>
-                hello@welko.org
+                hola@welko.org
               </a>
               <a href="tel:+525628443738" className="hover:underline transition-colors" style={{ color: 'var(--text-muted)' }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
@@ -394,7 +394,7 @@ export default function HomePage() {
 
             {/* Social icons */}
             <div className="flex items-center gap-3">
-              <a href="https://instagram.com/welko.mx" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.instagram.com/welko_ai/" target="_blank" rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-150"
                 style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
                 onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = '#E1306C'; el.style.borderColor = '#E1306C44' }}
@@ -404,7 +404,7 @@ export default function HomePage() {
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
                 </svg>
               </a>
-              <a href="https://linkedin.com/company/welko-mx" target="_blank" rel="noopener noreferrer"
+              <a href="https://linkedin.com/company/welko-agency" target="_blank" rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-150"
                 style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
                 onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = '#0A66C2'; el.style.borderColor = '#0A66C244' }}
