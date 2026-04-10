@@ -347,7 +347,7 @@ export default function IndustryPage({ params }: Props) {
       <footer className="py-8 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)' }}>
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-4 flex-wrap">
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            © {new Date().getFullYear()} Demian Santiago Mendoza Ledesma — Welko &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
+            © {new Date().getFullYear()}{' '}Demian Santiago Mendoza Ledesma — Welko &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
           </p>
           <Link href="/" className="text-xs" style={{ color: 'var(--text-muted)' }}>
             ← {lang === 'es' ? 'Volver al inicio' : 'Back to home'}

@@ -422,7 +422,7 @@ export default function HomePage() {
           {/* Bottom row: copyright + legal */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs font-light text-center sm:text-left" style={{ color: 'var(--text-muted)' }}>
-              © {new Date().getFullYear()} Demian Santiago Mendoza Ledesma — Welko &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
+              © {new Date().getFullYear()}{' '}Demian Santiago Mendoza Ledesma — Welko &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
             </p>
             <nav className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
               {[

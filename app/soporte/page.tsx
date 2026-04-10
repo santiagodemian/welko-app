@@ -147,7 +147,7 @@ export default function SoportePage() {
 
       <footer className="py-8 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-2"><WelkoLogo size={18} /><p className="text-xs" style={{ color: 'var(--text-muted)' }}>© {year} Demian Santiago Mendoza Ledesma — Welko</p></div>
+          <div className="flex items-center gap-2"><WelkoLogo size={18} /><p className="text-xs" style={{ color: 'var(--text-muted)' }}>© {year}{' '}Demian Santiago Mendoza Ledesma — Welko</p></div>
           <Link href="/" className="text-xs" style={{ color: 'var(--text-muted)' }}>← {isEN ? 'Back to home' : 'Volver al inicio'}</Link>
         </div>
       </footer>
