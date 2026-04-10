@@ -3,14 +3,14 @@
 import { motion } from 'framer-motion'
 import { useLang } from '@/contexts/LangContext'
 import Link from 'next/link'
-import { MessageSquare, Instagram, Globe, Phone, Building2, Zap, TrendingUp } from 'lucide-react'
+import { MessageSquare, Camera, Globe, Phone, Building2, Zap, TrendingUp } from 'lucide-react'
 
 const NAVY  = '#1A2A56'
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 const CHANNELS = [
   { icon: MessageSquare, label: 'WhatsApp', color: '#25D366' },
-  { icon: Instagram,     label: 'Instagram', color: '#E1306C' },
+  { icon: Camera,        label: 'Instagram', color: '#E1306C' },
   { icon: Globe,         label: 'Web Chat', color: '#3B82F6' },
   { icon: Phone,         label: 'Llamadas', color: '#8B5CF6' },
 ]

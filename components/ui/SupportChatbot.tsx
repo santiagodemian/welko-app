@@ -67,7 +67,7 @@ export function SupportChatbot() {
   }, [open])
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [msgs, typing])
 
   function send() {

@@ -161,7 +161,7 @@ export function SimulatorSection() {
   }, [done, industry, isEN])
 
   useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [chatMessages])
 
   function reset() {
