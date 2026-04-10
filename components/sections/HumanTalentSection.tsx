@@ -2,26 +2,26 @@
 
 import { motion } from 'framer-motion'
 import { useLang } from '@/contexts/LangContext'
-import { Bot, Stethoscope } from 'lucide-react'
+import { Bot, Users } from 'lucide-react'
 
 const NAVY  = '#1A2A56'
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 const TASKS_AI = [
-  { es: 'Contestar mensajes repetitivos', en: 'Answering repetitive messages' },
-  { es: 'Confirmar citas 24/7',           en: 'Confirming appointments 24/7' },
-  { es: 'Responder precios y horarios',   en: 'Answering pricing & hours' },
-  { es: 'Enviar recordatorios',           en: 'Sending reminders' },
-  { es: 'Gestionar cancelaciones',        en: 'Managing cancellations' },
-  { es: 'Seguimiento post-consulta',      en: 'Post-visit follow-up' },
+  { es: 'Contestar mensajes repetitivos',  en: 'Answering repetitive messages' },
+  { es: 'Confirmar reservas y citas 24/7', en: 'Confirming bookings 24/7' },
+  { es: 'Responder precios y horarios',    en: 'Answering pricing & hours' },
+  { es: 'Enviar recordatorios automáticos',en: 'Sending automatic reminders' },
+  { es: 'Gestionar cancelaciones',         en: 'Managing cancellations' },
+  { es: 'Seguimiento post-servicio',       en: 'Post-service follow-up' },
 ]
 
 const TASKS_HUMAN = [
-  { es: 'Calidez y empatía con el paciente', en: 'Warmth & empathy with patients' },
-  { es: 'Diagnóstico y tratamiento',         en: 'Diagnosis & treatment' },
-  { es: 'Experiencia en clínica',            en: 'In-clinic experience' },
+  { es: 'Calidez y conexión con el cliente', en: 'Warmth & connection with clients' },
+  { es: 'Servicio de alta calidad',          en: 'High-quality service delivery' },
+  { es: 'Experiencia presencial',            en: 'In-person experience' },
   { es: 'Fidelización y confianza',          en: 'Loyalty & trust building' },
-  { es: 'Decisiones clínicas complejas',     en: 'Complex clinical decisions' },
+  { es: 'Decisiones estratégicas del negocio', en: 'Strategic business decisions' },
 ]
 
 export function HumanTalentSection() {
@@ -50,8 +50,8 @@ export function HumanTalentSection() {
           </h2>
           <p className="text-sm sm:text-base max-w-xl leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             {lang === 'es'
-              ? 'La IA absorbe el 100% de la carga operativa repetitiva. Tu equipo deja de ser esclavo de las líneas ocupadas y vuelve a hacer lo que ninguna IA puede: conectar con el paciente.'
-              : 'AI absorbs 100% of repetitive operational load. Your team stops being a slave to busy lines and gets back to doing what no AI can: connecting with patients.'}
+              ? 'La IA absorbe el 100% de la carga operativa repetitiva. Tu equipo deja de apagar incendios y vuelve a hacer lo que ninguna IA puede: crear experiencias que fidelizan.'
+              : 'AI absorbs 100% of repetitive operational load. Your team stops putting out fires and gets back to doing what no AI can: creating experiences that build loyalty.'}
           </p>
         </motion.div>
 
@@ -129,7 +129,7 @@ export function HumanTalentSection() {
                 background: 'var(--bg-secondary)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <Stethoscope size={22} color={NAVY} />
+                <Users size={22} color={NAVY} />
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
@@ -167,8 +167,8 @@ export function HumanTalentSection() {
             <div className="pt-4 mt-auto" style={{ borderTop: '1px solid var(--border)' }}>
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 {lang === 'es'
-                  ? 'Clínicas más ágiles, eficientes y rentables — sin sacrificar la calidad humana'
-                  : 'More agile, efficient, and profitable clinics — without sacrificing human quality'}
+                  ? 'Negocios más ágiles, eficientes y rentables — sin sacrificar la calidad humana'
+                  : 'More agile, efficient, and profitable businesses — without sacrificing human quality'}
               </p>
             </div>
           </motion.div>
@@ -182,8 +182,8 @@ export function HumanTalentSection() {
         >
           {[
             { value: '100%', label: lang === 'es' ? 'de mensajes respondidos' : 'of messages answered' },
-            { value: '-60%', label: lang === 'es' ? 'tiempo en tareas admin' : 'time on admin tasks' },
-            { value: '+40%', label: lang === 'es' ? 'citas agendadas al mes' : 'appointments per month' },
+            { value: '-60%', label: lang === 'es' ? 'tiempo en tareas repetitivas' : 'time on repetitive tasks' },
+            { value: '+40%', label: lang === 'es' ? 'más conversiones al mes' : 'more conversions per month' },
           ].map((s, i) => (
             <div key={i} className="flex flex-col items-center text-center gap-1">
               <p className="text-2xl sm:text-3xl font-black tracking-tight" style={{ color: NAVY }}>
