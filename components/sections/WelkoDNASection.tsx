@@ -15,17 +15,17 @@ const CHANNELS = [
   { icon: Phone,         label: 'Llamadas', color: '#8B5CF6' },
 ]
 
-const SPECIALTIES = [
-  { color: '#3B82F6', label: 'Dental' },
-  { color: '#8B5CF6', label: 'Psicología' },
-  { color: '#EC4899', label: 'Estética' },
-  { color: '#10B981', label: 'Nutrición' },
-  { color: '#F472B6', label: 'Ginecología' },
-  { color: '#06B6D4', label: 'Oftalmología' },
-  { color: '#6366F1', label: 'Medicina Gral' },
-  { color: '#F59E0B', label: 'Fisioterapia' },
-  { color: '#A78BFA', label: 'Spa & Bienestar' },
-  { color: '#34D399', label: 'Quiropráctica' },
+const INDUSTRIES = [
+  { color: '#3B82F6', es: 'Clínicas & Salud',        en: 'Health Clinics' },
+  { color: '#F59E0B', es: 'Restaurantes',             en: 'Restaurants' },
+  { color: '#8B5CF6', es: 'Barberías & Salones',      en: 'Barbershops & Salons' },
+  { color: '#EC4899', es: 'Spa & Bienestar',          en: 'Spa & Wellness' },
+  { color: '#EF4444', es: 'Fitness & Gyms',           en: 'Fitness & Gyms' },
+  { color: '#0EA5E9', es: 'Hoteles',                  en: 'Hotels' },
+  { color: '#374151', es: 'Despachos Legales',        en: 'Law Firms' },
+  { color: '#0F766E', es: 'Contabilidad',             en: 'Accounting' },
+  { color: '#6366F1', es: 'Estética & Belleza',       en: 'Aesthetics & Beauty' },
+  { color: '#F472B6', es: 'Odontología',              en: 'Dentistry' },
 ]
 
 export function WelkoDNASection() {
@@ -54,8 +54,8 @@ export function WelkoDNASection() {
           </h2>
           <p className="text-sm sm:text-base max-w-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
             {lang === 'es'
-              ? 'Welko no te lista entre la competencia. Te da las herramientas para captar, convertir y retener pacientes — en tus propios canales, con tu propia marca.'
-              : "Welko doesn't list you among the competition. It gives you the tools to capture, convert, and retain patients — on your own channels, with your own brand."}
+              ? 'Welko no te lista entre la competencia. Te da las herramientas para captar, convertir y retener clientes — en tus propios canales, con tu propia marca.'
+              : "Welko doesn't list you among the competition. It gives you the tools to capture, convert, and retain clients — on your own channels, with your own brand."}
           </p>
         </motion.div>
 
@@ -111,7 +111,7 @@ export function WelkoDNASection() {
             </div>
           </motion.div>
 
-          {/* Specialties */}
+          {/* Industries */}
           <motion.div
             initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
@@ -119,31 +119,31 @@ export function WelkoDNASection() {
           >
             <div>
               <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                {lang === 'es' ? 'Especialización clínica' : 'Clinical specialization'}
+                {lang === 'es' ? 'Adaptado a tu industria' : 'Adapted to your industry'}
               </p>
               <p className="text-lg font-bold">
                 {lang === 'es'
-                  ? '10 módulos médicos especializados.'
-                  : '10 specialized medical modules.'}
+                  ? '10 industrias. Un solo sistema.'
+                  : '10 industries. One system.'}
               </p>
               <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.55)' }}>
                 {lang === 'es'
-                  ? 'Cada especialidad tiene su propio entrenamiento de IA, terminología clínica y flujos de conversación.'
-                  : 'Each specialty has its own AI training, clinical terminology, and conversation flows.'}
+                  ? 'Cada industria tiene su propio CRM, vocabulario y flujos de conversación entrenados con IA.'
+                  : 'Each industry has its own CRM, vocabulary, and AI-trained conversation flows.'}
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-2">
-              {SPECIALTIES.map((sp, i) => (
+              {INDUSTRIES.map((ind, i) => (
                 <motion.div
-                  key={sp.label}
+                  key={ind.es}
                   initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }} transition={{ duration: 0.25, ease: EASE, delay: i * 0.04 }}
                   className="flex items-center gap-2 px-3 py-2 rounded-xl"
                   style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
                 >
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', flexShrink: 0, background: sp.color }} />
-                  <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>{sp.label}</span>
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', flexShrink: 0, background: ind.color }} />
+                  <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>{lang === 'es' ? ind.es : ind.en}</span>
                 </motion.div>
               ))}
             </div>
@@ -171,8 +171,8 @@ export function WelkoDNASection() {
               color: '#F59E0B',
               title: lang === 'es' ? 'Respuesta inmediata' : 'Instant response',
               desc:  lang === 'es'
-                ? 'La IA contesta en menos de 2 segundos, cierra la cita y la registra en tu calendario — sola.'
-                : 'AI responds in under 2 seconds, books the appointment, and adds it to your calendar — alone.',
+                ? 'La IA contesta en menos de 2 segundos, califica al lead y lo convierte en cliente — sola.'
+                : 'AI responds in under 2 seconds, qualifies the lead and converts it into a client — alone.',
             },
             {
               Icon: TrendingUp,
