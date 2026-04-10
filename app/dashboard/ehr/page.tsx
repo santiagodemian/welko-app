@@ -29,13 +29,12 @@ function PlanGate() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, width: '100%', textAlign: 'left' }}>
           {[
-            { icon: '🔄', title: 'Sync bidireccional', desc: 'Welko ↔ tu EHR en tiempo real' },
-            { icon: '📋', title: 'Expediente completo', desc: 'Historial clínico en el CRM' },
-            { icon: '📅', title: 'Citas unificadas', desc: 'Un solo calendario para todo' },
-            { icon: '🔒', title: 'HIPAA / NOM-024', desc: 'Transmisión cifrada AES-256' },
+            { title: 'Sync bidireccional', desc: 'Welko ↔ tu EHR en tiempo real' },
+            { title: 'Expediente completo', desc: 'Historial clínico en el CRM' },
+            { title: 'Citas unificadas', desc: 'Un solo calendario para todo' },
+            { title: 'HIPAA / NOM-024', desc: 'Transmisión cifrada AES-256' },
           ].map(f => (
             <div key={f.title} style={{ padding: '12px 14px', borderRadius: 10, background: SURF, border: `1px solid ${BORD}` }}>
-              <p style={{ fontSize: 16, margin: '0 0 4px' }}>{f.icon}</p>
               <p style={{ fontSize: 12, fontWeight: 600, color: TEXT, margin: 0 }}>{f.title}</p>
               <p style={{ fontSize: 11, color: MUTED, margin: '2px 0 0' }}>{f.desc}</p>
             </div>

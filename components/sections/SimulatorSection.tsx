@@ -73,32 +73,32 @@ function getROIProfile(industrySlug: string): ROIProfile {
 
 // ─── Bilingual copy ───────────────────────────────────────────────────────────
 const PAINS_ES = [
-  { id: 'lost_contacts', label: 'Mensajes y llamadas sin responder',      emoji: '📞' },
-  { id: 'messy_agenda',  label: 'Agenda caótica con huecos y conflictos', emoji: '📅' },
-  { id: 'admin_time',    label: 'Horas perdidas en tareas repetitivas',   emoji: '📋' },
-  { id: 'noshow',        label: 'Clientes que confirman y no llegan',     emoji: '🚫' },
-  { id: 'after_hours',   label: 'Consultas que llegan fuera de horario',  emoji: '🌙' },
+  { id: 'lost_contacts', label: 'Mensajes y llamadas sin responder'      },
+  { id: 'messy_agenda',  label: 'Agenda caótica con huecos y conflictos' },
+  { id: 'admin_time',    label: 'Horas perdidas en tareas repetitivas'   },
+  { id: 'noshow',        label: 'Clientes que confirman y no llegan'     },
+  { id: 'after_hours',   label: 'Consultas que llegan fuera de horario'  },
 ]
 const PAINS_EN = [
-  { id: 'lost_contacts', label: 'Unanswered messages and calls',          emoji: '📞' },
-  { id: 'messy_agenda',  label: 'Chaotic schedule with gaps and conflicts',emoji: '📅' },
-  { id: 'admin_time',    label: 'Hours lost on repetitive tasks',         emoji: '📋' },
-  { id: 'noshow',        label: 'Clients who confirm and don\'t show up', emoji: '🚫' },
-  { id: 'after_hours',   label: 'Inquiries that arrive after hours',      emoji: '🌙' },
+  { id: 'lost_contacts', label: 'Unanswered messages and calls'           },
+  { id: 'messy_agenda',  label: 'Chaotic schedule with gaps and conflicts' },
+  { id: 'admin_time',    label: 'Hours lost on repetitive tasks'           },
+  { id: 'noshow',        label: 'Clients who confirm and don\'t show up'   },
+  { id: 'after_hours',   label: 'Inquiries that arrive after hours'        },
 ]
 const AUTOMATIONS_ES = [
-  { id: 'scheduling',    label: 'Agendamiento 24/7 sin intervención',      emoji: '📆' },
-  { id: 'confirmations', label: 'Confirmaciones automáticas por WhatsApp', emoji: '✅' },
-  { id: 'crm',           label: 'CRM y seguimiento de clientes con IA',    emoji: '🧩' },
-  { id: 'reminders',     label: 'Recordatorios que evitan cancelaciones',  emoji: '🔔' },
-  { id: 'info_queries',  label: 'Responder preguntas frecuentes al instante', emoji: '💬' },
+  { id: 'scheduling',    label: 'Agendamiento 24/7 sin intervención'         },
+  { id: 'confirmations', label: 'Confirmaciones automáticas por WhatsApp'    },
+  { id: 'crm',           label: 'CRM y seguimiento de clientes con IA'       },
+  { id: 'reminders',     label: 'Recordatorios que evitan cancelaciones'     },
+  { id: 'info_queries',  label: 'Responder preguntas frecuentes al instante' },
 ]
 const AUTOMATIONS_EN = [
-  { id: 'scheduling',    label: '24/7 booking without manual work',        emoji: '📆' },
-  { id: 'confirmations', label: 'Automatic WhatsApp confirmations',        emoji: '✅' },
-  { id: 'crm',           label: 'AI-powered CRM and client follow-up',     emoji: '🧩' },
-  { id: 'reminders',     label: 'Reminders that prevent no-shows',         emoji: '🔔' },
-  { id: 'info_queries',  label: 'Answer FAQs instantly',                   emoji: '💬' },
+  { id: 'scheduling',    label: '24/7 booking without manual work'       },
+  { id: 'confirmations', label: 'Automatic WhatsApp confirmations'       },
+  { id: 'crm',           label: 'AI-powered CRM and client follow-up'    },
+  { id: 'reminders',     label: 'Reminders that prevent no-shows'        },
+  { id: 'info_queries',  label: 'Answer FAQs instantly'                  },
 ]
 
 const PAIN_SOLUTIONS_ES: Record<string, string> = {
@@ -274,12 +274,13 @@ export function SimulatorSection() {
                   className="flex flex-col items-center text-center gap-6 py-4"
                 >
                   <div className="flex items-center gap-2 flex-wrap justify-center">
-                    {['🦷','🍽️','✂️','💪','🏨','💼'].map((e, i) => (
-                      <motion.span key={e}
+                    {['Salud','Restaurante','Barbería','Fitness','Hotel','Legal'].map((label, i) => (
+                      <motion.span key={label}
                         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.07, duration: 0.35, ease: EASE }}
-                        style={{ fontSize: i === 2 ? 32 : 22, filter: i !== 2 ? 'grayscale(0.5) opacity(0.6)' : undefined }}
-                      >{e}</motion.span>
+                        className="px-3 py-1 rounded-full text-xs font-semibold"
+                        style={{ fontSize: 11, opacity: i !== 2 ? 0.6 : 1, background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
+                      >{label}</motion.span>
                     ))}
                   </div>
                   <div className="flex flex-col gap-2 max-w-xs">
@@ -560,7 +561,6 @@ export function SimulatorSection() {
                           onMouseEnter={e => { e.currentTarget.style.borderColor = NAVY; e.currentTarget.style.background = NAVY + '06' }}
                           onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'var(--bg-secondary)' }}
                         >
-                          <span style={{ fontSize: 20, flexShrink: 0 }}>{p.emoji}</span>
                           <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{p.label}</span>
                           <ChevronRight size={14} style={{ marginLeft: 'auto', color: 'var(--text-muted)', flexShrink: 0 }} />
                         </button>
@@ -578,7 +578,6 @@ export function SimulatorSection() {
                           onMouseEnter={e => { e.currentTarget.style.borderColor = NAVY; e.currentTarget.style.background = NAVY + '06' }}
                           onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'var(--bg-secondary)' }}
                         >
-                          <span style={{ fontSize: 20, flexShrink: 0 }}>{a.emoji}</span>
                           <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{a.label}</span>
                           <ChevronRight size={14} style={{ marginLeft: 'auto', color: 'var(--text-muted)', flexShrink: 0 }} />
                         </button>

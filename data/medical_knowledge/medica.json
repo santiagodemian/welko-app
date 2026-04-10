@@ -1,7 +1,7 @@
 {
   "slug": "medica",
   "label": "Medicina General",
-  "emoji": "🩺",
+  "emoji": "",
   "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Medicina General en mi sistema. Manejo triage inicial, urgencias, enfermedades crónicas y más. Solo confírmame tus horarios.",
   "aiGreetingEn": "Excellent! I've loaded General Medicine knowledge. I handle triage, emergencies, chronic conditions and more. Just confirm your hours.",
   "terms": [

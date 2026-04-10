@@ -52,7 +52,7 @@ async function sendWelcomeEmail(
   await resend.emails.send({
     from:    'Welko <hola@welko.org>',
     to:      email,
-    subject: `¡Bienvenido a Welko ${plan.charAt(0).toUpperCase() + plan.slice(1)}! Tu IA ya está lista 🤖`,
+    subject: `¡Bienvenido a Welko ${plan.charAt(0).toUpperCase() + plan.slice(1)}! Tu IA ya está lista `,
     html,
   })
 }

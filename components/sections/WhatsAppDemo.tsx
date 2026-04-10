@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Zap, Calendar, Bell } from 'lucide-react'
 import { useLang } from '@/contexts/LangContext'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
@@ -9,12 +10,12 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 interface Msg { from: 'user' | 'ai'; text: string; delay: number }
 
 const TABS = [
-  { slug: 'dental',      emoji: '🦷', es: 'Dental',      en: 'Dental',      color: '#3B82F6' },
-  { slug: 'restaurante', emoji: '🍽️', es: 'Restaurante', en: 'Restaurant',  color: '#F59E0B' },
-  { slug: 'barberia',    emoji: '✂️', es: 'Barbería',     en: 'Barbershop',  color: '#8B5CF6' },
-  { slug: 'hotel',       emoji: '🏨', es: 'Hotel',        en: 'Hotel',       color: '#0EA5E9' },
-  { slug: 'fitness',     emoji: '💪', es: 'Fitness',      en: 'Fitness',     color: '#EF4444' },
-  { slug: 'legal',       emoji: '⚖️', es: 'Legal',        en: 'Legal',       color: '#6366F1' },
+  { slug: 'dental',      es: 'Dental',      en: 'Dental',      color: '#3B82F6' },
+  { slug: 'restaurante', es: 'Restaurante', en: 'Restaurant',  color: '#F59E0B' },
+  { slug: 'barberia',    es: 'Barbería',    en: 'Barbershop',  color: '#8B5CF6' },
+  { slug: 'hotel',       es: 'Hotel',       en: 'Hotel',       color: '#0EA5E9' },
+  { slug: 'fitness',     es: 'Fitness',     en: 'Fitness',     color: '#EF4444' },
+  { slug: 'legal',       es: 'Legal',       en: 'Legal',       color: '#6366F1' },
 ]
 
 const DEMOS: Record<string, { es: { name: string; msgs: Msg[] }; en: { name: string; msgs: Msg[] } }> = {
@@ -23,22 +24,22 @@ const DEMOS: Record<string, { es: { name: string; msgs: Msg[] }; en: { name: str
       name: 'Clínica Dental Welko',
       msgs: [
         { from: 'user', text: 'Hola, ¿cuánto cuesta una limpieza dental?', delay: 0 },
-        { from: 'ai',   text: 'Hola 😊 Una limpieza dental cuesta $850 MXN. ¿Le gustaría agendar una cita?', delay: 1200 },
+        { from: 'ai',   text: 'Hola  Una limpieza dental cuesta $850 MXN. ¿Le gustaría agendar una cita?', delay: 1200 },
         { from: 'user', text: 'Sí, ¿tienen lugar esta semana?', delay: 2600 },
         { from: 'ai',   text: 'Claro, tengo disponibilidad el jueves a las 10:00 AM o el viernes a las 4:00 PM. ¿Cuál le queda mejor?', delay: 3800 },
         { from: 'user', text: 'El jueves está perfecto', delay: 5400 },
-        { from: 'ai',   text: '✅ Listo, agendé su cita para el jueves a las 10:00 AM. Le enviaré un recordatorio el día anterior. ¡Nos vemos! 😊', delay: 6600 },
+        { from: 'ai',   text: ' Listo, agendé su cita para el jueves a las 10:00 AM. Le enviaré un recordatorio el día anterior. ¡Nos vemos! ', delay: 6600 },
       ],
     },
     en: {
       name: 'Welko Dental Clinic',
       msgs: [
         { from: 'user', text: 'Hi, how much does a dental cleaning cost?', delay: 0 },
-        { from: 'ai',   text: 'Hi 😊 A dental cleaning costs $850 MXN. Would you like to book an appointment?', delay: 1200 },
+        { from: 'ai',   text: 'Hi  A dental cleaning costs $850 MXN. Would you like to book an appointment?', delay: 1200 },
         { from: 'user', text: 'Yes, do you have availability this week?', delay: 2600 },
         { from: 'ai',   text: 'Of course! Thursday at 10:00 AM or Friday at 4:00 PM. Which works better?', delay: 3800 },
         { from: 'user', text: 'Thursday works perfectly', delay: 5400 },
-        { from: 'ai',   text: '✅ Done! Booked for Thursday at 10:00 AM. I\'ll send a reminder the day before. See you soon! 😊', delay: 6600 },
+        { from: 'ai',   text: ' Done! Booked for Thursday at 10:00 AM. I\'ll send a reminder the day before. See you soon! ', delay: 6600 },
       ],
     },
   },
@@ -47,22 +48,22 @@ const DEMOS: Record<string, { es: { name: string; msgs: Msg[] }; en: { name: str
       name: 'Restaurante La Hacienda',
       msgs: [
         { from: 'user', text: '¿Tienen mesa para 4 personas el sábado a las 8?', delay: 0 },
-        { from: 'ai',   text: '¡Hola! 😊 Sí, tengo disponibilidad el sábado a las 8:00 PM y a las 9:30 PM. ¿Cuál prefieren?', delay: 1100 },
-        { from: 'user', text: 'A las 8, es el cumpleaños de mi esposa 🎂', delay: 2500 },
+        { from: 'ai',   text: '¡Hola!  Sí, tengo disponibilidad el sábado a las 8:00 PM y a las 9:30 PM. ¿Cuál prefieren?', delay: 1100 },
+        { from: 'user', text: 'A las 8, es el cumpleaños de mi esposa ', delay: 2500 },
         { from: 'ai',   text: '¡Qué especial! ¿El nombre para la reservación, por favor?', delay: 3400 },
         { from: 'user', text: 'Carlos Mendoza', delay: 4800 },
-        { from: 'ai',   text: '✅ Reservación confirmada: Carlos Mendoza · 4 personas · sáb 8:00 PM. ¡Los esperamos para celebrar! 🥂', delay: 5900 },
+        { from: 'ai',   text: ' Reservación confirmada: Carlos Mendoza · 4 personas · sáb 8:00 PM. ¡Los esperamos para celebrar! ', delay: 5900 },
       ],
     },
     en: {
       name: 'La Hacienda Restaurant',
       msgs: [
         { from: 'user', text: 'Do you have a table for 4 on Saturday at 8?', delay: 0 },
-        { from: 'ai',   text: 'Hi! 😊 Yes, available Saturday at 8:00 PM or 9:30 PM. Which do you prefer?', delay: 1100 },
-        { from: 'user', text: 'At 8 — it\'s my wife\'s birthday 🎂', delay: 2500 },
+        { from: 'ai',   text: 'Hi!  Yes, available Saturday at 8:00 PM or 9:30 PM. Which do you prefer?', delay: 1100 },
+        { from: 'user', text: 'At 8 — it\'s my wife\'s birthday ', delay: 2500 },
         { from: 'ai',   text: 'How lovely! What name for the reservation?', delay: 3400 },
         { from: 'user', text: 'Carlos Mendoza', delay: 4800 },
-        { from: 'ai',   text: '✅ Confirmed: Carlos Mendoza · 4 people · Sat 8:00 PM. See you to celebrate! 🥂', delay: 5900 },
+        { from: 'ai',   text: ' Confirmed: Carlos Mendoza · 4 people · Sat 8:00 PM. See you to celebrate! ', delay: 5900 },
       ],
     },
   },
@@ -71,22 +72,22 @@ const DEMOS: Record<string, { es: { name: string; msgs: Msg[] }; en: { name: str
       name: 'Barbería El Corte Maestro',
       msgs: [
         { from: 'user', text: '¿Cuánto cuesta corte + arreglo de barba?', delay: 0 },
-        { from: 'ai',   text: '¡Hola! 💈 Corte + barba cuesta $280 MXN. ¿Te agendo un turno?', delay: 1000 },
+        { from: 'ai',   text: '¡Hola!  Corte + barba cuesta $280 MXN. ¿Te agendo un turno?', delay: 1000 },
         { from: 'user', text: 'Sí, ¿mañana por la tarde?', delay: 2200 },
         { from: 'ai',   text: 'Tengo mañana a las 4:00 PM o a las 5:30 PM. ¿Cuál te va?', delay: 3100 },
-        { from: 'user', text: 'A las 5:30 🙌', delay: 4400 },
-        { from: 'ai',   text: '✅ Turno agendado para mañana a las 5:30 PM. ¡Te esperamos! ✂️', delay: 5400 },
+        { from: 'user', text: 'A las 5:30 ', delay: 4400 },
+        { from: 'ai',   text: ' Turno agendado para mañana a las 5:30 PM. ¡Te esperamos! ️', delay: 5400 },
       ],
     },
     en: {
       name: 'El Corte Maestro Barbershop',
       msgs: [
         { from: 'user', text: 'How much is a haircut + beard trim?', delay: 0 },
-        { from: 'ai',   text: 'Hey! 💈 Haircut + beard is $280 MXN. Want to book a slot?', delay: 1000 },
+        { from: 'ai',   text: 'Hey!  Haircut + beard is $280 MXN. Want to book a slot?', delay: 1000 },
         { from: 'user', text: 'Yes, tomorrow afternoon?', delay: 2200 },
         { from: 'ai',   text: 'Available tomorrow at 4:00 PM or 5:30 PM. Which works?', delay: 3100 },
-        { from: 'user', text: '5:30 PM 🙌', delay: 4400 },
-        { from: 'ai',   text: '✅ Booked for tomorrow at 5:30 PM. See you then! ✂️', delay: 5400 },
+        { from: 'user', text: '5:30 PM ', delay: 4400 },
+        { from: 'ai',   text: ' Booked for tomorrow at 5:30 PM. See you then! ️', delay: 5400 },
       ],
     },
   },
@@ -95,22 +96,22 @@ const DEMOS: Record<string, { es: { name: string; msgs: Msg[] }; en: { name: str
       name: 'Hotel Boutique Casa Luna',
       msgs: [
         { from: 'user', text: '¿Cuánto cuesta habitación doble este fin de semana?', delay: 0 },
-        { from: 'ai',   text: '¡Hola! 🏨 La habitación doble desde $1,800 MXN/noche. ¿Viernes y sábado?', delay: 1200 },
+        { from: 'ai',   text: '¡Hola!  La habitación doble desde $1,800 MXN/noche. ¿Viernes y sábado?', delay: 1200 },
         { from: 'user', text: 'Sí, somos 2 personas', delay: 2400 },
         { from: 'ai',   text: 'Tengo disponibilidad. Total: $3,600 MXN por 2 noches. ¿Lo confirmo a tu nombre?', delay: 3400 },
         { from: 'user', text: 'Sí, Sofía Ramírez', delay: 4900 },
-        { from: 'ai',   text: '✅ Reservación confirmada: Sofía Ramírez · vie–sáb · 2 personas. ¡Bienvenida! 🌙', delay: 6000 },
+        { from: 'ai',   text: ' Reservación confirmada: Sofía Ramírez · vie–sáb · 2 personas. ¡Bienvenida! ', delay: 6000 },
       ],
     },
     en: {
       name: 'Casa Luna Boutique Hotel',
       msgs: [
         { from: 'user', text: 'How much is a double room this weekend?', delay: 0 },
-        { from: 'ai',   text: 'Hi! 🏨 Double room from $1,800 MXN/night. Friday and Saturday?', delay: 1200 },
+        { from: 'ai',   text: 'Hi!  Double room from $1,800 MXN/night. Friday and Saturday?', delay: 1200 },
         { from: 'user', text: 'Yes, 2 people', delay: 2400 },
         { from: 'ai',   text: 'Available those nights. Total: $3,600 MXN for 2 nights. Confirm your name?', delay: 3400 },
         { from: 'user', text: 'Sofía Ramírez', delay: 4900 },
-        { from: 'ai',   text: '✅ Confirmed: Sofía Ramírez · Fri–Sat · 2 guests. Welcome! 🌙', delay: 6000 },
+        { from: 'ai',   text: ' Confirmed: Sofía Ramírez · Fri–Sat · 2 guests. Welcome! ', delay: 6000 },
       ],
     },
   },
@@ -119,22 +120,22 @@ const DEMOS: Record<string, { es: { name: string; msgs: Msg[] }; en: { name: str
       name: 'Iron Power Gym',
       msgs: [
         { from: 'user', text: '¿Cuánto cuesta la membresía mensual?', delay: 0 },
-        { from: 'ai',   text: '¡Hola! 💪 La membresía es $699 MXN/mes — acceso ilimitado + clases. ¿Quieres visitarnos?', delay: 1100 },
+        { from: 'ai',   text: '¡Hola!  La membresía es $699 MXN/mes — acceso ilimitado + clases. ¿Quieres visitarnos?', delay: 1100 },
         { from: 'user', text: 'Sí, ¿puedo ir mañana a conocer?', delay: 2300 },
         { from: 'ai',   text: '¡Claro! ¿Mañana a las 9:00 AM o a las 6:00 PM te queda mejor?', delay: 3200 },
-        { from: 'user', text: 'A las 9 AM 💪', delay: 4400 },
-        { from: 'ai',   text: '✅ Visita agendada para mañana a las 9:00 AM. ¡Pregunta por nuestro asesor al llegar! 🏋️', delay: 5400 },
+        { from: 'user', text: 'A las 9 AM ', delay: 4400 },
+        { from: 'ai',   text: ' Visita agendada para mañana a las 9:00 AM. ¡Pregunta por nuestro asesor al llegar! ️', delay: 5400 },
       ],
     },
     en: {
       name: 'Iron Power Gym',
       msgs: [
         { from: 'user', text: 'How much is the monthly membership?', delay: 0 },
-        { from: 'ai',   text: 'Hey! 💪 Monthly membership is $699 MXN — unlimited access + classes. Want to visit?', delay: 1100 },
+        { from: 'ai',   text: 'Hey!  Monthly membership is $699 MXN — unlimited access + classes. Want to visit?', delay: 1100 },
         { from: 'user', text: 'Yes, can I come check it out tomorrow?', delay: 2300 },
         { from: 'ai',   text: 'Sure! Tomorrow at 9:00 AM or 6:00 PM?', delay: 3200 },
-        { from: 'user', text: '9 AM 💪', delay: 4400 },
-        { from: 'ai',   text: '✅ Visit booked for tomorrow at 9:00 AM. Ask for our advisor when you arrive! 🏋️', delay: 5400 },
+        { from: 'user', text: '9 AM ', delay: 4400 },
+        { from: 'ai',   text: ' Visit booked for tomorrow at 9:00 AM. Ask for our advisor when you arrive! ️', delay: 5400 },
       ],
     },
   },
@@ -143,22 +144,22 @@ const DEMOS: Record<string, { es: { name: string; msgs: Msg[] }; en: { name: str
       name: 'Despacho Legal Garza & Asociados',
       msgs: [
         { from: 'user', text: 'Necesito asesoría para un contrato de arrendamiento', delay: 0 },
-        { from: 'ai',   text: '¡Hola! ⚖️ Claro, podemos ayudarte. La consulta inicial es gratuita. ¿Cuándo te queda bien?', delay: 1200 },
+        { from: 'ai',   text: '¡Hola! ️ Claro, podemos ayudarte. La consulta inicial es gratuita. ¿Cuándo te queda bien?', delay: 1200 },
         { from: 'user', text: 'Mañana por la tarde si es posible', delay: 2400 },
         { from: 'ai',   text: 'Tenemos disponibilidad mañana a las 3:00 PM o a las 5:00 PM. ¿Cuál prefieres?', delay: 3300 },
         { from: 'user', text: 'A las 3 PM, gracias', delay: 4600 },
-        { from: 'ai',   text: '✅ Cita agendada mañana a las 3:00 PM. Te envío la dirección y los documentos que debes traer. ¡Hasta mañana! 📋', delay: 5700 },
+        { from: 'ai',   text: ' Cita agendada mañana a las 3:00 PM. Te envío la dirección y los documentos que debes traer. ¡Hasta mañana! ', delay: 5700 },
       ],
     },
     en: {
       name: 'Garza & Associates Law Firm',
       msgs: [
         { from: 'user', text: 'I need advice on a lease agreement', delay: 0 },
-        { from: 'ai',   text: 'Hi! ⚖️ We can help with that. Initial consultation is free. When works for you?', delay: 1200 },
+        { from: 'ai',   text: 'Hi! ️ We can help with that. Initial consultation is free. When works for you?', delay: 1200 },
         { from: 'user', text: 'Tomorrow afternoon if possible', delay: 2400 },
         { from: 'ai',   text: 'We have tomorrow at 3:00 PM or 5:00 PM. Which do you prefer?', delay: 3300 },
         { from: 'user', text: 'At 3 PM, thank you', delay: 4600 },
-        { from: 'ai',   text: '✅ Appointment set for tomorrow at 3:00 PM. I\'ll send the address and documents to bring. See you then! 📋', delay: 5700 },
+        { from: 'ai',   text: ' Appointment set for tomorrow at 3:00 PM. I\'ll send the address and documents to bring. See you then! ', delay: 5700 },
       ],
     },
   },
@@ -185,7 +186,7 @@ export function WhatsAppDemo() {
   const [typing,  setTyping]  = useState(false)
   const [running, setRunning] = useState(false)
   const [done,    setDone]    = useState(false)
-  const bottomRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const tabInfo  = TABS.find(t => t.slug === tab) ?? TABS[0]
   const demoData = (DEMOS[tab] ?? DEMOS.dental)[isEN ? 'en' : 'es']
@@ -197,9 +198,11 @@ export function WhatsAppDemo() {
     setTab(slug); setShown([]); setTyping(false); setDone(false); setRunning(false)
   }
 
-  // Auto-scroll to bottom as messages appear
+  // Auto-scroll within the phone container (not the whole page)
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight
+    }
   }, [shown, typing])
 
   useEffect(() => {
@@ -227,13 +230,13 @@ export function WhatsAppDemo() {
   }
 
   const bullets = [
-    { icon: '⚡',
+    { Icon: Zap,
       title: isEN ? 'Responds in < 2 seconds'          : 'Responde en < 2 segundos',
       desc:  isEN ? 'No matter if it\'s midnight or Sunday.' : 'Sin importar si es medianoche o domingo.' },
-    { icon: '📅',
+    { Icon: Calendar,
       title: isEN ? 'Books in the same conversation'   : 'Agenda en la misma conversación',
       desc:  isEN ? 'Checks availability and confirms instantly.' : 'Consulta disponibilidad y confirma al instante.' },
-    { icon: '🔔',
+    { Icon: Bell,
       title: isEN ? 'Automatic reminder'               : 'Recordatorio automático',
       desc:  isEN ? 'Reminds clients before their booking.' : 'Avisa al cliente antes de su cita o reserva.' },
   ]
@@ -264,7 +267,7 @@ export function WhatsAppDemo() {
                 color:       tab === t.slug ? '#fff' : t.color,
                 transform:   tab === t.slug ? 'scale(1.04)' : 'scale(1)',
               }}>
-              {t.emoji} {isEN ? t.en : t.es}
+              {isEN ? t.en : t.es}
             </button>
           ))}
         </div>
@@ -297,7 +300,7 @@ export function WhatsAppDemo() {
                 </div>
 
                 {/* Messages */}
-                <div className="flex flex-col gap-2 px-3 py-4 overflow-y-auto" style={{ background: '#ECE5DD', minHeight: 380, maxHeight: 380 }}>
+                <div ref={containerRef} className="flex flex-col gap-2 px-3 py-4 overflow-y-auto" style={{ background: '#ECE5DD', minHeight: 380, maxHeight: 380 }}>
                   <AnimatePresence>
                     {shown.map((msg, i) => (
                       <motion.div key={i}
@@ -310,7 +313,7 @@ export function WhatsAppDemo() {
                             : { background: '#FFFFFF', color: '#111', borderBottomLeftRadius: 4, boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
                           {msg.text}
                           <span className="block text-right mt-1" style={{ fontSize: 9, color: 'rgba(0,0,0,0.4)' }}>
-                            {msg.from === 'ai' ? '✓✓ ' : ''}{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            {msg.from === 'ai' ? ' ' : ''}{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
                       </motion.div>
@@ -325,8 +328,6 @@ export function WhatsAppDemo() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                  <div ref={bottomRef} />
-
                   {!running && !done && shown.length === 0 && (
                     <div className="flex-1 flex items-center justify-center">
                       <button onClick={start}
@@ -343,7 +344,7 @@ export function WhatsAppDemo() {
                 {/* Input bar */}
                 <div className="flex items-center gap-2 px-3 py-2" style={{ background: '#F0F0F0', borderTop: '1px solid #DDD' }}>
                   <div className="flex-1 rounded-full px-3 py-2 text-xs" style={{ background: '#FFF', color: '#9CA3AF' }}>{L.inputPh}</div>
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs" style={{ background: '#075E54' }}>➤</div>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs" style={{ background: '#075E54' }}></div>
                 </div>
               </div>
             </div>
@@ -357,7 +358,9 @@ export function WhatsAppDemo() {
           >
             {bullets.map((item, i) => (
               <div key={i} className="flex gap-4">
-                <span className="text-2xl flex-shrink-0 mt-0.5">{item.icon}</span>
+                <div className="flex-shrink-0 mt-0.5 w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+                  <item.Icon size={14} color="var(--accent)" />
+                </div>
                 <div>
                   <p className="font-semibold text-sm mb-0.5" style={{ color: 'var(--text-primary)' }}>{item.title}</p>
                   <p className="text-sm font-light" style={{ color: 'var(--text-secondary)' }}>{item.desc}</p>

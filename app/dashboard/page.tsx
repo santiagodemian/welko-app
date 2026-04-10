@@ -17,41 +17,145 @@ const NAVY  = '#13244A'
 
 /* ── Industry presets for CRM preview ── */
 const CRM_INDUSTRIES = [
-  { slug: 'salud',       emoji: '🏥', label: 'Salud',       color: '#3B82F6',
+  { slug: 'salud',       label: 'Salud',       color: '#3B82F6',
     client: 'paciente', event: 'cita', metric: 'No-shows evitados', metricVal: '18,400' },
-  { slug: 'restaurante', emoji: '🍽️', label: 'Restaurante', color: '#F59E0B',
+  { slug: 'restaurante', label: 'Restaurante', color: '#F59E0B',
     client: 'comensal', event: 'reservación', metric: 'Reservaciones hoy', metricVal: '43' },
-  { slug: 'barberia',    emoji: '✂️', label: 'Barbería',     color: '#8B5CF6',
+  { slug: 'barberia',    label: 'Barbería',    color: '#8B5CF6',
     client: 'cliente',  event: 'turno', metric: 'Turnos confirmados', metricVal: '28' },
-  { slug: 'hotel',       emoji: '🏨', label: 'Hotel',        color: '#0EA5E9',
+  { slug: 'hotel',       label: 'Hotel',       color: '#0EA5E9',
     client: 'huésped',  event: 'reserva', metric: 'Ocupación hoy', metricVal: '87%' },
-  { slug: 'fitness',     emoji: '💪', label: 'Fitness',      color: '#EF4444',
+  { slug: 'fitness',     label: 'Fitness',     color: '#EF4444',
     client: 'miembro',  event: 'clase', metric: 'Inscripciones mes', metricVal: '31' },
-  { slug: 'legal',       emoji: '⚖️', label: 'Legal',        color: '#6366F1',
+  { slug: 'legal',       label: 'Legal',       color: '#6366F1',
     client: 'cliente',  event: 'consulta', metric: 'Consultas calificadas', metricVal: '12' },
-  { slug: 'spa',         emoji: '💆', label: 'Spa',          color: '#EC4899',
+  { slug: 'spa',         label: 'Spa',         color: '#EC4899',
     client: 'cliente',  event: 'sesión', metric: 'Sesiones del día', metricVal: '19' },
-  { slug: 'retail',      emoji: '🛍️', label: 'Retail',       color: '#14B8A6',
+  { slug: 'retail',      label: 'Retail',      color: '#14B8A6',
     client: 'comprador', event: 'pedido', metric: 'Pedidos procesados', metricVal: '67' },
 ]
 
-/* ── Mock cerebro IA observations ── */
-const CEREBRO_FEED = [
-  { id:1, icon:'📈', time:'hace 5 min',  color:'#34D399', text:'Desde que activaste recordatorios, los no-shows bajaron 18% — ahorro estimado $4,200 MXN este mes.' },
-  { id:2, icon:'🔍', time:'hace 18 min', color:'#60A5FA', text:'Hoy 4 pacientes preguntaron por precio antes de agendar. Considera agregar tu tarifa al perfil para respuestas más rápidas.' },
-  { id:3, icon:'📅', time:'hace 1h',     color:'#A78BFA', text:'Los martes a las 10am tienen 40% más demanda. La agenda está llena — hay 3 pacientes en lista de espera.' },
-  { id:4, icon:'⚡', time:'hace 2h',     color:'#F59E0B', text:'3 pacientes no respondieron el recordatorio de mañana — riesgo de no-show alto. Welko enviará segundo aviso automáticamente.' },
-  { id:5, icon:'💬', time:'hace 3h',     color:'#60A5FA', text:'"¿Tienen estacionamiento?" fue la pregunta más frecuente de hoy (6 veces). Actualiza tu perfil para responderla automáticamente.' },
-]
+/* ── Cerebro IA feed — per industry ── */
+type CerebroItem = { id: number; time: string; color: string; text: string }
+const CEREBRO_BY_INDUSTRY: Record<string, CerebroItem[]> = {
+  salud:       [
+    { id:1, time:'hace 5 min',  color:'#34D399', text:'Desde que activaste recordatorios, los no-shows bajaron 18% — ahorro estimado $4,200 MXN este mes.' },
+    { id:2, time:'hace 18 min', color:'#60A5FA', text:'Hoy 4 pacientes preguntaron por precio antes de agendar. Considera agregar tu tarifa al perfil.' },
+    { id:3, time:'hace 1h',     color:'#A78BFA', text:'Los martes a las 10am tienen 40% más demanda — 3 pacientes en lista de espera.' },
+    { id:4, time:'hace 2h',     color:'#F59E0B', text:'3 pacientes no respondieron el recordatorio de mañana. Welko enviará segundo aviso automáticamente.' },
+    { id:5, time:'hace 3h',     color:'#60A5FA', text:'"¿Tienen estacionamiento?" fue la pregunta más frecuente de hoy (6 veces). Actualiza tu perfil.' },
+  ],
+  restaurante: [
+    { id:1, time:'hace 3 min',  color:'#34D399', text:'Viernes y sábado concentran el 68% de tus reservaciones. Considera abrir turno de mediodía.' },
+    { id:2, time:'hace 22 min', color:'#60A5FA', text:'0 reservas sin respuesta esta semana. Tiempo promedio de respuesta: 1.2 seg.' },
+    { id:3, time:'hace 45 min', color:'#A78BFA', text:'"¿Tienen menú vegano?" fue preguntada 5 veces hoy. Agrégala a tu perfil de IA.' },
+    { id:4, time:'hace 2h',     color:'#F59E0B', text:'Mesa de 8 personas el sábado sin confirmar — alto riesgo. Welko enviará recordatorio.' },
+    { id:5, time:'hace 4h',     color:'#60A5FA', text:'Reservas de Instagram tienen 3× más cancelaciones. Activa recordatorio doble para ese canal.' },
+  ],
+  barberia:    [
+    { id:1, time:'hace 8 min',  color:'#34D399', text:'Corte + barba es tu combo más pedido (43%). Agrégalo como paquete destacado.' },
+    { id:2, time:'hace 30 min', color:'#60A5FA', text:'No-shows bajaron 38% con recordatorios. Ahorro estimado: $3,200 MXN este mes.' },
+    { id:3, time:'hace 1h',     color:'#A78BFA', text:'Los sábados AM son tu hora pico. Considera añadir un barbero extra de 9–12am.' },
+    { id:4, time:'hace 3h',     color:'#F59E0B', text:'2 turnos de hoy sin confirmar — riesgo alto. Welko enviará recordatorio automáticamente.' },
+    { id:5, time:'hace 5h',     color:'#60A5FA', text:'"¿Cuánto tardas?" fue la pregunta #1 esta semana. Agrega tiempos por servicio.' },
+  ],
+  hotel:       [
+    { id:1, time:'hace 2 min',  color:'#34D399', text:'Reservas de fin de semana superan entre semana 3×. Considera tarifa dinámica para temporada alta.' },
+    { id:2, time:'hace 15 min', color:'#60A5FA', text:'Tasa de conversión consulta → reserva: 28% (↑12% vs. mes anterior).' },
+    { id:3, time:'hace 1h',     color:'#A78BFA', text:'WhatsApp tiene el mayor ticket promedio ($3,200 MXN). Prioriza para grupos y eventos.' },
+    { id:4, time:'hace 2h',     color:'#F59E0B', text:'Check-in del viernes sin confirmar documentación. Welko enviará instrucciones automáticamente.' },
+    { id:5, time:'hace 4h',     color:'#60A5FA', text:'"¿Incluye desayuno?" fue la pregunta más frecuente (8 veces). Responde automáticamente.' },
+  ],
+  fitness:     [
+    { id:1, time:'hace 10 min', color:'#34D399', text:'30% de tus leads visitan el gym pero no convierten. Activa oferta de primer mes gratis.' },
+    { id:2, time:'hace 25 min', color:'#60A5FA', text:'Retención mejoró 18% con recordatorios de inactividad automáticos.' },
+    { id:3, time:'hace 1h',     color:'#A78BFA', text:'Instagram atrae más leads. WhatsApp cierra más membresías. Usa ambos canales.' },
+    { id:4, time:'hace 3h',     color:'#F59E0B', text:'Clase de 7am tiene 40% menos asistencia los lunes. Considera ofrecer incentivo.' },
+    { id:5, time:'hace 5h',     color:'#60A5FA', text:'"¿Tienen regaderas?" fue preguntada 7 veces. Agrégala a tu perfil.' },
+  ],
+  legal:       [
+    { id:1, time:'hace 5 min',  color:'#34D399', text:'Derecho familiar y corporativo concentran el 62% de tus consultas esta semana.' },
+    { id:2, time:'hace 20 min', color:'#60A5FA', text:'Tiempo de respuesta: 1.8 seg. 0 prospectos sin atender esta semana.' },
+    { id:3, time:'hace 1h',     color:'#A78BFA', text:'Consultas con respuesta en < 5 min tienen 4× más probabilidad de cerrar el caso.' },
+    { id:4, time:'hace 2h',     color:'#F59E0B', text:'Cliente de mañana no confirmó documentos. Welko enviará lista de requisitos.' },
+    { id:5, time:'hace 4h',     color:'#60A5FA', text:'"¿Tienen pago en mensualidades?" fue preguntada 4 veces. Agrega opciones de pago.' },
+  ],
+  spa:         [
+    { id:1, time:'hace 4 min',  color:'#34D399', text:'Paquete de novias es el servicio con mayor ticket ($3,200 MXN). Promociónalo en Instagram.' },
+    { id:2, time:'hace 18 min', color:'#60A5FA', text:'No-shows bajaron 35% desde que activaste recordatorios. Ahorro estimado: $5,100 MXN.' },
+    { id:3, time:'hace 1h',     color:'#A78BFA', text:'Viernes y sábados tienen 70% más demanda. Considera abrir más turnos de 4–8pm.' },
+    { id:4, time:'hace 3h',     color:'#F59E0B', text:'2 sesiones de mañana sin confirmar. Welko enviará recordatorio automáticamente.' },
+    { id:5, time:'hace 5h',     color:'#60A5FA', text:'"¿Incluye productos premium?" fue preguntada 6 veces. Especifica materiales en tu perfil.' },
+  ],
+  retail:      [
+    { id:1, time:'hace 6 min',  color:'#34D399', text:'Pedidos por WhatsApp tienen ticket promedio 40% mayor que los de web.' },
+    { id:2, time:'hace 20 min', color:'#60A5FA', text:'Tasa de conversión a precio esta semana: 32%. Tiempo de respuesta: 1.4 seg.' },
+    { id:3, time:'hace 1h',     color:'#A78BFA', text:'"¿Hacen envíos?" fue la pregunta #1 (12 veces). Actualiza tu política de envíos.' },
+    { id:4, time:'hace 2h',     color:'#F59E0B', text:'3 pedidos grandes sin pago confirmado. Welko enviará recordatorio automáticamente.' },
+    { id:5, time:'hace 4h',     color:'#60A5FA', text:'Lunes y martes son tus días de más pedidos. Asegúrate de tener inventario actualizado.' },
+  ],
+}
 
-/* ── No-show predictor ── */
-const UPCOMING = [
-  { name:'Miguel Sánchez',  time:'Mañana 10:00am', service:'Blanqueamiento',    risk:'ALTO',  channel:'WhatsApp',  value:1800 },
-  { name:'Patricia Vega',   time:'Mañana 11:30am', service:'Consulta general',  risk:'MEDIO', channel:'Instagram', value:900  },
-  { name:'Carlos Ruiz',     time:'Mañana 2:00pm',  service:'Ortodoncia',        risk:'BAJO',  channel:'Web',       value:3200 },
-  { name:'Ana Martínez',    time:'Mañana 4:00pm',  service:'Limpieza dental',   risk:'ALTO',  channel:'WhatsApp',  value:850  },
-  { name:'Diego Morales',   time:'Jue 9:00am',     service:'Cirugía menor',     risk:'BAJO',  channel:'Llamada',   value:6500 },
-]
+/* ── No-show predictor — per industry ── */
+type UpcomingItem = { name: string; time: string; service: string; risk: string; channel: string; value: number }
+const UPCOMING_BY_INDUSTRY: Record<string, UpcomingItem[]> = {
+  salud:       [
+    { name:'Miguel Sánchez',  time:'Mañana 10:00am', service:'Blanqueamiento',    risk:'ALTO',  channel:'WhatsApp',  value:1800 },
+    { name:'Patricia Vega',   time:'Mañana 11:30am', service:'Consulta general',  risk:'MEDIO', channel:'Instagram', value:900  },
+    { name:'Carlos Ruiz',     time:'Mañana 2:00pm',  service:'Ortodoncia',        risk:'BAJO',  channel:'Web',       value:3200 },
+    { name:'Ana Martínez',    time:'Mañana 4:00pm',  service:'Limpieza dental',   risk:'ALTO',  channel:'WhatsApp',  value:850  },
+    { name:'Diego Morales',   time:'Jue 9:00am',     service:'Cirugía menor',     risk:'BAJO',  channel:'Llamada',   value:6500 },
+  ],
+  restaurante: [
+    { name:'Carlos Mendoza',  time:'Hoy 8:00pm',     service:'Mesa 4 personas',   risk:'ALTO',  channel:'WhatsApp',  value:800  },
+    { name:'Ana López',       time:'Hoy 9:00pm',     service:'Mesa 2 personas',   risk:'BAJO',  channel:'Instagram', value:400  },
+    { name:'Fam. Pérez',      time:'Sáb 9:30pm',     service:'Mesa 6 personas',   risk:'MEDIO', channel:'Web',       value:1200 },
+    { name:'Roberto Silva',   time:'Sáb 8:00pm',     service:'Evento privado',    risk:'BAJO',  channel:'Llamada',   value:4500 },
+    { name:'Daniela Torres',  time:'Dom 2:00pm',     service:'Mesa 3 personas',   risk:'ALTO',  channel:'WhatsApp',  value:600  },
+  ],
+  barberia:    [
+    { name:'Luis García',     time:'Hoy 4:00pm',     service:'Corte + Barba',     risk:'ALTO',  channel:'WhatsApp',  value:280  },
+    { name:'Rodrigo Mora',    time:'Hoy 5:30pm',     service:'Corte',             risk:'MEDIO', channel:'Instagram', value:180  },
+    { name:'Andrés Torres',   time:'Hoy 6:00pm',     service:'Afeitado clásico',  risk:'BAJO',  channel:'WhatsApp',  value:120  },
+    { name:'Juan Pérez',      time:'Mañana 10:00am', service:'Corte + Barba',     risk:'ALTO',  channel:'Llamada',   value:280  },
+    { name:'Marco López',     time:'Mañana 11:00am', service:'Corte infantil',    risk:'BAJO',  channel:'WhatsApp',  value:150  },
+  ],
+  hotel:       [
+    { name:'Sofía Ramírez',   time:'Vie check-in',   service:'Suite júnior',      risk:'BAJO',  channel:'WhatsApp',  value:3600 },
+    { name:'Fam. López',      time:'Vie check-in',   service:'Habitación doble',  risk:'ALTO',  channel:'Web',       value:2800 },
+    { name:'Juan Mora',       time:'Sáb check-in',   service:'Hab. sencilla',     risk:'MEDIO', channel:'Instagram', value:1800 },
+    { name:'Ana Torres',      time:'Dom check-in',   service:'Suite deluxe',      risk:'BAJO',  channel:'WhatsApp',  value:5200 },
+    { name:'Grupo Empresarial',time:'Lun check-in',  service:'5 habitaciones',    risk:'BAJO',  channel:'Llamada',   value:9000 },
+  ],
+  fitness:     [
+    { name:'Carlos Vega',     time:'Hoy 9:00am',     service:'Visita + tour',     risk:'BAJO',  channel:'Instagram', value:699  },
+    { name:'Daniela Mora',    time:'Hoy 11:00am',    service:'Clase de yoga',     risk:'ALTO',  channel:'WhatsApp',  value:200  },
+    { name:'Pedro López',     time:'Hoy 6:00pm',     service:'Entrenamiento PT',  risk:'MEDIO', channel:'Web',       value:300  },
+    { name:'Ana Ruiz',        time:'Mañana 7:00am',  service:'Clase de spinning', risk:'BAJO',  channel:'WhatsApp',  value:200  },
+    { name:'Roberto García',  time:'Mañana 8:00am',  service:'Alta membresía',    risk:'ALTO',  channel:'Llamada',   value:699  },
+  ],
+  legal:       [
+    { name:'Ricardo Montoya', time:'Mañana 10:00am', service:'Consulta familiar', risk:'BAJO',  channel:'WhatsApp',  value:1200 },
+    { name:'Elena Vargas',    time:'Mañana 12:00pm', service:'Contrato laboral',  risk:'ALTO',  channel:'Instagram', value:3500 },
+    { name:'Fam. Torres',     time:'Mañana 4:00pm',  service:'Derecho sucesorio', risk:'MEDIO', channel:'Web',       value:8000 },
+    { name:'Marco Silva',     time:'Jue 9:00am',     service:'Consulta mercantil',risk:'BAJO',  channel:'Llamada',   value:2000 },
+    { name:'Dra. López',      time:'Jue 11:00am',    service:'Constitución S.A.', risk:'BAJO',  channel:'WhatsApp',  value:5000 },
+  ],
+  spa:         [
+    { name:'Valeria Torres',  time:'Hoy 10:00am',    service:'Masaje relajante',  risk:'BAJO',  channel:'WhatsApp',  value:850  },
+    { name:'Mariana López',   time:'Hoy 12:00pm',    service:'Facial completo',   risk:'ALTO',  channel:'Instagram', value:1200 },
+    { name:'Sara Ramírez',    time:'Mañana 11:00am', service:'Tratamiento facial',risk:'MEDIO', channel:'Web',       value:1500 },
+    { name:'Camila Pérez',    time:'Mañana 3:00pm',  service:'Paquete novias',    risk:'BAJO',  channel:'WhatsApp',  value:3200 },
+    { name:'Diana García',    time:'Sáb 2:00pm',     service:'Día de spa',        risk:'BAJO',  channel:'Llamada',   value:2400 },
+  ],
+  retail:      [
+    { name:'Jorge Morales',   time:'Hoy 2:00pm',     service:'Pedido #1043',      risk:'BAJO',  channel:'WhatsApp',  value:1280 },
+    { name:'Patricia Silva',  time:'Hoy 4:00pm',     service:'Pedido #1044',      risk:'MEDIO', channel:'Instagram', value:450  },
+    { name:'Carlos López',    time:'Mañana',         service:'Pedido #1045',      risk:'ALTO',  channel:'Web',       value:2100 },
+    { name:'Ana Martínez',    time:'Mañana',         service:'Pedido #1046',      risk:'BAJO',  channel:'WhatsApp',  value:680  },
+    { name:'Roberto Torres',  time:'Jue',            service:'Pedido mayoreo',    risk:'BAJO',  channel:'Llamada',   value:5600 },
+  ],
+}
 
 const RISK_STYLE: Record<string, { bg: string; color: string; label: string }> = {
   ALTO:  { bg: '#FEF2F2', color: '#EF4444', label: 'Riesgo alto'  },
@@ -196,6 +300,8 @@ export default function DashboardPage() {
   useEffect(() => {
     const stored = localStorage.getItem('welko_modo_ocupado')
     if (stored === 'true') { setModo(true); setSavedModo(true) }
+    const storedInd = localStorage.getItem('welko_preview_industry')
+    if (storedInd) setIndustrySlug(storedInd)
   }, [])
 
   useEffect(() => {
@@ -260,7 +366,7 @@ export default function DashboardPage() {
         {CRM_INDUSTRIES.map(ind => (
           <button
             key={ind.slug}
-            onClick={() => setIndustrySlug(ind.slug)}
+            onClick={() => { setIndustrySlug(ind.slug); localStorage.setItem('welko_preview_industry', ind.slug) }}
             style={{
               display: 'flex', alignItems: 'center', gap: 5,
               padding: '5px 12px', borderRadius: 99,
@@ -271,7 +377,7 @@ export default function DashboardPage() {
               transition: 'all 0.15s',
             }}
           >
-            {ind.emoji} {ind.label}
+            {ind.label}
           </button>
         ))}
       </div>
@@ -369,13 +475,16 @@ export default function DashboardPage() {
               En vivo
             </span>
           </div>
+          {(() => {
+            const cerebroFeed = CEREBRO_BY_INDUSTRY[industrySlug] ?? CEREBRO_BY_INDUSTRY.salud
+            return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {CEREBRO_FEED.map((obs, i) => (
+            {cerebroFeed.map((obs, i) => (
               <div
                 key={obs.id}
                 style={{
                   display: 'flex', gap: 14, padding: '14px 20px',
-                  borderBottom: i < CEREBRO_FEED.length - 1 ? `1px solid ${BORD}` : 'none',
+                  borderBottom: i < cerebroFeed.length - 1 ? `1px solid ${BORD}` : 'none',
                   alignItems: 'flex-start',
                 }}
               >
@@ -383,9 +492,8 @@ export default function DashboardPage() {
                   width: 34, height: 34, borderRadius: 10, flexShrink: 0,
                   background: `${obs.color}15`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 16,
                 }}>
-                  {obs.icon}
+                  <Brain size={15} color={obs.color} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: 12.5, color: TEXT, margin: 0, lineHeight: 1.55 }}>{obs.text}</p>
@@ -394,6 +502,7 @@ export default function DashboardPage() {
               </div>
             ))}
           </div>
+          )})()}
         </div>
 
         {/* Right col */}
@@ -406,10 +515,12 @@ export default function DashboardPage() {
                 <AlertTriangle size={14} color="#F59E0B" />
                 <p style={{ color: TEXT, fontSize: 13, fontWeight: 600, margin: 0 }}>Predictor de No-shows</p>
               </div>
-              <p style={{ fontSize: 11, color: MUTED, margin: '3px 0 0' }}>Próximas citas con análisis de riesgo IA</p>
+              <p style={{ fontSize: 11, color: MUTED, margin: '3px 0 0' }}>
+                {`Próximos ${industry.event}s con análisis de riesgo IA`}
+              </p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', padding: '8px 0' }}>
-              {UPCOMING.map((apt, i) => {
+              {(UPCOMING_BY_INDUSTRY[industrySlug] ?? UPCOMING_BY_INDUSTRY.salud).map((apt, i) => {
                 const risk = RISK_STYLE[apt.risk]
                 return (
                   <div
@@ -437,7 +548,7 @@ export default function DashboardPage() {
             </div>
             <div style={{ padding: '10px 18px', borderTop: `1px solid ${BORD}` }}>
               <Link href="/dashboard/citas" style={{ fontSize: 11, color: '#60A5FA', display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none', fontWeight: 600 }}>
-                Ver todas las citas <ChevronRight size={12} />
+                {`Ver todos los ${industry.event}s`} <ChevronRight size={12} />
               </Link>
             </div>
           </div>

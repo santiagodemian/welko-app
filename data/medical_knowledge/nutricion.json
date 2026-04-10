@@ -1,7 +1,7 @@
 {
   "slug": "nutricion",
   "label": "Nutrición",
-  "emoji": "🥗",
+  "emoji": "",
   "aiGreeting": "¡Excelente! Ya cargué los conocimientos de Nutrición Clínica en mi sistema. Manejo conceptos de planes alimenticios, IMC, control de peso y patologías metabólicas. Solo confírmame tus horarios.",
   "aiGreetingEn": "Excellent! I've loaded Clinical Nutrition knowledge. I handle meal plans, BMI, weight control, and metabolic conditions. Just confirm your hours.",
   "terms": [

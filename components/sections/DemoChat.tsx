@@ -14,12 +14,12 @@ interface Message {
 }
 
 const SPECIALTIES = [
-  { slug: 'salud',        es: 'Salud',       en: 'Health',      emoji: '🏥' },
-  { slug: 'restaurante',  es: 'Restaurante', en: 'Restaurant',  emoji: '🍽️' },
-  { slug: 'barberia',     es: 'Barbería',    en: 'Barbershop',  emoji: '✂️' },
-  { slug: 'hotel',        es: 'Hotel',       en: 'Hotel',       emoji: '🏨' },
-  { slug: 'fitness',      es: 'Fitness',     en: 'Fitness',     emoji: '💪' },
-  { slug: 'legal',        es: 'Legal',       en: 'Legal',       emoji: '⚖️' },
+  { slug: 'salud',        es: 'Salud',       en: 'Health'      },
+  { slug: 'restaurante',  es: 'Restaurante', en: 'Restaurant'  },
+  { slug: 'barberia',     es: 'Barbería',    en: 'Barbershop'  },
+  { slug: 'hotel',        es: 'Hotel',       en: 'Hotel'       },
+  { slug: 'fitness',      es: 'Fitness',     en: 'Fitness'     },
+  { slug: 'legal',        es: 'Legal',       en: 'Legal'       },
 ]
 
 // Fallback responses when /api/chat fails — keeps the demo working
@@ -28,43 +28,43 @@ function getDemoFallback(text: string, specialty: string, lang: string): string 
   if (lang === 'es') {
     if (/precio|costo|cu[aá]nto|tarifa/.test(t)) {
       const p: Record<string, string> = {
-        salud:       'Los precios varían según el servicio. Limpieza desde $350, consulta desde $450. ¿Qué necesitas? 🏥',
-        restaurante: 'Nuestro menú tiene opciones desde $120. ¿Te envío la carta completa? 🍽️',
-        barberia:    'Corte desde $120, barba desde $80, combo desde $180. ¿Qué servicio buscas? ✂️',
-        hotel:       'Las tarifas varían por temporada. ¿Me das las fechas para cotizarte? 🏨',
-        fitness:     'Membresía mensual desde $699, trimestral desde $1,799. ¿Te agendo una visita? 💪',
-        legal:       'La consulta inicial es gratuita. Honorarios según el caso. ¿Me platicas qué necesitas? ⚖️',
+        salud:       'Los precios varían según el servicio. Limpieza desde $350, consulta desde $450. ¿Qué necesitas? ',
+        restaurante: 'Nuestro menú tiene opciones desde $120. ¿Te envío la carta completa? ️',
+        barberia:    'Corte desde $120, barba desde $80, combo desde $180. ¿Qué servicio buscas? ️',
+        hotel:       'Las tarifas varían por temporada. ¿Me das las fechas para cotizarte? ',
+        fitness:     'Membresía mensual desde $699, trimestral desde $1,799. ¿Te agendo una visita? ',
+        legal:       'La consulta inicial es gratuita. Honorarios según el caso. ¿Me platicas qué necesitas? ️',
       }
       return p[specialty] ?? '¡Hola! Con gusto te doy los precios. ¿Qué servicio te interesa?'
     }
     if (/cita|disponib|agendar|agenda|reserva|reservar|mesa|turno/.test(t))
-      return 'Tenemos disponibilidad esta semana. 📅 ¿Prefieres por la mañana o por la tarde?'
+      return 'Tenemos disponibilidad esta semana.  ¿Prefieres por la mañana o por la tarde?'
     if (/hora|abre|cierra|horario/.test(t))
       return 'Atendemos de lunes a viernes 9am–8pm y sábados 9am–3pm. ¿Te agendo?'
     if (/tarjeta|pago|efectivo|transferencia/.test(t))
-      return 'Aceptamos efectivo, tarjeta y transferencia bancaria. 💳 ¿En qué más te ayudo?'
+      return 'Aceptamos efectivo, tarjeta y transferencia bancaria.  ¿En qué más te ayudo?'
     if (/urgencia|urgente|dolor|emergencia/.test(t))
-      return '¡Entendido! Tenemos espacio de urgencia hoy mismo. ¿Me das tu nombre? 🚨'
-    return '¡Hola! Soy la recepcionista IA. ¿En qué te puedo apoyar hoy? 😊'
+      return '¡Entendido! Tenemos espacio de urgencia hoy mismo. ¿Me das tu nombre? '
+    return '¡Hola! Soy la recepcionista IA. ¿En qué te puedo apoyar hoy? '
   } else {
     if (/price|cost|how much|rate|fee/.test(t)) {
       const p: Record<string, string> = {
-        salud:       'Prices vary by service. Cleaning from $25, consultation from $35. What do you need? 🏥',
-        restaurante: 'Our menu starts at $10. Would you like me to send you the full menu? 🍽️',
-        barberia:    'Haircut from $10, beard from $8, combo from $16. Which service? ✂️',
-        hotel:       'Rates vary by season. Give me your dates and I\'ll quote you right away. 🏨',
-        fitness:     'Monthly membership from $49, quarterly from $129. Want to schedule a visit? 💪',
-        legal:       'Initial consultation is free. Fees depend on the case. Tell me what you need? ⚖️',
+        salud:       'Prices vary by service. Cleaning from $25, consultation from $35. What do you need? ',
+        restaurante: 'Our menu starts at $10. Would you like me to send you the full menu? ️',
+        barberia:    'Haircut from $10, beard from $8, combo from $16. Which service? ️',
+        hotel:       'Rates vary by season. Give me your dates and I\'ll quote you right away. ',
+        fitness:     'Monthly membership from $49, quarterly from $129. Want to schedule a visit? ',
+        legal:       'Initial consultation is free. Fees depend on the case. Tell me what you need? ️',
       }
       return p[specialty] ?? 'Hi! I\'d be happy to help with pricing. What service are you looking for?'
     }
     if (/appointment|available|book|schedule|reservation|table|slot/.test(t))
-      return 'We have availability this week! 📅 Morning or afternoon?'
+      return 'We have availability this week!  Morning or afternoon?'
     if (/hours|open|close/.test(t))
       return 'Open Monday–Friday 9am–8pm and Saturdays 9am–3pm. Would you like to book?'
     if (/card|payment|cash/.test(t))
-      return 'We accept cash, credit/debit cards, and bank transfers. 💳 Anything else?'
-    return 'Hi! I\'m the AI receptionist. How can I help you today? 😊'
+      return 'We accept cash, credit/debit cards, and bank transfers.  Anything else?'
+    return 'Hi! I\'m the AI receptionist. How can I help you today? '
   }
 }
 
@@ -241,7 +241,7 @@ export function DemoChat() {
                       : { background: 'var(--surface)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }
                   }
                 >
-                  {s.emoji} {lang === 'es' ? s.es : s.en}
+                  {lang === 'es' ? s.es : s.en}
                 </button>
               ))}
             </div>
@@ -272,7 +272,7 @@ export function DemoChat() {
                 <div className="flex-1 overflow-y-auto flex flex-col gap-2 px-3 py-4 scroll-smooth">
                   {!started && messages.length === 0 && (
                     <div className="flex-1 flex flex-col items-center justify-center gap-3 text-center px-4">
-                      <span className="text-3xl">👋</span>
+                      <span className="text-3xl"></span>
                       <p className="text-xs font-medium" style={{ color: '#6B7280' }}>
                         {L.startLabel}
                       </p>
@@ -298,7 +298,7 @@ export function DemoChat() {
                         >
                           {msg.content}
                           <span className="block text-right mt-1" style={{ fontSize: 9, color: 'rgba(0,0,0,0.4)' }}>
-                            {msg.role === 'assistant' ? '✓✓ ' : ''}{now}
+                            {msg.role === 'assistant' ? ' ' : ''}{now}
                           </span>
                         </div>
                       </motion.div>
@@ -390,9 +390,9 @@ export function DemoChat() {
             {/* Feature callouts */}
             <div className="flex flex-col gap-4">
               {[
-                { icon: '🤖', text: lang === 'es' ? 'IA entrenada para tu especialidad — responde con contexto real.' : 'AI trained for your specialty — responds with real context.' },
-                { icon: '📅', text: lang === 'es' ? 'Puede agendar citas, preguntar disponibilidad y confirmar horarios.' : 'Can book appointments, check availability, and confirm schedules.' },
-                { icon: '💬', text: lang === 'es' ? 'Mismo motor que corre en WhatsApp, Instagram y Facebook.' : 'Same engine running on WhatsApp, Instagram, and Facebook.' },
+                { icon: '', text: lang === 'es' ? 'IA entrenada para tu especialidad — responde con contexto real.' : 'AI trained for your specialty — responds with real context.' },
+                { icon: '', text: lang === 'es' ? 'Puede agendar citas, preguntar disponibilidad y confirmar horarios.' : 'Can book appointments, check availability, and confirm schedules.' },
+                { icon: '', text: lang === 'es' ? 'Mismo motor que corre en WhatsApp, Instagram y Facebook.' : 'Same engine running on WhatsApp, Instagram, and Facebook.' },
               ].map((item, i) => (
                 <div key={i} className="flex gap-3">
                   <span className="text-xl flex-shrink-0 mt-0.5">{item.icon}</span>

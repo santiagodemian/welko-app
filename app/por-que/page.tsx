@@ -4,6 +4,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { VsDirectoriosSection } from '@/components/sections/VsDirectoriosSection'
 import { HumanTalentSection } from '@/components/sections/HumanTalentSection'
 import { WelkoDNASection } from '@/components/sections/WelkoDNASection'
+import { ComparisonSection } from '@/components/sections/ComparisonSection'
 import { useLang } from '@/contexts/LangContext'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -74,6 +75,7 @@ export default function PorQuePage() {
         </section>
 
         {/* ── Comparison blocks ── */}
+        <ComparisonSection />
         <VsDirectoriosSection />
         <HumanTalentSection />
         <WelkoDNASection />

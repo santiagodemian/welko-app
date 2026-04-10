@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useLang } from '@/contexts/LangContext'
+import { Bot, Stethoscope } from 'lucide-react'
 
 const NAVY  = '#1A2A56'
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
@@ -70,9 +71,8 @@ export function HumanTalentSection() {
                 width: 44, height: 44, borderRadius: 13,
                 background: 'rgba(255,255,255,0.12)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 22,
               }}>
-                🤖
+                <Bot size={22} color="rgba(255,255,255,0.9)" />
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.5)' }}>
@@ -110,8 +110,8 @@ export function HumanTalentSection() {
             <div className="pt-4 mt-auto" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
               <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 {lang === 'es'
-                  ? '⚡ Activo 24/7 · Responde en menos de 2 segundos'
-                  : '⚡ Active 24/7 · Responds in under 2 seconds'}
+                  ? 'Activo 24/7 · Responde en menos de 2 segundos'
+                  : 'Active 24/7 · Responds in under 2 seconds'}
               </p>
             </div>
           </motion.div>
@@ -128,9 +128,8 @@ export function HumanTalentSection() {
                 width: 44, height: 44, borderRadius: 13,
                 background: 'var(--bg-secondary)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 22,
               }}>
-                🩺
+                <Stethoscope size={22} color={NAVY} />
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>
@@ -168,8 +167,8 @@ export function HumanTalentSection() {
             <div className="pt-4 mt-auto" style={{ borderTop: '1px solid var(--border)' }}>
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 {lang === 'es'
-                  ? '💡 Clínicas más ágiles, eficientes y rentables — sin sacrificar la calidad humana'
-                  : '💡 More agile, efficient, and profitable clinics — without sacrificing human quality'}
+                  ? 'Clínicas más ágiles, eficientes y rentables — sin sacrificar la calidad humana'
+                  : 'More agile, efficient, and profitable clinics — without sacrificing human quality'}
               </p>
             </div>
           </motion.div>

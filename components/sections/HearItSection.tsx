@@ -29,7 +29,7 @@ const SCENARIOS: Record<Tab, { label: string; dur: number; src: string; msgs: Ms
       { role: 'patient', text: 'El jueves perfecto.',                                                                                                  at: 56 },
       { role: 'agent',   text: '¡Listo! Cita confirmada para el jueves a las 10 AM. Le enviaré un recordatorio 24 horas antes. ¿Algo más?',          at: 62 },
       { role: 'patient', text: 'No, muchas gracias.',                                                                                                  at: 87 },
-      { role: 'agent',   text: 'Un placer. ¡Que tenga excelente día! 😊',                                                                             at: 92 },
+      { role: 'agent',   text: 'Un placer. ¡Que tenga excelente día! ',                                                                             at: 92 },
     ],
   },
   estetica: {
@@ -42,7 +42,7 @@ const SCENARIOS: Record<Tab, { label: string; dur: number; src: string; msgs: Ms
       { role: 'patient', text: 'Sí, ¿cuándo tienen disponibilidad?',                                                                                                          at: 56 }, // ~18.7s
       { role: 'agent',   text: 'Tenemos este sábado a las 11 AM o el lunes a las 5 PM. ¿Cuál prefiere?',                                                                     at: 66 }, // ~22s
       { role: 'patient', text: 'El sábado a las 11, perfecto.',                                                                                                               at: 82 }, // ~27.4s
-      { role: 'agent',   text: '¡Agendado! Le confirmo por WhatsApp. ¡Hasta el sábado! 💫',                                                                                  at: 91 }, // ~30.4s
+      { role: 'agent',   text: '¡Agendado! Le confirmo por WhatsApp. ¡Hasta el sábado! ',                                                                                  at: 91 }, // ~30.4s
     ],
   },
   nutricion: {

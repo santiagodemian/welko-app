@@ -24,7 +24,7 @@ const SPECIALTIES: SpecialtyConfig[] = [
   {
     slug: 'dental',
     label: 'Odontología',
-    emoji: '🦷',
+    emoji: '',
     steps: [
       {
         id: 'software',
@@ -61,7 +61,7 @@ const SPECIALTIES: SpecialtyConfig[] = [
   {
     slug: 'psicologia',
     label: 'Psicología',
-    emoji: '🧠',
+    emoji: '',
     steps: [
       {
         id: 'confidencialidad',
@@ -98,7 +98,7 @@ const SPECIALTIES: SpecialtyConfig[] = [
   {
     slug: 'estetica',
     label: 'Medicina Estética',
-    emoji: '✨',
+    emoji: '',
     steps: [
       {
         id: 'especialidad',
@@ -129,7 +129,7 @@ const SPECIALTIES: SpecialtyConfig[] = [
   {
     slug: 'nutricion',
     label: 'Nutrición',
-    emoji: '🥗',
+    emoji: '',
     steps: [
       {
         id: 'enfoque',
@@ -159,7 +159,7 @@ const SPECIALTIES: SpecialtyConfig[] = [
   {
     slug: 'ginecologia',
     label: 'Ginecología',
-    emoji: '🌸',
+    emoji: '',
     steps: [
       {
         id: 'subespecialidad',
@@ -190,7 +190,7 @@ const SPECIALTIES: SpecialtyConfig[] = [
   {
     slug: 'oftalmologia',
     label: 'Oftalmología',
-    emoji: '👁️',
+    emoji: '️',
     steps: [
       {
         id: 'procedimientos',
@@ -220,7 +220,7 @@ const SPECIALTIES: SpecialtyConfig[] = [
   {
     slug: 'medica',
     label: 'Medicina General',
-    emoji: '🩺',
+    emoji: '',
     steps: [
       {
         id: 'tipo_consulta',
@@ -250,7 +250,7 @@ const SPECIALTIES: SpecialtyConfig[] = [
   {
     slug: 'spa',
     label: 'Spa & Bienestar',
-    emoji: '💆',
+    emoji: '',
     steps: [
       {
         id: 'servicios',
@@ -279,7 +279,7 @@ const SPECIALTIES: SpecialtyConfig[] = [
   {
     slug: 'fisioterapia',
     label: 'Fisioterapia',
-    emoji: '💪',
+    emoji: '',
     steps: [
       {
         id: 'especialidad',

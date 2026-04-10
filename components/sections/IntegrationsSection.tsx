@@ -6,18 +6,18 @@ import { useLang } from '@/contexts/LangContext'
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 const INTEGRATIONS = [
-  { name: 'WhatsApp Business',  emoji: '💬', color: '#22C55E', status: 'live' },
-  { name: 'Instagram DMs',      emoji: '📸', color: '#E1306C', status: 'live' },
-  { name: 'Facebook Messenger', emoji: '📘', color: '#1877F2', status: 'live' },
-  { name: 'Google Calendar',    emoji: '📅', color: '#4285F4', status: 'live' },
-  { name: 'Llamadas de voz',    emoji: '📞', color: '#8B5CF6', status: 'live' },
-  { name: 'Widget web',         emoji: '🌐', color: '#60A5FA', status: 'live' },
-  { name: 'Doctoralia',         emoji: '🏥', color: '#0EA5E9', status: 'soon' },
-  { name: 'Cliniccloud',        emoji: '☁️', color: '#14B8A6', status: 'soon' },
-  { name: 'Dentix / SW dental', emoji: '🦷', color: '#F59E0B', status: 'soon' },
-  { name: 'Odoo',               emoji: '🔷', color: '#875BE1', status: 'soon' },
-  { name: 'Zapier',             emoji: '⚡', color: '#FF4F00', status: 'soon' },
-  { name: 'Google Ads',         emoji: '🎯', color: '#FBBC04', status: 'soon' },
+  { name: 'WhatsApp Business',  color: '#22C55E', status: 'live' },
+  { name: 'Instagram DMs',      color: '#E1306C', status: 'live' },
+  { name: 'Facebook Messenger', color: '#1877F2', status: 'live' },
+  { name: 'Google Calendar',    color: '#4285F4', status: 'live' },
+  { name: 'Llamadas de voz',    color: '#8B5CF6', status: 'live' },
+  { name: 'Widget web',         color: '#60A5FA', status: 'live' },
+  { name: 'Doctoralia',         color: '#0EA5E9', status: 'soon' },
+  { name: 'Cliniccloud',        color: '#14B8A6', status: 'soon' },
+  { name: 'Dentix / SW dental', color: '#F59E0B', status: 'soon' },
+  { name: 'Odoo',               color: '#875BE1', status: 'soon' },
+  { name: 'Zapier',             color: '#FF4F00', status: 'soon' },
+  { name: 'Google Ads',         color: '#FBBC04', status: 'soon' },
 ]
 
 export function IntegrationsSection() {
@@ -60,7 +60,9 @@ export function IntegrationsSection() {
                 opacity: item.status === 'soon' ? 0.7 : 1,
               }}
             >
-              <span style={{ fontSize: 22, flexShrink: 0 }}>{item.emoji}</span>
+              <div style={{ width: 28, height: 28, borderRadius: 8, background: item.color + '20', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: 8, height: 8, borderRadius: '50%', background: item.color }} />
+              </div>
               <div className="flex flex-col min-w-0">
                 <span className="text-xs font-semibold truncate" style={{ color: 'var(--text-primary)' }}>{item.name}</span>
                 {item.status === 'live'

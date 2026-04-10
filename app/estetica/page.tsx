@@ -13,25 +13,25 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 const PAIN_POINTS = [
   {
-    emoji: '❌',
+    emoji: '',
     title: 'Cancelaciones last-minute de botox y rellenos',
     desc: 'Slots de $2,000 a $5,000 MXN que se pierden sin aviso. Llegaste al procedimiento, preparaste el consultorio, y el cliente no llega. Sin que nadie lo haya detectado a tiempo.',
     fix: 'Welko predice qué citas tienen riesgo ALTO y manda recordatorios extra automáticamente. Detecta patrones antes de que tú lo notes.',
   },
   {
-    emoji: '💬',
+    emoji: '',
     title: 'Consultas de precio que nunca convierten',
     desc: '"¿Cuánto cuesta el botox de frente?" — y no vuelves a saber de esa persona. El tiempo de respuesta lo es todo: si tardas más de 5 minutos, ya buscó a alguien más.',
     fix: 'La IA responde en 2 segundos con tus precios y disponibilidad. Convierte esa pregunta en una cita antes de que cierres el mensaje.',
   },
   {
-    emoji: '📲',
+    emoji: '',
     title: 'DMs de Instagram sin responder por horas',
     desc: 'Tu Instagram tiene mensajes desde el martes. El algoritmo te penaliza cuando tardas. Y cada DM sin respuesta es un cliente que se fue.',
     fix: 'Conectas Instagram a Welko y todos los mensajes se responden automáticamente — con el mismo tono y calidad que tú.',
   },
   {
-    emoji: '🔄',
+    emoji: '',
     title: 'Sin seguimiento post-tratamiento',
     desc: 'El cliente se fue después del botox o el relleno. No hay seguimiento a las 24h ni a las 48h. Y cuando hay algún efecto secundario, no te enteraste a tiempo.',
     fix: 'Welko manda seguimiento automático el día siguiente y a las 48h. Construye confianza sin que hagas nada.',
@@ -81,7 +81,7 @@ export default function EsteticaPage() {
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: EASE }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold"
               style={{ background: '#FFF1F2', color: ROSE, border: '1px solid #FECDD3' }}>
-              ✨ Especialmente para Centros de Estética y Spa
+               Especialmente para Centros de Estética y Spa
             </motion.div>
             <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: EASE, delay: 0.06 }}
               className="text-[1.875rem] sm:text-5xl font-extrabold tracking-tight leading-tight"
@@ -208,7 +208,7 @@ export default function EsteticaPage() {
         <section className="py-20 px-4 sm:px-6"
           style={{ background: `linear-gradient(135deg, #05101F 0%, ${NAVY} 100%)` }}>
           <div className="max-w-2xl mx-auto flex flex-col items-center text-center gap-6">
-            <span style={{ fontSize: 32 }}>✨</span>
+            <span style={{ fontSize: 32 }}></span>
             <h2 className="text-2xl sm:text-3xl font-extrabold" style={{ color: '#fff' }}>
               Tu centro estético, atendiendo 24/7 desde hoy
             </h2>

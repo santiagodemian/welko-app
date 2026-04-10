@@ -32,13 +32,13 @@ export type IndustryCategory =
   | 'other'
 
 export const INDUSTRY_CATEGORIES: { id: IndustryCategory; es: string; en: string; icon: string }[] = [
-  { id: 'health',       es: 'Clínicas de Salud',         en: 'Health Clinics',          icon: '🏥' },
-  { id: 'food',         es: 'Restaurantes & Cafés',      en: 'Restaurants & Cafés',     icon: '🍽️' },
-  { id: 'beauty',       es: 'Belleza & Cuidado Personal', en: 'Beauty & Personal Care',  icon: '✂️' },
-  { id: 'fitness',      es: 'Fitness & Bienestar',       en: 'Fitness & Wellness',      icon: '💪' },
-  { id: 'hospitality',  es: 'Hospitalidad',              en: 'Hospitality',             icon: '🏨' },
-  { id: 'professional', es: 'Servicios Profesionales',   en: 'Professional Services',   icon: '💼' },
-  { id: 'retail',       es: 'Comercio & Retail',         en: 'Commerce & Retail',       icon: '🏪' },
+  { id: 'health',       es: 'Clínicas de Salud',         en: 'Health Clinics',          icon: '' },
+  { id: 'food',         es: 'Restaurantes & Cafés',      en: 'Restaurants & Cafés',     icon: '️' },
+  { id: 'beauty',       es: 'Belleza & Cuidado Personal', en: 'Beauty & Personal Care',  icon: '️' },
+  { id: 'fitness',      es: 'Fitness & Bienestar',       en: 'Fitness & Wellness',      icon: '' },
+  { id: 'hospitality',  es: 'Hospitalidad',              en: 'Hospitality',             icon: '' },
+  { id: 'professional', es: 'Servicios Profesionales',   en: 'Professional Services',   icon: '' },
+  { id: 'retail',       es: 'Comercio & Retail',         en: 'Commerce & Retail',       icon: '' },
 ]
 
 export const INDUSTRIES: Industry[] = [
@@ -50,7 +50,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#3B82F6',
     lightColor: '#EFF6FF',
     category: 'health',
-    icon: '🦷',
+    icon: '',
     imagePrompt: 'High-tech humanoid female AI receptionist, wearing a white dentist coat, professional dental clinic background, sleek modern headset, 8k --ar 16:9',
     es: {
       name: 'Clínica Dental & Ortodoncia',
@@ -81,7 +81,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#EC4899',
     lightColor: '#FDF2F8',
     category: 'health',
-    icon: '✨',
+    icon: '',
     imagePrompt: 'Elegant futuristic AI beauty consultant, wearing minimalist silk professional uniform, sleek modern headset, luxury aesthetic clinic background, soft warm lighting, 8k --ar 16:9',
     es: {
       name: 'Medicina Estética',
@@ -112,7 +112,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#8B5CF6',
     lightColor: '#F5F3FF',
     category: 'health',
-    icon: '🧠',
+    icon: '',
     imagePrompt: 'Professional humanoid AI receptionist, wearing elegant lavender business attire, psychology office background, sleek modern headset, warm professional lighting, 8k --ar 16:9',
     es: {
       name: 'Psicología & Salud Mental',
@@ -143,7 +143,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#10B981',
     lightColor: '#ECFDF5',
     category: 'health',
-    icon: '🏥',
+    icon: '',
     imagePrompt: 'Professional female AI receptionist in white medical coat, modern clinic reception, headset, clean medical environment, 8k --ar 16:9',
     es: {
       name: 'Medicina General & Especialidades',
@@ -174,7 +174,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#F59E0B',
     lightColor: '#FFFBEB',
     category: 'health',
-    icon: '🥗',
+    icon: '',
     imagePrompt: 'Friendly AI nutritionist assistant, colorful healthy food environment, modern clinic background, sleek headset, warm professional lighting, 8k --ar 16:9',
     es: {
       name: 'Nutrición & Dietética',
@@ -205,7 +205,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#06B6D4',
     lightColor: '#ECFEFF',
     category: 'health',
-    icon: '🏃',
+    icon: '',
     imagePrompt: 'Professional AI physiotherapy assistant, modern rehabilitation clinic, exercise equipment in background, headset, natural lighting, 8k --ar 16:9',
     es: {
       name: 'Fisioterapia & Rehabilitación',
@@ -236,7 +236,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#84CC16',
     lightColor: '#F7FEE7',
     category: 'health',
-    icon: '🐾',
+    icon: '',
     imagePrompt: 'Friendly AI veterinary receptionist, modern animal clinic with pet-friendly decor, headset, warm welcoming lighting, 8k --ar 16:9',
     es: {
       name: 'Clínica Veterinaria',
@@ -269,7 +269,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#F97316',
     lightColor: '#FFF7ED',
     category: 'food',
-    icon: '🍽️',
+    icon: '️',
     imagePrompt: 'Professional AI restaurant host assistant, elegant restaurant ambiance, warm candlelight, modern headset, 8k --ar 16:9',
     es: {
       name: 'Restaurante & Cafetería',
@@ -302,7 +302,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#1E40AF',
     lightColor: '#EFF6FF',
     category: 'beauty',
-    icon: '✂️',
+    icon: '️',
     imagePrompt: 'Stylish AI barbershop receptionist, modern barbershop interior, barber chairs and grooming tools, contemporary headset, moody warm lighting, 8k --ar 16:9',
     es: {
       name: 'Barbería & Peluquería',
@@ -333,7 +333,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#A855F7',
     lightColor: '#FAF5FF',
     category: 'beauty',
-    icon: '💆',
+    icon: '',
     imagePrompt: 'Serene AI spa receptionist, luxury spa environment with candles and soft decor, elegant headset, warm ambient lighting, 8k --ar 16:9',
     es: {
       name: 'Spa & Salón de Belleza',
@@ -366,7 +366,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#EF4444',
     lightColor: '#FEF2F2',
     category: 'fitness',
-    icon: '💪',
+    icon: '',
     imagePrompt: 'Energetic AI fitness coach assistant, modern gym environment with equipment, athletic professional headset, dynamic lighting, 8k --ar 16:9',
     es: {
       name: 'Gym & Centro de Fitness',
@@ -397,7 +397,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#0EA5E9',
     lightColor: '#F0F9FF',
     category: 'fitness',
-    icon: '🧘',
+    icon: '',
     imagePrompt: 'Calm AI wellness studio receptionist, serene yoga studio with natural light and plants, elegant headset, zen atmosphere, 8k --ar 16:9',
     es: {
       name: 'Yoga & Wellness Studio',
@@ -430,7 +430,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#D97706',
     lightColor: '#FFFBEB',
     category: 'hospitality',
-    icon: '🏨',
+    icon: '',
     imagePrompt: 'Elegant AI hotel concierge, luxury hotel lobby with marble floors, formal attire headset, golden ambient lighting, 5-star atmosphere, 8k --ar 16:9',
     es: {
       name: 'Hotel & Hospitalidad',
@@ -463,7 +463,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#374151',
     lightColor: '#F9FAFB',
     category: 'professional',
-    icon: '⚖️',
+    icon: '️',
     imagePrompt: 'Professional AI legal receptionist, modern law office with wood paneling and books, formal headset, serious yet approachable atmosphere, 8k --ar 16:9',
     es: {
       name: 'Despacho Legal & Notaría',
@@ -494,7 +494,7 @@ export const INDUSTRIES: Industry[] = [
     color: '#0F766E',
     lightColor: '#F0FDFA',
     category: 'professional',
-    icon: '📊',
+    icon: '',
     imagePrompt: 'Professional AI accounting firm receptionist, modern financial office with screens, corporate headset, clean professional environment, 8k --ar 16:9',
     es: {
       name: 'Contaduría & Consultoría',

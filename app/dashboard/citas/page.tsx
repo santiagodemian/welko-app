@@ -109,12 +109,25 @@ function weekStart(d: Date): Date {
   return start
 }
 
+// Industry event label for the page title
+const INDUSTRY_EVENT: Record<string, string> = {
+  salud: 'Cita', restaurante: 'Reservación', barberia: 'Turno',
+  hotel: 'Reserva', fitness: 'Clase', legal: 'Consulta',
+  spa: 'Sesión', retail: 'Pedido',
+}
+
 export default function CitasPage() {
   const [citas, setCitas]       = useState<Cita[]>([])
   const [loading, setLoading]   = useState(true)
   const [view, setView]         = useState<'lista' | 'calendario'>('lista')
   const [filter, setFilter]     = useState('todos')
   const [weekOffset, setWeek]   = useState(0) // weeks relative to today
+  const [industrySlug, setIndustrySlug] = useState('salud')
+
+  useEffect(() => {
+    const stored = localStorage.getItem('welko_preview_industry')
+    if (stored) setIndustrySlug(stored)
+  }, [])
 
   useEffect(() => {
     fetch('/api/leads?withAppointment=true')
@@ -162,8 +175,12 @@ export default function CitasPage() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <h1 style={{ color: TEXT, fontSize: 18, fontWeight: 700, margin: 0 }}>Citas</h1>
-          <p style={{ color: MUTED, fontSize: 12, margin: '3px 0 0' }}>Próximas citas con análisis de riesgo IA</p>
+          <h1 style={{ color: TEXT, fontSize: 18, fontWeight: 700, margin: 0 }}>
+            {INDUSTRY_EVENT[industrySlug] ?? 'Cita'}s
+          </h1>
+          <p style={{ color: MUTED, fontSize: 12, margin: '3px 0 0' }}>
+            {`Próximos ${(INDUSTRY_EVENT[industrySlug] ?? 'Cita').toLowerCase()}s con análisis de riesgo IA`}
+          </p>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
           <button onClick={() => setView('lista')}
@@ -206,9 +223,9 @@ export default function CitasPage() {
       <div style={{ display: 'flex', gap: 6 }}>
         {[
           { key: 'todos',      label: 'Todas' },
-          { key: 'alto',       label: '🔴 Riesgo alto' },
-          { key: 'confirmada', label: '✓ Confirmadas' },
-          { key: 'pendiente',  label: '⏳ Pendientes' },
+          { key: 'alto',       label: 'Riesgo alto' },
+          { key: 'confirmada', label: 'Confirmadas' },
+          { key: 'pendiente',  label: 'Pendientes' },
         ].map(f => (
           <button key={f.key} onClick={() => setFilter(f.key)}
             style={{ padding: '5px 12px', borderRadius: 99, fontSize: 12, fontWeight: 500, cursor: 'pointer', border: `1px solid ${filter === f.key ? NAVY : BORD}`, background: filter === f.key ? NAVY : SURF, color: filter === f.key ? '#fff' : MUTED }}>

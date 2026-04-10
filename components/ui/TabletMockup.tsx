@@ -6,7 +6,7 @@ const CHAT = [
   { from: 'patient', text: 'Hola, me gustaría agendar una cita.' },
   { from: 'welko',   text: '¡Hola! Con gusto. ¿Qué día y hora te gustaría?' },
   { from: 'patient', text: 'Sábado a las 10am.' },
-  { from: 'welko',   text: '¡Excelente! Cita confirmada para el sábado a las 10am. Te esperamos. 📅' },
+  { from: 'welko',   text: '¡Excelente! Cita confirmada para el sábado a las 10am. Te esperamos. ' },
 ]
 
 export function TabletMockup() {
@@ -128,7 +128,7 @@ export function TabletMockup() {
                         color: msg.from === 'welko' ? 'rgba(255,255,255,0.55)' : '#9CA3AF',
                       }}
                     >
-                      {['9:41', '9:41', '9:42', '9:42'][i]} ✓✓
+                      {['9:41', '9:41', '9:42', '9:42'][i]} 
                     </span>
                   </div>
                 </motion.div>

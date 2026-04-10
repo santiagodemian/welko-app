@@ -314,7 +314,7 @@ export default function SpecialtyOnboardingPage({
                     width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
                     background: 'rgba(255,255,255,0.15)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18,
-                  }}>🤖</div>
+                  }}></div>
                   <div>
                     <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.5)', margin: '0 0 6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                       Welko IA
@@ -331,7 +331,7 @@ export default function SpecialtyOnboardingPage({
                   borderRadius: 14, padding: '14px 16px',
                 }}>
                   <p style={{ fontSize: 11, fontWeight: 700, color: NAVY, margin: '0 0 10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    📚 Lo que ya sé sobre {knowledge.label}
+                     Lo que ya sé sobre {knowledge.label}
                   </p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {knowledge.terms.slice(0, 5).map((t, i) => (

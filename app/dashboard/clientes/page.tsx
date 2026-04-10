@@ -99,7 +99,7 @@ function PatientDetail({ patient, onClose }: { patient: Patient; onClose: () => 
             </div>
           </div>
         </div>
-        <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: MUTED, fontSize: 16, padding: 4 }}>✕</button>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: MUTED, fontSize: 16, padding: 4 }}></button>
       </div>
 
       {/* Stats row */}
@@ -175,6 +175,12 @@ function PatientDetail({ patient, onClose }: { patient: Patient; onClose: () => 
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
+const INDUSTRY_CLIENT_LABEL: Record<string, string> = {
+  salud: 'Pacientes', restaurante: 'Comensales', barberia: 'Clientes',
+  hotel: 'Huéspedes', fitness: 'Miembros', legal: 'Expedientes',
+  spa: 'Clientes', retail: 'Compradores',
+}
+
 export default function ClientesPage() {
   const [patients, setPatients]     = useState<Patient[]>([])
   const [loading, setLoading]       = useState(true)
@@ -182,6 +188,12 @@ export default function ClientesPage() {
   const [sortBy, setSortBy]         = useState<'lastContact' | 'totalSpent' | 'totalLeads'>('lastContact')
   const [selected, setSelected]     = useState<Patient | null>(null)
   const [filterChannel, setChannel] = useState('todos')
+  const [industrySlug, setIndustrySlug] = useState('salud')
+
+  useEffect(() => {
+    const stored = localStorage.getItem('welko_preview_industry')
+    if (stored) setIndustrySlug(stored)
+  }, [])
 
   useEffect(() => {
     fetch('/api/patients')
@@ -222,7 +234,9 @@ export default function ClientesPage() {
       {/* Header + KPIs */}
       <div style={{ padding: '24px 28px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div>
-          <h1 style={{ color: TEXT, fontSize: 18, fontWeight: 700, margin: 0 }}>Clientes</h1>
+          <h1 style={{ color: TEXT, fontSize: 18, fontWeight: 700, margin: 0 }}>
+            {INDUSTRY_CLIENT_LABEL[industrySlug] ?? 'Clientes'}
+          </h1>
           <p style={{ color: MUTED, fontSize: 12, margin: '3px 0 0' }}>Historial y ficha de cada paciente de la clínica</p>
         </div>
 
@@ -230,7 +244,7 @@ export default function ClientesPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
           {[
             { Icon: Users,        color: BLUE,   label: 'Total pacientes',   value: loading ? '…' : String(totalPatients) },
-            { Icon: TrendingUp,   color: GREEN,  label: 'Pacientes activos',  value: loading ? '…' : String(activePatients) },
+            { Icon: TrendingUp,   color: GREEN,  label: `${INDUSTRY_CLIENT_LABEL[industrySlug] ?? 'Clientes'} activos`, value: loading ? '…' : String(activePatients) },
             { Icon: DollarSign,   color: PURPLE, label: 'Revenue total',      value: loading ? '…' : `$${Intl.NumberFormat('es-MX').format(totalRevenue)}` },
             { Icon: ArrowUpRight, color: AMBER,  label: 'Ticket promedio',    value: loading ? '…' : avgTicket > 0 ? `$${Intl.NumberFormat('es-MX').format(avgTicket)}` : '—' },
           ].map(k => (

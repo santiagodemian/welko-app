@@ -192,12 +192,12 @@ export function PricingSection() {
     monthly: lang === 'es' ? 'Mensual'                                     : 'Monthly',
     annual:  lang === 'es' ? 'Anual'                                       : 'Annual',
     cta:     lang === 'es' ? 'Comenzar ahora'                              : 'Get started now',
-    trust:   lang === 'es' ? '🔒 Pagos seguros por Stripe · Sin permanencia · Cancela cuando quieras' : '🔒 Secure payments via Stripe · No lock-in · Cancel anytime',
+    trust:   lang === 'es' ? 'Pagos seguros por Stripe · Sin permanencia · Cancela cuando quieras' : 'Secure payments via Stripe · No lock-in · Cancel anytime',
     iva:     isUSD
               ? (lang === 'es' ? 'USD/mes + impuestos' : 'USD/mo + tax')
               : (lang === 'es' ? 'MXN/mes + IVA'       : 'MXN/mo + VAT'),
     forLabel: lang === 'es' ? 'Para:'                                      : 'For:',
-    roi:      lang === 'es' ? '💡 ROI:'                                    : '💡 ROI:',
+    roi:      lang === 'es' ? 'ROI:'                                       : 'ROI:',
   }
 
   return (

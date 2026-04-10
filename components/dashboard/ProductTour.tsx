@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { X, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react'
+import { X, ArrowRight, ArrowLeft, Sparkles, HelpCircle } from 'lucide-react'
 
 interface TourStep {
   target?: string          // data-tour attribute value
@@ -14,58 +14,50 @@ interface TourStep {
 
 const STEPS: TourStep[] = [
   {
-    title: '¡Bienvenido a Welko! 👋',
+    title: '¡Bienvenido a Welko!',
     description: 'Tu recepcionista IA ya está lista. En menos de 2 minutos te mostramos todo lo que puedes hacer desde aquí. ¿Comenzamos?',
     position: 'center',
-    emoji: '🤖',
   },
   {
     target: 'tour-inicio',
     title: 'Inicio — Tu centro de control',
     description: 'Aquí ves de un vistazo: el Health Score de tu negocio, lo que tu IA está aprendiendo en tiempo real (Cerebro IA), y las próximas citas con riesgo de no-show.',
     position: 'right',
-    emoji: '📊',
   },
   {
     target: 'tour-score',
     title: 'Estado de tu IA',
     description: 'Este % muestra qué tan bien entrenada está tu IA. A más información agregues en el onboarding, mejores y más precisas serán sus respuestas. Las píldoras azules te dicen exactamente qué agregar para subir el score.',
     position: 'bottom',
-    emoji: '🧠',
   },
   {
     target: 'tour-conversaciones',
     title: 'Conversaciones — Tu pipeline de pacientes',
     description: 'Vista Kanban con todos tus pacientes organizados por etapa: Nuevo → Agendado → Confirmado → Atendido. Cada tarjeta muestra el canal, el valor de la cita y el riesgo de no-show calculado por la IA.',
     position: 'right',
-    emoji: '💬',
   },
   {
     target: 'tour-citas',
     title: 'Citas — Vista lista y calendario',
     description: 'Todas tus citas próximas con análisis de riesgo. Las marcadas en rojo tienen alta probabilidad de no asistir — Welko les manda un recordatorio extra automáticamente.',
     position: 'right',
-    emoji: '📅',
   },
   {
     target: 'tour-canales',
     title: 'Canales — Todo en un solo lugar',
     description: 'Conecta y gestiona WhatsApp, Instagram, Facebook, Llamadas de voz y el widget de tu sitio web. Una vez conectado, la IA responde en todos los canales 24/7.',
     position: 'right',
-    emoji: '📡',
   },
   {
     target: 'tour-ia',
     title: 'IA & Negocio — El cerebro de tu recepcionista',
     description: 'Aquí configuras cómo habla tu IA, editas las respuestas más frecuentes, activas el Modo Ocupado para días de cirugía, y ajustas el tiempo de respuesta para que se sienta más humana.',
     position: 'right',
-    emoji: '⚙️',
   },
   {
-    title: '¡Listo para empezar! 🚀',
-    description: 'Eso es todo. Si en algún momento tienes dudas, el ícono ❓ de la esquina inferior derecha muestra esta guía de nuevo. ¡Mucho éxito con tu recepcionista IA!',
+    title: '¡Listo para empezar!',
+    description: 'Eso es todo. Si en algún momento tienes dudas, el ícono de ayuda en la esquina inferior derecha muestra esta guía de nuevo. ¡Mucho éxito con tu recepcionista IA!',
     position: 'center',
-    emoji: '🎉',
   },
 ]
 
@@ -137,8 +129,7 @@ function Tooltip({
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12, gap: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          {step.emoji && <span style={{ fontSize: 22 }}>{step.emoji}</span>}
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: NAVY, margin: 0, lineHeight: 1.3 }}>{step.title}</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: NAVY, margin: 0, lineHeight: 1.3 }}>{step.title}</h3>
         </div>
         <button onClick={onSkip} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9CA3AF', padding: 2, flexShrink: 0 }}>
           <X size={16} />
@@ -248,11 +239,10 @@ export function ProductTour() {
           background: NAVY, color: '#fff', border: 'none', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '0 4px 16px rgba(19,36,74,0.3)',
-          fontSize: 18,
-        }}
+          }}
         title="Ver guía de Welko"
       >
-        ❓
+        <HelpCircle size={18} />
       </button>
 
       {active && createPortal(

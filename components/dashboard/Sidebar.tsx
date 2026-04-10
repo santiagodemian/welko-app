@@ -16,21 +16,36 @@ import {
   Menu,
   X,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 type Plan = 'starter' | 'essential' | 'pro' | 'business'
 const PLAN_ORDER: Record<Plan, number> = { starter: 0, essential: 1, pro: 2, business: 3 }
 
-const NAV_ITEMS = [
-  { label: 'Inicio',          href: '/dashboard',                  icon: LayoutDashboard, requiredPlan: 'starter'   as Plan },
-  { label: 'Conversaciones',  href: '/dashboard/conversaciones',   icon: MessageSquare,   requiredPlan: 'starter'   as Plan },
-  { label: 'Citas',           href: '/dashboard/citas',            icon: CalendarCheck,   requiredPlan: 'starter'   as Plan },
-  { label: 'Canales',         href: '/dashboard/canales',          icon: Radio,           requiredPlan: 'essential' as Plan },
-  { label: 'Servicios',       href: '/dashboard/servicios',        icon: Package,         requiredPlan: 'starter'   as Plan },
-  { label: 'IA & Negocio',    href: '/dashboard/ia',               icon: Bot,             requiredPlan: 'starter'   as Plan },
-  { label: 'Ajustes',         href: '/dashboard/ajustes',          icon: Settings2,       requiredPlan: 'starter'   as Plan },
-]
+// Industry-specific label for the "Citas" nav item
+const INDUSTRY_CITAS: Record<string, string> = {
+  salud: 'Citas', restaurante: 'Reservaciones', barberia: 'Turnos',
+  hotel: 'Reservas', fitness: 'Clases', legal: 'Consultas',
+  spa: 'Sesiones', retail: 'Pedidos',
+}
+// Industry-specific label for "Clientes/Pacientes/Huéspedes"
+const INDUSTRY_CLIENT: Record<string, string> = {
+  salud: 'Pacientes', restaurante: 'Comensales', barberia: 'Clientes',
+  hotel: 'Huéspedes', fitness: 'Miembros', legal: 'Expedientes',
+  spa: 'Clientes', retail: 'Compradores',
+}
+
+function buildNavItems(industry: string): { label: string; href: string; icon: React.ElementType; requiredPlan: Plan }[] {
+  return [
+    { label: 'Inicio',                           href: '/dashboard',                  icon: LayoutDashboard, requiredPlan: 'starter'   as Plan },
+    { label: 'Conversaciones',                   href: '/dashboard/conversaciones',   icon: MessageSquare,   requiredPlan: 'starter'   as Plan },
+    { label: INDUSTRY_CITAS[industry] ?? 'Citas',href: '/dashboard/citas',            icon: CalendarCheck,   requiredPlan: 'starter'   as Plan },
+    { label: INDUSTRY_CLIENT[industry] ?? 'Clientes', href: '/dashboard/clientes',   icon: Package,         requiredPlan: 'starter'   as Plan },
+    { label: 'Canales',                          href: '/dashboard/canales',          icon: Radio,           requiredPlan: 'essential' as Plan },
+    { label: 'IA & Negocio',                     href: '/dashboard/ia',               icon: Bot,             requiredPlan: 'starter'   as Plan },
+    { label: 'Ajustes',                          href: '/dashboard/ajustes',          icon: Settings2,       requiredPlan: 'starter'   as Plan },
+  ]
+}
 
 const PLAN_LABELS: Record<Plan, string> = { starter: 'Starter', essential: 'Essential', pro: 'Pro', business: 'Business' }
 const PLAN_BADGE: Record<Plan, React.CSSProperties> = {
@@ -47,7 +62,15 @@ export function Sidebar({ plan }: { plan: string }) {
   const { user }  = useUser()
   const router    = useRouter()
   const [open, setOpen] = useState(false)
+  const [previewIndustry, setPreviewIndustry] = useState('salud')
 
+  // Re-read industry on every route change so labels update without refresh
+  useEffect(() => {
+    const stored = localStorage.getItem('welko_preview_industry')
+    if (stored) setPreviewIndustry(stored)
+  }, [pathname])
+
+  const NAV_ITEMS = buildNavItems(previewIndustry)
   const currentPlan = (plan as Plan) || 'essential'
   const canAccess = (req: Plan) => PLAN_ORDER[currentPlan] >= PLAN_ORDER[req]
 

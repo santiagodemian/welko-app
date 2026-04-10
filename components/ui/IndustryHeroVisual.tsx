@@ -15,27 +15,27 @@ const EDGES = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,3],[7,2]
 
 const CHAT: Record<string, { msg: string; reply: string }> = {
   // Health
-  dental:        { msg: 'Quiero agendar una limpieza dental', reply: '¡Hola! Tengo disponibilidad este jueves 10 AM o viernes 3 PM. ¿Cuál le funciona? 🦷' },
-  psicologia:    { msg: 'Necesito una consulta urgente', reply: 'Mañana a las 6 PM disponible. ¿Le agendo? 🧠' },
-  estetica:      { msg: '¿Cuánto cuesta el botox?', reply: 'Desde $3,500 MXN. ¿Le agendo consulta gratis? ✨' },
-  nutricion:     { msg: 'Quiero un plan de alimentación', reply: 'Primera cita incluye evaluación completa. ✓' },
+  dental:        { msg: 'Quiero agendar una limpieza dental', reply: '¡Hola! Tengo disponibilidad este jueves 10 AM o viernes 3 PM. ¿Cuál le funciona? ' },
+  psicologia:    { msg: 'Necesito una consulta urgente', reply: 'Mañana a las 6 PM disponible. ¿Le agendo? ' },
+  estetica:      { msg: '¿Cuánto cuesta el botox?', reply: 'Desde $3,500 MXN. ¿Le agendo consulta gratis? ' },
+  nutricion:     { msg: 'Quiero un plan de alimentación', reply: 'Primera cita incluye evaluación completa. ' },
   ginecologia:   { msg: 'Necesito un chequeo general', reply: 'Esta semana disponible. ¿Qué horario prefiere?' },
   oftalmologia:  { msg: '¿Hacen examen de la vista?', reply: 'Sí, revisión completa y prescripción incluida.' },
   medica:        { msg: 'Quiero una consulta general', reply: 'Hoy a las 4 PM disponible. ¿Le confirmo?' },
   fisioterapia:  { msg: '¿Atienden lesiones deportivas?', reply: 'Sí, evaluamos y diseñamos tu plan de rehab.' },
-  spa:           { msg: 'Quiero reservar un masaje relajante', reply: '¡Perfecto! Miércoles 11 AM disponible. ¿Agendamos? 💆' },
-  'spa-salon':   { msg: 'Quiero reservar un masaje relajante', reply: '¡Perfecto! Miércoles 11 AM disponible. ¿Agendamos? 💆' },
+  spa:           { msg: 'Quiero reservar un masaje relajante', reply: '¡Perfecto! Miércoles 11 AM disponible. ¿Agendamos? ' },
+  'spa-salon':   { msg: 'Quiero reservar un masaje relajante', reply: '¡Perfecto! Miércoles 11 AM disponible. ¿Agendamos? ' },
   quiropractica: { msg: 'Tengo dolor de espalda fuerte', reply: 'Hoy a las 5 PM para tu evaluación inicial.' },
   // Restaurant
-  restaurante:   { msg: 'Reservación para 4 personas hoy a las 8 PM', reply: '¡Entendido! Tenemos mesa en terraza o salón. ¿Cuál prefiere? 🍽️' },
+  restaurante:   { msg: 'Reservación para 4 personas hoy a las 8 PM', reply: '¡Entendido! Tenemos mesa en terraza o salón. ¿Cuál prefiere? ️' },
   // Barbershop
-  barberia:      { msg: '¿Tienen cita para corte de barba hoy tarde?', reply: '¡Hola! Tenemos espacios a las 4 PM o 6 PM. ¿Le reservamos? ✂️' },
+  barberia:      { msg: '¿Tienen cita para corte de barba hoy tarde?', reply: '¡Hola! Tenemos espacios a las 4 PM o 6 PM. ¿Le reservamos? ️' },
   // Hotel
-  hotel:         { msg: 'Habitación doble del 15 al 20 de mayo, 2 adultos y 1 niño', reply: '¡Claro! $180 USD/noche, incluye desayuno. ¿Procedemos con la reserva? 🏨' },
+  hotel:         { msg: 'Habitación doble del 15 al 20 de mayo, 2 adultos y 1 niño', reply: '¡Claro! $180 USD/noche, incluye desayuno. ¿Procedemos con la reserva? ' },
   // Fitness
-  fitness:       { msg: '¿Cuánto cuesta la membresía mensual?', reply: 'Desde $699 MXN/mes. ¿Le agendo una visita al gym? 💪' },
+  fitness:       { msg: '¿Cuánto cuesta la membresía mensual?', reply: 'Desde $699 MXN/mes. ¿Le agendo una visita al gym? ' },
   // Legal
-  legal:         { msg: 'Necesito asesoría para un contrato de arrendamiento', reply: '¡Hola! Agenda una consulta inicial sin costo. ¿Cuándo le queda bien? ⚖️' },
+  legal:         { msg: 'Necesito asesoría para un contrato de arrendamiento', reply: '¡Hola! Agenda una consulta inicial sin costo. ¿Cuándo le queda bien? ️' },
 }
 
 export function IndustryHeroVisual({ slug }: Props) {

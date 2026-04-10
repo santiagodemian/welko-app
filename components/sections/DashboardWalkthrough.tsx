@@ -10,12 +10,12 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 const AUTO_ADVANCE_MS = 4800
 
 const IND_TABS = [
-  { slug: 'dental',      emoji: '🦷', es: 'Salud',       en: 'Health',      color: '#3B82F6' },
-  { slug: 'restaurante', emoji: '🍽️', es: 'Restaurante', en: 'Restaurant',  color: '#F59E0B' },
-  { slug: 'barberia',    emoji: '✂️', es: 'Barbería',     en: 'Barbershop',  color: '#8B5CF6' },
-  { slug: 'hotel',       emoji: '🏨', es: 'Hotel',        en: 'Hotel',       color: '#0EA5E9' },
-  { slug: 'fitness',     emoji: '💪', es: 'Fitness',      en: 'Fitness',     color: '#EF4444' },
-  { slug: 'legal',       emoji: '⚖️', es: 'Legal',        en: 'Legal',       color: '#374151' },
+  { slug: 'dental',      es: 'Salud',       en: 'Health',      color: '#3B82F6' },
+  { slug: 'restaurante', es: 'Restaurante', en: 'Restaurant',  color: '#F59E0B' },
+  { slug: 'barberia',    es: 'Barbería',    en: 'Barbershop',  color: '#8B5CF6' },
+  { slug: 'hotel',       es: 'Hotel',       en: 'Hotel',       color: '#0EA5E9' },
+  { slug: 'fitness',     es: 'Fitness',     en: 'Fitness',     color: '#EF4444' },
+  { slug: 'legal',       es: 'Legal',       en: 'Legal',       color: '#374151' },
 ]
 
 interface CRMData {
@@ -28,7 +28,7 @@ interface CRMData {
     items: { name: string; time: string; risk: string; riskColor: string; riskBg: string }[]
     autoMsg: string
   }
-  cerebro: { icon: string; text: string; color: string }[]
+  cerebro: { text: string; color: string }[]
 }
 
 const CRM: Record<string, CRMData> = {
@@ -46,9 +46,9 @@ const CRM: Record<string, CRMData> = {
       autoMsg: 'Recordatorio extra enviado a Miguel automáticamente',
     },
     cerebro: [
-      { icon: '📈', text: 'Limpieza dental es tu servicio más pedido esta semana (8 consultas). Considera abrir más horarios AM.', color: '#34D399' },
-      { icon: '⚡', text: 'No-shows bajaron 23% vs. el mes pasado. Ahorro estimado: $5,100 MXN.',                                  color: '#60A5FA' },
-      { icon: '🔍', text: 'WhatsApp convierte 3× mejor que Instagram para citas. Prioriza ese canal.',                             color: '#A78BFA' },
+      { text: 'Limpieza dental es tu servicio más pedido esta semana (8 consultas). Considera abrir más horarios AM.', color: '#34D399' },
+      { text: 'No-shows bajaron 23% vs. el mes pasado. Ahorro estimado: $5,100 MXN.',                                  color: '#60A5FA' },
+      { text: 'WhatsApp convierte 3× mejor que Instagram para citas. Prioriza ese canal.',                             color: '#A78BFA' },
     ],
   },
   restaurante: {
@@ -65,9 +65,9 @@ const CRM: Record<string, CRMData> = {
       autoMsg: 'Recordatorio de reservación enviado a Ana automáticamente',
     },
     cerebro: [
-      { icon: '📈', text: 'Viernes y sábado concentran el 68% de tus reservaciones. Considera abrir turno de mediodía.', color: '#34D399' },
-      { icon: '⚡', text: '0 reservas sin respuesta esta semana. Tiempo promedio de respuesta: 1.2 seg.',                   color: '#60A5FA' },
-      { icon: '🔍', text: 'Instagram convierte mejor para eventos especiales (cumpleaños, aniversarios).',                  color: '#A78BFA' },
+      { text: 'Viernes y sábado concentran el 68% de tus reservaciones. Considera abrir turno de mediodía.', color: '#34D399' },
+      { text: '0 reservas sin respuesta esta semana. Tiempo promedio de respuesta: 1.2 seg.',                   color: '#60A5FA' },
+      { text: 'Instagram convierte mejor para eventos especiales (cumpleaños, aniversarios).',                  color: '#A78BFA' },
     ],
   },
   barberia: {
@@ -84,9 +84,9 @@ const CRM: Record<string, CRMData> = {
       autoMsg: 'Recordatorio de turno enviado a Rodrigo automáticamente',
     },
     cerebro: [
-      { icon: '📈', text: 'Corte + barba es tu combo más pedido (43%). Agrégalo como paquete destacado.', color: '#34D399' },
-      { icon: '⚡', text: 'No-shows bajaron 38% con recordatorios. Ahorro estimado: $3,200 MXN/mes.',     color: '#60A5FA' },
-      { icon: '🔍', text: 'Los sábados AM son tu hora pico. Considera añadir un barbero extra.',           color: '#A78BFA' },
+      { text: 'Corte + barba es tu combo más pedido (43%). Agrégalo como paquete destacado.', color: '#34D399' },
+      { text: 'No-shows bajaron 38% con recordatorios. Ahorro estimado: $3,200 MXN/mes.',     color: '#60A5FA' },
+      { text: 'Los sábados AM son tu hora pico. Considera añadir un barbero extra.',           color: '#A78BFA' },
     ],
   },
   hotel: {
@@ -103,9 +103,9 @@ const CRM: Record<string, CRMData> = {
       autoMsg: 'Instrucciones de check-in enviadas a Fam. López automáticamente',
     },
     cerebro: [
-      { icon: '📈', text: 'Reservas de fin de semana superan entre semana 3×. Aplica tarifa dinámica.', color: '#34D399' },
-      { icon: '⚡', text: 'Tasa de conversión consulta → reserva: 28% (↑12% vs. mes anterior).',        color: '#60A5FA' },
-      { icon: '🔍', text: 'WhatsApp tiene el mayor ticket promedio. Prioriza para grupos y eventos.',    color: '#A78BFA' },
+      { text: 'Reservas de fin de semana superan entre semana 3×. Aplica tarifa dinámica.', color: '#34D399' },
+      { text: 'Tasa de conversión consulta → reserva: 28% (↑12% vs. mes anterior).',        color: '#60A5FA' },
+      { text: 'WhatsApp tiene el mayor ticket promedio. Prioriza para grupos y eventos.',    color: '#A78BFA' },
     ],
   },
   fitness: {
@@ -122,9 +122,9 @@ const CRM: Record<string, CRMData> = {
       autoMsg: 'Seguimiento "¿Cómo te fue?" enviado a Daniela automáticamente',
     },
     cerebro: [
-      { icon: '📈', text: '30% de tus leads visitan el gym pero no convierten. Activa oferta de primer mes.',   color: '#34D399' },
-      { icon: '⚡', text: 'Retención mejoró 18% con recordatorios de inactividad automáticos.',                 color: '#60A5FA' },
-      { icon: '🔍', text: 'Instagram atrae más leads. WhatsApp cierra más membresías. Usa ambos.',              color: '#A78BFA' },
+      { text: '30% de tus leads visitan el gym pero no convierten. Activa oferta de primer mes.',   color: '#34D399' },
+      { text: 'Retención mejoró 18% con recordatorios de inactividad automáticos.',                 color: '#60A5FA' },
+      { text: 'Instagram atrae más leads. WhatsApp cierra más membresías. Usa ambos.',              color: '#A78BFA' },
     ],
   },
   legal: {
@@ -141,9 +141,9 @@ const CRM: Record<string, CRMData> = {
       autoMsg: 'Lista de documentos enviada a Elena automáticamente',
     },
     cerebro: [
-      { icon: '📈', text: 'Derecho familiar y corporativo concentran el 62% de tus consultas.',               color: '#34D399' },
-      { icon: '⚡', text: 'Tiempo de respuesta: 1.8 seg. 0 prospectos sin atender esta semana.',              color: '#60A5FA' },
-      { icon: '🔍', text: 'Consultas con respuesta en <5 min tienen 4× más probabilidad de cerrar.',          color: '#A78BFA' },
+      { text: 'Derecho familiar y corporativo concentran el 62% de tus consultas.',               color: '#34D399' },
+      { text: 'Tiempo de respuesta: 1.8 seg. 0 prospectos sin atender esta semana.',              color: '#60A5FA' },
+      { text: 'Consultas con respuesta en <5 min tienen 4× más probabilidad de cerrar.',          color: '#A78BFA' },
     ],
   },
 }
@@ -152,35 +152,35 @@ function getSteps(crm: CRMData) {
   const { clientLabel, eventLabel } = crm
   return [
     {
-      tag: '01 · Pipeline', emoji: '📋',
+      tag: '01 · Pipeline',
       title: `Cada ${clientLabel.replace(/s$/, '')} en el pipeline`,
       desc:  `Vista Kanban con todos los contactos organizados por etapa. Canal, hora y valor de ${eventLabel.replace(/es$/, '').replace(/s$/, '')} visibles de un vistazo.`,
       benefit: '→ Nunca más pierdas el seguimiento de un lead.',
       panel: 'kanban',
     },
     {
-      tag: `02 · ${eventLabel.charAt(0).toUpperCase() + eventLabel.slice(1)}`, emoji: '📅',
+      tag: `02 · ${eventLabel.charAt(0).toUpperCase() + eventLabel.slice(1)}`,
       title: `Lista de ${eventLabel} con predictor IA`,
       desc:  `Vista de lista y calendario semanal. Cada ${eventLabel.replace(/es$/, '').replace(/s$/, '')} tiene un badge de riesgo (ALTO / MEDIO / BAJO). Los de riesgo alto reciben recordatorio extra automático.`,
       benefit: '→ Hasta 35% menos no-shows desde el primer mes.',
       panel: 'citas',
     },
     {
-      tag: '03 · Canales', emoji: '📡',
+      tag: '03 · Canales',
       title: 'Todos los canales en un solo panel',
       desc:  `Conecta WhatsApp, Instagram, Facebook, llamadas y tu widget web. La IA responde en todos — el mismo mensaje, la misma calidad, 24/7.`,
       benefit: '→ 0 mensajes sin respuesta, las 24 horas.',
       panel: 'canales',
     },
     {
-      tag: '04 · Cerebro IA', emoji: '🧠',
+      tag: '04 · Cerebro IA',
       title: 'Insights en tiempo real sobre tu negocio',
       desc:  `La IA detecta patrones: ${eventLabel} más pedidas, canales que más convierten, horas pico y preguntas frecuentes que no están en tu perfil.`,
       benefit: '→ Tu negocio mejora solo con cada conversación.',
       panel: 'cerebro',
     },
     {
-      tag: '05 · Health Score', emoji: '📊',
+      tag: '05 · Health Score',
       title: 'Score de salud de tu IA',
       desc:  'Un número del 0 al 100 que mide qué tan completo está el entrenamiento de tu IA. A mayor score, mejores y más precisas son las respuestas.',
       benefit: '→ Sabe exactamente qué falta para mejorar.',
@@ -245,11 +245,11 @@ function CitasPanel({ crm }: { crm: CRMData }) {
 
 function CanalesPanel() {
   const channels = [
-    { name: 'WhatsApp Business', emoji: '💬', color: '#22C55E', msgs: '14 hoy' },
-    { name: 'Instagram DMs',     emoji: '📸', color: '#E1306C', msgs: '6 hoy'  },
-    { name: 'Facebook',          emoji: '📘', color: '#1877F2', msgs: '3 hoy'  },
-    { name: 'Widget web',        emoji: '🌐', color: '#60A5FA', msgs: '2 hoy'  },
-    { name: 'Llamadas',          emoji: '📞', color: '#A78BFA', msgs: '1 hoy'  },
+    { name: 'WhatsApp Business', color: '#22C55E', msgs: '14 hoy' },
+    { name: 'Instagram DMs',     color: '#E1306C', msgs: '6 hoy'  },
+    { name: 'Facebook',          color: '#1877F2', msgs: '3 hoy'  },
+    { name: 'Widget web',        color: '#60A5FA', msgs: '2 hoy'  },
+    { name: 'Llamadas',          color: '#A78BFA', msgs: '1 hoy'  },
   ]
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
@@ -259,7 +259,7 @@ function CanalesPanel() {
           transition={{ delay: i * 0.09, duration: 0.3 }}
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: '8px 12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 15 }}>{c.emoji}</span>
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: c.color, flexShrink: 0 }} />
             <span style={{ fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.8)' }}>{c.name}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -281,7 +281,7 @@ function CerebroPanel({ crm }: { crm: CRMData }) {
           initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }}
           transition={{ delay: i * 0.15, duration: 0.35 }}
           style={{ display: 'flex', gap: 10, background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: '9px 11px' }}>
-          <span style={{ fontSize: 15, flexShrink: 0 }}>{f.icon}</span>
+          <div style={{ width: 8, height: 8, borderRadius: '50%', background: f.color, flexShrink: 0, marginTop: 4 }} />
           <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.55 }}>{f.text}</p>
         </motion.div>
       ))}
@@ -397,7 +397,7 @@ export function DashboardWalkthrough() {
                 color:      industry === t.slug ? '#fff' : t.color,
                 transform:  industry === t.slug ? 'scale(1.04)' : 'scale(1)',
               }}>
-              {t.emoji} {isEN ? t.en : t.es}
+              {isEN ? t.en : t.es}
             </button>
           ))}
         </div>
@@ -412,7 +412,7 @@ export function DashboardWalkthrough() {
                 border: `1px solid ${step === i ? NAVY : 'var(--border)'}`,
                 color: step === i ? '#fff' : 'var(--text-secondary)',
               }}>
-              <span>{s.emoji}</span><span>{s.tag}</span>
+              {s.tag}
             </button>
           ))}
         </div>

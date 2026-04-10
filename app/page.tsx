@@ -9,8 +9,6 @@ import { IndustryHeroVisual } from '@/components/ui/IndustryHeroVisual'
 import { LogosTrustSection } from '@/components/sections/LogosTrustSection'
 import { BenefitsSection } from '@/components/sections/BenefitsSection'
 import { WhatsAppDemo } from '@/components/sections/WhatsAppDemo'
-import { ComparisonSection } from '@/components/sections/ComparisonSection'
-import { ROICalculator } from '@/components/sections/ROICalculator'
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
 import { FAQSection } from '@/components/sections/FAQSection'
 import { GuaranteeSection } from '@/components/sections/GuaranteeSection'
@@ -217,21 +215,20 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-2.5">
               {[
-                { href: '/industrias/dental',       emoji: '🏥', es: 'Salud & Clínicas',         en: 'Health & Clinics',      color: '#3B82F6' },
-                { href: '/industrias/restaurante',  emoji: '🍽️', es: 'Restaurantes & Cafés',      en: 'Restaurants & Cafés',   color: '#F59E0B' },
-                { href: '/industrias/barberia',     emoji: '✂️', es: 'Barberías & Salones',        en: 'Barbershops & Salons',  color: '#8B5CF6' },
-                { href: '/industrias/spa-salon',    emoji: '💆', es: 'Spa & Bienestar',            en: 'Spa & Wellness',        color: '#EC4899' },
-                { href: '/industrias/fitness',      emoji: '💪', es: 'Fitness & Gyms',             en: 'Fitness & Gyms',        color: '#EF4444' },
-                { href: '/industrias/hotel',        emoji: '🏨', es: 'Hoteles & Hospitalidad',     en: 'Hotels & Hospitality',  color: '#0EA5E9' },
-                { href: '/industrias/legal',        emoji: '⚖️', es: 'Despachos Legales',          en: 'Law Firms',             color: '#374151' },
-                { href: '/industrias/contabilidad', emoji: '📊', es: 'Contabilidad & Finanzas',    en: 'Accounting & Finance',  color: '#0F766E' },
+                { href: '/industrias/dental',       es: 'Salud & Clínicas',         en: 'Health & Clinics',      color: '#3B82F6' },
+                { href: '/industrias/restaurante',  es: 'Restaurantes & Cafés',      en: 'Restaurants & Cafés',   color: '#F59E0B' },
+                { href: '/industrias/barberia',     es: 'Barberías & Salones',        en: 'Barbershops & Salons',  color: '#8B5CF6' },
+                { href: '/industrias/spa-salon',    es: 'Spa & Bienestar',            en: 'Spa & Wellness',        color: '#EC4899' },
+                { href: '/industrias/fitness',      es: 'Fitness & Gyms',             en: 'Fitness & Gyms',        color: '#EF4444' },
+                { href: '/industrias/hotel',        es: 'Hoteles & Hospitalidad',     en: 'Hotels & Hospitality',  color: '#0EA5E9' },
+                { href: '/industrias/legal',        es: 'Despachos Legales',          en: 'Law Firms',             color: '#374151' },
+                { href: '/industrias/contabilidad', es: 'Contabilidad & Finanzas',    en: 'Accounting & Finance',  color: '#0F766E' },
               ].map(item => (
                 <Link key={item.href} href={item.href}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-150"
+                  className="flex items-center px-4 py-2 rounded-full text-xs font-semibold transition-all duration-150"
                   style={{ background: item.color + '12', border: `1px solid ${item.color}28`, color: item.color }}
                   onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = item.color + '22'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)' }}
                   onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = item.color + '12'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)' }}>
-                  <span>{item.emoji}</span>
                   {lang === 'es' ? item.es : item.en}
                 </Link>
               ))}
@@ -253,16 +250,6 @@ export default function HomePage() {
             BENEFITS
         ════════════════════════════════════════ */}
         <BenefitsSection />
-
-        {/* ════════════════════════════════════════
-            COMPARATIVA
-        ════════════════════════════════════════ */}
-        <ComparisonSection />
-
-        {/* ════════════════════════════════════════
-            ROI CALCULATOR
-        ════════════════════════════════════════ */}
-        <ROICalculator />
 
         {/* ════════════════════════════════════════
             TESTIMONIALS — carousel
@@ -430,7 +417,7 @@ export default function HomePage() {
                 { label: lang === 'es' ? 'Política de Privacidad' : 'Privacy Policy',     href: '/privacidad' },
                 { label: lang === 'es' ? 'Reembolsos'             : 'Refunds',            href: '/reembolsos' },
                 { label: lang === 'es' ? 'Soporte'                : 'Support',            href: '/soporte' },
-                { label: lang === 'es' ? '🇲🇽 Hecho en México'    : '🇲🇽 Made in Mexico',  href: '#' },
+                { label: lang === 'es' ? 'Hecho en México'        : 'Made in Mexico',      href: '#' },
               ].map((link) => (
                 <Link key={link.href} href={link.href}
                   className="text-xs font-medium transition-colors duration-150"

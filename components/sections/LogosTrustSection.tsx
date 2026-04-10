@@ -6,14 +6,14 @@ import { useLang } from '@/contexts/LangContext'
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 const LOGOS = [
-  { name: 'WhatsApp',        emoji: '💬', color: '#25D366' },
-  { name: 'Instagram',       emoji: '📸', color: '#E1306C' },
-  { name: 'Facebook',        emoji: '📘', color: '#1877F2' },
-  { name: 'Stripe',          emoji: '💳', color: '#635BFF' },
-  { name: 'Google Calendar', emoji: '📅', color: '#4285F4' },
-  { name: 'Vapi Voice AI',   emoji: '📞', color: '#1A2A56' },
-  { name: 'GPT-4o',          emoji: '🤖', color: '#10A37F' },
-  { name: 'Widget Web',      emoji: '🌐', color: '#6366F1' },
+  { name: 'WhatsApp',        color: '#25D366' },
+  { name: 'Instagram',       color: '#E1306C' },
+  { name: 'Facebook',        color: '#1877F2' },
+  { name: 'Stripe',          color: '#635BFF' },
+  { name: 'Google Calendar', color: '#4285F4' },
+  { name: 'Vapi Voice AI',   color: '#1A2A56' },
+  { name: 'GPT-4o',          color: '#10A37F' },
+  { name: 'Widget Web',      color: '#6366F1' },
 ]
 
 export function LogosTrustSection() {
@@ -44,7 +44,7 @@ export function LogosTrustSection() {
                 border: '1px solid var(--border)',
               }}
             >
-              <span style={{ fontSize: 14 }}>{logo.emoji}</span>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: logo.color, flexShrink: 0 }} />
               <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
                 {logo.name}
               </span>

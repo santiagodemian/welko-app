@@ -182,13 +182,12 @@ function VozTab() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
           {[
-            { icon:'🎙️', title:'Voz natural', desc:'Español mexicano con acento neutro' },
-            { icon:'🤖', title:'GPT-4o mini', desc:'Mismo motor que el chat de WhatsApp' },
-            { icon:'📞', title:'Número dedicado', desc:'Número de marcación directa incluido' },
-            { icon:'📝', title:'Transcripción', desc:'Cada llamada queda registrada en CRM' },
+            { title:'Voz natural', desc:'Español mexicano con acento neutro' },
+            { title:'GPT-4o mini', desc:'Mismo motor que el chat de WhatsApp' },
+            { title:'Número dedicado', desc:'Número de marcación directa incluido' },
+            { title:'Transcripción', desc:'Cada llamada queda registrada en CRM' },
           ].map((f) => (
             <div key={f.title} style={{ padding: '12px 14px', borderRadius: 10, background: 'var(--bg)', border: `1px solid ${BORD}` }}>
-              <p style={{ fontSize: 16, margin: '0 0 5px' }}>{f.icon}</p>
               <p style={{ fontSize: 12, fontWeight: 600, color: TEXT, margin: 0 }}>{f.title}</p>
               <p style={{ fontSize: 11, color: MUTED, margin: '2px 0 0' }}>{f.desc}</p>
             </div>
@@ -224,12 +223,11 @@ function WidgetTab() {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
         {[
-          { icon:'⚡', title:'30 segundos', desc:'De cero a chat activo en tu sitio' },
-          { icon:'🎨', title:'Tu marca', desc:'Color y nombre de tu clínica' },
-          { icon:'🔗', title:'CRM integrado', desc:'Cada lead va directo a Conversaciones' },
+          { title:'30 segundos', desc:'De cero a chat activo en tu sitio' },
+          { title:'Tu marca', desc:'Color y nombre de tu clínica' },
+          { title:'CRM integrado', desc:'Cada lead va directo a Conversaciones' },
         ].map((f) => (
           <div key={f.title} style={{ padding: '14px 16px', borderRadius: 12, background: SURF, border: `1px solid ${BORD}` }}>
-            <p style={{ fontSize: 18, margin: '0 0 7px' }}>{f.icon}</p>
             <p style={{ fontSize: 12, fontWeight: 600, color: TEXT, margin: 0 }}>{f.title}</p>
             <p style={{ fontSize: 11, color: MUTED, margin: '3px 0 0' }}>{f.desc}</p>
           </div>
@@ -308,13 +306,12 @@ function CalendarioTab() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
           {[
-            { icon:'📅', title:'Creación automática', desc:'Evento creado al agendar cita' },
-            { icon:'🔄', title:'Actualización en vivo', desc:'Cambios reflejados al instante' },
-            { icon:'🗑️', title:'Cancelaciones', desc:'Elimina el evento si se cancela la cita' },
-            { icon:'🔔', title:'Recordatorios Welko', desc:'Welko gestiona los avisos por WhatsApp' },
+            { title:'Creación automática', desc:'Evento creado al agendar cita' },
+            { title:'Actualización en vivo', desc:'Cambios reflejados al instante' },
+            { title:'Cancelaciones', desc:'Elimina el evento si se cancela la cita' },
+            { title:'Recordatorios Welko', desc:'Welko gestiona los avisos por WhatsApp' },
           ].map(f => (
             <div key={f.title} style={{ padding: '12px 14px', borderRadius: 10, background: 'var(--bg)', border: `1px solid ${BORD}` }}>
-              <p style={{ fontSize: 16, margin: '0 0 5px' }}>{f.icon}</p>
               <p style={{ fontSize: 12, fontWeight: 600, color: TEXT, margin: 0 }}>{f.title}</p>
               <p style={{ fontSize: 11, color: MUTED, margin: '2px 0 0' }}>{f.desc}</p>
             </div>

@@ -16,7 +16,7 @@ const STEPS: TourStep[] = [
   {
     target: null,
     placement: 'center',
-    title: '¡Bienvenido a tu CRM! 👋',
+    title: '¡Bienvenido a tu CRM!',
     body: 'Este es el corazón de Welko. En 30 segundos te enseñamos todo lo que necesitas para sacarle el máximo provecho.',
   },
   {
@@ -46,7 +46,7 @@ const STEPS: TourStep[] = [
   {
     target: null,
     placement: 'center',
-    title: '¡Listo para empezar! 🚀',
+    title: '¡Listo para empezar!',
     body: 'Explora el menú lateral para ver tu CRM, citas, conversaciones y más. Si tienes dudas, el equipo de Welko está a un WhatsApp de distancia.',
   },
 ]
@@ -307,7 +307,7 @@ export function CRMTour() {
               fontSize: 12, fontWeight: 700, color: '#FFFFFF',
             }}
           >
-            {isLast ? '¡Empezar! 🚀' : 'Siguiente'} {!isLast && <ChevronRight size={13} />}
+            {isLast ? '¡Empezar!' : 'Siguiente'} {!isLast && <ChevronRight size={13} />}
           </button>
         </div>
       </div>

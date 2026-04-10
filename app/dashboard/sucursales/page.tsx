@@ -51,13 +51,12 @@ function PlanGate() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, width: '100%', textAlign: 'left' }}>
           {[
-            { icon:'📍', title:'N sucursales', desc:'Sin límite de ubicaciones' },
-            { icon:'📊', title:'BI cross-sucursal', desc:'Métricas comparativas' },
-            { icon:'🤖', title:'IA por sucursal', desc:'Agente y tono independientes' },
-            { icon:'👤', title:'Encargado por sede', desc:'Control de acceso por rol' },
+            { title:'N sucursales', desc:'Sin límite de ubicaciones' },
+            { title:'BI cross-sucursal', desc:'Métricas comparativas' },
+            { title:'IA por sucursal', desc:'Agente y tono independientes' },
+            { title:'Encargado por sede', desc:'Control de acceso por rol' },
           ].map(f => (
             <div key={f.title} style={{ padding: '12px 14px', borderRadius: 10, background: SURF, border: `1px solid ${BORD}` }}>
-              <p style={{ fontSize: 16, margin: '0 0 4px' }}>{f.icon}</p>
               <p style={{ fontSize: 12, fontWeight: 600, color: TEXT, margin: 0 }}>{f.title}</p>
               <p style={{ fontSize: 11, color: MUTED, margin: '2px 0 0' }}>{f.desc}</p>
             </div>

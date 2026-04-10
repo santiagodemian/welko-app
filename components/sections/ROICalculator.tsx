@@ -10,7 +10,7 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 // ─── Industry profiles ────────────────────────────────────────────────────────
 interface IndustryProfile {
-  es: string; en: string; icon: string
+  es: string; en: string
   volumeLabel:  { es: string; en: string }
   ticketLabel:  { es: string; en: string }
   lossLabel:    { es: string; en: string }
@@ -24,7 +24,7 @@ interface IndustryProfile {
 
 const INDUSTRY_PROFILES: IndustryProfile[] = [
   {
-    es: 'Clínicas & Salud', en: 'Health Clinics', icon: '🏥',
+    es: 'Clínicas & Salud', en: 'Health Clinics',
     volumeLabel:   { es: 'Citas al mes',                    en: 'Appointments per month' },
     ticketLabel:   { es: 'Precio por cita (MXN)',           en: 'Price per appointment (MXN)' },
     lossLabel:     { es: 'Tasa de no-shows (%)',            en: 'No-show rate (%)' },
@@ -33,7 +33,7 @@ const INDUSTRY_PROFILES: IndustryProfile[] = [
     recoveryRate: 0.30, defaultVolume: 80, defaultTicket: 1200, defaultLoss: 25,
   },
   {
-    es: 'Restaurantes', en: 'Restaurants', icon: '🍽️',
+    es: 'Restaurantes', en: 'Restaurants',
     volumeLabel:   { es: 'Consultas/reservas al mes',       en: 'Inquiries/reservations per month' },
     ticketLabel:   { es: 'Ticket promedio (MXN)',           en: 'Average ticket (MXN)' },
     lossLabel:     { es: 'Tasa de abandono (%)',            en: 'Drop-off rate (%)' },
@@ -42,7 +42,7 @@ const INDUSTRY_PROFILES: IndustryProfile[] = [
     recoveryRate: 0.35, defaultVolume: 200, defaultTicket: 450, defaultLoss: 30,
   },
   {
-    es: 'Barberías & Salones', en: 'Barbershops & Salons', icon: '✂️',
+    es: 'Barberías & Salones', en: 'Barbershops & Salons',
     volumeLabel:   { es: 'Turnos al mes',                   en: 'Bookings per month' },
     ticketLabel:   { es: 'Precio por turno (MXN)',          en: 'Price per booking (MXN)' },
     lossLabel:     { es: 'Tasa de no-shows (%)',            en: 'No-show rate (%)' },
@@ -51,7 +51,7 @@ const INDUSTRY_PROFILES: IndustryProfile[] = [
     recoveryRate: 0.35, defaultVolume: 120, defaultTicket: 380, defaultLoss: 28,
   },
   {
-    es: 'Fitness & Gyms', en: 'Fitness & Gyms', icon: '💪',
+    es: 'Fitness & Gyms', en: 'Fitness & Gyms',
     volumeLabel:   { es: 'Leads al mes',                    en: 'Leads per month' },
     ticketLabel:   { es: 'Inscripción mensual (MXN)',       en: 'Monthly membership (MXN)' },
     lossLabel:     { es: 'Tasa de no-conversión (%)',       en: 'Non-conversion rate (%)' },
@@ -60,7 +60,7 @@ const INDUSTRY_PROFILES: IndustryProfile[] = [
     recoveryRate: 0.40, defaultVolume: 50, defaultTicket: 700, defaultLoss: 60,
   },
   {
-    es: 'Hoteles', en: 'Hotels', icon: '🏨',
+    es: 'Hoteles', en: 'Hotels',
     volumeLabel:   { es: 'Consultas de reserva al mes',     en: 'Booking inquiries per month' },
     ticketLabel:   { es: 'Tarifa por noche (MXN)',          en: 'Rate per night (MXN)' },
     lossLabel:     { es: 'Tasa de no-reservación (%)',      en: 'Non-booking rate (%)' },
@@ -69,7 +69,7 @@ const INDUSTRY_PROFILES: IndustryProfile[] = [
     recoveryRate: 0.25, defaultVolume: 80, defaultTicket: 1800, defaultLoss: 40,
   },
   {
-    es: 'Profesional', en: 'Professional', icon: '💼',
+    es: 'Profesional', en: 'Professional',
     volumeLabel:   { es: 'Consultas al mes',                en: 'Inquiries per month' },
     ticketLabel:   { es: 'Honorarios por cliente (MXN)',    en: 'Fees per client (MXN)' },
     lossLabel:     { es: 'Tasa de no-conversión (%)',       en: 'Non-conversion rate (%)' },
@@ -185,13 +185,12 @@ export function ROICalculator() {
         >
           {INDUSTRY_PROFILES.map((p, i) => (
             <button key={i} onClick={() => selectIndustry(i)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150"
+              className="flex items-center px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150"
               style={industryIdx === i
                 ? { background: 'var(--accent)', color: 'var(--accent-fg)' }
                 : { background: 'var(--surface)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }
               }
             >
-              <span>{p.icon}</span>
               {isEN ? p.en : p.es}
             </button>
           ))}

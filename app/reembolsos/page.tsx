@@ -39,7 +39,6 @@ export default function ReembolsosPage() {
             className="p-6 rounded-2xl flex items-start gap-4"
             style={{ background: '#E5E9F4', border: '1px solid #C5CEEA' }}
           >
-            <span className="text-2xl flex-shrink-0">🛡️</span>
             <div className="flex flex-col gap-1">
               <p className="font-semibold" style={{ color: '#1A2A56' }}>
                 Garantía de Satisfacción de 7 Días

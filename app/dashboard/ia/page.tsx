@@ -237,7 +237,7 @@ function ModoOcupadoTab() {
 /* ─── Sucursales Tab ─── */
 const TONE_PRESETS = [
   { id: 'profesional', label: 'Profesional', desc: 'Claro, directo y confiable', sample: 'Buenos días, le habla el asistente virtual. ¿En qué le puedo ayudar?' },
-  { id: 'amigable',    label: 'Amigable',    desc: 'Cálido y conversacional',    sample: '¡Hola! 😊 Soy el asistente de tu clínica. ¿Cómo te puedo ayudar?' },
+  { id: 'amigable',    label: 'Amigable',    desc: 'Cálido y conversacional',    sample: '¡Hola! Soy el asistente de tu clínica. ¿Cómo te puedo ayudar?' },
   { id: 'empatico',    label: 'Empático',    desc: 'Comprensivo y de apoyo',      sample: 'Hola, entendemos que dar el primer paso puede ser difícil. Estamos aquí.' },
   { id: 'formal',      label: 'Formal',      desc: 'Preciso y ejecutivo',         sample: 'Bienvenido al sistema de atención. Por favor indique su solicitud.' },
 ]

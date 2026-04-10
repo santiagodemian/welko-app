@@ -114,6 +114,10 @@ export default function ConversacionesPage() {
   const [industry, setIndustry]  = useState<string>('dental')
 
   useEffect(() => {
+    // Read preview industry from dashboard selector
+    const previewInd = localStorage.getItem('welko_preview_industry')
+    if (previewInd) setIndustry(previewInd)
+
     fetch('/api/leads')
       .then(r => r.json())
       .then(({ leads, industry: ind }: { leads: ApiLead[]; industry?: string }) => {

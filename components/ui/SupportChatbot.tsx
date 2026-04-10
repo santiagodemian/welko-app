@@ -10,29 +10,29 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 interface Msg { role: 'user' | 'bot'; text: string }
 
 const FAQ_ES: [RegExp, string][] = [
-  [/precio|costo|plan|cuánto/i,     '📦 Tenemos 4 planes: Starter $299, Essential $799, Pro $1,499 y Business $2,999 MXN/mes. Todos incluyen WhatsApp + IA 24/7. ¿Quieres que te explique qué incluye cada uno?'],
-  [/instalar|setup|configurar|empezar|comenzar/i, '⚡ El proceso tarda menos de 24 horas. Te pedimos el número de WhatsApp Business, info de tu negocio y listo. Sin código ni técnicos.'],
-  [/whatsapp|canal|instagram|facebook/i, '📱 Welko se conecta a WhatsApp Business API, Instagram DMs, Facebook Messenger y un widget web. Todos en un solo panel.'],
-  [/prueba|demo|gratis/i,           '🎁 Puedes probar el simulador de chat aquí mismo en la página. Para una demo personalizada escríbenos a hola@welko.org.'],
-  [/cancelar|contrato|permanencia/i,'✅ Sin contratos ni permanencia. Cancelas cuando quieras desde tu cuenta, sin llamadas ni formularios.'],
-  [/seguro|datos|privacidad/i,       '🔒 Todos los datos están cifrados. Cumplimos con la Ley Federal de Protección de Datos Personales de México y GDPR.'],
-  [/no.?show|recordatorio|cita/i,   '🔔 Sí — Welko envía recordatorios automáticos 24h antes de cada cita, lo que reduce los no-shows entre un 35% y 38%.'],
-  [/industria|restaurante|gym|hotel|bar|spa|legal/i, '🏪 Welko funciona para clínicas, restaurantes, barberías, spas, hoteles, gimnasios y despachos legales. Cada industria tiene su CRM personalizado.'],
-  [/crm|dashboard|reporte/i,        '📊 El CRM incluye pipeline Kanban, calendario de citas, predictor de no-shows, métricas por canal y un Cerebro IA con insights semanales.'],
-  [/pago|stripe|factura|fiscal/i,   '💳 Pagos seguros vía Stripe. Aceptamos tarjetas de crédito y débito. Podemos emitir factura fiscal (CFDI).'],
+  [/precio|costo|plan|cuánto/i,     'Tenemos 4 planes: Starter $299, Essential $799, Pro $1,499 y Business $2,999 MXN/mes. Todos incluyen WhatsApp + IA 24/7. ¿Quieres que te explique qué incluye cada uno?'],
+  [/instalar|setup|configurar|empezar|comenzar/i, 'El proceso tarda menos de 24 horas. Te pedimos el número de WhatsApp Business, info de tu negocio y listo. Sin código ni técnicos.'],
+  [/whatsapp|canal|instagram|facebook/i, 'Welko se conecta a WhatsApp Business API, Instagram DMs, Facebook Messenger y un widget web. Todos en un solo panel.'],
+  [/prueba|demo|gratis/i,           'Puedes probar el simulador de chat aquí mismo en la página. Para una demo personalizada escríbenos a hola@welko.org.'],
+  [/cancelar|contrato|permanencia/i,'Sin contratos ni permanencia. Cancelas cuando quieras desde tu cuenta, sin llamadas ni formularios.'],
+  [/seguro|datos|privacidad/i,       'Todos los datos están cifrados. Cumplimos con la Ley Federal de Protección de Datos Personales de México y GDPR.'],
+  [/no.?show|recordatorio|cita/i,   'Sí — Welko envía recordatorios automáticos 24h antes de cada cita, lo que reduce los no-shows entre un 35% y 38%.'],
+  [/industria|restaurante|gym|hotel|bar|spa|legal/i, 'Welko funciona para clínicas, restaurantes, barberías, spas, hoteles, gimnasios y despachos legales. Cada industria tiene su CRM personalizado.'],
+  [/crm|dashboard|reporte/i,        'El CRM incluye pipeline Kanban, calendario de citas, predictor de no-shows, métricas por canal y un Cerebro IA con insights semanales.'],
+  [/pago|stripe|factura|fiscal/i,   'Pagos seguros vía Stripe. Aceptamos tarjetas de crédito y débito. Podemos emitir factura fiscal (CFDI).'],
 ]
 
 const FAQ_EN: [RegExp, string][] = [
-  [/price|cost|plan|how much/i,     '📦 We have 4 plans: Starter $49, Essential $99, Pro $199 and Business $399 USD/month. All include WhatsApp + 24/7 AI. Want details on each?'],
-  [/install|setup|configure|start/i,'⚡ Setup takes under 24 hours. We need your WhatsApp Business number and business info. No code or developers needed.'],
-  [/whatsapp|channel|instagram|facebook/i, '📱 Welko connects to WhatsApp Business API, Instagram DMs, Facebook Messenger and a web widget — all in one dashboard.'],
-  [/trial|demo|free/i,              '🎁 You can try the chat simulator right here on the page. For a personalized demo, email us at hola@welko.org.'],
-  [/cancel|contract|commitment/i,   '✅ No contracts or lock-in. Cancel anytime from your account — no calls or forms required.'],
-  [/secure|data|privacy/i,           '🔒 All data is encrypted. We comply with Mexico\'s Federal Data Protection Law and GDPR.'],
-  [/no.?show|reminder|appointment/i,'🔔 Yes — Welko sends automatic reminders 24h before each appointment, reducing no-shows by 35–38%.'],
-  [/industry|restaurant|gym|hotel|barbershop|spa|legal/i, '🏪 Welko works for clinics, restaurants, barbershops, spas, hotels, gyms and law firms. Each industry has its own custom CRM.'],
-  [/crm|dashboard|report/i,         '📊 The CRM includes a Kanban pipeline, appointment calendar, no-show predictor, per-channel metrics and weekly AI insights.'],
-  [/payment|stripe|invoice|billing/i,'💳 Secure payments via Stripe. We accept credit and debit cards. International invoicing available.'],
+  [/price|cost|plan|how much/i,     'We have 4 plans: Starter $49, Essential $99, Pro $199 and Business $399 USD/month. All include WhatsApp + 24/7 AI. Want details on each?'],
+  [/install|setup|configure|start/i,'Setup takes under 24 hours. We need your WhatsApp Business number and business info. No code or developers needed.'],
+  [/whatsapp|channel|instagram|facebook/i, 'Welko connects to WhatsApp Business API, Instagram DMs, Facebook Messenger and a web widget — all in one dashboard.'],
+  [/trial|demo|free/i,              'You can try the chat simulator right here on the page. For a personalized demo, email us at hola@welko.org.'],
+  [/cancel|contract|commitment/i,   'No contracts or lock-in. Cancel anytime from your account — no calls or forms required.'],
+  [/secure|data|privacy/i,           'All data is encrypted. We comply with Mexico\'s Federal Data Protection Law and GDPR.'],
+  [/no.?show|reminder|appointment/i,'Yes — Welko sends automatic reminders 24h before each appointment, reducing no-shows by 35–38%.'],
+  [/industry|restaurant|gym|hotel|barbershop|spa|legal/i, 'Welko works for clinics, restaurants, barbershops, spas, hotels, gyms and law firms. Each industry has its own custom CRM.'],
+  [/crm|dashboard|report/i,         'The CRM includes a Kanban pipeline, appointment calendar, no-show predictor, per-channel metrics and weekly AI insights.'],
+  [/payment|stripe|invoice|billing/i,'Secure payments via Stripe. We accept credit and debit cards. International invoicing available.'],
 ]
 
 function getBotReply(input: string, isEN: boolean): string {
@@ -41,8 +41,8 @@ function getBotReply(input: string, isEN: boolean): string {
     if (pattern.test(input)) return reply
   }
   return isEN
-    ? "I'm not sure about that specific question. 😊 For detailed support, write to hola@welko.org or call +52 56 2844 3738. We usually respond in under 2 hours."
-    : 'No tengo respuesta exacta para eso 😊. Para soporte detallado escríbenos a hola@welko.org o llámanos al +52 56 2844 3738. Respondemos en menos de 2 horas.'
+    ? "I'm not sure about that specific question. For detailed support, write to hola@welko.org or call +52 56 2844 3738. We usually respond in under 2 hours."
+    : 'No tengo respuesta exacta para eso. Para soporte detallado escríbenos a hola@welko.org o llámanos al +52 56 2844 3738. Respondemos en menos de 2 horas.'
 }
 
 export function SupportChatbot() {
@@ -56,8 +56,8 @@ export function SupportChatbot() {
   const bottomRef             = useRef<HTMLDivElement>(null)
 
   const welcome = isEN
-    ? "👋 Hi! I'm Welko's support bot. Ask me anything about plans, setup, features, or integrations."
-    : '👋 ¡Hola! Soy el bot de soporte de Welko. Pregúntame sobre planes, configuración, funciones o integraciones.'
+    ? "Hi! I'm Welko's support bot. Ask me anything about plans, setup, features, or integrations."
+    : '¡Hola! Soy el bot de soporte de Welko. Pregúntame sobre planes, configuración, funciones o integraciones.'
 
   useEffect(() => {
     if (open && msgs.length === 0) {

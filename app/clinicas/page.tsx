@@ -117,7 +117,6 @@ export default function ClinicasPage() {
                 border: '1.5px dashed var(--border)',
               }}
             >
-              <span className="text-2xl">🏥</span>
               <p className="text-base font-semibold" style={{ color: 'var(--text-primary)' }}>
                 Tu clínica aquí
               </p>

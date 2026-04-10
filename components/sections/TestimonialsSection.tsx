@@ -12,7 +12,7 @@ const TESTIMONIALS = {
     {
       name: 'Dra. Andrea Moreno',
       role: 'Directora · Clínica Dental Moreno',
-      industry: '🦷 Salud',
+      industry: 'Salud',
       avatar: 'AM', color: '#3B82F6',
       quote: 'Antes perdíamos 8–12 mensajes al día. Con Welko el 100% se contestan solos. Recuperamos $34,000 MXN en citas el primer mes.',
       metric: '+$34k MXN', metricLabel: 'recuperados en 30 días',
@@ -20,7 +20,7 @@ const TESTIMONIALS = {
     {
       name: 'Carlos Espinoza',
       role: 'Dueño · Restaurante La Hacienda',
-      industry: '🍽️ Restaurante',
+      industry: 'Restaurante',
       avatar: 'CE', color: '#F59E0B',
       quote: 'Antes perdíamos reservaciones porque nadie contestaba el WhatsApp en horas pico. Welko toma reservas y responde preguntas automáticamente. Las reservas subieron 40%.',
       metric: '+40%', metricLabel: 'en reservaciones mensuales',
@@ -28,7 +28,7 @@ const TESTIMONIALS = {
     {
       name: 'Miguel Reyes',
       role: 'Fundador · Barbería El Corte Maestro',
-      industry: '✂️ Barbería',
+      industry: 'Barbería',
       avatar: 'MR', color: '#8B5CF6',
       quote: 'Tenía el problema de los no-shows: clientes que agendaban y no llegaban. Los recordatorios automáticos de Welko los bajaron casi a cero.',
       metric: '−38%', metricLabel: 'en no-shows desde la semana 1',
@@ -36,7 +36,7 @@ const TESTIMONIALS = {
     {
       name: 'Lic. Roberto Sánchez',
       role: 'Fundador · Centro de Psicología',
-      industry: '🧠 Psicología',
+      industry: 'Psicología',
       avatar: 'RS', color: '#6366F1',
       quote: 'Mis pacientes escriben a las 11pm y la IA responde al instante. Ahorro 9 horas semanales que antes dedicaba solo a confirmar citas.',
       metric: '9 h/sem', metricLabel: 'de administración ahorradas',
@@ -44,7 +44,7 @@ const TESTIMONIALS = {
     {
       name: 'Sofía Mendoza',
       role: 'Gerente · Hotel Boutique Casa Luna',
-      industry: '🏨 Hotel',
+      industry: 'Hotel',
       avatar: 'SM', color: '#0EA5E9',
       quote: 'Recibíamos consultas de reservación a toda hora. Welko responde cotizaciones, verifica disponibilidad y cierra reservas mientras dormimos.',
       metric: '+28%', metricLabel: 'en tasa de conversión de consultas',
@@ -52,7 +52,7 @@ const TESTIMONIALS = {
     {
       name: 'Dra. Camila Torres',
       role: 'CEO · Spa & Estética Torres',
-      industry: '💆 Spa',
+      industry: 'Spa',
       avatar: 'CT', color: '#EC4899',
       quote: 'Los no-shows bajaron un 35% desde que activamos los recordatorios automáticos. El equipo se enfoca en dar el mejor servicio.',
       metric: '−35%', metricLabel: 'en cancelaciones desde el día 1',
@@ -62,7 +62,7 @@ const TESTIMONIALS = {
     {
       name: 'Dr. Andrea Moreno',
       role: 'Director · Moreno Dental Clinic',
-      industry: '🦷 Health',
+      industry: 'Health',
       avatar: 'AM', color: '#3B82F6',
       quote: 'We were losing 8–12 messages a day. With Welko 100% get answered automatically. We recovered $34,000 MXN in appointments the first month.',
       metric: '+$34k MXN', metricLabel: 'recovered in 30 days',
@@ -70,7 +70,7 @@ const TESTIMONIALS = {
     {
       name: 'Carlos Espinoza',
       role: 'Owner · La Hacienda Restaurant',
-      industry: '🍽️ Restaurant',
+      industry: 'Restaurant',
       avatar: 'CE', color: '#F59E0B',
       quote: 'We were losing reservations because nobody answered WhatsApp during peak hours. Welko takes reservations and answers questions automatically. Bookings went up 40%.',
       metric: '+40%', metricLabel: 'in monthly reservations',
@@ -78,7 +78,7 @@ const TESTIMONIALS = {
     {
       name: 'Miguel Reyes',
       role: 'Founder · El Corte Maestro Barbershop',
-      industry: '✂️ Barbershop',
+      industry: 'Barbershop',
       avatar: 'MR', color: '#8B5CF6',
       quote: 'I had a no-show problem: clients who booked and never showed up. Welko\'s automatic reminders brought them down to almost zero.',
       metric: '−38%', metricLabel: 'in no-shows since week one',
@@ -86,7 +86,7 @@ const TESTIMONIALS = {
     {
       name: 'Roberto Sánchez',
       role: 'Founder · Psychology Center',
-      industry: '🧠 Psychology',
+      industry: 'Psychology',
       avatar: 'RS', color: '#6366F1',
       quote: 'Patients write at 11pm and the AI responds instantly. I save 9 hours a week I used to spend just confirming appointments.',
       metric: '9 h/wk', metricLabel: 'of admin time saved',
@@ -94,7 +94,7 @@ const TESTIMONIALS = {
     {
       name: 'Sofía Mendoza',
       role: 'Manager · Casa Luna Boutique Hotel',
-      industry: '🏨 Hotel',
+      industry: 'Hotel',
       avatar: 'SM', color: '#0EA5E9',
       quote: 'We got booking inquiries at all hours. Welko responds to quotes, checks availability and closes reservations while we sleep.',
       metric: '+28%', metricLabel: 'in inquiry-to-booking conversion rate',
@@ -102,7 +102,7 @@ const TESTIMONIALS = {
     {
       name: 'Dr. Camila Torres',
       role: 'CEO · Torres Spa & Aesthetics',
-      industry: '💆 Spa',
+      industry: 'Spa',
       avatar: 'CT', color: '#EC4899',
       quote: 'No-shows dropped 35% since we activated automatic reminders. The team can focus on delivering the best service.',
       metric: '−35%', metricLabel: 'in cancellations from day 1',

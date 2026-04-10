@@ -13,7 +13,7 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 // ─── Collapsed industry list (health grouped into one entry) ──────────────────
 const DISPLAY_INDUSTRIES = [
   {
-    slug: 'dental', icon: '🏥', color: '#3B82F6',
+    slug: 'dental', color: '#3B82F6',
     es: {
       name: 'Clínicas & Consultorios de Salud',
       tagline: 'Dental, medicina, estética, psicología, nutrición y más',
@@ -26,7 +26,7 @@ const DISPLAY_INDUSTRIES = [
     },
   },
   {
-    slug: 'restaurante', icon: '🍽️', color: '#F59E0B',
+    slug: 'restaurante', color: '#F59E0B',
     es: {
       name: 'Restaurantes & Cafés',
       tagline: 'Reservaciones, pedidos y atención 24/7',
@@ -39,7 +39,7 @@ const DISPLAY_INDUSTRIES = [
     },
   },
   {
-    slug: 'barberia', icon: '✂️', color: '#8B5CF6',
+    slug: 'barberia', color: '#8B5CF6',
     es: {
       name: 'Barberías & Salones de Belleza',
       tagline: 'Turnos, confirmaciones y recordatorios automáticos',
@@ -52,7 +52,7 @@ const DISPLAY_INDUSTRIES = [
     },
   },
   {
-    slug: 'spa-salon', icon: '💆', color: '#EC4899',
+    slug: 'spa-salon', color: '#EC4899',
     es: {
       name: 'Spa & Bienestar',
       tagline: 'Reservaciones y seguimiento de clientes con IA',
@@ -65,7 +65,7 @@ const DISPLAY_INDUSTRIES = [
     },
   },
   {
-    slug: 'fitness', icon: '💪', color: '#EF4444',
+    slug: 'fitness', color: '#EF4444',
     es: {
       name: 'Fitness & Gyms',
       tagline: 'Convierte leads en miembros con seguimiento IA',
@@ -78,7 +78,7 @@ const DISPLAY_INDUSTRIES = [
     },
   },
   {
-    slug: 'hotel', icon: '🏨', color: '#0EA5E9',
+    slug: 'hotel', color: '#0EA5E9',
     es: {
       name: 'Hoteles & Hospitalidad',
       tagline: 'Reservaciones, cotizaciones y check-in automatizados',
@@ -91,7 +91,7 @@ const DISPLAY_INDUSTRIES = [
     },
   },
   {
-    slug: 'legal', icon: '⚖️', color: '#374151',
+    slug: 'legal', color: '#374151',
     es: {
       name: 'Despachos Legales',
       tagline: 'Califica leads y agenda consultas 24/7',
@@ -104,7 +104,7 @@ const DISPLAY_INDUSTRIES = [
     },
   },
   {
-    slug: 'contabilidad', icon: '📊', color: '#0F766E',
+    slug: 'contabilidad', color: '#0F766E',
     es: {
       name: 'Contabilidad & Finanzas',
       tagline: 'Prospecta clientes y agenda reuniones automáticamente',
@@ -194,11 +194,9 @@ export default function IndustriasPage() {
                     >
                       {/* Icon */}
                       <div
-                        className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-                        style={{ background: ind.color + '15' }}
-                      >
-                        {ind.icon}
-                      </div>
+                        className="w-11 h-11 rounded-xl flex-shrink-0"
+                        style={{ background: ind.color + '15', border: `1.5px solid ${ind.color}33` }}
+                      />
 
                       {/* Text */}
                       <div className="flex flex-col gap-1.5 flex-1">

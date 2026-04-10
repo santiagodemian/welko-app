@@ -12,25 +12,25 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 const PAIN_POINTS = [
   {
-    emoji: '😴',
+    emoji: '',
     title: 'Pacientes que preguntan a las 11 PM y no vuelven',
     desc: 'Alguien pregunta el precio de un implante por WhatsApp en la noche. Tú no ves el mensaje hasta la mañana. Para entonces, ya agendó con tu competencia.',
     fix: 'Welko responde en 2 segundos a cualquier hora — y agenda la cita antes de que cierres los ojos.',
   },
   {
-    emoji: '🚫',
+    emoji: '',
     title: 'No-shows en limpiezas y ortodoncia',
     desc: 'Un slot de $850 vacío. Otro de $2,400. Se acumulan a fin de mes y la pérdida duele. Los recordatorios manuales no escalan.',
     fix: 'Welko predice qué citas tienen riesgo ALTO y manda recordatorio extra automáticamente. Sin que nadie lo pida.',
   },
   {
-    emoji: '📞',
+    emoji: '',
     title: 'Horas perdidas confirmando citas por teléfono',
     desc: 'Tu recepcionista llama a 15 pacientes al día para confirmar. 8 no contestan. 4 necesitan reagendar. Es tiempo que debería estar en la sala de espera.',
     fix: 'La IA confirma, reagenda y cancela por WhatsApp. Tu recepcionista se enfoca en los pacientes que ya están ahí.',
   },
   {
-    emoji: '💬',
+    emoji: '',
     title: '¿Cuánto cuesta una limpieza? × 40 veces al día',
     desc: 'Las mismas preguntas, todos los días, a todas horas. Precio de ortodoncia. Tiempo de implante. Si aceptan seguro. Tu equipo contesta lo mismo en loop.',
     fix: 'La IA conoce todos tus servicios, precios y FAQs. Responde al instante y convierte esa pregunta en una cita.',
@@ -80,7 +80,7 @@ export default function DentalPage() {
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: EASE }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold"
               style={{ background: '#EFF6FF', color: '#2563EB', border: '1px solid #BFDBFE' }}>
-              🦷 Especialmente para Clínicas Dentales
+               Especialmente para Clínicas Dentales
             </motion.div>
             <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: EASE, delay: 0.06 }}
               className="text-[1.875rem] sm:text-5xl font-extrabold tracking-tight leading-tight"
@@ -209,7 +209,7 @@ export default function DentalPage() {
         <section className="py-20 px-4 sm:px-6"
           style={{ background: `linear-gradient(135deg, #05101F 0%, ${NAVY} 100%)` }}>
           <div className="max-w-2xl mx-auto flex flex-col items-center text-center gap-6">
-            <span style={{ fontSize: 32 }}>🦷</span>
+            <span style={{ fontSize: 32 }}></span>
             <h2 className="text-2xl sm:text-3xl font-extrabold" style={{ color: '#fff' }}>
               Tu clínica dental, atendiendo 24/7 desde hoy
             </h2>

@@ -203,8 +203,8 @@ export function VsDirectoriosSection() {
             }}>
               <p className="text-xs font-bold" style={{ color: '#B91C1C' }}>
                 {lang === 'es'
-                  ? '💸 Solo el 6% convierte. El 94% restante se fue a la competencia.'
-                  : '💸 Only 6% converts. The other 94% went to your competition.'}
+                  ? 'Solo el 6% convierte. El 94% restante se fue a la competencia.'
+                  : 'Only 6% converts. The other 94% went to your competition.'}
               </p>
             </div>
           </div>
@@ -253,8 +253,8 @@ export function VsDirectoriosSection() {
             }}>
               <p className="text-xs font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 {lang === 'es'
-                  ? '🎯 10× más citas que un directorio pasivo. ROI desde el día 1.'
-                  : '🎯 10× more appointments than a passive directory. ROI from day 1.'}
+                  ? '10× más citas que un directorio pasivo. ROI desde el día 1.'
+                  : '10× more appointments than a passive directory. ROI from day 1.'}
               </p>
             </div>
           </div>

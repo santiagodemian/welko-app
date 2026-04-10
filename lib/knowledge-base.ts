@@ -27,7 +27,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'dental',
     label: 'Odontología',
-    emoji: '🦷',
+    emoji: '',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Odontología en mi sistema. Conozco la diferencia entre limpiezas, resinas, endodoncias, ortodoncia y carillas. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded Dentistry knowledge into my system. I know the difference between cleanings, fillings, root canals, orthodontics, and veneers. Just confirm your hours.',
     terms: [
@@ -55,7 +55,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'psicologia',
     label: 'Psicología',
-    emoji: '🧠',
+    emoji: '',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Psicología en mi sistema. Manejo vocabulario de contención, diferencia entre terapias individual, de pareja y cognitivo-conductual. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded Psychology knowledge. I understand containment vocabulary, individual vs couples therapy, and CBT. Just confirm your hours.',
     terms: [
@@ -83,7 +83,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'estetica',
     label: 'Estética',
-    emoji: '✨',
+    emoji: '',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Estética Facial y Dental en mi sistema. Conozco botox, bichectomía, lipopapada, carillas y más. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded Facial & Dental Aesthetic knowledge. I know botox, bichectomy, lipopapad, veneers and more. Just confirm your hours.',
     terms: [
@@ -111,7 +111,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'nutricion',
     label: 'Nutrición',
-    emoji: '🥗',
+    emoji: '',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Nutrición Clínica en mi sistema. Manejo conceptos de planes alimenticios, IMC, control de peso y patologías metabólicas. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded Clinical Nutrition knowledge. I handle meal plans, BMI, weight control, and metabolic conditions. Just confirm your hours.',
     terms: [
@@ -139,7 +139,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'ginecologia',
     label: 'Ginecología',
-    emoji: '🌸',
+    emoji: '',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Ginecología en mi sistema. Manejo control prenatal, Papanicolaou, colposcopia, anticonceptivos y más. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded Gynecology knowledge. I handle prenatal care, Pap smears, colposcopy, contraceptives and more. Just confirm your hours.',
     terms: [
@@ -167,7 +167,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'oftalmologia',
     label: 'Oftalmología',
-    emoji: '👁️',
+    emoji: '️',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Oftalmología en mi sistema. Manejo cirugía LASIK, cataratas, glaucoma, retinopatía y más. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded Ophthalmology knowledge. I handle LASIK, cataracts, glaucoma, retinopathy and more. Just confirm your hours.',
     terms: [
@@ -195,7 +195,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'medica',
     label: 'Medicina General',
-    emoji: '🩺',
+    emoji: '',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Medicina General en mi sistema. Manejo triage inicial, urgencias, enfermedades crónicas y más. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded General Medicine knowledge. I handle triage, emergencies, chronic conditions and more. Just confirm your hours.',
     terms: [
@@ -223,7 +223,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'fisioterapia',
     label: 'Fisioterapia',
-    emoji: '💪',
+    emoji: '',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Fisioterapia en mi sistema. Manejo rehabilitación, lesiones deportivas, electroterapia y más. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded Physiotherapy knowledge. I handle rehabilitation, sports injuries, electrotherapy and more. Just confirm your hours.',
     terms: [
@@ -251,7 +251,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'spa',
     label: 'Spa & Bienestar',
-    emoji: '💆',
+    emoji: '',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Spa y Bienestar en mi sistema. Manejo masajes terapéuticos, tratamientos corporales, aromaterapia y más. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded Spa & Wellness knowledge. I handle therapeutic massage, body treatments, aromatherapy and more. Just confirm your hours.',
     terms: [
@@ -279,7 +279,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'veterinaria',
     label: 'Veterinaria',
-    emoji: '🐾',
+    emoji: '',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Medicina Veterinaria en mi sistema. Manejo protocolos de vacunación, desparasitación, urgencias y más. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded Veterinary knowledge. I handle vaccination protocols, deworming, emergencies and more. Just confirm your hours.',
     terms: [
@@ -307,7 +307,7 @@ export const KNOWLEDGE_BASE: SpecialtyKnowledge[] = [
   {
     slug: 'quiropractica',
     label: 'Quiropráctica',
-    emoji: '🔧',
+    emoji: '',
     aiGreeting: '¡Excelente! Ya cargué los conocimientos de Quiropráctica en mi sistema. Manejo ajustes vertebrales, subluxaciones, dolor crónico y más. Solo confírmame tus horarios.',
     aiGreetingEn: 'Excellent! I\'ve loaded Chiropractic knowledge. I handle spinal adjustments, subluxations, chronic pain and more. Just confirm your hours.',
     terms: [

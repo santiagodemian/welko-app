@@ -22,10 +22,10 @@ export default function SuccessPage() {
 
           {/* Icon */}
           <div
-            className="w-20 h-20 rounded-full flex items-center justify-center text-3xl"
+            className="w-20 h-20 rounded-full flex items-center justify-center"
             style={{ background: '#E5E9F4' }}
           >
-            ✅
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="20" fill="#1A2A56" fillOpacity=".12"/><path d="M12 20l6 6 10-12" stroke="#1A2A56" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </div>
 
           {/* Headline */}
@@ -57,7 +57,6 @@ export default function SuccessPage() {
               className="flex items-start gap-3 pt-3"
               style={{ borderTop: '1px solid #E5E7EB' }}
             >
-              <span className="text-lg mt-0.5">📋</span>
               <p className="text-sm" style={{ color: '#6B7280' }}>
                 Ten a la mano tu número de WhatsApp comercial, horarios de atención
                 y una lista de tus tratamientos o servicios principales.

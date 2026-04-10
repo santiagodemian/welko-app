@@ -3,28 +3,29 @@
 import { motion } from 'framer-motion'
 import { useLang } from '@/contexts/LangContext'
 import Link from 'next/link'
+import { MessageSquare, Instagram, Globe, Phone, Building2, Zap, TrendingUp } from 'lucide-react'
 
 const NAVY  = '#1A2A56'
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 const CHANNELS = [
-  { icon: '💬', label: 'WhatsApp', color: '#25D366' },
-  { icon: '📸', label: 'Instagram', color: '#E1306C' },
-  { icon: '🌐', label: 'Web Chat', color: '#3B82F6' },
-  { icon: '📞', label: 'Llamadas', color: '#8B5CF6' },
+  { icon: MessageSquare, label: 'WhatsApp', color: '#25D366' },
+  { icon: Instagram,     label: 'Instagram', color: '#E1306C' },
+  { icon: Globe,         label: 'Web Chat', color: '#3B82F6' },
+  { icon: Phone,         label: 'Llamadas', color: '#8B5CF6' },
 ]
 
 const SPECIALTIES = [
-  { emoji: '🦷', label: 'Dental' },
-  { emoji: '🧠', label: 'Psicología' },
-  { emoji: '✨', label: 'Estética' },
-  { emoji: '🥗', label: 'Nutrición' },
-  { emoji: '🌸', label: 'Ginecología' },
-  { emoji: '👁️', label: 'Oftalmología' },
-  { emoji: '🩺', label: 'Medicina Gral' },
-  { emoji: '💪', label: 'Fisioterapia' },
-  { emoji: '💆', label: 'Spa & Bienestar' },
-  { emoji: '🔧', label: 'Quiropráctica' },
+  { color: '#3B82F6', label: 'Dental' },
+  { color: '#8B5CF6', label: 'Psicología' },
+  { color: '#EC4899', label: 'Estética' },
+  { color: '#10B981', label: 'Nutrición' },
+  { color: '#F472B6', label: 'Ginecología' },
+  { color: '#06B6D4', label: 'Oftalmología' },
+  { color: '#6366F1', label: 'Medicina Gral' },
+  { color: '#F59E0B', label: 'Fisioterapia' },
+  { color: '#A78BFA', label: 'Spa & Bienestar' },
+  { color: '#34D399', label: 'Quiropráctica' },
 ]
 
 export function WelkoDNASection() {
@@ -96,9 +97,8 @@ export function WelkoDNASection() {
                     width: 36, height: 36, borderRadius: 10, flexShrink: 0,
                     background: ch.color + '22',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 18,
                   }}>
-                    {ch.icon}
+                    <ch.icon size={18} color={ch.color} />
                   </div>
                   <div>
                     <p className="text-sm font-semibold">{ch.label}</p>
@@ -142,7 +142,7 @@ export function WelkoDNASection() {
                   className="flex items-center gap-2 px-3 py-2 rounded-xl"
                   style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
                 >
-                  <span style={{ fontSize: 14 }}>{sp.emoji}</span>
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', flexShrink: 0, background: sp.color }} />
                   <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>{sp.label}</span>
                 </motion.div>
               ))}
@@ -159,21 +159,24 @@ export function WelkoDNASection() {
         >
           {[
             {
-              icon: '🏗️',
+              Icon: Building2,
+              color: '#60A5FA',
               title: lang === 'es' ? 'Infraestructura propia' : 'Own infrastructure',
               desc:  lang === 'es'
                 ? 'Marca blanca, tus datos, tu CRM — sin depender de ningún directorio ni plataforma externa.'
                 : 'White label, your data, your CRM — no dependency on any directory or external platform.',
             },
             {
-              icon: '⚡',
+              Icon: Zap,
+              color: '#F59E0B',
               title: lang === 'es' ? 'Respuesta inmediata' : 'Instant response',
               desc:  lang === 'es'
                 ? 'La IA contesta en menos de 2 segundos, cierra la cita y la registra en tu calendario — sola.'
                 : 'AI responds in under 2 seconds, books the appointment, and adds it to your calendar — alone.',
             },
             {
-              icon: '📈',
+              Icon: TrendingUp,
+              color: '#34D399',
               title: lang === 'es' ? 'Revenue medible' : 'Measurable revenue',
               desc:  lang === 'es'
                 ? 'Dashboard en tiempo real. Sabes exactamente cuánto dinero rescató Welko esta semana.'
@@ -181,7 +184,7 @@ export function WelkoDNASection() {
             },
           ].map((p, i) => (
             <div key={i} className="flex flex-col gap-3">
-              <span style={{ fontSize: 24 }}>{p.icon}</span>
+              <p.Icon size={24} color={p.color} />
               <div>
                 <p className="text-sm font-bold mb-1">{p.title}</p>
                 <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{p.desc}</p>
