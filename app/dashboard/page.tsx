@@ -244,7 +244,7 @@ export default function DashboardPage() {
   const healthScore = 81
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100%', padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div style={{ background: 'var(--bg)', minHeight: '100%', padding: 'clamp(12px, 3vw, 24px) clamp(12px, 3vw, 28px)', display: 'flex', flexDirection: 'column', gap: 16 }}>
 
       <CRMTour />
 
@@ -308,7 +308,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ── Health Score + KPIs ── */}
-      <div data-tour="tour-kpis" style={{ display: 'grid', gridTemplateColumns: 'auto 1fr 1fr 1fr 1fr', gap: 12, alignItems: 'stretch' }}>
+      <div data-tour="tour-kpis" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12, alignItems: 'stretch' }}>
         {/* Health Score */}
         <div style={{
           background: SURF, border: `1px solid ${BORD}`, borderRadius: 16,
@@ -348,7 +348,7 @@ export default function DashboardPage() {
       <AITrainingScore />
 
       {/* ── Main 2-col ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr)', gap: 12 }} className="lg:grid-cols-[1fr_340px]">
 
         {/* Cerebro IA feed */}
         <div data-tour="tour-cerebro" style={{ background: SURF, border: `1px solid ${BORD}`, borderRadius: 16, display: 'flex', flexDirection: 'column' }}>

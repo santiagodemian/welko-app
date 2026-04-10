@@ -199,8 +199,9 @@ export default function ConversacionesPage() {
         </div>
       </div>
 
-      {/* Kanban */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, padding: '16px 28px', flex: 1, minHeight: 0 }}>
+      {/* Kanban — horizontally scrollable on mobile */}
+      <div style={{ overflowX: 'auto', padding: '16px 16px', flex: 1, minHeight: 0 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(220px, 1fr))', gap: 12, minWidth: 900 }}>
         {PIPELINE.map((col) => {
           const patientsInCol = patients.filter(p => p.status === col.key)
           const total         = colValue(col.key)
@@ -320,6 +321,7 @@ export default function ConversacionesPage() {
           )
         })}
       </div>
+      </div>
 
       {/* AI Tasks panel */}
       <div style={{ margin: '0 28px 24px', background: SURF, border: `1px solid ${BORD}`, borderRadius: 14, padding: '14px 18px' }}>
@@ -327,7 +329,7 @@ export default function ConversacionesPage() {
           <Sparkles size={13} color={PURPLE} />
           <p style={{ color: TEXT, fontSize: 13, fontWeight: 600, margin: 0 }}>Tareas autónomas de IA</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
           {aiTasks.map((t, i) => (
             <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '10px 12px', borderRadius: 10, background: 'var(--bg)' }}>
               <div style={{ width: 26, height: 26, borderRadius: 7, background: `${t.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>

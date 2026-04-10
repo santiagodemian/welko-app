@@ -188,7 +188,7 @@ export default function CitasPage() {
       )}
 
       {/* KPIs */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
         {[
           { label: 'Total próximas',  value: loading ? '…' : String(citas.length),                                           color: '#60A5FA' },
           { label: 'Confirmadas',     value: loading ? '…' : String(citas.filter(c=>c.status==='CONFIRMADA').length),         color: '#22C55E' },
@@ -225,7 +225,7 @@ export default function CitasPage() {
           ) : filtered.length === 0 ? (
             <div style={{ padding: 32, textAlign: 'center', fontSize: 13, color: MUTED }}>No hay citas en este período</div>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}><table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 600 }}>
               <thead>
                 <tr style={{ borderBottom: `1px solid ${BORD}` }}>
                   {['Paciente','Fecha / Hora','Canal','Valor','Estado','Riesgo IA'].map(h => (
@@ -273,7 +273,7 @@ export default function CitasPage() {
                   )
                 })}
               </tbody>
-            </table>
+            </table></div>
           )}
         </div>
       )}
@@ -286,7 +286,7 @@ export default function CitasPage() {
             <span style={{ fontSize: 13, fontWeight: 600, color: TEXT, flex: 1, textAlign: 'center', textTransform: 'capitalize' }}>{weekLabel}</span>
             <button onClick={() => setWeek(w => w + 1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: MUTED, display: 'flex' }}><ChevronRight size={16} /></button>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '52px repeat(7,1fr)', overflowX: 'auto' }}>
+          <div style={{ overflowX: 'auto' }}><div style={{ display: 'grid', gridTemplateColumns: '52px repeat(7,1fr)', minWidth: 560 }}>
             <div style={{ borderBottom: `1px solid ${BORD}` }} />
             {weekDays.map((d, i) => {
               const isToday = d.toDateString() === new Date().toDateString()
@@ -320,7 +320,7 @@ export default function CitasPage() {
                 </>
               )
             })}
-          </div>
+          </div></div>
         </div>
       )}
     </div>

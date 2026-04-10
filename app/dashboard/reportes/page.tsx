@@ -112,7 +112,7 @@ export default function ReportesPage() {
       </div>
 
       {/* KPI row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10 }}>
         {[
           { Icon: Users,     color: BLUE,   label: 'Leads totales',    value: loading ? '…' : String(kpis?.totalLeads ?? 0) },
           { Icon: DollarSign,color: GREEN,  label: 'Revenue cerrado',  value: loading ? '…' : fmtMXN(kpis?.revenueAsegurado ?? 0) },

@@ -227,7 +227,7 @@ export default function ClientesPage() {
         </div>
 
         {/* KPIs */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
           {[
             { Icon: Users,        color: BLUE,   label: 'Total pacientes',   value: loading ? '…' : String(totalPatients) },
             { Icon: TrendingUp,   color: GREEN,  label: 'Pacientes activos',  value: loading ? '…' : String(activePatients) },
@@ -290,7 +290,7 @@ export default function ClientesPage() {
             </div>
           ) : (
             <div style={{ background: SURF, border: `1px solid ${BORD}`, borderRadius: 14, overflow: 'hidden' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <div style={{ overflowX: 'auto' }}><table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 640 }}>
                 <thead>
                   <tr style={{ borderBottom: `1px solid ${BORD}` }}>
                     {['Paciente', 'Canal', 'Último contacto', 'Contactos', 'Total gastado', 'Último estado', ''].map(h => (
@@ -349,7 +349,7 @@ export default function ClientesPage() {
                     )
                   })}
                 </tbody>
-              </table>
+              </table></div>
             </div>
           )}
         </div>
