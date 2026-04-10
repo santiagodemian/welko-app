@@ -123,7 +123,7 @@ export default function ReembolsosPage() {
         className="py-6 px-4 text-center text-xs"
         style={{ color: '#9CA3AF', borderTop: '1px solid #E5E7EB' }}
       >
-        © {new Date().getFullYear()} Welko — El recepcionista IA lider.
+        © {new Date().getFullYear()} Demian Santiago Mendoza Ledesma — Welko &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
       </footer>
     </>
   )

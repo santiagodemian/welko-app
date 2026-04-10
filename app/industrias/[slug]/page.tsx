@@ -6,7 +6,6 @@ import { notFound } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Check } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
-import { IndustryRobotVisual } from '@/components/ui/IndustryRobotVisual'
 import { getIndustry } from '@/lib/industries'
 import { getIndustryRich } from '@/lib/industry-content'
 import { useLang } from '@/contexts/LangContext'
@@ -125,40 +124,30 @@ export default function IndustryPage({ params }: Props) {
                 </motion.p>
               </div>
 
-              {/* Right: Robot visual */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-                className="flex justify-center lg:justify-end order-1 lg:order-2"
-              >
-                <div className="w-64 sm:w-72 lg:w-80">
-                  <IndustryRobotVisual slug={slug} size="lg" />
-                </div>
-              </motion.div>
+              {/* Right: stats highlight */}
+              {richContent && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+                  className="flex flex-col gap-3 order-1 lg:order-2"
+                >
+                  {[richContent.stat1, richContent.stat2, richContent.stat3].map((stat, i) => (
+                    <div key={i} className="flex items-center gap-4 p-4 rounded-2xl"
+                      style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+                      <span className="text-2xl font-black tracking-tight flex-shrink-0" style={{ color: NAVY }}>{stat.value}</span>
+                      <span className="text-xs leading-snug" style={{ color: 'var(--text-secondary)' }}>{stat.label}</span>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
             </div>
           </div>
         </section>
 
-        {/* ── Sector stats ── */}
-        {richContent && (
+        {/* ── Sector stats (hidden — shown inline in hero) ── */}
+        {richContent && false && (
           <section className="py-12 sm:py-16 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
             <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {[richContent.stat1, richContent.stat2, richContent.stat3].map((stat, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }} transition={{ duration: 0.45, ease: EASE, delay: i * 0.1 }}
-                  className="flex flex-col items-center text-center gap-2 p-6 rounded-2xl"
-                  style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
-                >
-                  <span className="text-3xl font-black tracking-tight" style={{ color: NAVY }}>
-                    {stat.value}
-                  </span>
-                  <span className="text-xs leading-snug" style={{ color: 'var(--text-secondary)' }}>
-                    {stat.label}
-                  </span>
-                </motion.div>
-              ))}
             </div>
           </section>
         )}
@@ -227,9 +216,9 @@ export default function IndustryPage({ params }: Props) {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {[
-                  { name: 'Essential', price: '$1,999', desc: richContent.aiByPlan.essential, featured: false },
-                  { name: 'Pro',       price: '$3,999', desc: richContent.aiByPlan.pro,       featured: true  },
-                  { name: 'Business',  price: '$6,999', desc: richContent.aiByPlan.business,  featured: false },
+                  { name: 'Essential', price: '$799',   desc: richContent.aiByPlan.essential, featured: false },
+                  { name: 'Pro',       price: '$1,499', desc: richContent.aiByPlan.pro,       featured: true  },
+                  { name: 'Business',  price: '$2,999', desc: richContent.aiByPlan.business,  featured: false },
                 ].map((plan, i) => (
                   <motion.div
                     key={i}
@@ -332,13 +321,13 @@ export default function IndustryPage({ params }: Props) {
           >
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
               {lang === 'es'
-                ? `¿Tienes una clínica de ${content.name}?`
-                : `Do you run a ${content.name} practice?`}
+                ? `¿Listo para automatizar tu ${content.name}?`
+                : `Ready to automate your ${content.name}?`}
             </h2>
             <p className="text-sm leading-relaxed max-w-md" style={{ color: 'var(--text-secondary)' }}>
               {lang === 'es'
-                ? 'Instala tu recepcionista IA en 24 horas y nunca pierdas otra cita.'
-                : 'Install your AI receptionist in 24 hours and never miss another appointment.'}
+                ? 'Activa tu recepcionista IA en menos de 24 horas. Sin código, sin integraciones complejas.'
+                : 'Activate your AI receptionist in under 24 hours. No code, no complex integrations.'}
             </p>
             <a
               href="/precios"
@@ -347,7 +336,7 @@ export default function IndustryPage({ params }: Props) {
               onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = '0.85')}
               onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = '1')}
             >
-              {t.hero.cta}
+              {lang === 'es' ? 'Comenzar ahora' : 'Get started now'}
             </a>
             <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t.hero.trust}</p>
           </motion.div>
@@ -356,13 +345,13 @@ export default function IndustryPage({ params }: Props) {
       </main>
 
       <footer className="py-8 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)' }}>
-        <div className="max-w-5xl mx-auto">
-          <p className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
-            © {new Date().getFullYear()} Welko —{' '}
-            {lang === 'es'
-              ? 'El recepcionista IA lider.'
-              : 'The leading AI receptionist for Health & Aesthetic Clinics.'}
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4 flex-wrap">
+          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            © {new Date().getFullYear()} Demian Santiago Mendoza Ledesma — Welko &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
           </p>
+          <Link href="/" className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            ← {lang === 'es' ? 'Volver al inicio' : 'Back to home'}
+          </Link>
         </div>
       </footer>
     </>

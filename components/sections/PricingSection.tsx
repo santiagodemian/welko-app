@@ -104,7 +104,7 @@ const PLANS: Plan[] = [
     name: 'Pro',
     badge: { es: 'Más popular', en: 'Most popular' },
     tagline: { es: 'Tu secretaria se enfoca en vender, no en contestar', en: 'Your staff sells, not answers messages' },
-    for: { es: 'Equipos de 2–5 personas · cualquier industria', en: '2–5 person teams · any industry' },
+    for: { es: 'Equipos de 2+ personas · cualquier industria', en: '2+ person teams · any industry' },
     monthly: 1499,    annual: 1199,
     monthlyUSD: 199,  annualUSD: 159,
     featured: true,

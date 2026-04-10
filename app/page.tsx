@@ -17,6 +17,7 @@ import { GuaranteeSection } from '@/components/sections/GuaranteeSection'
 import { IntegrationsSection } from '@/components/sections/IntegrationsSection'
 import { useLang } from '@/contexts/LangContext'
 import { WelkoLogo } from '@/components/ui/WelkoLogo'
+import { SupportChatbot } from '@/components/ui/SupportChatbot'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 const FLOW_ICONS = [MessageCircle, Bot, CalendarCheck]
@@ -357,6 +358,8 @@ export default function HomePage() {
 
       </main>
 
+      <SupportChatbot />
+
       {/* ── Footer ── */}
       <footer className="py-14 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
         <div className="max-w-5xl mx-auto flex flex-col gap-8">
@@ -370,7 +373,7 @@ export default function HomePage() {
                 <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Welko</span>
               </div>
               <p className="text-xs font-light max-w-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                {lang === 'es' ? 'El Recepcionista IA Líder para negocios en LATAM.' : 'The leading AI Receptionist for businesses in LATAM.'}
+                {lang === 'es' ? 'El Recepcionista IA Líder para negocios.' : 'The leading AI Receptionist for businesses.'}
               </p>
             </div>
 
@@ -424,8 +427,10 @@ export default function HomePage() {
             <nav className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
               {[
                 { label: lang === 'es' ? 'Términos y Condiciones' : 'Terms & Conditions', href: '/terminos' },
-                { label: lang === 'es' ? 'Política de Privacidad' : 'Privacy Policy',       href: '/privacidad' },
-                { label: lang === 'es' ? '🇲🇽 Hecho en México'    : '🇲🇽 Made in Mexico',   href: '#' },
+                { label: lang === 'es' ? 'Política de Privacidad' : 'Privacy Policy',     href: '/privacidad' },
+                { label: lang === 'es' ? 'Reembolsos'             : 'Refunds',            href: '/reembolsos' },
+                { label: lang === 'es' ? 'Soporte'                : 'Support',            href: '/soporte' },
+                { label: lang === 'es' ? '🇲🇽 Hecho en México'    : '🇲🇽 Made in Mexico',  href: '#' },
               ].map((link) => (
                 <Link key={link.href} href={link.href}
                   className="text-xs font-medium transition-colors duration-150"

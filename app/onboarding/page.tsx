@@ -23,6 +23,7 @@ import {
   ExternalLink,
 } from 'lucide-react'
 import { INDUSTRIES, INDUSTRY_CATEGORIES } from '@/lib/industries'
+import { useLang } from '@/contexts/LangContext'
 
 /* ─── Design tokens (light — matches landing page + logo) ─── */
 const BG     = '#F9FAFB'
@@ -192,6 +193,8 @@ function uid() { return Math.random().toString(36).slice(2) }
 /* ─── Main component ─── */
 export default function OnboardingPage() {
   const router = useRouter()
+  const { lang, toggle: toggleLang } = useLang()
+  const isEN = lang === 'en'
   const [step, setStep]     = useState(1)
   const [saving, setSaving] = useState(false)
   const [error, setError]   = useState<string | null>(null)
@@ -313,6 +316,8 @@ export default function OnboardingPage() {
     if (step === 1 && !industry) { setError('Selecciona tu industria para continuar.'); return }
     if (step === 2 && !name.trim()) { setError('El nombre del negocio es requerido.'); return }
     setError(null)
+    // Step 1 (industry selection): just advance — nothing to persist yet
+    if (step === 1) { setStep(2); return }
     // In development, advance immediately (save runs in background — no real DB needed)
     if (process.env.NODE_ENV !== 'production') {
       save(false).catch(() => {})
@@ -393,7 +398,7 @@ export default function OnboardingPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 200, maxWidth: 340 }}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
               <span style={{ fontSize: 11, fontWeight: 700, color: NAVY }}>
-                Tu IA está al <span style={{ color: scoreColor }}>{aiScore}%</span> de su potencial
+                {isEN ? <>Your AI is at <span style={{ color: scoreColor }}>{aiScore}%</span> of its potential</> : <>Tu IA está al <span style={{ color: scoreColor }}>{aiScore}%</span> de su potencial</>}
               </span>
               <span style={{ fontSize: 10, color: MUTED }}>{earnedPts}/{totalPts} pts</span>
             </div>
@@ -422,7 +427,13 @@ export default function OnboardingPage() {
           )}
         </div>
 
-        <span style={{ color: MUTED, fontSize: 12, flexShrink: 0 }}>Paso {step} de {STEPS.length}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+          <span style={{ color: MUTED, fontSize: 12 }}>{isEN ? `Step ${step} of ${STEPS.length}` : `Paso ${step} de ${STEPS.length}`}</span>
+          <button onClick={toggleLang}
+            style={{ fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 99, border: `1px solid ${BORDER}`, background: SURF2, color: NAVY, cursor: 'pointer' }}>
+            {isEN ? 'ES' : 'EN'}
+          </button>
+        </div>
       </div>
 
       {/* ── Stepper ── */}
@@ -478,13 +489,13 @@ export default function OnboardingPage() {
         }}>
           {/* Card header */}
           <div style={{ padding: '22px 28px 18px', borderBottom: `1px solid ${BORDER}` }}>
-            {step === 1 && <StepHeader title="¿Cuál es tu tipo de negocio?" desc="Welko personaliza tu IA y CRM según tu industria." />}
-            {step === 2 && <StepHeader title="Perfil de tu Negocio" desc="Esta información le da contexto a tu recepcionista IA." />}
-            {step === 3 && <StepHeader title="Horarios de Atención" desc="La IA rechazará citas fuera de tu horario configurado." />}
-            {step === 4 && <StepHeader title="Servicios y Precios" desc="Cada servicio con precio alimenta el cálculo de Revenue Asegurado." />}
-            {step === 5 && <StepHeader title="Conocimiento de la IA" desc="Entre más detalle, mejor y más personalizada será tu recepcionista." />}
-            {step === 6 && <StepHeader title="Tu Agente Recepcionista" desc="Define el nombre y tono de tu IA. En el siguiente paso conectas los canales." />}
-            {step === 7 && <StepHeader title="Conecta tus Canales" desc="Elige por dónde quieres que tu IA atienda pacientes. Puedes activarlos ahora o después desde el dashboard." />}
+            {step === 1 && <StepHeader title={isEN ? "What type of business do you have?" : "¿Cuál es tu tipo de negocio?"} desc={isEN ? "Welko personalizes your AI and CRM based on your industry." : "Welko personaliza tu IA y CRM según tu industria."} />}
+            {step === 2 && <StepHeader title={isEN ? "Business Profile" : "Perfil de tu Negocio"} desc={isEN ? "This information gives context to your AI receptionist." : "Esta información le da contexto a tu recepcionista IA."} />}
+            {step === 3 && <StepHeader title={isEN ? "Business Hours" : "Horarios de Atención"} desc={isEN ? "The AI will decline bookings outside your configured hours." : "La IA rechazará citas fuera de tu horario configurado."} />}
+            {step === 4 && <StepHeader title={isEN ? "Services & Pricing" : "Servicios y Precios"} desc={isEN ? "Each priced service feeds your Assured Revenue calculation." : "Cada servicio con precio alimenta el cálculo de Revenue Asegurado."} />}
+            {step === 5 && <StepHeader title={isEN ? "AI Knowledge" : "Conocimiento de la IA"} desc={isEN ? "The more detail you add, the better your receptionist will be." : "Entre más detalle, mejor y más personalizada será tu recepcionista."} />}
+            {step === 6 && <StepHeader title={isEN ? "Your AI Receptionist Agent" : "Tu Agente Recepcionista"} desc={isEN ? "Set the name and tone of your AI. Next step: connect channels." : "Define el nombre y tono de tu IA. En el siguiente paso conectas los canales."} />}
+            {step === 7 && <StepHeader title={isEN ? "Connect Your Channels" : "Conecta tus Canales"} desc={isEN ? "Choose where your AI will attend clients. You can activate them now or later from the dashboard." : "Elige por dónde quieres que tu IA atienda pacientes. Puedes activarlos ahora o después desde el dashboard."} />}
           </div>
 
           {/* Card body */}
@@ -948,7 +959,7 @@ export default function OnboardingPage() {
                 fontSize: 13, cursor: step === 1 ? 'default' : 'pointer', fontWeight: 500,
               }}
             >
-              <ChevronLeft size={16} /> Anterior
+              <ChevronLeft size={16} /> {isEN ? 'Back' : 'Anterior'}
             </button>
 
             {step < 6 && (
@@ -964,7 +975,7 @@ export default function OnboardingPage() {
                 }}
               >
                 {saving ? <Loader2 size={15} className="animate-spin" /> : null}
-                Siguiente <ChevronRight size={15} />
+                {isEN ? 'Next' : 'Siguiente'} <ChevronRight size={15} />
               </button>
             )}
             {step === 6 && (
@@ -980,7 +991,7 @@ export default function OnboardingPage() {
                 }}
               >
                 {saving ? <Loader2 size={15} className="animate-spin" /> : <Sparkles size={15} />}
-                {saving ? 'Guardando...' : 'Activar mi recepcionista'}
+                {saving ? (isEN ? 'Saving...' : 'Guardando...') : (isEN ? 'Activate my receptionist' : 'Activar mi recepcionista')}
               </button>
             )}
             {step === 7 && (
@@ -993,7 +1004,7 @@ export default function OnboardingPage() {
                   fontSize: 13, fontWeight: 700, cursor: 'pointer',
                 }}
               >
-                <CheckCircle size={15} /> Ir al Dashboard
+                <CheckCircle size={15} /> {isEN ? 'Go to Dashboard' : 'Ir al Dashboard'}
               </button>
             )}
           </div>

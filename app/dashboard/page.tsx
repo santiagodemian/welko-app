@@ -7,6 +7,7 @@ import {
   ChevronRight, ArrowUpRight, ArrowRight,
 } from 'lucide-react'
 import Link from 'next/link'
+import { CRMTour } from '@/components/ui/CRMTour'
 
 const SURF  = 'var(--surface)'
 const BORD  = 'var(--border)'
@@ -222,6 +223,8 @@ export default function DashboardPage() {
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100%', padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 16 }}>
 
+      <CRMTour />
+
       {/* ── Header ── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div>
@@ -254,7 +257,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ── Health Score + KPIs ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr 1fr 1fr 1fr', gap: 12, alignItems: 'stretch' }}>
+      <div data-tour="tour-kpis" style={{ display: 'grid', gridTemplateColumns: 'auto 1fr 1fr 1fr 1fr', gap: 12, alignItems: 'stretch' }}>
         {/* Health Score */}
         <div style={{
           background: SURF, border: `1px solid ${BORD}`, borderRadius: 16,
@@ -297,7 +300,7 @@ export default function DashboardPage() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 12 }}>
 
         {/* Cerebro IA feed */}
-        <div style={{ background: SURF, border: `1px solid ${BORD}`, borderRadius: 16, display: 'flex', flexDirection: 'column' }}>
+        <div data-tour="tour-cerebro" style={{ background: SURF, border: `1px solid ${BORD}`, borderRadius: 16, display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '14px 20px', borderBottom: `1px solid ${BORD}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Sparkles size={15} color="#A78BFA" />
@@ -346,7 +349,7 @@ export default function DashboardPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
 
           {/* No-show predictor */}
-          <div style={{ background: SURF, border: `1px solid ${BORD}`, borderRadius: 16, flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <div data-tour="tour-noshow" style={{ background: SURF, border: `1px solid ${BORD}`, borderRadius: 16, flex: 1, display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '14px 18px', borderBottom: `1px solid ${BORD}` }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                 <AlertTriangle size={14} color="#F59E0B" />
