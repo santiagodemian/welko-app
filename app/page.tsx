@@ -189,6 +189,66 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Demo video ── */}
+      <section style={{ padding: 'clamp(40px,7vw,72px) 24px', maxWidth: 860, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <p style={{ fontSize: 12, fontWeight: 800, color: G, textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 10px' }}>Demo</p>
+          <h2 style={{ fontSize: 'clamp(20px, 3.5vw, 34px)', fontWeight: 800, color: N, letterSpacing: '-0.02em', margin: '0 0 12px' }}>
+            See Welko in action
+          </h2>
+          <p style={{ color: '#6B7280', fontSize: 15, maxWidth: 480, margin: '0 auto' }}>
+            A 2-minute walkthrough — mandate matching, pipeline, and branded PDF export.
+          </p>
+        </div>
+
+        <div style={{ position: 'relative', width: '100%', paddingBottom: '56.25%', borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 80px rgba(10,22,40,0.18)', background: N }}>
+          <style>{`
+            @keyframes ping { 0% { transform: scale(1); opacity: 0.6 } 100% { transform: scale(1.7); opacity: 0 } }
+          `}</style>
+          {/* background pattern */}
+          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 300, background: 'radial-gradient(ellipse, rgba(30,111,235,0.25) 0%, transparent 70%)', borderRadius: '50%' }} />
+            <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
+              <defs>
+                <pattern id="vdots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1.5" fill="white" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#vdots)" />
+            </svg>
+          </div>
+
+          {/* Welko brand overlay */}
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 32 }}>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontSize: 'clamp(18px,3vw,26px)', fontWeight: 900, color: 'white', margin: '0 0 4px', letterSpacing: '-0.03em' }}>
+                Welko <span style={{ color: G }}>AgentOS</span>
+              </p>
+              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', margin: 0 }}>Football Agency Platform</p>
+            </div>
+
+            {/* Play button */}
+            <a
+              href="https://welko.agency"
+              style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}
+              aria-label="Watch demo"
+            >
+              <div style={{ position: 'absolute', width: 80, height: 80, borderRadius: '50%', background: G, opacity: 0.4, animation: 'ping 1.8s cubic-bezier(0,0,0.2,1) infinite' }} />
+              <div style={{ width: 72, height: 72, borderRadius: '50%', background: G, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 32px rgba(30,111,235,0.5)', position: 'relative', zIndex: 1 }}>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="white" style={{ marginLeft: 3 }}>
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </a>
+          </div>
+
+          {/* Bottom label */}
+          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)', borderRadius: 99, padding: '6px 18px', whiteSpace: 'nowrap', border: '1px solid rgba(255,255,255,0.12)' }}>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>2 min · Full platform walkthrough</span>
+          </div>
+        </div>
+      </section>
+
       {/* ── Vs. the alternatives ── */}
       <section style={{ padding: 'clamp(48px,8vw,80px) 24px', maxWidth: 860, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
