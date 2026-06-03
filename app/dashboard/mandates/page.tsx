@@ -484,7 +484,7 @@ export default function MandatesPage() {
                           {m.status}
                         </span>
                       </div>
-                      <div style={{ display: 'flex', align: 'center', gap: 14, flexWrap: 'wrap' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
                         <span style={{ fontSize: 12, color: '#9CA3AF' }}>{timeAgo(m.createdAt)}</span>
                         {m.parsedBudget && (
                           <span style={{ fontSize: 12, color: '#6B7280' }}>Budget €{m.parsedBudget.toLocaleString()}/mo</span>
