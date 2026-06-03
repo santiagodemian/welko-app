@@ -80,7 +80,6 @@ export default function HomePage() {
             Free Scout plan — no credit card required
           </p>
         </div>
-        </div>
 
         <HeroMockup />
       </section>
