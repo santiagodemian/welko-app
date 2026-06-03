@@ -1,438 +1,363 @@
-'use client'
-
-import { useState, useEffect, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
-import { ArrowRight, MessageCircle, Bot, CalendarCheck } from 'lucide-react'
 import Link from 'next/link'
+import { Suspense } from 'react'
+import { Users, GitBranch, FileSearch, ArrowRight, Check, Zap, Shield, Target } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
-import { IndustryHeroVisual } from '@/components/ui/IndustryHeroVisual'
-import { LogosTrustSection } from '@/components/sections/LogosTrustSection'
-import { BenefitsSection } from '@/components/sections/BenefitsSection'
-import { WhatsAppDemo } from '@/components/sections/WhatsAppDemo'
-import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
-import { FAQSection } from '@/components/sections/FAQSection'
-import { GuaranteeSection } from '@/components/sections/GuaranteeSection'
-import { IntegrationsSection } from '@/components/sections/IntegrationsSection'
-import { useLang } from '@/contexts/LangContext'
-import { WelkoLogo } from '@/components/ui/WelkoLogo'
-import { SupportChatbot } from '@/components/ui/SupportChatbot'
+import { RefTracker } from '@/components/layout/RefTracker'
+import { HeroMockup } from '@/components/landing/HeroMockup'
 
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
-const FLOW_ICONS = [MessageCircle, Bot, CalendarCheck]
-const HERO_SLUGS = ['restaurante', 'dental', 'barberia', 'fitness', 'hotel', 'spa-salon', 'legal']
-
-function fadeUp(delay = 0) {
-  return {
-    initial: { opacity: 0, y: 24 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, ease: EASE, delay },
-  }
-}
-
-// ── Animated counter ──────────────────────────────────────────────────────────
-function CountUp({ to, suffix = '', duration = 1800 }: { to: number; suffix?: string; duration?: number }) {
-  const [value, setValue] = useState(0)
-  const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
-
-  useEffect(() => {
-    if (!inView) return
-    let start = 0
-    const step = Math.ceil(to / (duration / 16))
-    const timer = setInterval(() => {
-      start += step
-      if (start >= to) { setValue(to); clearInterval(timer) }
-      else setValue(start)
-    }, 16)
-    return () => clearInterval(timer)
-  }, [inView, to, duration])
-
-  return <span ref={ref}>{value.toLocaleString()}{suffix}</span>
-}
+const N = '#0A1628'
+const G = '#1E6FEB'
 
 export default function HomePage() {
-  const { t, lang } = useLang()
-  const [labelIdx, setLabelIdx] = useState(0)
-  const [visible, setVisible] = useState(true)
-  const labels = t.hero.labels
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setVisible(false)
-      setTimeout(() => { setLabelIdx((i) => (i + 1) % labels.length); setVisible(true) }, 350)
-    }, 2800)
-    return () => clearInterval(interval)
-  }, [labels.length])
-
   return (
-    <>
+    <div style={{ fontFamily: 'var(--font-montserrat), sans-serif', background: '#fff', minHeight: '100vh' }}>
+
+      <style>{`
+        .lp-hero       { padding: 80px 24px 0 !important; }
+        .lp-stats      { grid-template-columns: repeat(3, 1fr) !important; }
+        .lp-pricing    { grid-template-columns: 1fr 1fr !important; }
+        .lp-footer-nav { display: flex !important; }
+        .lp-footer-grid{ grid-template-columns: 1fr auto auto !important; }
+        .lp-affiliate  { flex-direction: row !important; }
+        .lp-hero-p     { font-size: 18px !important; }
+        .lp-how-grid   { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important; }
+        @media (max-width: 640px) {
+          .lp-hero      { padding: 52px 20px 0 !important; }
+          .lp-hero-p    { font-size: 15px !important; }
+          .lp-stats     { grid-template-columns: 1fr !important; }
+          .lp-stat-border { border-right: none !important; border-bottom: 1px solid #E5E7EB; }
+          .lp-stat-last  { border-bottom: none !important; }
+          .lp-pricing    { grid-template-columns: 1fr !important; }
+          .lp-affiliate  { flex-direction: column !important; align-items: flex-start !important; }
+          .lp-footer-grid{ grid-template-columns: 1fr !important; gap: 28px !important; }
+          .lp-footer-nav { display: none !important; }
+          .lp-how-grid   { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 400px) {
+          .lp-how-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+
       <Navbar />
+      <Suspense fallback={null}><RefTracker /></Suspense>
 
-      <main className="flex flex-col flex-1 pt-28">
-
-        {/* ════════════════════════════════════════
-            HERO — 2-col: text left, demo right
-        ════════════════════════════════════════ */}
-        <section className="relative px-4 sm:px-6 pt-14 pb-20 sm:pt-20 sm:pb-28 overflow-hidden">
-
-          {/* Spotlight gradient orbs */}
-          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full blur-3xl opacity-[0.07]"
-              style={{ background: 'radial-gradient(ellipse at center, #13244A 0%, #1A3A7A 40%, transparent 70%)' }} />
-            <div className="absolute top-40 right-[-60px] w-[400px] h-[400px] rounded-full blur-3xl opacity-[0.04]"
-              style={{ background: '#1A3A7A' }} />
+      {/* ── Hero ── */}
+      <section className="lp-hero" style={{ background: N, textAlign: 'center', overflow: 'hidden' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          <span style={{ display: 'inline-block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, background: 'rgba(30,111,235,0.12)', padding: '4px 14px', borderRadius: 99, marginBottom: 24 }}>
+            Football Agency Platform
+          </span>
+          <h1 style={{ fontSize: 'clamp(28px, 6vw, 58px)', fontWeight: 900, color: '#fff', lineHeight: 1.08, letterSpacing: '-0.03em', margin: '0 0 20px' }}>
+            The Operating System<br />for <span style={{ color: G }}>Football Agents</span>
+          </h1>
+          <p className="lp-hero-p" style={{ color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: 540, margin: '0 auto 40px' }}>
+            Manage your entire player roster, track transfers through a live pipeline, and convert club mandates into signed deals — all in one place.
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/registro" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: G, color: '#fff', padding: '14px 28px', borderRadius: 12, fontWeight: 800, fontSize: 15, textDecoration: 'none' }}>
+              Start for free <ArrowRight size={16} />
+            </Link>
+            <Link href="/demo" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '1.5px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.85)', padding: '14px 28px', borderRadius: 12, fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
+              Book a demo
+            </Link>
           </div>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', marginTop: 20 }}>
+            Free Scout plan — no credit card required
+          </p>
+        </div>
 
-          <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <HeroMockup />
+      </section>
 
-            {/* ── Left column: copy ── */}
-            <div className="flex flex-col gap-7">
-              {/* Rotating eyebrow badge */}
-              <motion.div {...fadeUp(0)}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold self-start"
-                style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--accent-label)', boxShadow: '0 2px 12px rgba(19,36,74,0.08)' }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full animate-pulse flex-shrink-0" style={{ background: 'var(--accent-label)' }} />
-                <span style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.3s ease', minWidth: 180, display: 'inline-block' }}>
-                  {labels[labelIdx]}
-                </span>
-              </motion.div>
-
-              {/* Headline */}
-              <motion.h1 {...fadeUp(0.08)}
-                className="text-[2.2rem] sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.07]"
-                style={{ color: 'var(--text-primary)' }}
-              >
-                {t.hero.headline1}{' '}
-                <span style={{ color: 'var(--accent)' }}>{t.hero.headline2}</span>
-              </motion.h1>
-
-              {/* Subheadline */}
-              <motion.p {...fadeUp(0.16)}
-                className="text-lg sm:text-xl font-light leading-relaxed max-w-lg"
-                style={{ color: 'var(--text-secondary)' }}
-              >
-                {t.hero.subheadline}
-              </motion.p>
-
-              {/* CTA row */}
-              <motion.div {...fadeUp(0.22)} className="flex flex-col sm:flex-row items-start gap-3">
-                <Link
-                  href="/precios"
-                  className="inline-flex items-center gap-2 px-7 py-4 rounded-2xl text-base font-semibold transition-all duration-200"
-                  style={{ background: 'var(--accent)', color: 'var(--accent-fg)', boxShadow: '0 4px 24px rgba(19,36,74,0.25)' }}
-                  onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.transform = 'translateY(-2px)' }}
-                  onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.transform = 'translateY(0)' }}
-                >
-                  {lang === 'es' ? 'Comenzar ahora' : 'Get started now'}
-                  <ArrowRight size={16} />
-                </Link>
-                <Link
-                  href="/simulador"
-                  className="inline-flex items-center gap-2 px-7 py-4 rounded-2xl text-base font-medium transition-all duration-200"
-                  style={{ border: '1.5px solid var(--border)', color: 'var(--text-primary)', background: 'var(--surface)' }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)' }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface)' }}
-                >
-                  {lang === 'es' ? 'Ver demo' : 'Try demo'}
-                </Link>
-              </motion.div>
-
-              {/* Trust line */}
-              <motion.p {...fadeUp(0.28)} className="text-sm font-light" style={{ color: 'var(--text-muted)' }}>
-                {t.hero.trust}
-              </motion.p>
-
-              {/* Flow pill — desktop only */}
-              <motion.div {...fadeUp(0.34)} className="hidden lg:block">
-                <div className="glass-card flex items-center gap-0 rounded-2xl px-4 py-3 self-start">
-                  {t.flow.map((step, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 10px' }}>
-                        <div style={{ width: 28, height: 28, borderRadius: '50%', flexShrink: 0, background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          {(() => { const Icon = FLOW_ICONS[i]; return <Icon size={12} color="#1A2A56" strokeWidth={2} /> })()}
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <span style={{ fontSize: 10, fontWeight: 700, color: '#1A2A56', whiteSpace: 'nowrap', lineHeight: 1.3 }}>{step.label}</span>
-                          <span style={{ fontSize: 9, color: '#6B7280', whiteSpace: 'nowrap' }}>{step.sub}</span>
-                        </div>
-                      </div>
-                      {i < t.flow.length - 1 && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                          <div style={{ width: 14, borderTop: '1.5px dashed rgba(26,42,86,0.18)' }} />
-                          <ArrowRight size={9} color="rgba(26,42,86,0.25)" strokeWidth={2.5} />
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
+      {/* ── Stats strip ── */}
+      <div style={{ background: 'white', borderBottom: '1px solid #E5E7EB' }}>
+        <div className="lp-stats" style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px', display: 'grid' }}>
+          {[
+            { n: '< 5 min', label: 'To set up your agency', cls: 'lp-stat-border' },
+            { n: '€0',      label: 'To get started, forever', cls: 'lp-stat-border' },
+            { n: 'AI',      label: 'Mandate matching built-in', cls: 'lp-stat-last' },
+          ].map((s, i) => (
+            <div key={i} className={s.cls} style={{ padding: '28px 20px', textAlign: 'center', borderRight: i < 2 ? '1px solid #E5E7EB' : 'none' }}>
+              <p style={{ fontSize: 32, fontWeight: 900, color: N, margin: '0 0 4px', letterSpacing: '-0.03em' }}>{s.n}</p>
+              <p style={{ fontSize: 13, color: '#6B7280', margin: 0 }}>{s.label}</p>
             </div>
+          ))}
+        </div>
+      </div>
 
-            {/* ── Right column: hero visual ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 40, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
-              className="w-full max-w-sm mx-auto lg:max-w-none"
-            >
-              <IndustryHeroVisual slug={HERO_SLUGS[labelIdx] ?? 'dental'} />
-            </motion.div>
-          </div>
-        </section>
+      {/* ── Pain point banner ── */}
+      <div style={{ background: '#FFF7ED', borderBottom: '1px solid #FDE68A', padding: '20px 24px', textAlign: 'center' }}>
+        <p style={{ fontSize: 14, color: '#92400E', margin: 0, fontWeight: 600 }}>
+          Still managing 50 players in WhatsApp and Excel? There&apos;s a better way. 👇
+        </p>
+      </div>
 
-        {/* ════════════════════════════════════════
-            STATS — animated counters
-        ════════════════════════════════════════ */}
-        <section className="py-14 px-4 sm:px-6" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-          <div className="max-w-4xl mx-auto grid grid-cols-3 gap-0 divide-x divide-[var(--border)]">
+      {/* ── Core features ── */}
+      <section style={{ padding: 'clamp(48px,8vw,80px) 24px', maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 56 }}>
+          <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, margin: '0 0 12px' }}>Everything your agency needs</p>
+          <h2 style={{ fontSize: 'clamp(22px, 4vw, 38px)', fontWeight: 800, color: N, letterSpacing: '-0.02em', margin: 0 }}>
+            From WhatsApp mandate to signed deal
+          </h2>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+          {[
+            {
+              icon: Users,
+              color: N,
+              title: 'Player Roster',
+              desc: 'Centralize every player profile with ELO ratings, contract expiry alerts, salary expectations, and verification status. Filter in seconds, never lose a lead.',
+            },
+            {
+              icon: GitBranch,
+              color: '#059669',
+              title: 'Transfer Pipeline',
+              desc: 'Kanban board for every active negotiation. Drag deals from Initial Contact to Contract Closure. See total pipeline value at a glance.',
+            },
+            {
+              icon: Target,
+              color: '#DC2626',
+              title: 'Outreach Tracking',
+              desc: 'Know exactly who you messaged, who replied, and who needs a follow-up. Log Instagram DMs, calls, and WhatsApp contacts in one click.',
+            },
+            {
+              icon: FileSearch,
+              color: '#7C3AED',
+              title: 'Mandate Parser (AI)',
+              desc: 'Paste a raw club request from your WhatsApp group. AI extracts position, budget, and age — then scores your players for fit automatically.',
+            },
+            {
+              icon: Zap,
+              color: '#F59E0B',
+              title: 'Smart Alerts',
+              desc: 'Contract expiry warnings 90/30/7 days out. Never miss a free agent window because you forgot to check a spreadsheet.',
+            },
+            {
+              icon: Shield,
+              color: '#0891B2',
+              title: 'White-label Proposals',
+              desc: 'Generate PDF player proposals with your agency branding in one click. Send to clubs looking professional from day one.',
+            },
+          ].map((f, i) => (
+            <div key={i} style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 20, padding: '28px 24px' }}>
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: `${f.color}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                <f.icon size={20} color={f.color} />
+              </div>
+              <h3 style={{ fontSize: 17, fontWeight: 800, color: N, margin: '0 0 8px', letterSpacing: '-0.01em' }}>{f.title}</h3>
+              <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── How it works ── */}
+      <section style={{ background: N, padding: 'clamp(48px,8vw,80px) 24px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, margin: '0 0 12px' }}>How it works</p>
+          <h2 style={{ fontSize: 'clamp(20px, 3.5vw, 34px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', margin: '0 0 48px' }}>
+            Set up your agency in minutes
+          </h2>
+          <div className="lp-how-grid" style={{ display: 'grid', gap: 16 }}>
             {[
-              { value: 500,  suffix: '+', label: lang === 'es' ? 'negocios activos' : 'active businesses' },
-              { value: 98,   suffix: '%', label: lang === 'es' ? 'tasa de respuesta' : 'response rate' },
-              { value: 24,   suffix: '/7', label: lang === 'es' ? 'disponibilidad' : 'always available' },
+              { n: '01', title: 'Create your agency',  desc: 'Sign up, name your agency, upload your logo. Done in under 5 minutes.' },
+              { n: '02', title: 'Add your players',    desc: 'Import or enter player profiles with stats, contract data, and contact info.' },
+              { n: '03', title: 'Receive mandates',    desc: 'Paste any club WhatsApp message. AI extracts what they need and matches your roster.' },
+              { n: '04', title: 'Close deals',         desc: 'Track every negotiation from first contact to signed contract. Log every call, DM, and meeting.' },
             ].map((s, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.5, ease: EASE, delay: i * 0.1 }}
-                className="flex flex-col items-center text-center gap-1 px-3 sm:px-8 py-4"
-              >
-                <span className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-none" style={{ color: 'var(--text-primary)' }}>
-                  <CountUp to={s.value} suffix={s.suffix} />
-                </span>
-                <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-muted)' }}>{s.label}</span>
-              </motion.div>
+              <div key={i} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: '24px 20px', textAlign: 'left' }}>
+                <p style={{ fontSize: 26, fontWeight: 900, color: G, margin: '0 0 10px', letterSpacing: '-0.03em' }}>{s.n}</p>
+                <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: '0 0 6px' }}>{s.title}</p>
+                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, margin: 0 }}>{s.desc}</p>
+              </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ════════════════════════════════════════
-            INDUSTRIAS — multi-industry pill strip
-        ════════════════════════════════════════ */}
-        <section className="py-10 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)' }}>
-          <div className="max-w-5xl mx-auto flex flex-col items-center gap-5">
-            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-              {lang === 'es' ? '¿Para qué industria?' : 'For which industry?'}
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-2.5">
-              {[
-                { href: '/industrias/dental',       es: 'Salud & Clínicas',         en: 'Health & Clinics',      color: '#3B82F6' },
-                { href: '/industrias/restaurante',  es: 'Restaurantes & Cafés',      en: 'Restaurants & Cafés',   color: '#F59E0B' },
-                { href: '/industrias/barberia',     es: 'Barberías & Salones',        en: 'Barbershops & Salons',  color: '#8B5CF6' },
-                { href: '/industrias/spa-salon',    es: 'Spa & Bienestar',            en: 'Spa & Wellness',        color: '#EC4899' },
-                { href: '/industrias/fitness',      es: 'Fitness & Gyms',             en: 'Fitness & Gyms',        color: '#EF4444' },
-                { href: '/industrias/hotel',        es: 'Hoteles & Hospitalidad',     en: 'Hotels & Hospitality',  color: '#0EA5E9' },
-                { href: '/industrias/legal',        es: 'Despachos Legales',          en: 'Law Firms',             color: '#374151' },
-                { href: '/industrias/contabilidad', es: 'Contabilidad & Finanzas',    en: 'Accounting & Finance',  color: '#0F766E' },
-              ].map(item => (
-                <Link key={item.href} href={item.href}
-                  className="flex items-center px-4 py-2 rounded-full text-xs font-semibold transition-all duration-150"
-                  style={{ background: item.color + '12', border: `1px solid ${item.color}28`, color: item.color }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = item.color + '22'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = item.color + '12'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)' }}>
-                  {lang === 'es' ? item.es : item.en}
-                </Link>
-              ))}
+      {/* ── Vs. the alternatives ── */}
+      <section style={{ padding: 'clamp(48px,8vw,80px) 24px', maxWidth: 860, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, margin: '0 0 12px' }}>Why Welko</p>
+          <h2 style={{ fontSize: 'clamp(20px, 3.5vw, 34px)', fontWeight: 800, color: N, letterSpacing: '-0.02em', margin: 0 }}>
+            Built for agents, not clubs
+          </h2>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+          {[
+            { label: 'Excel + WhatsApp', emoji: '❌', desc: 'No pipeline, no alerts, no mandate parsing. Just chaos.' },
+            { label: 'Generic CRM',      emoji: '❌', desc: 'No ELO ratings, no market windows, no football context.' },
+            { label: 'Wyscout / InStat', emoji: '❌', desc: '€1,000+/month, built for clubs. Not for independent agents.' },
+            { label: 'Welko AgentOS',    emoji: '✅', desc: 'All-in-one, football-native, €0 to start. Built by an agent.', highlight: true },
+          ].map((r, i) => (
+            <div key={i} style={{
+              background: r.highlight ? N : '#F9FAFB',
+              border: r.highlight ? `2px solid ${G}` : '1px solid #E5E7EB',
+              borderRadius: 16, padding: '20px',
+            }}>
+              <p style={{ fontSize: 20, margin: '0 0 8px' }}>{r.emoji}</p>
+              <p style={{ fontSize: 14, fontWeight: 700, color: r.highlight ? '#fff' : N, margin: '0 0 6px' }}>{r.label}</p>
+              <p style={{ fontSize: 13, color: r.highlight ? 'rgba(255,255,255,0.6)' : '#6B7280', lineHeight: 1.6, margin: 0 }}>{r.desc}</p>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Pricing teaser ── */}
+      <section style={{ padding: 'clamp(0px,2vw,20px) 24px clamp(48px,8vw,80px)', maxWidth: 860, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, margin: '0 0 12px' }}>Simple pricing</p>
+          <h2 style={{ fontSize: 'clamp(20px, 3.5vw, 34px)', fontWeight: 800, color: N, letterSpacing: '-0.02em', margin: 0 }}>
+            Start free. Upgrade when you grow.
+          </h2>
+        </div>
+        <div className="lp-pricing" style={{ display: 'grid', gap: 20 }}>
+          <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 20, padding: '32px 28px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <Shield size={16} color="#6B7280" />
+              <p style={{ fontSize: 13, fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>Scout</p>
+            </div>
+            <p style={{ fontSize: 38, fontWeight: 900, color: N, margin: '0 0 4px', letterSpacing: '-0.03em' }}>Free</p>
+            <p style={{ fontSize: 13, color: '#9CA3AF', margin: '0 0 24px' }}>Forever, no credit card</p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {['1 user seat', 'Up to 5 player profiles', 'Transfer pipeline', 'Club mandate inbox', 'Outreach board'].map(f => (
+                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#374151' }}>
+                  <Check size={15} color="#059669" /> {f}
+                </li>
+              ))}
+            </ul>
+            <Link href="/registro" style={{ display: 'block', textAlign: 'center', background: '#F3F4F6', color: N, padding: '12px', borderRadius: 10, fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
+              Get started free
+            </Link>
           </div>
-        </section>
-
-        {/* ════════════════════════════════════════
-            LOGOS TRUST
-        ════════════════════════════════════════ */}
-        <LogosTrustSection />
-
-        {/* ════════════════════════════════════════
-            WHATSAPP DEMO ANIMADO
-        ════════════════════════════════════════ */}
-        <WhatsAppDemo />
-
-        {/* ════════════════════════════════════════
-            BENEFITS
-        ════════════════════════════════════════ */}
-        <BenefitsSection />
-
-        {/* ════════════════════════════════════════
-            TESTIMONIALS — carousel
-        ════════════════════════════════════════ */}
-        <TestimonialsSection />
-
-        {/* ════════════════════════════════════════
-            INTEGRACIONES
-        ════════════════════════════════════════ */}
-        <IntegrationsSection />
-
-        {/* ════════════════════════════════════════
-            FAQ — objeciones reales
-        ════════════════════════════════════════ */}
-        <FAQSection />
-
-        {/* ════════════════════════════════════════
-            GARANTÍA
-        ════════════════════════════════════════ */}
-        <GuaranteeSection />
-
-        {/* ════════════════════════════════════════
-            DARK CTA — Fresha-style "La solución #1"
-        ════════════════════════════════════════ */}
-        <section className="py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden"
-          style={{ background: 'linear-gradient(135deg, #05101F 0%, #13244A 50%, #0E1F38 100%)' }}>
-          {/* Decorative orbs */}
-          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute top-[-80px] right-[-80px] w-[500px] h-[500px] rounded-full blur-3xl opacity-10"
-              style={{ background: '#3B82F6' }} />
-            <div className="absolute bottom-[-60px] left-[-60px] w-[400px] h-[400px] rounded-full blur-3xl opacity-10"
-              style={{ background: '#1A3A7A' }} />
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.6, ease: EASE }}
-            className="relative z-10 max-w-3xl mx-auto flex flex-col items-center text-center gap-8"
-          >
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#60A5FA' }}>
-              {lang === 'es' ? 'La infraestructura IA #1 para negocios' : 'The #1 AI infrastructure for businesses'}
+          <div style={{ background: N, border: '2px solid ' + G, borderRadius: 20, padding: '32px 28px', position: 'relative' }}>
+            <span style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: G, color: '#fff', fontSize: 11, fontWeight: 800, padding: '4px 14px', borderRadius: 99, whiteSpace: 'nowrap' }}>
+              MOST POPULAR
             </span>
-
-            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight" style={{ color: '#FFFFFF' }}>
-              {lang === 'es'
-                ? <>¿Listo para nunca volver<br />a perder un cliente?</>
-                : <>Ready to never miss<br />a client again?</>}
-            </h2>
-
-            <p className="text-lg font-light leading-relaxed max-w-xl" style={{ color: 'rgba(240,244,252,0.65)' }}>
-              {lang === 'es'
-                ? 'Activa tu recepcionista IA hoy. Sin código, sin integraciones complejas. En menos de 24 horas.'
-                : 'Activate your AI receptionist today. No code, no complex integrations. In under 24 hours.'}
-            </p>
-
-            {/* Stats row */}
-            <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
-              {[
-                { n: '< 2s',  label: lang === 'es' ? 'tiempo de respuesta' : 'response time' },
-                { n: '24/7',  label: lang === 'es' ? 'sin interrupciones'  : 'no interruptions' },
-                { n: '−35%', label: lang === 'es' ? 'en no-shows'          : 'in no-shows' },
-              ].map((s) => (
-                <div key={s.n} className="flex flex-col items-center gap-0.5">
-                  <span className="text-2xl font-extrabold" style={{ color: '#FFFFFF' }}>{s.n}</span>
-                  <span className="text-xs font-medium" style={{ color: 'rgba(240,244,252,0.45)' }}>{s.label}</span>
-                </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <Zap size={16} color={G} />
+              <p style={{ fontSize: 13, fontWeight: 700, color: G, textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>AgentOS Premium</p>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: 4 }}>
+              <p style={{ fontSize: 38, fontWeight: 900, color: '#fff', margin: 0, letterSpacing: '-0.03em' }}>€39</p>
+              <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>/month</span>
+            </div>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: '0 0 24px' }}>or €299/year (save ~35%)</p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {['Unlimited users & players', 'AI mandate matching', 'White-label PDF proposals', 'Contract expiry alerts', 'Brand kit upload', 'Priority support'].map(f => (
+                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>
+                  <Check size={15} color={G} /> {f}
+                </li>
               ))}
+            </ul>
+            <Link href="/pricing" style={{ display: 'block', textAlign: 'center', background: G, color: '#fff', padding: '12px', borderRadius: 10, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>
+              Upgrade to Premium →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Affiliate CTA ── */}
+      <div style={{ background: 'white', borderTop: '1px solid #E5E7EB', borderBottom: '1px solid #E5E7EB', padding: 'clamp(28px,5vw,40px) 24px' }}>
+        <div className="lp-affiliate" style={{ maxWidth: 900, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
+          <div>
+            <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: G, margin: '0 0 6px' }}>Affiliate Program</p>
+            <p style={{ fontSize: 18, fontWeight: 800, color: N, margin: '0 0 6px' }}>Know football agencies? Earn with us.</p>
+            <p style={{ fontSize: 14, color: '#6B7280', margin: 0 }}>Refer agencies and earn €50 per annual conversion. No cap, no expiry.</p>
+          </div>
+          <Link href="/partners" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: N, color: 'white', padding: '13px 26px', borderRadius: 10, fontWeight: 700, fontSize: 14, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            Join as affiliate <ArrowRight size={15} />
+          </Link>
+        </div>
+      </div>
+
+      {/* ── Founder's Manifesto ── */}
+      <section style={{ background: N, padding: 'clamp(48px,8vw,80px) 24px' }}>
+        <div style={{ maxWidth: 720, margin: '0 auto' }}>
+          <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, margin: '0 0 24px' }}>A Letter from the Founder</p>
+          <blockquote style={{ margin: 0, padding: 0, borderLeft: `3px solid ${G}`, paddingLeft: 24 }}>
+            <p style={{ fontSize: 'clamp(15px,2.5vw,18px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.8, margin: '0 0 24px', fontStyle: 'italic' }}>
+              &ldquo;The world&apos;s top football agencies have had custom CRMs, automated mandate pipelines, and data-driven transfer tools for decades. Independent agents — representing over 90% of the market — have been managing multi-million-euro deals in WhatsApp groups and Excel spreadsheets. That ends today.
+            </p>
+            <p style={{ fontSize: 'clamp(15px,2.5vw,18px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.8, margin: '0 0 32px', fontStyle: 'italic' }}>
+              Welko AgentOS was built by an agent, for agents. Every feature exists because I lived the problem firsthand. We&apos;re not a generic CRM with a football skin — we are the operating system that levels the playing field.&rdquo;
+            </p>
+          </blockquote>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ width: 44, height: 44, borderRadius: '50%', background: G, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <span style={{ fontSize: 16, fontWeight: 900, color: '#fff' }}>D</span>
             </div>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/precios"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-semibold transition-all duration-200"
-                style={{ background: '#FFFFFF', color: '#0A0F1A', boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}
-                onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = '#F0F4FC'; el.style.transform = 'translateY(-2px)' }}
-                onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = '#FFFFFF'; el.style.transform = 'translateY(0)' }}
-              >
-                {lang === 'es' ? 'Comenzar ahora' : 'Get started now'}
-                <ArrowRight size={16} />
-              </Link>
-              <Link
-                href="/como-funciona"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-medium transition-all duration-200"
-                style={{ border: '1.5px solid rgba(255,255,255,0.2)', color: 'rgba(240,244,252,0.85)', background: 'transparent' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.07)' }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}
-              >
-                {lang === 'es' ? 'Ver cómo funciona' : 'See how it works'}
-              </Link>
+            <div>
+              <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: '0 0 2px' }}>Demian Santiago Mendoza Ledesma</p>
+              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', margin: 0 }}>Founder, Welko AgentOS</p>
             </div>
-          </motion.div>
-        </section>
+          </div>
+        </div>
+      </section>
 
-      </main>
-
-      <SupportChatbot />
+      {/* ── Final CTA ── */}
+      <section style={{ padding: 'clamp(48px,8vw,80px) 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 580, margin: '0 auto' }}>
+          <h2 style={{ fontSize: 'clamp(22px, 4vw, 40px)', fontWeight: 900, color: N, letterSpacing: '-0.03em', margin: '0 0 16px' }}>
+            Ready to run your agency<br />like a professional?
+          </h2>
+          <p style={{ fontSize: 'clamp(14px,2vw,16px)', color: '#6B7280', lineHeight: 1.7, margin: '0 0 36px' }}>
+            Join the agents already using Welko AgentOS to close deals faster. Free to start, no credit card required.
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/registro" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: N, color: 'white', padding: '16px 36px', borderRadius: 12, fontWeight: 800, fontSize: 16, textDecoration: 'none' }}>
+              Start for free today <ArrowRight size={17} />
+            </Link>
+            <Link href="/demo" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '2px solid #E5E7EB', color: N, padding: '16px 28px', borderRadius: 12, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+              Book a demo
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* ── Footer ── */}
-      <footer className="py-14 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
-        <div className="max-w-5xl mx-auto flex flex-col gap-8">
-
-          {/* Top row: brand + contact */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-            {/* Brand */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <WelkoLogo size={22} />
-                <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Welko</span>
-              </div>
-              <p className="text-xs font-light max-w-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                {lang === 'es' ? 'El Recepcionista IA Líder para negocios.' : 'The leading AI Receptionist for businesses.'}
+      <footer style={{ background: N, borderTop: '1px solid rgba(255,255,255,0.08)', padding: 'clamp(36px,6vw,48px) 24px 32px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div className="lp-footer-grid" style={{ display: 'grid', gap: 40, marginBottom: 40, alignItems: 'start' }}>
+            <div>
+              <span style={{ fontSize: 18, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em' }}>
+                Welko <span style={{ color: G }}>AgentOS</span>
+              </span>
+              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: '8px 0 0', lineHeight: 1.6, maxWidth: 260 }}>
+                The operating system for football agents. Manage players, mandates, and transfers — all in one place.
               </p>
             </div>
-
-            {/* Contact */}
-            <div className="flex flex-col gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
-              <a href="mailto:hola@welko.org" className="hover:underline transition-colors" style={{ color: 'var(--text-muted)' }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}>
-                hola@welko.org
-              </a>
-              <a href="tel:+525628443738" className="hover:underline transition-colors" style={{ color: 'var(--text-muted)' }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}>
-                +52 56 2844 3738
-              </a>
-              <span>CDMX, México</span>
-            </div>
-
-            {/* Social icons */}
-            <div className="flex items-center gap-3">
-              <a href="https://www.instagram.com/welko_ai/" target="_blank" rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-150"
-                style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = '#E1306C'; el.style.borderColor = '#E1306C44' }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = 'var(--text-muted)'; el.style.borderColor = 'var(--border)' }}
-                aria-label="Instagram">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                </svg>
-              </a>
-              <a href="https://linkedin.com/company/welko-agency" target="_blank" rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-150"
-                style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = '#0A66C2'; el.style.borderColor = '#0A66C244' }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = 'var(--text-muted)'; el.style.borderColor = 'var(--border)' }}
-                aria-label="LinkedIn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          <hr style={{ borderColor: 'var(--border)', margin: 0 }} />
-
-          {/* Bottom row: copyright + legal */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs font-light text-center sm:text-left" style={{ color: 'var(--text-muted)' }}>
-              © {new Date().getFullYear()}{' '}Demian Santiago Mendoza Ledesma — Welko &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
-            </p>
-            <nav className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
+            <nav className="lp-footer-nav" style={{ flexDirection: 'column', gap: 10 }}>
+              <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>Product</p>
               {[
-                { label: lang === 'es' ? 'Términos y Condiciones' : 'Terms & Conditions', href: '/terminos' },
-                { label: lang === 'es' ? 'Política de Privacidad' : 'Privacy Policy',     href: '/privacidad' },
-                { label: lang === 'es' ? 'Reembolsos'             : 'Refunds',            href: '/reembolsos' },
-                { label: lang === 'es' ? 'Soporte'                : 'Support',            href: '/soporte' },
-                { label: lang === 'es' ? 'Hecho en México'        : 'Made in Mexico',      href: '#' },
-              ].map((link) => (
-                <Link key={link.href} href={link.href}
-                  className="text-xs font-medium transition-colors duration-150"
-                  style={{ color: 'var(--text-muted)' }}
-                  onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-                  onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-muted)')}
-                >
-                  {link.label}
-                </Link>
+                { label: 'Pricing',    href: '/pricing'  },
+                { label: 'Demo',       href: '/demo'     },
+                { label: 'Affiliates', href: '/partners' },
+              ].map(l => (
+                <Link key={l.href} href={l.href} style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{l.label}</Link>
+              ))}
+            </nav>
+            <nav className="lp-footer-nav" style={{ flexDirection: 'column', gap: 10 }}>
+              <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>Legal</p>
+              {[
+                { label: 'Terms',   href: '/terminos'  },
+                { label: 'Privacy', href: '/privacidad' },
+                { label: 'Support', href: '/soporte'    },
+              ].map(l => (
+                <Link key={l.href} href={l.href} style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{l.label}</Link>
               ))}
             </nav>
           </div>
-
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', margin: 0 }}>
+              © {new Date().getFullYear()} Welko AgentOS · welko.agency
+            </p>
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', margin: 0 }}>
+              Demian Santiago Mendoza Ledesma
+            </p>
+          </div>
         </div>
       </footer>
-    </>
+
+    </div>
   )
 }
