@@ -3,84 +3,61 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { useClerk, useUser } from '@clerk/nextjs'
 import Link from 'next/link'
-import { WelkoLogo } from '@/components/ui/WelkoLogo'
 import {
-  LayoutDashboard,
-  MessageSquare,
-  CalendarCheck,
-  Radio,
-  Bot,
-  Package,
-  Settings2,
-  LogOut,
-  Menu,
-  X,
+  LayoutDashboard, Users, GitBranch,
+  Settings2, LogOut, Menu, X, Trophy, ArrowUpRight,
+  Building2, Eye, MessageSquare, CheckSquare,
+  BarChart2, Bot, Shield, Plug, Search, Target,
 } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
-type Plan = 'starter' | 'essential' | 'pro' | 'business'
-const PLAN_ORDER: Record<Plan, number> = { starter: 0, essential: 1, pro: 2, business: 3 }
+type Plan = 'scout' | 'premium'
 
-// Industry-specific label for the "Citas" nav item
-const INDUSTRY_CITAS: Record<string, string> = {
-  salud: 'Citas', restaurante: 'Reservaciones', barberia: 'Turnos',
-  hotel: 'Reservas', fitness: 'Clases', legal: 'Consultas',
-  spa: 'Sesiones', retail: 'Pedidos',
-}
-// Industry-specific label for "Clientes/Pacientes/Huéspedes"
-const INDUSTRY_CLIENT: Record<string, string> = {
-  salud: 'Pacientes', restaurante: 'Comensales', barberia: 'Clientes',
-  hotel: 'Huéspedes', fitness: 'Miembros', legal: 'Expedientes',
-  spa: 'Clientes', retail: 'Compradores',
-}
+const NAV_ITEMS = [
+  { label: 'Dashboard',        href: '/dashboard',                  icon: LayoutDashboard, plan: 'scout'   as Plan },
+  { label: 'Players',          href: '/dashboard/players',          icon: Users,           plan: 'scout'   as Plan },
+  { label: 'Mandates AI',      href: '/dashboard/mandates',         icon: Bot,             plan: 'scout'   as Plan },
+  { label: 'Pipeline',         href: '/dashboard/pipeline',         icon: GitBranch,       plan: 'scout'   as Plan },
+  { label: 'Commissions',      href: '/dashboard/commissions',      icon: BarChart2,       plan: 'scout'   as Plan },
+  { label: 'Outreach',         href: '/dashboard/outreach',         icon: Target,          plan: 'scout'   as Plan },
+  { label: 'Clubs',            href: '/dashboard/clubs',            icon: Building2,       plan: 'scout'   as Plan },
+  { label: 'Tasks',            href: '/dashboard/tasks',            icon: CheckSquare,     plan: 'scout'   as Plan },
+  { label: 'Communications',   href: '/dashboard/communications',   icon: MessageSquare,   plan: 'scout'   as Plan },
+  { label: 'Scouting',         href: '/dashboard/scouting',         icon: Eye,             plan: 'premium' as Plan },
+  { label: 'Agent Search',     href: '/dashboard/search',           icon: Search,          plan: 'premium' as Plan },
+  { label: 'Reports',          href: '/dashboard/reports',          icon: BarChart2,       plan: 'premium' as Plan },
+  { label: 'Automatizaciones', href: '/dashboard/ai-agents',        icon: Bot,             plan: 'premium' as Plan },
+  { label: 'Integrations',     href: '/dashboard/integrations',     icon: Plug,            plan: 'premium' as Plan },
+]
 
-function buildNavItems(industry: string): { label: string; href: string; icon: React.ElementType; requiredPlan: Plan }[] {
-  return [
-    { label: 'Inicio',                           href: '/dashboard',                  icon: LayoutDashboard, requiredPlan: 'starter'   as Plan },
-    { label: 'Conversaciones',                   href: '/dashboard/conversaciones',   icon: MessageSquare,   requiredPlan: 'starter'   as Plan },
-    { label: INDUSTRY_CITAS[industry] ?? 'Citas',href: '/dashboard/citas',            icon: CalendarCheck,   requiredPlan: 'starter'   as Plan },
-    { label: INDUSTRY_CLIENT[industry] ?? 'Clientes', href: '/dashboard/clientes',   icon: Package,         requiredPlan: 'starter'   as Plan },
-    { label: 'Canales',                          href: '/dashboard/canales',          icon: Radio,           requiredPlan: 'essential' as Plan },
-    { label: 'IA & Negocio',                     href: '/dashboard/ia',               icon: Bot,             requiredPlan: 'starter'   as Plan },
-    { label: 'Ajustes',                          href: '/dashboard/ajustes',          icon: Settings2,       requiredPlan: 'starter'   as Plan },
-  ]
-}
-
-const PLAN_LABELS: Record<Plan, string> = { starter: 'Starter', essential: 'Essential', pro: 'Pro', business: 'Business' }
-const PLAN_BADGE: Record<Plan, React.CSSProperties> = {
-  starter:   { background: '#F3F4F6', color: '#6B7280' },
-  essential: { background: 'rgba(16,185,129,0.1)', color: '#059669' },
-  pro:       { background: 'rgba(59,130,246,0.1)', color: '#2563EB' },
-  business:  { background: 'rgba(245,158,11,0.1)', color: '#D97706' },
-}
-const LOCK_BADGE: Record<Plan, string> = { starter: '', essential: 'ESS', pro: 'PRO', business: 'BIZ' }
-
-export function Sidebar({ plan }: { plan: string }) {
+export function Sidebar({
+  plan,
+  agencyName,
+  logoUrl,
+  isSuperAdmin,
+}: {
+  plan: Plan
+  agencyName?: string | null
+  logoUrl?: string | null
+  isSuperAdmin?: boolean
+}) {
   const pathname  = usePathname()
   const { signOut } = useClerk()
   const { user }  = useUser()
   const router    = useRouter()
   const [open, setOpen] = useState(false)
-  const [previewIndustry, setPreviewIndustry] = useState('salud')
 
-  // Re-read industry on every route change so labels update without refresh
-  useEffect(() => {
-    const stored = localStorage.getItem('welko_preview_industry')
-    if (stored) setPreviewIndustry(stored)
-  }, [pathname])
-
-  const NAV_ITEMS = buildNavItems(previewIndustry)
-  const currentPlan = (plan as Plan) || 'essential'
-  const canAccess = (req: Plan) => PLAN_ORDER[currentPlan] >= PLAN_ORDER[req]
+  const isPremium = plan === 'premium'
 
   function isActive(href: string) {
     return href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(href)
   }
 
-  const displayName = user?.firstName
-    ? `${user.firstName} ${user.lastName || ''}`.trim()
-    : (user?.emailAddresses?.[0]?.emailAddress ?? '')
+  const displayName =
+    user?.firstName
+      ? `${user.firstName} ${user.lastName ?? ''}`.trim()
+      : (user?.emailAddresses?.[0]?.emailAddress ?? '')
 
   const initial =
     user?.firstName?.[0] ??
@@ -88,101 +65,147 @@ export function Sidebar({ plan }: { plan: string }) {
     '?'
 
   const inner = (
-    <div className="flex flex-col h-full" style={{ background: 'var(--surface)', borderRight: '1px solid var(--border)' }}>
+    <div className="flex flex-col h-full" style={{ background: '#0A1628', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
 
-      {/* Logo */}
-      <div className="flex items-center justify-between px-5 h-16 flex-shrink-0" style={{ borderBottom: '1px solid var(--border)' }}>
-        <Link href="/" className="flex items-center gap-2.5">
-          <WelkoLogo size={32} />
-          <span style={{ fontSize: 17, fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--text-primary)', fontFamily: 'var(--font-montserrat), sans-serif' }}>
-            Welko
-          </span>
-        </Link>
-        <button className="lg:hidden" onClick={() => setOpen(false)} style={{ color: 'var(--text-muted)' }}>
+      {/* Agency brand header */}
+      <div className="flex items-center justify-between px-4 py-3 flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', minHeight: 64 }}>
+        <div className="flex items-center gap-2.5 min-w-0">
+          {logoUrl ? (
+            <img src={logoUrl} alt={agencyName ?? 'Agency'} style={{ width: 32, height: 32, borderRadius: 8, objectFit: 'contain', flexShrink: 0, border: '1px solid rgba(255,255,255,0.12)' }} />
+          ) : (
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: '#1E6FEB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Trophy size={16} color="#fff" />
+            </div>
+          )}
+          <div className="min-w-0">
+            <p style={{ fontSize: 13, fontWeight: 800, letterSpacing: '-0.02em', color: '#fff', fontFamily: 'var(--font-montserrat), sans-serif', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 130 }}>
+              {agencyName ?? 'My Agency'}
+            </p>
+            <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', margin: 0, fontWeight: 500, letterSpacing: '0.02em' }}>
+              Powered by Welko AgentOS
+            </p>
+          </div>
+        </div>
+        <button className="lg:hidden" onClick={() => setOpen(false)} style={{ color: 'rgba(255,255,255,0.5)', flexShrink: 0 }}>
           <X size={18} />
         </button>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1">
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-0.5">
         {NAV_ITEMS.map((item) => {
-          const accessible = canAccess(item.requiredPlan)
-          const active     = isActive(item.href)
+          const locked  = item.plan === 'premium' && !isPremium
+          const active  = isActive(item.href)
 
-          if (!accessible) {
+          if (locked) {
             return (
               <Link
                 key={item.href}
-                href="/precios"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl"
-                style={{ opacity: 0.4, color: 'var(--text-muted)' }}
-                title={`Requiere Plan ${PLAN_LABELS[item.requiredPlan]}`}
+                href="/pricing"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg"
+                style={{ opacity: 0.4, color: 'rgba(255,255,255,0.6)' }}
+                title="Requires Premium plan"
               >
-                <item.icon size={17} />
-                <span className="text-sm flex-1 truncate">{item.label}</span>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: '#F3F4F6', color: '#9CA3AF' }}>
-                  {LOCK_BADGE[item.requiredPlan]}
-                </span>
+                <item.icon size={16} />
+                <span style={{ fontSize: 13, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</span>
+                <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 4, background: 'rgba(30,111,235,0.3)', color: '#60A5FA', letterSpacing: '0.04em' }}>PRO</span>
               </Link>
             )
           }
-
-          const tourId =
-            item.href === '/dashboard'                 ? 'tour-inicio' :
-            item.href === '/dashboard/conversaciones'  ? 'tour-conversaciones' :
-            item.href === '/dashboard/citas'           ? 'tour-citas' :
-            item.href === '/dashboard/canales'         ? 'tour-canales' :
-            item.href === '/dashboard/ia'              ? 'tour-ia' : undefined
 
           return (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              {...(tourId ? { 'data-tour': tourId } : {})}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors duration-150"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-150"
               style={
                 active
-                  ? { background: 'var(--accent-subtle)', color: 'var(--accent)', fontWeight: 600 }
-                  : { color: 'var(--text-secondary)' }
+                  ? { background: 'rgba(30,111,235,0.18)', color: '#fff', fontWeight: 600 }
+                  : { color: 'rgba(255,255,255,0.55)' }
               }
-              onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLElement).style.background = 'var(--accent-ghost)' }}
+              onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)' }}
               onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLElement).style.background = 'transparent' }}
             >
-              <item.icon size={17} strokeWidth={active ? 2.5 : 1.75} />
-              <span className="text-sm font-medium truncate">{item.label}</span>
-              {active && <div className="ml-auto w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'var(--accent)' }} />}
+              <item.icon size={16} color={active ? '#60A5FA' : undefined} strokeWidth={active ? 2.5 : 1.75} />
+              <span style={{ fontSize: 13, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</span>
+              {active && <div className="ml-auto w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#1E6FEB' }} />}
             </Link>
           )
         })}
+
+        {/* SuperAdmin link */}
+        {isSuperAdmin && (
+          <Link
+            href="/superadmin"
+            className="flex items-center gap-3 px-3 py-2 rounded-lg"
+            style={{ color: '#60A5FA', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 12, marginTop: 8 }}
+          >
+            <Trophy size={16} />
+            <span style={{ fontSize: 13 }}>Founder Dashboard</span>
+          </Link>
+        )}
       </nav>
 
+      {/* Upgrade CTA — visible only on Scout (free) plan */}
+      {!isPremium && (
+        <div className="px-3 pb-2">
+          <Link
+            href="/pricing"
+            className="flex items-center justify-center gap-2"
+            style={{
+              background: 'linear-gradient(135deg, #1E6FEB, #3B82F6)',
+              color: '#fff', padding: '10px 16px', borderRadius: 10,
+              fontWeight: 800, fontSize: 11, textDecoration: 'none',
+              textTransform: 'uppercase', letterSpacing: '0.06em',
+              fontFamily: 'var(--font-montserrat), sans-serif',
+            }}
+          >
+            <ArrowUpRight size={13} />
+            Upgrade to Premium
+          </Link>
+        </div>
+      )}
+
       {/* Footer */}
-      <div className="px-4 py-4 flex flex-col gap-3" style={{ borderTop: '1px solid var(--border)' }}>
+      <div className="px-4 py-3 flex flex-col gap-2.5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={PLAN_BADGE[currentPlan]}>
-            {PLAN_LABELS[currentPlan]}
+          <span className="text-xs font-semibold px-2 py-0.5 rounded-full"
+            style={isPremium
+              ? { background: 'rgba(30,111,235,0.25)', color: '#60A5FA' }
+              : { background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)' }
+            }>
+            {isPremium ? 'AgentOS Premium' : 'Scout — Free'}
           </span>
-          {currentPlan !== 'business' && (
-            <Link href="/precios" className="text-xs" style={{ color: 'var(--text-muted)' }}>
-              Actualizar →
+          {!isPremium && (
+            <Link href="/pricing" className="text-xs" style={{ color: '#60A5FA' }}>
+              Upgrade →
             </Link>
           )}
         </div>
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: 'var(--accent-subtle)', color: 'var(--accent)' }}>
+          <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+            style={{ background: 'rgba(30,111,235,0.25)', color: '#60A5FA' }}>
             {initial}
           </div>
-          <p className="text-xs font-medium flex-1 min-w-0 truncate" style={{ color: 'var(--text-primary)' }}>
+          <p className="text-xs font-medium flex-1 min-w-0 truncate" style={{ color: 'rgba(255,255,255,0.7)' }}>
             {displayName}
           </p>
-          <ThemeToggle />
+          <Link
+            href="/dashboard/settings"
+            title="Settings"
+            style={{ color: isActive('/dashboard/settings') ? '#60A5FA' : 'rgba(255,255,255,0.4)' }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.8)' }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = isActive('/dashboard/settings') ? '#60A5FA' : 'rgba(255,255,255,0.4)' }}
+          >
+            <Settings2 size={15} />
+          </Link>
           <button
             onClick={() => signOut(() => router.push('/'))}
-            title="Cerrar sesión"
-            style={{ color: 'var(--text-muted)' }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)')}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--text-muted)')}
+            title="Sign out"
+            style={{ color: 'rgba(255,255,255,0.4)' }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.8)')}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.4)')}
           >
             <LogOut size={15} />
           </button>
@@ -199,7 +222,7 @@ export function Sidebar({ plan }: { plan: string }) {
       <button
         onClick={() => setOpen(true)}
         className="lg:hidden fixed top-4 left-4 z-50 w-9 h-9 rounded-xl flex items-center justify-center"
-        style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}
+        style={{ background: '#0A1628', color: '#1E6FEB' }}
       >
         <Menu size={16} />
       </button>

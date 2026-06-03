@@ -42,8 +42,23 @@ export default function HomePage() {
       <Suspense fallback={null}><RefTracker /></Suspense>
 
       {/* ── Hero ── */}
-      <section className="lp-hero" style={{ background: N, textAlign: 'center', overflow: 'hidden' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+      <section className="lp-hero" style={{ background: N, textAlign: 'center', overflow: 'hidden', position: 'relative' }}>
+        {/* Background glow orbs */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: '-10%', left: '50%', transform: 'translateX(-50%)', width: 700, height: 400, background: 'radial-gradient(ellipse, rgba(30,111,235,0.18) 0%, transparent 70%)', borderRadius: '50%' }} />
+          <div style={{ position: 'absolute', top: '30%', left: '-5%', width: 300, height: 300, background: 'radial-gradient(ellipse, rgba(30,111,235,0.08) 0%, transparent 70%)', borderRadius: '50%' }} />
+          <div style={{ position: 'absolute', top: '20%', right: '-5%', width: 350, height: 350, background: 'radial-gradient(ellipse, rgba(59,130,246,0.06) 0%, transparent 70%)', borderRadius: '50%' }} />
+          {/* Dot grid */}
+          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.04 }} xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+                <circle cx="1.5" cy="1.5" r="1.5" fill="#fff" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#dots)" />
+          </svg>
+        </div>
+        <div style={{ maxWidth: 760, margin: '0 auto', position: 'relative' }}>
           <span style={{ display: 'inline-block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, background: 'rgba(30,111,235,0.12)', padding: '4px 14px', borderRadius: 99, marginBottom: 24 }}>
             Football Agency Platform
           </span>
@@ -64,6 +79,7 @@ export default function HomePage() {
           <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', marginTop: 20 }}>
             Free Scout plan — no credit card required
           </p>
+        </div>
         </div>
 
         <HeroMockup />
@@ -184,19 +200,29 @@ export default function HomePage() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
           {[
-            { label: 'Excel + WhatsApp', emoji: '❌', desc: 'No pipeline, no alerts, no mandate parsing. Just chaos.' },
-            { label: 'Generic CRM',      emoji: '❌', desc: 'No ELO ratings, no market windows, no football context.' },
-            { label: 'Wyscout / InStat', emoji: '❌', desc: '€1,000+/month, built for clubs. Not for independent agents.' },
-            { label: 'Welko AgentOS',    emoji: '✅', desc: 'All-in-one, football-native, €0 to start. Built by an agent.', highlight: true },
+            { label: 'Excel + WhatsApp', icon: '📊', points: ['No pipeline tracking', 'Mandates lost in chat', 'No contract alerts'], bad: true },
+            { label: 'Generic CRM',      icon: '🔧', points: ['No ELO ratings', 'No market windows', 'No football context'], bad: true },
+            { label: 'Wyscout / InStat', icon: '💸', points: ['€1,000+/month', 'Built for clubs, not agents', 'Complex, overkill'], bad: true },
+            { label: 'Welko AgentOS',    icon: '⚽', points: ['AI mandate parsing', 'Pipeline + commissions', '€0 to start'], highlight: true },
           ].map((r, i) => (
             <div key={i} style={{
-              background: r.highlight ? N : '#F9FAFB',
+              background: r.highlight ? N : 'white',
               border: r.highlight ? `2px solid ${G}` : '1px solid #E5E7EB',
-              borderRadius: 16, padding: '20px',
+              borderRadius: 16, padding: '22px 20px',
+              boxShadow: r.highlight ? '0 8px 32px rgba(30,111,235,0.15)' : '0 1px 4px rgba(0,0,0,0.04)',
             }}>
-              <p style={{ fontSize: 20, margin: '0 0 8px' }}>{r.emoji}</p>
-              <p style={{ fontSize: 14, fontWeight: 700, color: r.highlight ? '#fff' : N, margin: '0 0 6px' }}>{r.label}</p>
-              <p style={{ fontSize: 13, color: r.highlight ? 'rgba(255,255,255,0.6)' : '#6B7280', lineHeight: 1.6, margin: 0 }}>{r.desc}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                <span style={{ fontSize: 20 }}>{r.icon}</span>
+                <p style={{ fontSize: 14, fontWeight: 800, color: r.highlight ? '#fff' : N, margin: 0 }}>{r.label}</p>
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {r.points.map((pt, j) => (
+                  <li key={j} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}>
+                    <span style={{ flexShrink: 0 }}>{r.highlight ? '✓' : '✗'}</span>
+                    <span style={{ color: r.highlight ? 'rgba(255,255,255,0.8)' : '#6B7280' }}>{pt}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
