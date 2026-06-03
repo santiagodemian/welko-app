@@ -115,7 +115,7 @@ export default function PipelinePage() {
             const cards = stage?.negotiations ?? []
 
             return (
-              <div key={stageDef.id} className="pipeline-col" style={{ background: '#F9FAFB', borderRadius: 14, border: '1px solid #E5E7EB', overflow: 'hidden' }}>
+              <div key={stageDef.id} className="pipeline-col" style={{ background: '#F9FAFB', borderRadius: 14, border: '1px solid #E5E7EB', overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 {/* Column header */}
                 <div style={{ padding: '14px 16px', borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

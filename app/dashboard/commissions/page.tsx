@@ -28,7 +28,7 @@ const STATUS_STYLES = {
 
 function StatBox({ label, value, color = N, sub }: { label: string; value: string; color?: string; sub?: string }) {
   return (
-    <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, padding: '20px 24px' }}>
+    <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, padding: '20px 24px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
       <p style={{ fontSize: 12, color: '#9CA3AF', margin: '0 0 6px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</p>
       <p style={{ fontSize: 28, fontWeight: 900, color, margin: 0, letterSpacing: '-0.03em', fontFamily: 'var(--font-montserrat)' }}>{value}</p>
       {sub && <p style={{ fontSize: 11, color: '#9CA3AF', margin: '4px 0 0' }}>{sub}</p>}

@@ -418,7 +418,7 @@ export default async function DashboardPage() {
       <div className="db-kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 28 }}>
         {kpiCards.map(({ label, value, icon: Icon, iconBg, iconColor, href, valueColor }) => (
           <Link key={label} href={href} style={{ textDecoration: 'none' }}>
-            <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, padding: 20, cursor: 'pointer' }}>
+            <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, padding: 20, cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
               <div style={{ width: 38, height: 38, borderRadius: 10, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
                 <Icon size={18} color={iconColor} />
               </div>
@@ -431,7 +431,7 @@ export default async function DashboardPage() {
         ))}
       </div>
 
-      <div style={{ background: '#F9FAFB', borderRadius: 16, padding: 24, border: '1px solid #E5E7EB', marginBottom: 28 }}>
+      <div style={{ background: '#F9FAFB', borderRadius: 16, padding: 24, border: '1px solid #E5E7EB', marginBottom: 28, boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
           <Bot size={16} color={G} />
           <span style={{ fontSize: 13, fontWeight: 700, color: N }}>AI Insights</span>
@@ -482,7 +482,7 @@ export default async function DashboardPage() {
 
       <div className="db-main-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, marginBottom: 28 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden' }}>
+          <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
             <div style={{ padding: '16px 20px', borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <GitBranch size={15} color={G} />
@@ -546,7 +546,7 @@ export default async function DashboardPage() {
             )}
           </div>
 
-          <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden' }}>
+          <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
             <div style={{ padding: '16px 20px', borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', gap: 8 }}>
               <CalendarDays size={15} color={G} />
               <h2 style={{ fontSize: 14, fontWeight: 700, color: N, margin: 0 }}>Upcoming Meetings</h2>
@@ -562,7 +562,7 @@ export default async function DashboardPage() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden' }}>
+          <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
             <div style={{ padding: '16px 20px', borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <CheckSquare size={15} color={G} />
@@ -619,7 +619,7 @@ export default async function DashboardPage() {
             )}
           </div>
 
-          <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden' }}>
+          <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
             <div style={{ padding: '16px 20px', borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Clock size={15} color="#EF4444" />
               <h2 style={{ fontSize: 14, fontWeight: 700, color: N, margin: 0 }}>Contract Alerts</h2>
@@ -667,7 +667,7 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, padding: '18px 20px' }}>
+      <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 14, padding: '18px 20px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
         <p style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.07em', margin: '0 0 14px' }}>
           Quick Actions
         </p>
