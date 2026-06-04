@@ -123,8 +123,8 @@ export default function ClubsPage() {
         @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
         .club-card-delete { opacity: 0; transition: opacity 0.15s; }
         .club-card:hover .club-card-delete { opacity: 1; }
-        .club-card { transition: box-shadow 0.15s; }
-        .club-card:hover { box-shadow: 0 4px 20px rgba(10,22,40,0.08); }
+        .club-card { transition: box-shadow 0.15s; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        .club-card:hover { box-shadow: 0 4px 20px rgba(10,22,40,0.12); }
         .delete-btn:hover { color: #EF4444 !important; background: rgba(239,68,68,0.06) !important; }
       `}</style>
 
