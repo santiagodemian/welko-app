@@ -3,11 +3,10 @@ import { NextResponse } from 'next/server'
 
 const isDashboard    = createRouteMatcher(['/dashboard(.*)'])
 const isAuthPage     = createRouteMatcher(['/login(.*)', '/registro(.*)'])
-const isProOnly      = createRouteMatcher(['/dashboard/reportes(.*)', '/dashboard/llamadas(.*)'])
-const isBusinessOnly = createRouteMatcher([
-  '/dashboard/ehr(.*)',
-  '/dashboard/analisis(.*)',
-  '/dashboard/sucursales(.*)',
+const isPremiumOnly = createRouteMatcher([
+  '/dashboard/proposals(.*)',
+  '/dashboard/brand(.*)',
+  '/dashboard/team(.*)',
 ])
 
 // Admin user IDs that bypass all plan restrictions.
@@ -44,15 +43,11 @@ export const proxy = clerkMiddleware(async (auth, req) => {
   const plan = sessionClaims?.plan
 
   if (!plan) {
-    return NextResponse.redirect(new URL('/precios', req.url))
+    return NextResponse.redirect(new URL('/pricing', req.url))
   }
 
-  if (isProOnly(req) && plan === 'essential') {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
-  }
-
-  if (isBusinessOnly(req) && plan !== 'business') {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+  if (isPremiumOnly(req) && plan !== 'premium') {
+    return NextResponse.redirect(new URL('/pricing', req.url))
   }
 })
 

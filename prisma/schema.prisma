@@ -1,11 +1,10 @@
-// ─── Welko — Prisma Schema ────────────────────────────────────────────────────
+// ─── Welko AgentOS — Prisma Schema ────────────────────────────────────────────
 //
-// Encrypted fields (AES-256-GCM via lib/encryption.ts):
-//   Clinic.customizationPrompt, Clinic.crmApiKeys, Clinic.googleRefreshToken
-//   Lead.patientName, Lead.patientPhone, Lead.callTranscript, Lead.notes
+// Multi-tenant football agency intermediation platform.
+// Tenancy: Agency (1:1 Clerk Organization) → AgencyMember (users)
 //
-// After any schema change:
-//   npx prisma migrate dev --name <description>
+// After schema changes run:
+//   DATABASE_URL=... npx prisma db push
 //   npx prisma generate
 // ──────────────────────────────────────────────────────────────────────────────
 
@@ -19,215 +18,736 @@ datasource db {
 
 // ─── Enums ────────────────────────────────────────────────────────────────────
 
-enum LeadStatus {
-  NUEVO
-  EN_SEGUIMIENTO_IA
-  CITA_CONFIRMADA
-  REVENUE_CERRADO
-  PERDIDO
+enum UserRole {
+  SUPERADMIN
+  AGENCY_OWNER
+  MANAGER
+  AGENT
+  SCOUT
 }
 
-enum LeadChannel {
-  WHATSAPP
-  INSTAGRAM
-  FACEBOOK
-  LLAMADA
-  WEB
+enum PlayerVerificationStatus {
+  VERIFIED_NO_AGENT
+  REPRESENTED_EXTERNAL
+  UNDER_REVIEW
 }
 
-// ─── Clinic ───────────────────────────────────────────────────────────────────
+enum MandateStatus {
+  OPEN
+  CLOSED
+}
 
-model Clinic {
-  id          String @id @default(cuid())
-  clerkUserId String @unique
-  name        String
-  plan        String @default("essential")
+enum TransferStageName {
+  INITIAL_CONTACT
+  PROPOSAL_SENT
+  FINANCIAL_TALKS
+  CONTRACT_CLOSURE
+}
 
-  // ── Industry ────────────────────────────────────────────────────────────────
-  // Slug from lib/industries.ts — e.g. "dental", "restaurante", "barberia"
-  industry String @default("dental")
+// Granular deal lifecycle stages used on CommunicationLogs, Tasks, and future Deal records.
+enum DealStage {
+  PROSPECT
+  INITIAL_CONTACT
+  NEGOTIATION
+  TERMS_AGREED
+  MEDICAL
+  CONTRACT_SIGNING
+  COMPLETED
+  COLLAPSED
+}
 
-  // ── Contact & Location ──────────────────────────────────────────────────────
-  phone   String?
-  address String?
+enum DealType {
+  TRANSFER
+  LOAN
+  CONTRACT_RENEWAL
+  FREE_TRANSFER
+}
+
+enum CommunicationType {
+  EMAIL
+  CALL
+  MEETING
+  MESSAGE
+  VIDEO_CALL
+}
+
+enum CommunicationOutcome {
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
+  FOLLOW_UP_REQUIRED
+}
+
+enum ComplianceType {
+  AGENT_LICENSE
+  GDPR_CONSENT
+  DATA_DELETION
+  CONTRACT_AUDIT
+  TRANSFER_COMPLIANCE
+  WORK_PERMIT
+}
+
+enum ComplianceStatus {
+  VALID
+  EXPIRING_SOON
+  EXPIRED
+  PENDING_REVIEW
+  NON_COMPLIANT
+}
+
+enum SubscriptionPlan {
+  FREE
+  PREMIUM_MONTHLY
+  PREMIUM_ANNUAL
+  AGENCY_MONTHLY
+  AGENCY_ANNUAL
+}
+
+enum PlayerCategory {
+  MANAGED      // Under representation contract
+  MANDATE      // Being shopped for a specific club mandate
+  PROSPECTIVE  // Being scouted, not yet represented
+}
+
+enum PlayerActivityType {
+  PLAYER_ADDED
+  NOTE_ADDED
+  PIPELINE_MOVED
+  PROPOSAL_SENT
+  CATEGORY_CHANGED
+  PROFILE_UPDATED
+  MANDATE_MATCHED
+}
+
+enum CommissionStatus {
+  EXPECTED
+  INVOICED
+  RECEIVED
+  CANCELLED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+}
+
+enum AffiliateStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+}
+
+enum AffiliatePayoutStatus {
+  PENDING
+  PROCESSING
+  PAID
+  FAILED
+}
+
+// ─── SuperAdmin ────────────────────────────────────────────────────────────────
+// Santiago's global founder dashboard.
+// Tracks MRR, ARR, active agencies, and system-wide configuration.
+
+model SuperAdmin {
+  id          String   @id @default(cuid())
+  clerkUserId String   @unique
+  email       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── Agency (Tenant) ──────────────────────────────────────────────────────────
+// Each subscribed football agency is an independent tenant.
+// clerkOrgId maps 1:1 to a Clerk Organization.
+
+model Agency {
+  id         String  @id @default(cuid())
+  clerkOrgId String? @unique
+
+  name    String
+  country String  @default("ES")
   website String?
-  // String[] — e.g. ["Odontología General", "Estética Dental"]
-  specialties Json?
 
-  // ── Working hours ───────────────────────────────────────────────────────────
-  // Shape: { "lunes": { "open": "09:00", "close": "18:00", "active": true }, ... }
-  workingHours Json?
+  // Optional: linked to an affiliate who referred this agency
+  affiliateId String?
+  affiliate   AffiliatePartner? @relation(fields: [affiliateId], references: [id])
 
-  // ── AI agent identity ───────────────────────────────────────────────────────
-  aiAgentName     String?
-  // "profesional" | "amigable" | "empático" | "formal"
-  aiTone          String?
-  aiVoiceId        String?
-  vapiAssistantId  String?
-  vapiPhoneNumberId String?
-  voicePhoneNumber  String?
+  brandKit         AgencyBrandKit?
+  subscription     Subscription?
+  members          AgencyMember[]
+  players          PlayerProfile[]
+  mandates         ClubRequest[]
+  pipelines        TransferPipeline[]
+  contacts         ClubContact[]
+  commissions      DealCommission[]
+  clubs            Club[]
+  communicationLogs CommunicationLog[]
+  tasks            Task[]
+  aiAgentConfig    AIAgentConfig?
+  complianceRecords ComplianceRecord[]
 
-  // ── AI knowledge base — drives customizationPrompt synthesis ────────────────
-  // { question: string; answer: string }[]
-  faqs               Json?
-  // String[] — e.g. ["Efectivo", "Tarjeta de crédito", "Transferencia"]
-  paymentMethods     Json?
-  // String[] — e.g. ["GNP", "IMSS", "AXA"]
-  insurancesAccepted Json?
-  cancellationPolicy String?
-  hasParking         Boolean @default(false)
-  hasInvoicing       Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  // ── AI system prompt — stored encrypted (lib/encryption.ts) ─────────────────
-  customizationPrompt String?
+  @@index([clerkOrgId])
+  @@index([affiliateId])
+}
 
-  // ── External integrations ───────────────────────────────────────────────────
-  // Encrypted JSON: { "zoho": "key", "hubspot": "key" }
-  crmApiKeys    String?
-  webhookSecret String?
+// ─── AgencyBrandKit (1:1 with Agency) ─────────────────────────────────────────
+// White-label brand parameters used on auto-generated player proposals.
 
-  // ── WhatsApp (Twilio) ────────────────────────────────────────────────────────
-  // E.164 format, e.g. "+521234567890" — the Twilio number assigned to this clinic
-  whatsappPhone String? @unique
+model AgencyBrandKit {
+  id       String @id @default(cuid())
+  agencyId String @unique
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
 
-  // ── Meta (Facebook Messenger + Instagram DMs) ────────────────────────────────
-  // Facebook Page ID and long-lived Page Access Token (encrypted)
-  facebookPageId    String? @unique
-  facebookPageToken String? // encrypted with lib/encryption.ts
-  // Instagram Business Account ID (linked to the Facebook Page)
-  instagramAccountId String? @unique
+  logoUrl        String?
+  primaryColor   String? // hex e.g. "#0A1628"
+  accentColor    String? // hex e.g. "#C9A84C"
+  customFont     String? // Google Fonts name e.g. "Inter"
+  footerEmail    String?
+  footerPhone    String?
+  footerLocation String?
 
-  // ── Google Calendar ──────────────────────────────────────────────────────────
-  // Encrypted OAuth2 refresh token — set via /api/calendar/callback
-  googleRefreshToken String?
+  updatedAt DateTime @updatedAt
+}
 
-  // ── Onboarding state ────────────────────────────────────────────────────────
-  onboardingCompleted Boolean @default(false)
+// ─── AgencyMember (User) ──────────────────────────────────────────────────────
+// Internal staff belonging to an Agency, mapped via Clerk userId.
 
-  services              Service[]
-  leads                 Lead[]
-  branches              Branch[]
-  whatsappConversations WhatsAppConversation[]
-  metaConversations     MetaConversation[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+model AgencyMember {
+  id       String @id @default(cuid())
+  agencyId String
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
 
+  clerkUserId String   @unique
+  email       String
+  fullName    String
+  avatarUrl   String?
+  role        UserRole @default(SCOUT)
+  active      Boolean  @default(true)
+
+  createdPlayers    PlayerProfile[]
+  scoutingReports   ScoutingReport[]
+  communicationLogs CommunicationLog[]
+  tasks             Task[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agencyId])
   @@index([clerkUserId])
 }
 
-// ─── Service ──────────────────────────────────────────────────────────────────
-// Replaced atomically on each onboarding save (deleteMany + createMany in tx).
-// priceMin/priceMax drives the Revenue Asegurado calculation in BI.
+// ─── PlayerProfile ────────────────────────────────────────────────────────────
 
-model Service {
-  id           String  @id @default(cuid())
-  clinicId     String
-  clinic       Clinic  @relation(fields: [clinicId], references: [id], onDelete: Cascade)
-
-  name         String
-  description  String?
-  priceMin     Float?
-  priceMax     Float?
-  durationMins Int?
-  active       Boolean @default(true)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([clinicId])
-}
-
-// ─── Lead ─────────────────────────────────────────────────────────────────────
-
-model Lead {
+model PlayerProfile {
   id       String @id @default(cuid())
-  clinicId String
-  clinic   Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  agencyId String
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
 
-  // Stored encrypted (lib/encryption.ts)
-  patientName  String?
-  patientPhone String?
+  // External API sync identifier (e.g. Sportmonks player ID)
+  externalApiId String?
 
-  status  LeadStatus  @default(NUEVO)
-  channel LeadChannel @default(LLAMADA)
+  // Identity
+  fullName          String
+  age               Int?
+  nationality       String?
+  secondNationality String?
+  photoUrl          String?
 
-  appointmentValue Float?
+  // Football profile
+  position           String? // e.g. "Left Back", "CAM", "Striker"
+  secondaryPositions Json?   // String[]
+  preferredFoot      String? // "Left" | "Right" | "Both"
+  height             Int?    // cm
+  weight             Int?    // kg
 
-  // Appointment scheduling & reminders
-  appointmentAt  DateTime? // UTC — used for 24h reminder cron
-  reminderSentAt DateTime? // set when 24h WhatsApp reminder is sent
+  // Club & Contract
+  currentClub    String?
+  currentLeague  String?
+  contractExpiry DateTime?
+  releaseFee     Float?    // EUR
 
-  // From voice provider webhook
-  callId         String?  @unique
-  callDurationMs Int?
-  callTranscript String?  // encrypted
-  callEndedAt    DateTime?
+  // Financials
+  salaryExpectation Float? // monthly gross in EUR
+  marketValue       Float? // in EUR
 
-  notes String? // encrypted
+  // Performance
+  eloRating Int? // internal 0–3000 score
 
-  // Google Calendar event ID — set when a calendar event is created for this appointment
-  googleCalendarEventId String?
+  // Representation status
+  verificationStatus PlayerVerificationStatus @default(UNDER_REVIEW)
+  externalAgencyName String? // set when verificationStatus = REPRESENTED_EXTERNAL
+
+  // External API identifiers for data sync
+  transfermarktId String?
+  sofifaId        String?
+
+  // External scouting profile links
+  transfermarktUrl String?
+  besoccerUrl      String?
+  sofascoreUrl     String?
+
+  // Current-season statistics
+  seasonMatches  Int @default(0)
+  seasonMinutes  Int @default(0)
+  seasonGoals    Int @default(0)
+  seasonAssists  Int @default(0)
+
+  // Persistent profile photo (stored as data URL)
+  storedPhotoUrl String? @db.Text
+
+  // Portfolio category
+  category PlayerCategory @default(PROSPECTIVE)
+
+  notes String?
+  tags  Json?   // String[]
+
+  // Tracks which agency member added this player (for per-member data scoping)
+  createdByMemberId String?
+  createdByMember   AgencyMember? @relation(fields: [createdByMemberId], references: [id])
+
+  negotiations      PlayerNegotiation[]
+  activities        PlayerActivity[]
+  commissions       DealCommission[]
+  scoutingReports   ScoutingReport[]
+  communicationLogs CommunicationLog[]
+  tasks             Task[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([clinicId, status])
-  @@index([clinicId, createdAt])
-  @@index([callId])
+  @@index([agencyId])
+  @@index([agencyId, position])
+  @@index([agencyId, contractExpiry])
+  @@index([agencyId, verificationStatus])
+  @@index([externalApiId])
 }
 
-// ─── Branch ───────────────────────────────────────────────────────────────────
-// A physical location / sucursal belonging to a multi-branch clinic (Business plan).
+// ─── ClubRequest / Mandate ────────────────────────────────────────────────────
+// Market demands from clubs. rawText is parsed by AI for automatic
+// compatibility matchmaking against the PlayerProfile database.
 
-model Branch {
-  id        String @id @default(cuid())
-  clinicId  String
-  clinic    Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+model ClubRequest {
+  id       String @id @default(cuid())
+  agencyId String
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
 
-  name         String
-  address      String?
-  phone        String?
-  whatsappPhone String?
-  managerName  String?
-  active       Boolean @default(true)
+  clubName String
+  country  String?
 
-  // Shape: { "lunes": { "open": "09:00", "close": "18:00", "active": true }, ... }
-  workingHours Json?
+  // Raw unstructured text — primary input for AI parsing
+  rawText String
+
+  // AI-extracted structured fields
+  parsedPosition    String?
+  parsedBudget      Float?  // max monthly salary in EUR
+  parsedAgeMax      Int?
+  parsedAgeMin      Int?
+  parsedNationality String?
+
+  status MandateStatus @default(OPEN)
+
+  // AI matchmaking output: [{ playerId, score: 0–100, reasons: string[] }]
+  matchResults  Json?
+  lastMatchedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([clinicId])
+  @@index([agencyId, status])
+  @@index([agencyId, createdAt])
 }
 
-// ─── WhatsApp Conversation ────────────────────────────────────────────────────
-// Stores per-patient chat history for stateful WhatsApp conversations.
-// Messages older than 24 h are considered a new session (WhatsApp policy).
+// ─── TransferPipeline (Kanban Stage) ──────────────────────────────────────────
+// One row per stage per Agency. Seeded on agency creation with 4 default stages.
+// positionIndex controls the left-to-right column order.
 
-model WhatsAppConversation {
-  id          String   @id @default(cuid())
-  clinicId    String
-  clinic      Clinic   @relation(fields: [clinicId], references: [id], onDelete: Cascade)
-  fromPhone   String   // patient's E.164 phone number
-  role        String   // "user" | "assistant"
-  content     String
-  createdAt   DateTime @default(now())
+model TransferPipeline {
+  id       String @id @default(cuid())
+  agencyId String
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
 
-  @@index([clinicId, fromPhone, createdAt])
+  name          TransferStageName // Column label
+  positionIndex Int               // 0 = leftmost column
+
+  negotiations PlayerNegotiation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([agencyId, name]) // Each agency has exactly one row per stage
+  @@index([agencyId])
 }
 
-// ─── Meta Conversation ─────────────────────────────────────────────────────────
-// Stores per-sender chat history for Facebook Messenger and Instagram DMs.
+// ─── PlayerNegotiation (Kanban Card) ──────────────────────────────────────────
+// A player in active transfer negotiation, pinned to a specific pipeline stage.
 
-model MetaConversation {
-  id        String   @id @default(cuid())
-  clinicId  String
-  clinic    Clinic   @relation(fields: [clinicId], references: [id], onDelete: Cascade)
-  senderId  String   // Meta PSID or Instagram IGSID
-  channel   String   // "messenger" | "instagram"
-  role      String   // "user" | "assistant"
-  content   String
+model PlayerNegotiation {
+  id         String           @id @default(cuid())
+  pipelineId String
+  pipeline   TransferPipeline @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+  playerId   String
+  player     PlayerProfile    @relation(fields: [playerId], references: [id])
+
+  targetClub         String?
+  estimatedDealValue Float?  // EUR
+  notes              String?
+  positionIndex      Int     // Card order within the column
+
+  // Milestone dates
+  proposalSentAt   DateTime?
+  financialTalksAt DateTime?
+  contractClosedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([pipelineId])
+  @@index([playerId])
+}
+
+// ─── Subscription ─────────────────────────────────────────────────────────────
+// Stripe subscription linked to an Agency.
+
+model Subscription {
+  id       String @id @default(cuid())
+  agencyId String @unique
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  stripeCustomerId     String? @unique
+  stripeSubscriptionId String? @unique
+  stripePriceId        String?
+
+  planType  SubscriptionPlan   @default(FREE)
+  status    SubscriptionStatus @default(ACTIVE)
+
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  cancelAtPeriodEnd  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Affiliate Program ─────────────────────────────────────────────────────────
+// Football Agency Affiliate Program.
+// Agencies earn commissions by referring other agencies to Welko AgentOS.
+
+model AffiliatePartner {
+  id          String @id @default(cuid())
+  clerkUserId String @unique
+
+  fullName   String
+  email      String
+  agencyName String?
+
+  referralToken String          @unique // https://welko.agency?ref=TOKEN
+  status        AffiliateStatus @default(PENDING)
+
+  // Financial summary (EUR, denormalized for fast dashboard reads)
+  totalEarned    Float @default(0)
+  totalPaid      Float @default(0)
+  pendingBalance Float @default(0)
+
+  referrals AffiliateReferral[]
+  payouts   AffiliatePayout[]
+  agencies  Agency[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([referralToken])
+}
+
+model AffiliateReferral {
+  id          String           @id @default(cuid())
+  affiliateId String
+  affiliate   AffiliatePartner @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+
+  // Snapshot of the referred agency
+  referredAgencyName String
+
+  planType          SubscriptionPlan
+  monthlyValueEur   Float  // EUR value of the subscription
+  commissionRate    Float  // e.g. 0.20 = 20%
+  monthlyCommission Float  // monthlyValueEur × commissionRate
+
+  status      String    // "pending" | "active" | "churned"
+  activatedAt DateTime?
+  churnedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([affiliateId, status])
+}
+
+model AffiliatePayout {
+  id          String           @id @default(cuid())
+  affiliateId String
+  affiliate   AffiliatePartner @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+
+  amountEur        Float
+  status           AffiliatePayoutStatus @default(PENDING)
+  stripeTransferId String?
+
+  periodFrom DateTime
+  periodTo   DateTime
+  paidAt     DateTime?
+
   createdAt DateTime @default(now())
 
-  @@index([clinicId, senderId, createdAt])
+  @@index([affiliateId, status])
+}
+
+// ─── Player Activity Log ───────────────────────────────────────────────────────
+// Immutable timeline of actions on a player profile.
+
+model PlayerActivity {
+  id       String        @id @default(cuid())
+  playerId String
+  player   PlayerProfile @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  agencyId String
+  memberId String?
+
+  type        PlayerActivityType
+  description String
+  metadata    Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([playerId])
+  @@index([agencyId, createdAt])
+}
+
+// ─── Deal Commission Tracker ──────────────────────────────────────────────────
+// Per-player expected and received commission records.
+
+model DealCommission {
+  id       String         @id @default(cuid())
+  agencyId String
+  agency   Agency         @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  playerId String?
+  player   PlayerProfile? @relation(fields: [playerId], references: [id])
+  memberId String?
+
+  description String
+  dealValue   Float            // Total deal value in EUR
+  rate        Float            // Commission rate e.g. 0.05 = 5%
+  amount      Float            // dealValue × rate
+  status      CommissionStatus @default(EXPECTED)
+  expectedAt  DateTime?
+  receivedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agencyId])
+  @@index([agencyId, status])
+  @@index([playerId])
+}
+
+// ─── Club Contact Book ─────────────────────────────────────────────────────────
+// Directory of club sporting directors, scouts, and decision-makers.
+
+model ClubContact {
+  id       String @id @default(cuid())
+  agencyId String
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  clubName String
+  country  String?
+  fullName String
+  role     String? // "Sporting Director" | "Head Scout" | "CEO" | etc.
+  email    String?
+  phone    String?
+  whatsapp String?
+  notes    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agencyId])
+  @@index([agencyId, clubName])
+}
+
+// ─── Club ─────────────────────────────────────────────────────────────────────
+// Structured club profiles tracked by the agency — separate from the
+// contact book. Stores commercial and recruitment intelligence per club.
+
+model Club {
+  id       String @id @default(cuid())
+  agencyId String
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  name               String
+  country            String?
+  league             String?
+  logoUrl            String?
+  sportingDirector   String?
+  transferBudget     Float?   // EUR estimated budget for incoming transfers
+  squadNeeds         String[] // Target positions, e.g. ["ST", "CB", "GK"]
+  relationshipStatus String?  // e.g. "Active partner", "Cold lead", "Prospect"
+
+  communicationLogs CommunicationLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agencyId])
+  @@index([agencyId, country])
+  @@index([agencyId, league])
+}
+
+// ─── ScoutingReport ───────────────────────────────────────────────────────────
+// Match observation report submitted by a scout or agent for a specific player.
+// Scores are 1–10 integers for each dimension.
+
+model ScoutingReport {
+  id       String        @id @default(cuid())
+  playerId String
+  player   PlayerProfile @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  matchName String   // e.g. "Real Madrid vs Barcelona — UCL QF"
+  league    String?  // e.g. "Champions League"
+  date      DateTime // Date the match was observed
+
+  overallRating Int // Aggregate impression: 1–10
+  techScore     Int // Technical ability: 1–10
+  tactScore     Int // Tactical intelligence: 1–10
+  physScore     Int // Physical attributes: 1–10
+  mentScore     Int // Mental / competitive character: 1–10
+
+  verdict String // Free-text analyst conclusion and recommendation
+
+  createdById String
+  createdBy   AgencyMember @relation(fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([playerId])
+  @@index([createdById])
+  @@index([playerId, date])
+}
+
+// ─── CommunicationLog ─────────────────────────────────────────────────────────
+// Structured record of every interaction with a player, club, or third party.
+// Replaces unstructured notes with searchable, outcome-tagged entries.
+
+model CommunicationLog {
+  id       String @id @default(cuid())
+  agencyId String
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  title     String
+  summary   String
+  type      CommunicationType
+  outcome   CommunicationOutcome
+  timestamp DateTime // When the communication actually took place
+
+  // Optional subject linkage — a log may relate to a player, a club, or both
+  playerId String?
+  player   PlayerProfile? @relation(fields: [playerId], references: [id])
+
+  clubId String?
+  club   Club?   @relation(fields: [clubId], references: [id])
+
+  createdById String
+  createdBy   AgencyMember @relation(fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agencyId])
+  @@index([agencyId, timestamp])
+  @@index([playerId])
+  @@index([clubId])
+  @@index([agencyId, outcome])
+}
+
+// ─── Task ─────────────────────────────────────────────────────────────────────
+// Actionable to-do items for agency members.
+// Can be linked to a player for contextual task management.
+
+model Task {
+  id       String @id @default(cuid())
+  agencyId String
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  title       String
+  dueDate     DateTime
+  priority    String   // "HIGH" | "MEDIUM" | "LOW"
+  category    String   // e.g. "Follow-up", "Contract", "Scouting", "Compliance"
+  isCompleted Boolean  @default(false)
+
+  playerId String?
+  player   PlayerProfile? @relation(fields: [playerId], references: [id])
+
+  assignedToId String
+  assignedTo   AgencyMember @relation(fields: [assignedToId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agencyId])
+  @@index([agencyId, dueDate])
+  @@index([agencyId, isCompleted])
+  @@index([assignedToId])
+  @@index([playerId])
+}
+
+// ─── AIAgentConfig ────────────────────────────────────────────────────────────
+// Per-agency configuration for the AI scouting and alert engine.
+// Controls thresholds, notification preferences, and data source preferences.
+
+model AIAgentConfig {
+  id       String @id @default(cuid())
+  agencyId String @unique
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  // Contract expiry alerts: trigger N months before expiry, e.g. [1, 3, 6]
+  contractAlertMonths     Int[]
+  notificationEmails      String[] // Recipient email addresses for AI-generated alerts
+  autoCreateTasks         Boolean  @default(true)  // Auto-generate Tasks from AI alerts
+  confidenceThreshold     String   @default("MEDIUM") // "LOW" | "MEDIUM" | "HIGH"
+
+  // Scouting & matching parameters
+  activeComparisonFactors String[] // e.g. ["elo", "age", "position", "nationality"]
+  targetPositions         String[] // Positions the agency is actively recruiting, e.g. ["ST", "CB"]
+  targetLeagues           String[] // Leagues to monitor, e.g. ["La Liga", "Premier League"]
+  dataSources             String[] // Enabled data sources, e.g. ["wyscout", "sofascore", "manual"]
+  autoTranslate           Boolean  @default(false) // Auto-translate foreign-language reports
+
+  updatedAt DateTime @updatedAt
+}
+
+// ─── ComplianceRecord ─────────────────────────────────────────────────────────
+// Tracks licensing, GDPR, and regulatory compliance documents per agency.
+// Expiry-date alerts are driven by the AI agent when status = EXPIRING_SOON.
+
+model ComplianceRecord {
+  id       String @id @default(cuid())
+  agencyId String
+  agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  title           String
+  type            ComplianceType
+  status          ComplianceStatus @default(PENDING_REVIEW)
+  entityName      String    // Player or agent name this record applies to
+  referenceNumber String?   // Official document or license reference
+  expiryDate      DateTime?
+  fileUrl         String?   // Uploaded document URL (e.g. S3 / Cloudflare R2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agencyId])
+  @@index([agencyId, type])
+  @@index([agencyId, status])
+  @@index([agencyId, expiryDate])
 }

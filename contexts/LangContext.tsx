@@ -34,11 +34,11 @@ const LangContext = createContext<LangContextValue>({
 
 function getStoredLang(): Lang | null {
   if (typeof window === 'undefined') return null
-  return localStorage.getItem('welko_lang') as Lang | null
+  return localStorage.getItem('polaris_lang') as Lang | null
 }
 
 function storeLang(lang: Lang) {
-  if (typeof window !== 'undefined') localStorage.setItem('welko_lang', lang)
+  if (typeof window !== 'undefined') localStorage.setItem('polaris_lang', lang)
 }
 
 export function LangProvider({ children }: { children: React.ReactNode }) {

@@ -1,13 +1,21 @@
 import type { Metadata } from 'next'
-import { Montserrat, Geist_Mono } from 'next/font/google'
+import { Inter, Space_Grotesk, Geist_Mono } from 'next/font/google'
 import { Providers } from './providers'
 import { SplashScreen } from '@/components/ui/SplashScreen'
 import './globals.css'
 
-const montserrat = Montserrat({
+// Inter → mapped to --font-montserrat variable so all existing code gets Inter automatically
+const inter = Inter({
   variable: '--font-montserrat',
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
+  display: 'swap',
+})
+
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-space-grotesk',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 })
 
@@ -16,54 +24,45 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-const OG_IMAGE = 'https://welko.agency/og-image.png'
-const SITE_URL = 'https://welko.agency'
+const SITE_URL = 'https://polarisfootball.com'
+const OG_IMAGE  = 'https://polarisfootball.com/og-image.png'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Welko | Recepcionista IA',
-    template: '%s | Welko',
+    default:  'Polaris Football — Guiding Football Careers',
+    template: '%s | Polaris Football',
   },
   description:
-    'Tu negocio siempre disponible. Welko automatiza la atención al cliente con IA: responde al instante, agenda citas y nunca deja un mensaje sin contestar — 24/7, sin esfuerzo.',
-  keywords: ['recepcionista IA', 'automatización', 'atención al cliente IA', 'agendamiento automático', 'WhatsApp IA', 'Welko'],
-  authors: [{ name: 'Welko', url: SITE_URL }],
-  creator: 'Welko',
-  publisher: 'Welko',
-  robots: { index: true, follow: true },
+    'We represent football players worldwide and connect them with the right opportunities to achieve their dreams.',
+  keywords: ['football agent', 'football agency', 'player management', 'football careers', 'Polaris Football'],
+  authors:   [{ name: 'Polaris Football', url: SITE_URL }],
+  creator:   'Polaris Football',
+  publisher: 'Polaris Football',
+  robots:    { index: true, follow: true },
   icons: {
     icon: [
       { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
       { url: '/icon-192.png',   type: 'image/png', sizes: '192x192' },
     ],
-    shortcut:   '/favicon-32.png',
-    apple:      '/apple-touch-icon.png',
+    shortcut: '/favicon-32.png',
+    apple:    '/apple-touch-icon.png',
   },
   manifest: '/site.webmanifest',
   openGraph: {
     type:        'website',
     url:         SITE_URL,
-    siteName:    'Welko',
-    title:       'Welko | Recepcionista IA',
-    description: 'Tu negocio siempre disponible. Welko automatiza la atención al cliente con IA: responde al instante, agenda y nunca deja un mensaje sin contestar — 24/7.',
-    images: [
-      {
-        url:    OG_IMAGE,
-        width:  1200,
-        height: 630,
-        alt:    'Welko — Recepcionista IA',
-      },
-    ],
-    locale: 'es_MX',
+    siteName:    'Polaris Football',
+    title:       'Polaris Football — Guiding Football Careers',
+    description: 'We represent football players worldwide and connect them with the right opportunities.',
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: 'Polaris Football' }],
+    locale: 'en_US',
   },
   twitter: {
     card:        'summary_large_image',
-    title:       'Welko | Recepcionista IA',
-    description: 'Tu negocio siempre disponible. Welko automatiza la atención con IA: responde al instante, agenda y nunca pierde un mensaje — 24/7.',
+    title:       'Polaris Football — Guiding Football Careers',
+    description: 'We represent football players worldwide and connect them with the right opportunities.',
     images:      [OG_IMAGE],
-    site:        '@welkoai',
-    creator:     '@welkoai',
   },
 }
 
@@ -74,9 +73,9 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="es"
+      lang="en"
       suppressHydrationWarning
-      className={`${montserrat.variable} ${geistMono.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable}`}
     >
       <body className="min-h-screen flex flex-col">
         <SplashScreen />

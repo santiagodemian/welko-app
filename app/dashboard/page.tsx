@@ -20,8 +20,8 @@ import {
   CalendarDays,
 } from 'lucide-react'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 interface NegotiationPlayer {
   fullName: string
@@ -320,7 +320,7 @@ export default async function DashboardPage() {
       <div style={{ padding: 48, fontFamily: 'var(--font-montserrat), sans-serif' }}>
         <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 16, padding: 48, textAlign: 'center', maxWidth: 480, margin: '0 auto' }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>⚽</div>
-          <h2 style={{ fontSize: 20, fontWeight: 700, color: N, margin: '0 0 8px' }}>Welcome to Welko AgentOS</h2>
+          <h2 style={{ fontSize: 20, fontWeight: 700, color: N, margin: '0 0 8px' }}>Welcome to Polaris</h2>
           <p style={{ color: '#6B7280', margin: '0 0 24px', lineHeight: 1.6 }}>Complete your agency setup to get started.</p>
           <Link href="/onboarding" style={{ background: N, color: 'white', padding: '12px 28px', borderRadius: 10, textDecoration: 'none', fontWeight: 700, fontSize: 14 }}>
             Set up Agency →
@@ -411,7 +411,7 @@ export default async function DashboardPage() {
           {greeting}, {firstName} 👋
         </h1>
         <p style={{ color: '#6B7280', margin: 0, fontSize: 14 }}>
-          {member.agency.name} · {isPremium ? 'AgentOS Premium' : 'Scout Plan'}
+          {member.agency.name} · {isPremium ? 'Polaris Premium' : 'Scout Plan'}
         </p>
       </div>
 

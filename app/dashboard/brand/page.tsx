@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import { Palette, Save, Loader2, Lock, Check } from 'lucide-react'
 import Link from 'next/link'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 interface BrandKit {
   primaryColor:   string | null
@@ -23,7 +23,7 @@ export default function BrandPage() {
   const [isPremium,  setIsPremium]  = useState(false)
   const [canEdit,    setCanEdit]    = useState(false)
 
-  const [primaryColor,    setPrimaryColor]    = useState('#0A1628')
+  const [primaryColor,    setPrimaryColor]    = useState('#0A0A0A')
   const [accentColor,     setAccentColor]     = useState('#C9A84C')
   const [logoUrl,         setLogoUrl]         = useState('')
   const [footerEmail,     setFooterEmail]     = useState('')
@@ -89,11 +89,11 @@ export default function BrandPage() {
 
       {/* Upgrade banner for non-premium */}
       {!isPremium && (
-        <div style={{ background: 'rgba(30,111,235,0.05)', border: `1px solid ${G}30`, borderRadius: 14, padding: '14px 20px', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ background: 'rgba(37,99,235,0.05)', border: `1px solid ${G}30`, borderRadius: 14, padding: '14px 20px', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
           <Lock size={16} color={G} style={{ flexShrink: 0 }} />
           <div>
             <p style={{ fontSize: 13, fontWeight: 700, color: G, margin: '0 0 2px' }}>Premium Feature</p>
-            <p style={{ fontSize: 12, color: '#374151', margin: 0 }}>Brand Kit is included in AgentOS Premium. Upgrade to apply your branding to all proposals.</p>
+            <p style={{ fontSize: 12, color: '#374151', margin: 0 }}>Brand Kit is included in Polaris Premium. Upgrade to apply your branding to all proposals.</p>
           </div>
           <Link href="/precios" style={{ background: N, color: 'white', padding: '8px 16px', borderRadius: 8, textDecoration: 'none', fontWeight: 700, fontSize: 13, flexShrink: 0, marginLeft: 'auto' }}>
             Upgrade

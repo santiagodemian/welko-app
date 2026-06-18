@@ -3,8 +3,8 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Plus, TrendingUp, Trash2 } from 'lucide-react'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 interface Commission {
   id: string
@@ -20,7 +20,7 @@ interface Commission {
 }
 
 const STATUS_STYLES = {
-  EXPECTED:  { bg: 'rgba(30,111,235,0.1)',   color: G,         label: 'Expected'  },
+  EXPECTED:  { bg: 'rgba(37,99,235,0.1)',   color: G,         label: 'Expected'  },
   INVOICED:  { bg: 'rgba(245,158,11,0.1)',   color: '#F59E0B', label: 'Invoiced'  },
   RECEIVED:  { bg: 'rgba(5,150,105,0.1)',    color: '#059669', label: 'Received'  },
   CANCELLED: { bg: '#F3F4F6',               color: '#9CA3AF', label: 'Cancelled' },

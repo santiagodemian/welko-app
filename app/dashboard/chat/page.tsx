@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Bot, User, Loader2, RotateCcw } from 'lucide-react'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -83,7 +83,7 @@ export default function ChatPage() {
             <div style={{ width: 36, height: 36, borderRadius: 10, background: `${G}15`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Bot size={18} color={G} />
             </div>
-            <h1 style={{ fontSize: 22, fontWeight: 900, color: N, margin: 0, letterSpacing: '-0.03em' }}>AgentOS Assistant</h1>
+            <h1 style={{ fontSize: 22, fontWeight: 900, color: N, margin: 0, letterSpacing: '-0.03em' }}>Polaris Assistant</h1>
           </div>
           <p style={{ color: '#9CA3AF', margin: 0, fontSize: 13 }}>
             Ask about FIFA regulations, contract terms, transfer rules, and agent best practices.

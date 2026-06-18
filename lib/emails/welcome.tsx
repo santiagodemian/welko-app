@@ -3,52 +3,44 @@
 
 export interface WelcomeEmailProps {
   name: string
-  plan: 'starter' | 'essential' | 'pro' | 'business'
+  plan: string
   billing: 'monthly' | 'annual'
 }
 
-const PLAN_DETAILS = {
-  starter:   { label: 'Starter',   price: '$799 MXN',   color: '#6B7280' },
-  essential: { label: 'Essential', price: '$1,499 MXN',  color: '#059669' },
-  pro:       { label: 'Pro',       price: '$2,999 MXN',  color: '#2563EB' },
-  business:  { label: 'Business',  price: '$5,999 MXN',  color: '#D97706' },
+const PLAN_DETAILS: Record<string, { label: string; price: string; color: string }> = {
+  premium: { label: 'AgentOS Pro',    price: '€59/mo', color: '#1E6FEB' },
+  agency:  { label: 'AgentOS Agency', price: '€129/mo', color: '#7C3AED' },
 }
 
-const PLAN_FEATURES = {
-  starter: [
-    'IA conversacional 24/7 en WhatsApp',
-    'Hasta 300 conversaciones al mes',
-    'Recordatorios automáticos de cita',
-    'Panel de métricas básico',
+const PLAN_FEATURES: Record<string, string[]> = {
+  premium: [
+    'Unlimited players (2 seats)',
+    'AI-powered mandate matching',
+    'White-label PDF proposals',
+    'Player categories (Managed/Mandate/Prospective)',
+    'Contract expiry alerts',
+    'WhatsApp quick-pitch',
+    'Commission tracker',
+    'Brand kit & custom colors',
   ],
-  essential: [
-    'IA conversacional 24/7 en WhatsApp',
-    'Agenda inteligente con Google Calendar',
-    'Recordatorios + confirmaciones ilimitadas',
-    'Widget de chat para tu sitio web',
-    'Reportes semanales automáticos',
-  ],
-  pro: [
-    'WhatsApp + Instagram + Facebook 24/7',
-    'Hasta 2,000 conversaciones al mes',
-    'CRM de clientes con historial completo',
-    'Waitlist automático para cancelaciones',
-    'Reconfirmación automática 24h antes',
-    'Configuración de IA personalizada',
-  ],
-  business: [
-    'Canales ilimitados + Voz IA',
-    'Conversaciones ilimitadas',
-    'Hasta 3 sedes incluidas',
-    'Campañas de reactivación automáticas',
-    'API access + Zapier + HubSpot',
-    'Account manager dedicado',
+  agency: [
+    'Everything in Pro',
+    'Unlimited seats',
+    'Club contact book',
+    'Agency portfolio PDF',
+    'AI proposal narrative',
+    'Market window calendar',
+    'API access',
+    'Priority support',
   ],
 }
+
+const DEFAULT_DETAILS = { label: 'Pro', price: '€59/mo', color: '#1E6FEB' }
+const DEFAULT_FEATURES = ['Unlimited players', 'Transfer pipeline', 'AI matching']
 
 export function renderWelcomeEmail({ name, plan, billing }: WelcomeEmailProps): string {
-  const details  = PLAN_DETAILS[plan]
-  const features = PLAN_FEATURES[plan]
+  const details  = PLAN_DETAILS[plan]  ?? DEFAULT_DETAILS
+  const features = PLAN_FEATURES[plan] ?? DEFAULT_FEATURES
   const firstName = name.split(' ')[0] || name
 
   return `<!DOCTYPE html>

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Navbar } from '@/components/layout/Navbar'
 import { useLang } from '@/contexts/LangContext'
-import { WelkoLogo } from '@/components/ui/WelkoLogo'
+import { PolarisLogo } from '@/components/ui/PolarisLogo'
 
 export default function TerminosPage() {
   const { lang } = useLang()
@@ -11,22 +11,22 @@ export default function TerminosPage() {
   const year = new Date().getFullYear()
 
   const sections = isEN ? [
-    { title: '1. Service Description', body: 'Welko is a SaaS platform that provides an AI-powered receptionist for businesses across all industries. The service includes automated appointment scheduling, client communication via WhatsApp, Instagram, Facebook Messenger, and other channels, CRM features, and AI-driven insights.' },
-    { title: '2. Subscription & Payment', body: 'Welko offers monthly and annual subscription plans. Payments are processed securely via Stripe. Prices are in MXN for Mexico and USD internationally, exclusive of applicable taxes. Subscriptions auto-renew unless cancelled before renewal.' },
+    { title: '1. Service Description', body: 'Polaris Football is a SaaS platform that provides an AI-powered receptionist for businesses across all industries. The service includes automated appointment scheduling, client communication via WhatsApp, Instagram, Facebook Messenger, and other channels, CRM features, and AI-driven insights.' },
+    { title: '2. Subscription & Payment', body: 'Polaris Football offers monthly and annual subscription plans. Payments are processed securely via Stripe. Prices are in MXN for Mexico and USD internationally, exclusive of applicable taxes. Subscriptions auto-renew unless cancelled before renewal.' },
     { title: '3. Cancellation', body: 'You may cancel your subscription at any time from your account dashboard. Cancellation takes effect at the end of the current billing period. No partial refunds for unused time, except as covered by our Refund Policy.' },
-    { title: '4. Acceptable Use', body: 'You may not use Welko to send spam, harass users, violate applicable laws, scrape data, or reverse-engineer the platform. Welko may suspend accounts that violate these terms.' },
-    { title: '5. Intellectual Property', body: 'All content, features and functionality of Welko — including software, logos and text — are the exclusive property of Demian Santiago Mendoza Ledesma and protected by intellectual property laws.' },
-    { title: '6. Limitation of Liability', body: 'Welko is provided "as is." We do not guarantee uninterrupted service. To the maximum extent permitted by law, Welko is not liable for indirect or consequential damages from use of the Service.' },
+    { title: '4. Acceptable Use', body: 'You may not use Polaris to send spam, harass users, violate applicable laws, scrape data, or reverse-engineer the platform. Polaris Football may suspend accounts that violate these terms.' },
+    { title: '5. Intellectual Property', body: 'All content, features and functionality of Polaris Football — including software, logos and text — are the exclusive property of Demian Santiago Mendoza Ledesma and protected by intellectual property laws.' },
+    { title: '6. Limitation of Liability', body: 'Polaris Football is provided "as is." We do not guarantee uninterrupted service. To the maximum extent permitted by law, Polaris Football is not liable for indirect or consequential damages from use of the Service.' },
     { title: '7. Governing Law', body: 'These Terms are governed by the laws of Mexico. Disputes shall be resolved in the courts of Mexico City, Mexico.' },
     { title: '8. Changes', body: 'We may update these Terms at any time. Continued use after changes constitutes acceptance. Material changes will be notified by email with at least 15 days notice.' },
     { title: '9. Contact', body: 'For questions, email hola@welko.org or call +52 56 2844 3738.' },
   ] : [
-    { title: '1. Descripción del Servicio', body: 'Welko es una plataforma SaaS que proporciona un recepcionista con inteligencia artificial para negocios de todas las industrias. El servicio incluye agendamiento automático, comunicación con clientes por WhatsApp, Instagram, Facebook Messenger y otros canales, funciones de CRM e insights generados por IA.' },
-    { title: '2. Suscripción y Pago', body: 'Welko ofrece planes de suscripción mensual y anual. Los pagos se procesan de forma segura a través de Stripe. Los precios están en MXN para México y en USD para uso internacional, sin IVA incluido. Las suscripciones se renuevan automáticamente salvo cancelación previa.' },
+    { title: '1. Descripción del Servicio', body: 'Polaris Football es una plataforma SaaS que proporciona un recepcionista con inteligencia artificial para negocios de todas las industrias. El servicio incluye agendamiento automático, comunicación con clientes por WhatsApp, Instagram, Facebook Messenger y otros canales, funciones de CRM e insights generados por IA.' },
+    { title: '2. Suscripción y Pago', body: 'Polaris Football ofrece planes de suscripción mensual y anual. Los pagos se procesan de forma segura a través de Stripe. Los precios están en MXN para México y en USD para uso internacional, sin IVA incluido. Las suscripciones se renuevan automáticamente salvo cancelación previa.' },
     { title: '3. Cancelación', body: 'Puedes cancelar tu suscripción en cualquier momento desde tu panel de cuenta. La cancelación tiene efecto al final del ciclo de facturación vigente. No se emiten reembolsos parciales por tiempo no utilizado, salvo lo cubierto por nuestra Política de Reembolso.' },
-    { title: '4. Uso Aceptable', body: 'No puedes usar Welko para enviar spam, hostigar usuarios, violar leyes aplicables, extraer datos de forma automatizada ni realizar ingeniería inversa. Welko puede suspender cuentas que incumplan estos términos.' },
-    { title: '5. Propiedad Intelectual', body: 'Todo el contenido, funcionalidades y características de Welko — incluyendo software, logotipos y textos — son propiedad exclusiva de Demian Santiago Mendoza Ledesma y están protegidos por las leyes de propiedad intelectual.' },
-    { title: '6. Limitación de Responsabilidad', body: 'Welko se proporciona "tal como es". No garantizamos disponibilidad ininterrumpida. En la máxima medida permitida por la ley, Welko no es responsable de daños indirectos o consecuentes derivados del uso del Servicio.' },
+    { title: '4. Uso Aceptable', body: 'No puedes usar Polaris para enviar spam, hostigar usuarios, violar leyes aplicables, extraer datos de forma automatizada ni realizar ingeniería inversa. Polaris Football puede suspender cuentas que incumplan estos términos.' },
+    { title: '5. Propiedad Intelectual', body: 'Todo el contenido, funcionalidades y características de Polaris Football — incluyendo software, logotipos y textos — son propiedad exclusiva de Demian Santiago Mendoza Ledesma y están protegidos por las leyes de propiedad intelectual.' },
+    { title: '6. Limitación de Responsabilidad', body: 'Polaris Football se proporciona "tal como es". No garantizamos disponibilidad ininterrumpida. En la máxima medida permitida por la ley, Polaris Football no es responsable de daños indirectos o consecuentes derivados del uso del Servicio.' },
     { title: '7. Ley Aplicable', body: 'Estos Términos se rigen por las leyes de México. Las disputas se resolverán en los tribunales de la Ciudad de México, México.' },
     { title: '8. Cambios', body: 'Podemos actualizar estos Términos en cualquier momento. El uso continuado del Servicio tras los cambios constituye aceptación. Los cambios materiales serán notificados por correo electrónico con al menos 15 días de anticipación.' },
     { title: '9. Contacto', body: 'Para preguntas, escríbenos a hola@welko.org o llámanos al +52 56 2844 3738.' },
@@ -59,7 +59,7 @@ export default function TerminosPage() {
       </main>
       <footer className="py-8 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
         <div className="max-w-3xl mx-auto flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-2"><WelkoLogo size={18} /><p className="text-xs" style={{ color: 'var(--text-muted)' }}>© {year}{' '}Demian Santiago Mendoza Ledesma — Welko</p></div>
+          <div className="flex items-center gap-2"><PolarisLogo size={18} /><p className="text-xs" style={{ color: 'var(--text-muted)' }}>© {year}{' '}Polaris Football</p></div>
           <Link href="/" className="text-xs" style={{ color: 'var(--text-muted)' }}>← {isEN ? 'Back to home' : 'Volver al inicio'}</Link>
         </div>
       </footer>

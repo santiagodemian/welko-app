@@ -1,326 +1,168 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, AlignJustify } from 'lucide-react'
-import { ThemeToggle } from '@/components/ui/ThemeToggle'
-import { useLang } from '@/contexts/LangContext'
+import { usePathname } from 'next/navigation'
+import { useState } from 'react'
+import { Menu, X, ArrowRight } from 'lucide-react'
+
+const NAV_LINKS = [
+  { label: 'Home',     href: '/'         },
+  { label: 'About',    href: '/about'    },
+  { label: 'Services', href: '/services' },
+  { label: 'Players',  href: '/players'  },
+  { label: 'Blog',     href: '/blog'     },
+  { label: 'Contact',  href: '/contact'  },
+]
 
 export function Navbar() {
-  const [drawerOpen, setDrawerOpen] = useState(false)
-  const [moreOpen, setMoreOpen] = useState(false)
-  const moreRef = useRef<HTMLDivElement>(null)
-  const { lang, t, toggle } = useLang()
-
-  const NAV_LINKS: { label: string; href: string }[] = [
-    { label: t.nav.product,  href: '/como-funciona' },
-    { label: t.nav.pricing,  href: '/precios' },
-    { label: lang === 'es' ? 'Demo' : 'Demo', href: '/demo' },
-  ]
-
-  const MORE_LINKS: { label: string; href: string }[] = [
-    { label: lang === 'es' ? 'Industrias'                 : 'Industries',             href: '/industrias' },
-    { label: lang === 'es' ? 'Potencia tu talento humano' : 'Empower your team',      href: '/talento' },
-    { label: lang === 'es' ? 'Soluciones'                 : 'Solutions',              href: '/soluciones/ai-receptionist' },
-    { label: lang === 'es' ? 'Por qué Welko'              : 'Why Welko',              href: '/por-que' },
-    { label: 'Partners',                                                               href: '/partners' },
-  ]
-
-  // Close "more" dropdown when clicking outside
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
-        setMoreOpen(false)
-      }
-    }
-    if (moreOpen) document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [moreOpen])
+  const [open, setOpen] = useState(false)
+  const pathname = usePathname()
 
   return (
     <>
-      {/* ── CO₂ Top Bar ── */}
-      <div
-        className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-center gap-2 px-4"
-        style={{ height: 30, background: 'linear-gradient(90deg, #022c22 0%, #064e3b 50%, #022c22 100%)' }}
-      >
-        <span style={{ fontSize: 11, color: '#6ee7b7', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {lang === 'es'
-            ? 'Welko Carbon Initiative: 1% de cada suscripción elimina CO₂ de la atmósfera'
-            : 'Welko Carbon Initiative: 1% of every subscription removes CO₂ from the atmosphere'}
-        </span>
-      </div>
+      <style>{`
+        .nav-link {
+          position: relative;
+          font-size: 12px;
+          font-weight: 600;
+          color: #6B7280;
+          text-decoration: none;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          font-family: var(--font-montserrat), sans-serif;
+          transition: color 0.15s;
+          padding-bottom: 4px;
+        }
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          right: 0;
+          height: 1.5px;
+          background: #0A0A0A;
+          transform: scaleX(0);
+          transform-origin: left center;
+          transition: transform 0.2s ease;
+        }
+        .nav-link:hover { color: #0A0A0A; }
+        .nav-link:hover::after { transform: scaleX(1); }
+        .nav-link.active { color: #0A0A0A; }
+        .nav-link.active::after { transform: scaleX(1); background: #2563EB; }
 
-      <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
-        className="fixed top-[30px] left-0 right-0 z-50"
-        data-no-transition
-      >
-        <div
-          className="mx-3 sm:mx-6 lg:mx-auto lg:max-w-6xl mt-3 rounded-2xl px-4 sm:px-6"
-          style={{
-            background: 'var(--navbar-bg)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid var(--border)',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-          }}
-        >
-          <div className="flex items-center justify-between h-16">
+        .login-btn {
+          display: inline-flex; align-items: center; gap: 6px;
+          font-size: 12px; font-weight: 600;
+          color: #fff; text-decoration: none;
+          padding: 8px 20px; background: #2563EB;
+          border-radius: 8px;
+          font-family: var(--font-montserrat), sans-serif;
+          letter-spacing: 0.06em; text-transform: uppercase;
+          transition: background 0.15s;
+        }
+        .login-btn:hover { background: #1D4ED8; }
 
-            {/* Logo */}
-            <Link href="/" aria-label="Welko inicio">
-              <span
-                style={{
-                  color: 'var(--text-primary)',
-                  fontSize: 22,
-                  fontWeight: 800,
-                  letterSpacing: '-0.04em',
-                  fontFamily: 'var(--font-montserrat), sans-serif',
-                  lineHeight: 1,
-                  transition: 'color 0.4s ease',
-                }}
-              >
-                Welko
-              </span>
-            </Link>
+        .mobile-link {
+          padding: 12px 16px; border-radius: 8px;
+          font-size: 14px; font-weight: 500;
+          color: #0A0A0A; text-decoration: none;
+          font-family: var(--font-montserrat), sans-serif;
+          transition: background 0.1s;
+        }
+        .mobile-link:hover { background: #F9FAFB; }
 
-            {/* Desktop nav */}
-            <nav className="hidden md:flex items-center gap-7" aria-label="Navegación principal">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm transition-colors duration-150"
-                  style={{
-                    color: 'var(--text-secondary)',
-                    fontWeight: 500,
-                    letterSpacing: '0.01em',
-                    fontFamily: 'var(--font-montserrat), sans-serif',
-                  }}
-                  onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')
-                  }
-                >
-                  {link.label}
+        @media (max-width: 900px) {
+          .nav-desktop    { display: none !important; }
+          .nav-mobile-btn { display: flex !important; }
+        }
+        @media (min-width: 901px) {
+          .nav-desktop    { display: flex !important; }
+          .nav-mobile-btn { display: none !important; }
+        }
+      `}</style>
+
+      <header style={{
+        background: 'rgba(255,255,255,0.97)',
+        position: 'sticky', top: 0, zIndex: 50,
+        borderBottom: '1px solid #E5E7EB',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+      }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 40px', height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+
+          {/* Logo */}
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/polarispnglogo.jpeg" alt="Polaris Football" style={{ height: 34, objectFit: 'contain' }} />
+          </Link>
+
+          {/* Desktop nav */}
+          <nav className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 36 }}>
+            {NAV_LINKS.map(l => {
+              const isActive = l.href === '/' ? pathname === '/' : pathname.startsWith(l.href)
+              return (
+                <Link key={l.href} href={l.href} className={`nav-link${isActive ? ' active' : ''}`}>
+                  {l.label}
                 </Link>
-              ))}
+              )
+            })}
+          </nav>
 
-              {/* ── Tres rayitas — secondary menu ── */}
-              <div ref={moreRef} className="relative">
-                <button
-                  onClick={() => setMoreOpen((v) => !v)}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors duration-150"
-                  aria-label="Más páginas"
-                  style={{
-                    color: moreOpen ? 'var(--text-primary)' : 'var(--text-secondary)',
-                    background: moreOpen ? 'var(--surface-hover)' : 'transparent',
-                    border: '1px solid var(--border)',
-                  }}
-                >
-                  <AlignJustify size={15} />
-                </button>
+          {/* CTA */}
+          <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center' }}>
+            <Link href="/login" className="login-btn">
+              Client Login <ArrowRight size={12} />
+            </Link>
+          </div>
 
-                <AnimatePresence>
-                  {moreOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.97 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.97 }}
-                      transition={{ duration: 0.16, ease: 'easeOut' }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-52"
-                      style={{ zIndex: 100 }}
-                    >
-                      <div
-                        className="flex flex-col gap-0.5 p-2 rounded-2xl"
-                        style={{
-                          background: 'var(--surface)',
-                          border: '1px solid var(--border)',
-                          boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-                        }}
-                      >
-                        {MORE_LINKS.map((link) => (
-                          <Link
-                            key={link.href}
-                            href={link.href}
-                            onClick={() => setMoreOpen(false)}
-                            className="flex items-center px-3 py-2.5 rounded-xl text-sm transition-colors duration-150"
-                            style={{ color: 'var(--text-primary)', fontWeight: 500 }}
-                            onMouseEnter={(e) =>
-                              ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')
-                            }
-                            onMouseLeave={(e) =>
-                              ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')
-                            }
-                          >
-                            {link.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </nav>
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setOpen(true)}
+            className="nav-mobile-btn"
+            style={{ display: 'none', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 8, background: '#F3F4F6', border: 'none', cursor: 'pointer', color: '#0A0A0A' }}
+            aria-label="Open menu"
+          >
+            <Menu size={18} />
+          </button>
+        </div>
+      </header>
 
-            {/* Right actions */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={toggle}
-                className="hidden sm:flex items-center px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors duration-150"
-                style={{
-                  color: 'var(--text-secondary)',
-                  border: '1px solid var(--border)',
-                  background: 'transparent',
-                  letterSpacing: '0.04em',
-                }}
-              >
-                {lang === 'es' ? 'EN' : 'ES'}
-              </button>
-
-              <ThemeToggle />
-
-              <Link
-                href="/registro"
-                className="hidden md:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
-                style={{ background: 'var(--surface)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)'; (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)' }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface)'; (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)' }}
-              >
-                {lang === 'es' ? 'Crear cuenta' : 'Sign up'}
-              </Link>
-              <Link
-                href="/login"
-                className="hidden md:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150"
-                style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--accent-hover)')
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--accent)')
-                }
-              >
-                {t.nav.signIn}
-              </Link>
-
-              <button
-                onClick={() => setDrawerOpen(true)}
-                className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-150"
-                style={{ color: 'var(--text-primary)', background: 'var(--surface-hover)' }}
-                aria-label="Abrir menú"
-              >
-                <Menu size={18} />
+      {/* Mobile drawer */}
+      {open && (
+        <>
+          <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 50, background: 'rgba(0,0,0,0.4)' }} />
+          <div style={{
+            position: 'fixed', top: 0, right: 0, bottom: 0, zIndex: 51,
+            width: 280, background: '#fff', borderLeft: '1px solid #E5E7EB',
+            display: 'flex', flexDirection: 'column',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', height: 72, borderBottom: '1px solid #E5E7EB', flexShrink: 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/polarispnglogo.jpeg" alt="Polaris Football" style={{ height: 32, objectFit: 'contain' }} />
+              <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6B7280', display: 'flex' }}>
+                <X size={18} />
               </button>
             </div>
-
+            <nav style={{ display: 'flex', flexDirection: 'column', padding: '16px 12px', gap: 2, flex: 1 }}>
+              {NAV_LINKS.map(l => (
+                <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="mobile-link">
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+            <div style={{ padding: '16px', borderTop: '1px solid #E5E7EB' }}>
+              <Link href="/login" onClick={() => setOpen(false)} style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                padding: '12px', borderRadius: 8, fontSize: 13, fontWeight: 600,
+                background: '#2563EB', color: '#fff', textDecoration: 'none',
+                fontFamily: 'var(--font-montserrat), sans-serif', letterSpacing: '0.06em', textTransform: 'uppercase',
+              }}>
+                Client Login <ArrowRight size={13} />
+              </Link>
+            </div>
           </div>
-        </div>
-      </motion.header>
-
-      {/* ── Mobile Drawer ── */}
-      <AnimatePresence>
-        {drawerOpen && (
-          <>
-            <motion.div
-              key="backdrop"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-50 bg-black/50"
-              onClick={() => setDrawerOpen(false)}
-            />
-
-            <motion.div
-              key="drawer"
-              initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
-              transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-72 flex flex-col"
-              style={{ background: 'var(--surface)', borderLeft: '1px solid var(--border)', boxShadow: '-4px 0 24px rgba(0,0,0,0.12)' }}
-            >
-              <div className="flex items-center justify-between px-5 h-16 flex-shrink-0" style={{ borderBottom: '1px solid var(--border)' }}>
-                <span style={{ fontWeight: 800, fontSize: 20, letterSpacing: '-0.04em', color: 'var(--text-primary)', fontFamily: 'var(--font-montserrat), sans-serif', transition: 'color 0.4s ease' }}>Welko</span>
-                <button
-                  onClick={() => setDrawerOpen(false)}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center"
-                  style={{ color: 'var(--text-secondary)', background: 'var(--surface-hover)' }}
-                >
-                  <X size={16} />
-                </button>
-              </div>
-
-              <nav className="flex flex-col gap-1 px-4 py-5 flex-1 overflow-y-auto">
-                {NAV_LINKS.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    onClick={() => setDrawerOpen(false)}
-                    className="flex items-center px-3 py-3 rounded-xl text-sm font-medium transition-colors duration-150"
-                    style={{ color: 'var(--text-primary)' }}
-                    onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')}
-                    onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-
-                {/* Divider + secondary links */}
-                <div className="px-3 pt-4 pb-1">
-                  <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-                    {lang === 'es' ? 'Más' : 'More'}
-                  </span>
-                </div>
-                {MORE_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setDrawerOpen(false)}
-                    className="flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150"
-                    style={{ color: 'var(--text-secondary)' }}
-                    onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--surface-hover)')}
-                    onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = 'transparent')}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-
-              <div className="px-4 pb-6 flex flex-col gap-3" style={{ borderTop: '1px solid var(--border)', paddingTop: 20 }}>
-                <div className="flex items-center gap-2 mb-1">
-                  <button
-                    onClick={toggle}
-                    className="flex-1 py-2 rounded-xl text-xs font-bold transition-colors duration-150"
-                    style={{ border: '1px solid var(--border)', color: 'var(--text-secondary)', background: 'var(--surface-hover)' }}
-                  >
-                    {lang === 'es' ? 'English' : 'Español'}
-                  </button>
-                  <ThemeToggle />
-                </div>
-                <Link
-                  href="/registro"
-                  onClick={() => setDrawerOpen(false)}
-                  className="w-full flex items-center justify-center py-3 rounded-xl text-sm font-semibold transition-colors duration-150"
-                  style={{ background: 'var(--surface-hover)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }}
-                >
-                  {lang === 'es' ? 'Crear cuenta' : 'Sign up'}
-                </Link>
-                <Link
-                  href="/login"
-                  onClick={() => setDrawerOpen(false)}
-                  className="w-full flex items-center justify-center py-3 rounded-xl text-sm font-semibold transition-colors duration-150"
-                  style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}
-                >
-                  {t.nav.signIn}
-                </Link>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+        </>
+      )}
     </>
   )
 }

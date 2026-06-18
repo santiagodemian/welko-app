@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import { FileText, ExternalLink, Loader2, Search } from 'lucide-react'
 import Link from 'next/link'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 interface Player {
   id:             string

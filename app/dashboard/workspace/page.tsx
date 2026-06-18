@@ -19,8 +19,8 @@ function TabLoader() {
 const CalendarContent = dynamic(() => import('../calendar/page'), { ssr: false, loading: TabLoader })
 const AIContent       = dynamic(() => import('../chat/page'),     { ssr: false, loading: TabLoader })
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 

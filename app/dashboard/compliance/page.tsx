@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Shield, Plus, X, Loader2 } from 'lucide-react'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 interface ComplianceRecord {
   id: string

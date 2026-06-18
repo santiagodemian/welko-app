@@ -99,8 +99,8 @@ const DEFAULT_PERFORMANCE: PerfMetric[] = [
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -282,7 +282,7 @@ function ProposalCanvas({ player, brandKit, isPremium, dark, animated, photoUrl,
 }) {
   const primary = brandKit?.primaryColor ?? N
   const accent  = brandKit?.accentColor  ?? G
-  const bg      = dark ? `linear-gradient(145deg, ${primary} 0%, #0D1F3C 100%)` : '#FFFFFF'
+  const bg      = dark ? `linear-gradient(145deg, ${primary} 0%, #0A0A0A 100%)` : '#FFFFFF'
   const cardBg  = dark ? 'rgba(255,255,255,0.045)' : '#F8FAFC'
   const border  = dark ? 'rgba(255,255,255,0.08)'  : '#E5E7EB'
   const text    = dark ? '#FFFFFF'                  : N
@@ -305,7 +305,7 @@ function ProposalCanvas({ player, brandKit, isPremium, dark, animated, photoUrl,
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px 0' }}>
         {brandKit?.logoUrl
           ? <img src={brandKit.logoUrl} alt="Agency logo" style={{ height: 36, objectFit: 'contain' }} /> // eslint-disable-line @next/next/no-img-element
-          : <span style={{ fontSize: 14, fontWeight: 800, color: accent, letterSpacing: '-0.03em' }}>Welko <span style={{ color: text }}>AgentOS</span></span>}
+          : <span style={{ fontSize: 14, fontWeight: 800, color: accent, letterSpacing: '-0.03em' }}>Polaris Football</span>}
         {player.position && (
           <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', padding: '5px 14px', borderRadius: 99, background: `${accent}22`, border: `1px solid ${accent}44`, color: accent }}>
             {player.position}
@@ -352,7 +352,7 @@ function ProposalCanvas({ player, brandKit, isPremium, dark, animated, photoUrl,
           <div style={{ height: 6, borderRadius: 99, background: dark ? 'rgba(255,255,255,0.08)' : '#E5E7EB', overflow: 'hidden' }}>
             <div style={{ height: '100%', borderRadius: 99, background: `linear-gradient(90deg, ${accent}99, ${accent})`, width: animated ? `${eloPct}%` : '0%', transition: 'width 1.4s cubic-bezier(0.4, 0, 0.2, 1)' }} />
           </div>
-          <p style={{ fontSize: 9, color: subtle, margin: '4px 0 0', letterSpacing: '0.04em' }}>BeSoccer AgentOS Score — 1 to 99</p>
+          <p style={{ fontSize: 9, color: subtle, margin: '4px 0 0', letterSpacing: '0.04em' }}>BeSoccer Polaris Score — 1 to 99</p>
         </div>
         <div style={{ textAlign: 'center' }}>
           <p style={{ fontSize: 9, color: muted, margin: '0 0 2px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Contract</p>
@@ -403,7 +403,7 @@ function ProposalCanvas({ player, brandKit, isPremium, dark, animated, photoUrl,
             <span style={{ fontSize: 11, color: subtle, fontStyle: 'italic' }}>Set contact details in Brand Kit → Dashboard</span>
           )}
         </div>
-        {!isPremium && <span style={{ fontSize: 10, color: subtle, letterSpacing: '0.03em' }}>Powered by <strong style={{ color: accent }}>Welko AgentOS</strong></span>}
+        {!isPremium && <span style={{ fontSize: 10, color: subtle, letterSpacing: '0.03em' }}>Powered by <strong style={{ color: accent }}>Polaris</strong></span>}
       </div>
     </div>
   )
@@ -809,10 +809,10 @@ export default function PlayerProposalPage() {
   }
 
   const handleExport = useCallback(() => {
-    document.body.classList.add('welko-print-proposal')
+    document.body.classList.add('polaris-print-proposal')
     window.print()
     window.addEventListener('afterprint', () => {
-      document.body.classList.remove('welko-print-proposal')
+      document.body.classList.remove('polaris-print-proposal')
     }, { once: true })
   }, [])
 
@@ -847,8 +847,8 @@ export default function PlayerProposalPage() {
       <style>{`
         @media print {
           @page { size: A4 landscape; margin: 0; }
-          body.welko-print-proposal > * { display: none !important; }
-          body.welko-print-proposal #proposal-canvas-root {
+          body.polaris-print-proposal > * { display: none !important; }
+          body.polaris-print-proposal #proposal-canvas-root {
             display: block !important; position: fixed; inset: 0;
             padding: 12mm; box-sizing: border-box;
             -webkit-print-color-adjust: exact; print-color-adjust: exact;

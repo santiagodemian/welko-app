@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { Plus, Loader2, X, Trash2, ChevronRight, ArrowRight } from 'lucide-react'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 type StageName = 'INITIAL_CONTACT' | 'PROPOSAL_SENT' | 'FINANCIAL_TALKS' | 'CONTRACT_CLOSURE'
 

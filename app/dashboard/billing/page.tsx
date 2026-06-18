@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import { CreditCard, Loader2, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 interface BillingInfo {
   planType:         string
@@ -17,10 +17,10 @@ interface BillingInfo {
 
 const PLAN_LABEL: Record<string, string> = {
   FREE:             'Scout — Free',
-  PREMIUM_MONTHLY:  'AgentOS Premium · Monthly',
-  PREMIUM_ANNUAL:   'AgentOS Premium · Annual',
-  AGENCY_MONTHLY:   'AgentOS Agency · Monthly',
-  AGENCY_ANNUAL:    'AgentOS Agency · Annual',
+  PREMIUM_MONTHLY:  'Polaris Premium · Monthly',
+  PREMIUM_ANNUAL:   'Polaris Premium · Annual',
+  AGENCY_MONTHLY:   'Polaris Agency · Monthly',
+  AGENCY_ANNUAL:    'Polaris Agency · Annual',
 }
 
 const PLAN_FEATURES: Record<string, Array<[string, string]>> = {
@@ -158,7 +158,7 @@ export default function BillingPage() {
 
             {!isPremium && (
               <Link href="/precios" style={{ display: 'block', textAlign: 'center', background: N, color: 'white', padding: 12, borderRadius: 10, textDecoration: 'none', fontWeight: 700, fontSize: 14 }}>
-                Upgrade to AgentOS Premium →
+                Upgrade to Polaris Premium →
               </Link>
             )}
           </div>

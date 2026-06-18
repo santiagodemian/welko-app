@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { Download, Loader2, FileText, Users } from 'lucide-react'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 interface BrandKit {
   logoUrl:         string | null
@@ -211,7 +211,7 @@ export default function PortfolioPage() {
       <div ref={printRef} style={{ padding: '0 clamp(16px,4vw,40px) 80px', maxWidth: 1000, fontFamily: 'var(--font-montserrat), sans-serif' }}>
 
         {/* Cover header */}
-        <div style={{ background: `linear-gradient(135deg, ${primary} 0%, #0D1F3C 100%)`, borderRadius: 16, padding: '28px 32px', marginBottom: 28, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ background: `linear-gradient(135deg, ${primary} 0%, #0A0A0A 100%)`, borderRadius: 16, padding: '28px 32px', marginBottom: 28, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             {logoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -274,7 +274,7 @@ export default function PortfolioPage() {
               {agency?.brandKit?.footerPhone && <span style={{ fontSize: 11, color: '#9CA3AF' }}>{agency.brandKit.footerPhone}</span>}
               {agency?.brandKit?.footerLocation && <span style={{ fontSize: 11, color: '#9CA3AF' }}>{agency.brandKit.footerLocation}</span>}
             </div>
-            <span style={{ fontSize: 10, color: '#D1D5DB' }}>Powered by Welko AgentOS</span>
+            <span style={{ fontSize: 10, color: '#D1D5DB' }}>Polaris Football</span>
           </div>
         )}
       </div>

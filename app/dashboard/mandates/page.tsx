@@ -43,8 +43,8 @@ interface SavedMandate {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 const EXAMPLE_PROMPTS = [
   'Need a right-footed center back, strong in aerial duels, under 30 years old, budget €10k/month max',
@@ -61,7 +61,7 @@ function ScoreBadge({ score }: { score: number }) {
     score >= 40 ? '#F59E0B' : '#EF4444'
   const bg =
     score >= 80 ? 'rgba(5,150,105,0.1)' :
-    score >= 60 ? 'rgba(30,111,235,0.1)' :
+    score >= 60 ? 'rgba(37,99,235,0.1)' :
     score >= 40 ? 'rgba(245,158,11,0.1)' : 'rgba(239,68,68,0.1)'
   return (
     <div style={{
@@ -101,7 +101,7 @@ function ParsedTags({ parsed }: { parsed: ParsedMandate }) {
   if (parsed.maxBudget)
     tags.push({ label: `Max €${parsed.maxBudget.toLocaleString()}/mo`, color: '#059669', bg: '#F0FDF4' })
   if (parsed.maxAge)
-    tags.push({ label: `Max age ${parsed.maxAge}`, color: G, bg: 'rgba(30,111,235,0.08)' })
+    tags.push({ label: `Max age ${parsed.maxAge}`, color: G, bg: 'rgba(37,99,235,0.08)' })
   parsed.keyAttributes?.forEach((attr) =>
     tags.push({ label: attr, color: '#6B7280', bg: '#F9FAFB' })
   )
@@ -217,7 +217,7 @@ export default function MandatesPage() {
           <h1 style={{ fontSize: 24, fontWeight: 800, color: N, margin: 0 }}>AI Mandate Matcher</h1>
         </div>
         <p style={{ color: '#6B7280', margin: 0, fontSize: 14, lineHeight: 1.6 }}>
-          Paste any club request — WhatsApp message, email, or scouting note. AgentOS parses it and ranks your players by fit.
+          Paste any club request — WhatsApp message, email, or scouting note. Polaris parses it and ranks your players by fit.
         </p>
       </div>
 
@@ -370,7 +370,7 @@ export default function MandatesPage() {
                   borderRadius: 16, padding: '20px 24px',
                   display: 'flex', alignItems: 'center', gap: 18,
                   position: 'relative',
-                  boxShadow: index === 0 ? '0 4px 16px rgba(30,111,235,0.1)' : '0 1px 3px rgba(0,0,0,0.04)',
+                  boxShadow: index === 0 ? '0 4px 16px rgba(37,99,235,0.1)' : '0 1px 3px rgba(0,0,0,0.04)',
                 }}>
                   {index === 0 && (
                     <span style={{
@@ -395,7 +395,7 @@ export default function MandatesPage() {
                         <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 20, background: '#F3F4F6', color: '#374151' }}>Age {player.age}</span>
                       )}
                       {player.eloRating !== null && (
-                        <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20, background: 'rgba(30,111,235,0.1)', color: G, display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20, background: 'rgba(37,99,235,0.1)', color: G, display: 'flex', alignItems: 'center', gap: 4 }}>
                           <Star size={10} /> ELO {player.eloRating}
                         </span>
                       )}

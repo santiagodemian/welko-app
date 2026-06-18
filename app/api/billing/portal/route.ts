@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   if (!userId) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
   const body        = await req.json().catch(() => ({}))
-  const returnUrl   = (body.returnUrl as string | undefined) ?? `${process.env.NEXT_PUBLIC_APP_URL ?? 'https://welko.agency'}/dashboard/ajustes`
+  const returnUrl   = (body.returnUrl as string | undefined) ?? `${process.env.NEXT_PUBLIC_APP_URL ?? 'https://polarisfootball.com'}/dashboard/billing`
 
   // ── 1. Try privateMetadata first ─────────────────────────────────────────────
   let stripeCustomerId: string | null = null

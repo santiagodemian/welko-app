@@ -32,18 +32,22 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`
 }
 
-export function BrandColorApplier() {
+export function BrandColorApplier({ dbColor }: { dbColor?: string | null }) {
   useEffect(() => {
-    const saved = localStorage.getItem('welko_brand_color')
-    if (saved) applyBrandColor(saved)
+    // DB color takes precedence; localStorage is a fallback for unsaved sessions
+    const color = dbColor ?? localStorage.getItem('welko_brand_color')
+    if (color) {
+      applyBrandColor(color)
+      localStorage.setItem('welko_brand_color', color)
+    }
 
     function onColorChange(e: Event) {
-      const color = (e as CustomEvent<{ color: string }>).detail?.color
-      if (color) applyBrandColor(color)
+      const c = (e as CustomEvent<{ color: string }>).detail?.color
+      if (c) applyBrandColor(c)
     }
     window.addEventListener('welko-brand-color', onColorChange)
     return () => window.removeEventListener('welko-brand-color', onColorChange)
-  }, [])
+  }, [dbColor])
 
   return null
 }

@@ -4,9 +4,9 @@ import { Navbar } from '@/components/layout/Navbar'
 import { ShieldCheck, Lock, ShieldAlert, FileText, Server, ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Aviso de Privacidad Integral | Welko',
+  title: 'Aviso de Privacidad Integral | Polaris Football',
   description:
-    'Aviso de Privacidad Integral de Welko. Cumplimiento con la LFPDPPP. Tratamiento de datos personales de salud, derechos ARCO y medidas de seguridad AES-256.',
+    'Aviso de Privacidad Integral de Polaris Football. Cumplimiento con la LFPDPPP. Tratamiento de datos personales de salud, derechos ARCO y medidas de seguridad AES-256.',
 }
 
 /* ─── Design tokens ─── */
@@ -95,7 +95,7 @@ export default function PrivacidadPage() {
             {/* 1 */}
             <Section id="identidad" num="01" title="Identidad y Domicilio del Responsable del Tratamiento">
               <p>
-                <strong style={{ color: '#0A0F1A' }}>Welko</strong> (en adelante "el Responsable" o "Welko"),
+                <strong style={{ color: '#0A0F1A' }}>Polaris Football</strong> (en adelante "el Responsable" o "Polaris Football"),
                 con domicilio en Ciudad de México, México, es el responsable del tratamiento de los datos
                 personales que se recaban a través de la plataforma <em>welko.mx</em> y sus servicios
                 asociados, de conformidad con la{' '}
@@ -104,8 +104,8 @@ export default function PrivacidadPage() {
               </p>
               <p className="mt-3">
                 Para cualquier asunto relacionado con este Aviso, puede contactarnos en:{' '}
-                <a href="mailto:privacidad@welko.org" style={{ color: NAVY, fontWeight: 600 }}>
-                  privacidad@welko.org
+                <a href="mailto:privacidad@polarisfootball.com" style={{ color: NAVY, fontWeight: 600 }}>
+                  privacidad@polarisfootball.com
                 </a>
               </p>
             </Section>
@@ -113,24 +113,24 @@ export default function PrivacidadPage() {
             {/* 2 */}
             <Section id="calidad" num="02" title="Calidad del Tratamiento — Responsable y Encargado">
               <p>
-                Welko actúa en una <strong>doble calidad</strong> según la relación con cada titular de datos:
+                Polaris Football actúa en una <strong>doble calidad</strong> según la relación con cada titular de datos:
               </p>
               <div className="mt-4 flex flex-col gap-3">
                 <RoleCard
                   role="Responsable del Tratamiento"
                   who="Respecto a los datos del médico o administrador de la clínica (usuario registrado)."
-                  desc="Welko decide los fines y medios del tratamiento de los datos del contratante para brindar el servicio SaaS."
+                  desc="Polaris Football decide los fines y medios del tratamiento de los datos del contratante para brindar el servicio SaaS."
                   color={NAVY}
                 />
                 <RoleCard
                   role="Encargado del Tratamiento"
                   who="Respecto a los datos de salud de los pacientes de la clínica contratante."
-                  desc="Welko procesa los datos de los pacientes exclusivamente por instrucción de la clínica. El médico o clínica es el Responsable ante sus pacientes y debe recabar el consentimiento de estos conforme a la normativa aplicable."
+                  desc="Polaris Football procesa los datos de los pacientes exclusivamente por instrucción de la clínica. El médico o clínica es el Responsable ante sus pacientes y debe recabar el consentimiento de estos conforme a la normativa aplicable."
                   color={GREEN}
                 />
               </div>
               <p className="mt-4">
-                El tratamiento de datos de pacientes por parte de Welko se rige por el contrato de
+                El tratamiento de datos de pacientes por parte de Polaris Football se rige por el contrato de
                 servicio suscrito con la clínica contratante, el cual incluye cláusulas de
                 confidencialidad y protección de datos equivalentes a las obligaciones del Responsable.
               </p>
@@ -181,7 +181,7 @@ export default function PrivacidadPage() {
 
               <p className="mt-5 font-semibold" style={{ color: '#0A0F1A' }}>Finalidades secundarias (requieren consentimiento adicional):</p>
               <BulletList items={[
-                'Envío de comunicaciones comerciales o promociones de Welko al titular de la cuenta. Puede oponerse a este tratamiento en cualquier momento escribiendo a privacidad@welko.org.',
+                'Envío de comunicaciones comerciales o promociones de Polaris Football al titular de la cuenta. Puede oponerse a este tratamiento en cualquier momento escribiendo a privacidad@polarisfootball.com.',
               ]} />
 
               <p className="mt-4 p-4 rounded-xl text-sm" style={{ background: '#FEF3C7', color: '#92400E', border: '1px solid #FCD34D' }}>
@@ -204,7 +204,7 @@ export default function PrivacidadPage() {
             {/* 6 */}
             <Section id="transferencia" num="06" title="Transferencia de Datos a Terceros">
               <p>
-                Welko no vende ni renta datos personales. Las transferencias a terceros se limitan a:
+                Polaris Football no vende ni renta datos personales. Las transferencias a terceros se limitan a:
               </p>
               <div className="mt-4 flex flex-col gap-3">
                 {[
@@ -237,7 +237,7 @@ export default function PrivacidadPage() {
                 ))}
               </div>
               <p className="mt-4 text-sm">
-                Welko no realiza transferencias internacionales de datos de salud sin garantías
+                Polaris Football no realiza transferencias internacionales de datos de salud sin garantías
                 contractuales equivalentes a la protección establecida en la LFPDPPP.
               </p>
             </Section>
@@ -277,7 +277,7 @@ export default function PrivacidadPage() {
                 </p>
                 <ol className="flex flex-col gap-2">
                   {[
-                    'Envíe un correo a privacidad@welko.org con el asunto "Ejercicio de Derechos ARCO".',
+                    'Envíe un correo a privacidad@polarisfootball.com con el asunto "Ejercicio de Derechos ARCO".',
                     'Indique el derecho que desea ejercer y los datos personales involucrados.',
                     'Acredite su identidad (identificación oficial vigente) o la de su representante legal.',
                     'Recibirá acuse de recibo en 5 días hábiles. La resolución se emitirá en máximo 20 días hábiles (prorrogables por 20 días más cuando sea justificado).',
@@ -294,7 +294,7 @@ export default function PrivacidadPage() {
                   ))}
                 </ol>
                 <p className="text-xs mt-1" style={{ color: '#9CA3AF' }}>
-                  Si considera que Welko no atiende correctamente su solicitud, puede acudir al{' '}
+                  Si considera que Polaris Football no atiende correctamente su solicitud, puede acudir al{' '}
                   <strong>INAI</strong> (Instituto Nacional de Transparencia, Acceso a la Información
                   y Protección de Datos Personales) en{' '}
                   <a href="https://inai.org.mx" target="_blank" rel="noopener noreferrer" style={{ color: NAVY }}>
@@ -307,7 +307,7 @@ export default function PrivacidadPage() {
             {/* 8 */}
             <Section id="seguridad" num="08" title="Medidas de Seguridad Técnica y Administrativa">
               <p>
-                Welko implementa las siguientes medidas de seguridad conforme al Artículo 19 de la
+                Polaris Football implementa las siguientes medidas de seguridad conforme al Artículo 19 de la
                 LFPDPPP y los <em>Lineamientos de protección de datos personales</em> del INAI:
               </p>
 
@@ -358,7 +358,7 @@ export default function PrivacidadPage() {
                     color: '#F59E0B',
                     tag: 'ACCESO',
                     title: 'Control de acceso y auditoría',
-                    desc: 'Acceso a datos de producción restringido por roles. Autenticación multifactor (MFA) obligatoria para el equipo de Welko. Logs de acceso y modificación de datos conservados durante 90 días.',
+                    desc: 'Acceso a datos de producción restringido por roles. Autenticación multifactor (MFA) obligatoria para el equipo de Polaris Football. Logs de acceso y modificación de datos conservados durante 90 días.',
                   },
                 ].map((item, i, arr) => (
                   <div
@@ -390,7 +390,7 @@ export default function PrivacidadPage() {
 
               <p className="mt-4 text-sm">
                 En caso de vulneración de seguridad que afecte derechos patrimoniales o morales
-                de los titulares, Welko notificará al INAI y a los afectados a la brevedad
+                de los titulares, Polaris Football notificará al INAI y a los afectados a la brevedad
                 posible, conforme al Artículo 20 de la LFPDPPP.
               </p>
             </Section>
@@ -398,7 +398,7 @@ export default function PrivacidadPage() {
             {/* 9 */}
             <Section id="consentimiento" num="09" title="Consentimiento y Limitación del Tratamiento">
               <p>
-                Al registrarse en Welko y hacer uso del servicio, el titular de la cuenta otorga
+                Al registrarse en Polaris Football y hacer uso del servicio, el titular de la cuenta otorga
                 su consentimiento tácito para el tratamiento de sus datos con las finalidades
                 primarias descritas en este Aviso.
               </p>
@@ -409,7 +409,7 @@ export default function PrivacidadPage() {
                 trate de datos de salud sensibles, conforme al Artículo 9 de la LFPDPPP.
               </p>
               <p className="mt-3">
-                Welko proporciona a la clínica la leyenda de aviso de privacidad que puede
+                Polaris Football proporciona a la clínica la leyenda de aviso de privacidad que puede
                 compartirse con sus pacientes al inicio de cada conversación con el asistente
                 virtual, disponible en el panel de configuración.
               </p>
@@ -418,7 +418,7 @@ export default function PrivacidadPage() {
             {/* 10 */}
             <Section id="cambios" num="10" title="Cambios a este Aviso de Privacidad">
               <p>
-                Welko puede modificar este Aviso cuando sea necesario por cambios en la
+                Polaris Football puede modificar este Aviso cuando sea necesario por cambios en la
                 legislación, en el servicio o en sus prácticas de privacidad. Los cambios
                 se publicarán en esta página con la fecha de última actualización. Si los
                 cambios afectan significativamente el tratamiento de sus datos, se le
@@ -459,7 +459,7 @@ export default function PrivacidadPage() {
       </main>
 
       <footer className="py-6 px-4 text-center text-xs" style={{ color: '#9CA3AF', borderTop: '1px solid #E5E7EB' }}>
-        © {new Date().getFullYear()}{' '}Demian Santiago Mendoza Ledesma — Welko &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
+        © {new Date().getFullYear()}{' '}Demian Santiago Mendoza Ledesma — Polaris Football &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
       </footer>
     </>
   )
@@ -527,7 +527,7 @@ function DataSensitiveNote() {
         </p>
         <p className="text-xs mt-1" style={{ color: '#B45309', lineHeight: 1.6 }}>
           El historial de citas y las notas clínicas constituyen <em>datos sensibles</em> conforme
-          al Artículo 3 fracción VI de la LFPDPPP. Su tratamiento por parte de Welko se realiza
+          al Artículo 3 fracción VI de la LFPDPPP. Su tratamiento por parte de Polaris Football se realiza
           exclusivamente como Encargado bajo instrucción de la clínica contratante, con
           cifrado AES-256-GCM en reposo y sin acceso por parte de personal no autorizado.
         </p>

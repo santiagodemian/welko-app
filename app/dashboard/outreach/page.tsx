@@ -7,8 +7,8 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -52,7 +52,7 @@ interface OutreachPlayer {
 
 const STATUS_CONFIG: Record<OutreachStatus, { label: string; bg: string; color: string; dot: string }> = {
   NOT_CONTACTED:  { label: 'No Contact',       bg: '#F3F4F6',                   color: '#6B7280', dot: '#D1D5DB' },
-  MESSAGED:       { label: 'Messaged',          bg: 'rgba(30,111,235,0.1)',      color: '#1E6FEB', dot: '#1E6FEB' },
+  MESSAGED:       { label: 'Messaged',          bg: 'rgba(37,99,235,0.1)',      color: '#2563EB', dot: '#2563EB' },
   REPLIED:        { label: 'Replied',           bg: 'rgba(34,197,94,0.12)',      color: '#16A34A', dot: '#22C55E' },
   FOLLOW_UP:      { label: 'Follow-up',         bg: 'rgba(245,158,11,0.12)',     color: '#D97706', dot: '#F59E0B' },
   SITUATION_KNOWN:{ label: 'Situation Known',   bg: 'rgba(124,58,237,0.1)',      color: '#7C3AED', dot: '#7C3AED' },
@@ -86,7 +86,7 @@ function contractUrgency(iso: string | null): string {
   const months = (new Date(iso).getTime() - Date.now()) / (1000 * 60 * 60 * 24 * 30)
   if (months < 0)   return '#EF4444'
   if (months < 3)   return '#F59E0B'
-  if (months < 6)   return '#1E6FEB'
+  if (months < 6)   return '#2563EB'
   return '#6B7280'
 }
 

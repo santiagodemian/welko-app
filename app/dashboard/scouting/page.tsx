@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { Eye, Plus, Star as _Star, TrendingUp as _TrendingUp, Search, Loader2, ChevronRight as _ChevronRight, X } from 'lucide-react'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -164,7 +164,7 @@ export default function ScoutingPage() {
       ) : filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '80px 24px' }}>
           <div style={{
-            width: 64, height: 64, borderRadius: '50%', background: 'rgba(30,111,235,0.08)',
+            width: 64, height: 64, borderRadius: '50%', background: 'rgba(37,99,235,0.08)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px',
           }}>
             <Eye size={28} color={G} />
@@ -239,7 +239,7 @@ function ReportCard({ report }: { report: ScoutingReport }) {
             {p.position && (
               <span style={{
                 fontSize: 10, fontWeight: 700,
-                background: 'rgba(30,111,235,0.08)', color: G,
+                background: 'rgba(37,99,235,0.08)', color: G,
                 padding: '2px 7px', borderRadius: 20,
               }}>
                 {p.position}

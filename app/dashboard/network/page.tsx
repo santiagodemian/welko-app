@@ -4,7 +4,7 @@ import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { Building2, BookUser, Loader2 } from 'lucide-react'
 
-const G = '#1E6FEB'
+const G = '#2563EB'
 
 function TabLoader() {
   return (

@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { Navbar } from '@/components/layout/Navbar'
 
 export const metadata: Metadata = {
-  title: 'Política de Reembolsos | Welko',
-  description: 'Garantía de satisfacción de 7 días. Si Welko no es lo que esperabas, te devolvemos tu dinero sin preguntas.',
+  title: 'Política de Reembolsos | Polaris Football',
+  description: 'Garantía de satisfacción de 7 días. Si Polaris no es lo que esperabas, te devolvemos tu dinero sin preguntas.',
 }
 
 export default function ReembolsosPage() {
@@ -44,7 +44,7 @@ export default function ReembolsosPage() {
                 Garantía de Satisfacción de 7 Días
               </p>
               <p className="text-sm" style={{ color: '#374151' }}>
-                Prueba Welko sin riesgo. Si en los primeros 7 días no estás convencido,
+                Prueba Polaris sin riesgo. Si en los primeros 7 días no estás convencido,
                 te devolvemos el 100% de tu pago sin preguntas ni trámites complicados.
               </p>
             </div>
@@ -56,7 +56,7 @@ export default function ReembolsosPage() {
 
             <Section title="1. Garantía de los Primeros 7 Días">
               <p>
-                Welko ofrece una garantía de satisfacción total durante los primeros{' '}
+                Polaris ofrece una garantía de satisfacción total durante los primeros{' '}
                 <strong style={{ color: '#111827' }}>7 días calendario</strong> desde la
                 activación de la suscripción. Si por cualquier motivo el servicio no cumple
                 tus expectativas, realizamos el reembolso completo del monto pagado, sin
@@ -122,7 +122,7 @@ export default function ReembolsosPage() {
         className="py-6 px-4 text-center text-xs"
         style={{ color: '#9CA3AF', borderTop: '1px solid #E5E7EB' }}
       >
-        © {new Date().getFullYear()}{' '}Demian Santiago Mendoza Ledesma — Welko &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
+        © {new Date().getFullYear()}{' '}Polaris Football &ldquo;El Recepcionista IA Líder&rdquo;. Todos los derechos reservados.
       </footer>
     </>
   )

@@ -3,63 +3,109 @@ import { NextRequest, NextResponse } from 'next/server'
 import type { Stripe } from '@/lib/stripe'
 import { stripe } from '@/lib/stripe'
 import { clerkClient } from '@clerk/nextjs/server'
+import { db } from '@/lib/db'
 import { Resend } from 'resend'
 import { renderWelcomeEmail } from '@/lib/emails/welcome'
 
-// ── Price ID → Plan mapping (updated April 2026) ──────────────────────────────
-type PlanId = 'starter' | 'essential' | 'pro' | 'business'
+// ── Price ID → plan type mapping ──────────────────────────────────────────────
+type PlanType = 'PREMIUM_MONTHLY' | 'PREMIUM_ANNUAL' | 'AGENCY_MONTHLY' | 'AGENCY_ANNUAL'
 
-const PRICE_TO_PLAN: Record<string, PlanId> = {
-  // Starter
-  [process.env.STRIPE_PRICE_STARTER_MONTHLY  ?? 'price_1TIxJMCtJS5pRlCl7fOo4FBC']: 'starter',
-  [process.env.STRIPE_PRICE_STARTER_ANNUAL   ?? 'price_1TIxJNCtJS5pRlClYNJONNzc']: 'starter',
-  // Essential — $1,499 / $1,199
-  price_1THbonCtJS5pRlCl7p3MzzOh: 'essential',
-  price_1TIxN8CtJS5pRlClREQtoXdG: 'essential',
-  // Pro — $2,999 / $2,399
-  price_1THbonCtJS5pRlCl2f4CFDKc: 'pro',
-  price_1TIxN8CtJS5pRlClbeXsTJPv: 'pro',
-  // Business — $5,999 / $4,799
-  price_1THbokCtJS5pRlClvHqTqWh3: 'business',
-  price_1TIxN9CtJS5pRlClLpVay0DX: 'business',
+const PRICE_TO_PLAN: Record<string, PlanType> = {
+  [process.env.STRIPE_PRICE_PREMIUM_MONTHLY ?? 'price_premium_monthly']: 'PREMIUM_MONTHLY',
+  [process.env.STRIPE_PRICE_PREMIUM_ANNUAL  ?? 'price_premium_annual']:  'PREMIUM_ANNUAL',
+  [process.env.STRIPE_PRICE_AGENCY_MONTHLY  ?? 'price_agency_monthly']:  'AGENCY_MONTHLY',
+  [process.env.STRIPE_PRICE_AGENCY_ANNUAL   ?? 'price_agency_annual']:   'AGENCY_ANNUAL',
 }
 
-// ── Sync plan + stripeCustomerId to Clerk metadata ───────────────────────────
-async function syncPlanToClerk(email: string, plan: PlanId | null, stripeCustomerId?: string) {
+// ── Sync plan to Clerk public metadata ───────────────────────────────────────
+async function syncPlanToClerk(
+  email: string,
+  plan: 'premium' | null,
+  stripeCustomerId?: string,
+) {
   const clerk = await clerkClient()
   const { data: users } = await clerk.users.getUserList({ emailAddress: [email] })
   if (users.length === 0) return
   await clerk.users.updateUserMetadata(users[0].id, {
     publicMetadata: { plan },
-    // stripeCustomerId is sensitive — kept server-side only
     ...(stripeCustomerId ? { privateMetadata: { stripeCustomerId } } : {}),
   })
 }
 
-// ── Send welcome email via Resend ─────────────────────────────────────────────
+// ── Upsert Subscription record in DB ─────────────────────────────────────────
+async function syncSubscriptionToDB(
+  email: string,
+  planType: PlanType | null,
+  stripeCustomerId: string,
+  stripeSubscriptionId: string,
+  stripePriceId: string | null,
+  status: string,
+) {
+  try {
+    const clerk = await clerkClient()
+    const { data: users } = await clerk.users.getUserList({ emailAddress: [email] })
+    if (users.length === 0) return
+
+    const member = await db.agencyMember.findUnique({
+      where: { clerkUserId: users[0].id },
+      select: { agencyId: true },
+    })
+    if (!member) return
+
+    await db.subscription.upsert({
+      where:  { agencyId: member.agencyId },
+      create: {
+        agencyId:             member.agencyId,
+        stripeCustomerId,
+        stripeSubscriptionId,
+        stripePriceId,
+        planType:  planType ?? 'FREE',
+        status:    mapStatus(status),
+      },
+      update: {
+        stripeCustomerId,
+        stripeSubscriptionId,
+        stripePriceId,
+        planType:  planType ?? 'FREE',
+        status:    mapStatus(status),
+      },
+    })
+  } catch {
+    // non-fatal — Clerk or DB might not have this user yet
+  }
+}
+
+function mapStatus(s: string): 'ACTIVE' | 'CANCELED' | 'PAST_DUE' | 'TRIALING' {
+  if (s === 'active')   return 'ACTIVE'
+  if (s === 'trialing') return 'TRIALING'
+  if (s === 'past_due') return 'PAST_DUE'
+  return 'CANCELED'
+}
+
+// ── Send welcome email ────────────────────────────────────────────────────────
 async function sendWelcomeEmail(
   email: string,
   name: string,
-  plan: PlanId,
+  plan: string,
   billing: 'monthly' | 'annual',
 ) {
   const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) return // silently skip if not configured
+  if (!apiKey) return
 
   const resend = new Resend(apiKey)
   const html   = renderWelcomeEmail({ name, plan, billing })
 
   await resend.emails.send({
-    from:    'Welko <hola@welko.org>',
+    from:    'Polaris Football <hola@polarisfootball.com>',
     to:      email,
-    subject: `¡Bienvenido a Welko ${plan.charAt(0).toUpperCase() + plan.slice(1)}! Tu IA ya está lista `,
+    subject: `Welcome to Polaris Football Premium! 🏆`,
     html,
   })
 }
 
 // ── Webhook handler ───────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
-  const rawBody  = await req.text()
+  const rawBody   = await req.text()
   const signature = req.headers.get('stripe-signature')
 
   if (!signature) {
@@ -85,7 +131,6 @@ export async function POST(req: NextRequest) {
   const subscription = event.data.object as Stripe.Subscription
   const customerId   = subscription.customer as string
 
-  // Get customer info from Stripe
   let email: string | null = null
   let customerName         = ''
   try {
@@ -103,26 +148,64 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'No customer email' }, { status: 400 })
   }
 
-  // Subscription deleted → remove plan but keep stripeCustomerId for portal access
+  const priceId       = subscription.items.data[0]?.price?.id ?? null
+  const planType      = priceId ? PRICE_TO_PLAN[priceId] ?? null : null
+  const subId         = subscription.id
+  const subStatus     = subscription.status
+
   if (event.type === 'customer.subscription.deleted') {
     await syncPlanToClerk(email, null, customerId)
+    await syncSubscriptionToDB(email, null, customerId, subId, priceId, 'canceled')
     return NextResponse.json({ received: true })
   }
 
-  const priceId = subscription.items.data[0]?.price?.id
-  const plan    = priceId ? PRICE_TO_PLAN[priceId] : undefined
+  if (planType && subStatus === 'active') {
+    await syncPlanToClerk(email, 'premium', customerId)
+    await syncSubscriptionToDB(email, planType, customerId, subId, priceId, subStatus)
 
-  if (plan && subscription.status === 'active') {
-    // Determine billing cycle from price interval
-    const interval = subscription.items.data[0]?.price?.recurring?.interval
-    const billing: 'monthly' | 'annual' = interval === 'year' ? 'annual' : 'monthly'
-
-    // Sync plan + customer ID to Clerk
-    await syncPlanToClerk(email, plan, customerId)
-
-    // Send welcome email only on new subscription (not updates)
     if (event.type === 'customer.subscription.created') {
-      await sendWelcomeEmail(email, customerName || email.split('@')[0], plan, billing)
+      const interval  = subscription.items.data[0]?.price?.recurring?.interval
+      const billing: 'monthly' | 'annual' = interval === 'year' ? 'annual' : 'monthly'
+      const emailPlan = planType.startsWith('AGENCY') ? 'agency' : 'premium'
+      await sendWelcomeEmail(email, customerName || email.split('@')[0], emailPlan, billing)
+
+      // ── Affiliate commission: €50 flat on annual plan conversion ─────────
+      if (planType === 'PREMIUM_ANNUAL' || planType === 'AGENCY_ANNUAL') {
+        const refToken = (subscription.metadata as Record<string, string>)?.referralToken
+        if (refToken) {
+          try {
+            const affiliate = await db.affiliatePartner.findUnique({
+              where: { referralToken: refToken },
+              select: { id: true, status: true },
+            })
+            if (affiliate && affiliate.status === 'ACTIVE') {
+              const COMMISSION = 50 // EUR flat fee per annual conversion
+              await db.$transaction([
+                db.affiliateReferral.create({
+                  data: {
+                    affiliateId:        affiliate.id,
+                    referredAgencyName: customerName || email.split('@')[0],
+                    planType:           'PREMIUM_ANNUAL',
+                    monthlyValueEur:    299,
+                    commissionRate:     0,
+                    monthlyCommission:  0,
+                    status:             'active',
+                  },
+                }),
+                db.affiliatePartner.update({
+                  where: { id: affiliate.id },
+                  data:  {
+                    totalEarned:    { increment: COMMISSION },
+                    pendingBalance: { increment: COMMISSION },
+                  },
+                }),
+              ])
+            }
+          } catch (err) {
+            Sentry.captureException(err, { tags: { webhook: 'stripe', step: 'affiliate_commission' } })
+          }
+        }
+      }
     }
   }
 

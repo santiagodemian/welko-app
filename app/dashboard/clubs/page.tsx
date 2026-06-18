@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { Building2, Plus, Search, X, Filter, Globe, DollarSign, Users as _Users, Loader2, Trash2 } from 'lucide-react'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -26,7 +26,7 @@ type RelStatus = 'Active partner' | 'Hot lead' | 'Cold lead' | 'Prospect'
 
 const REL_STYLES: Record<RelStatus, { bg: string; color: string }> = {
   'Active partner': { bg: 'rgba(5,150,105,0.1)',   color: '#059669' },
-  'Hot lead':       { bg: 'rgba(30,111,235,0.1)',  color: '#1E6FEB' },
+  'Hot lead':       { bg: 'rgba(37,99,235,0.1)',  color: '#2563EB' },
   'Cold lead':      { bg: '#F3F4F6',               color: '#6B7280' },
   'Prospect':       { bg: 'rgba(245,158,11,0.1)',  color: '#D97706' },
 }
@@ -220,7 +220,7 @@ export default function ClubsPage() {
         /* ── Empty state ── */
         <div style={{ textAlign: 'center', padding: '80px 24px' }}>
           <div style={{
-            width: 64, height: 64, borderRadius: '50%', background: 'rgba(30,111,235,0.08)',
+            width: 64, height: 64, borderRadius: '50%', background: 'rgba(37,99,235,0.08)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px',
           }}>
             <Building2 size={28} color={G} />
@@ -339,7 +339,7 @@ export default function ClubsPage() {
                     {needs.map(pos => (
                       <span key={pos} style={{
                         fontSize: 10, fontWeight: 700,
-                        background: 'rgba(30,111,235,0.08)', color: G,
+                        background: 'rgba(37,99,235,0.08)', color: G,
                         padding: '2px 7px', borderRadius: 20, letterSpacing: '0.02em',
                       }}>
                         {pos}

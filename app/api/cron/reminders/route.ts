@@ -1,94 +1,102 @@
-/**
- * GET /api/cron/reminders
- *
- * Vercel Cron Job — runs once daily at 14:00 UTC (schedule: "0 14 * * *").
- * Finds appointments in the next 24-25 h that haven't been reminded yet,
- * sends a WhatsApp confirmation message to the patient, and marks the lead.
- *
- * Secured with CRON_SECRET (Vercel sets Authorization: Bearer <secret> automatically).
- */
-
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { decrypt } from '@/lib/encryption'
-import { sendWhatsApp } from '@/lib/twilio'
+import { Resend } from 'resend'
+import { renderContractExpiryEmail } from '@/lib/emails/contract-expiry'
 
-export const runtime = 'nodejs'
+const resend = new Resend(process.env.RESEND_API_KEY)
 
+// Runs daily at 14:00 UTC via vercel.json cron.
+// Sends contract-expiry alerts at 90, 60, and 30-day thresholds.
 export async function GET(req: NextRequest) {
-  // Verify Vercel cron secret
-  const auth = req.headers.get('authorization')
-  if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+  const secret = req.headers.get('authorization')
+  if (secret !== `Bearer ${process.env.CRON_SECRET ?? ''}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const now   = new Date()
-  // Cron runs once daily at 14:00 UTC (8am Mexico City).
-  // Window: appointments 18–30h from now — captures all "tomorrow" appointments.
-  const from  = new Date(now.getTime() + 18 * 60 * 60 * 1000)
-  const until = new Date(now.getTime() + 30 * 60 * 60 * 1000)
+  const now = new Date()
 
-  const leads = await db.lead.findMany({
+  // Build three date targets: 90, 60, and 30 days from today (±1 day window to avoid gaps)
+  const windows = [90, 60, 30].map(days => ({
+    days,
+    from: new Date(now.getTime() + (days - 1) * 86_400_000),
+    to:   new Date(now.getTime() + (days + 1) * 86_400_000),
+  }))
+
+  // Fetch all players whose contracts expire in any of the three windows
+  const players = await db.playerProfile.findMany({
     where: {
-      appointmentAt:    { gte: from, lte: until },
-      reminderSentAt:   null,
-      patientPhone:     { not: null },
-      status:           { in: ['NUEVO', 'EN_SEGUIMIENTO_IA', 'CITA_CONFIRMADA'] },
+      contractExpiry: {
+        gte: windows[windows.length - 1].from,
+        lte: windows[0].to,
+      },
     },
-    include: { clinic: { select: { name: true, whatsappPhone: true, aiAgentName: true } } },
-    take: 100,
+    select: {
+      id:            true,
+      fullName:      true,
+      position:      true,
+      currentClub:   true,
+      contractExpiry: true,
+      agencyId:      true,
+    },
   })
 
-  let sent = 0
-  let failed = 0
+  if (players.length === 0) {
+    return NextResponse.json({ sent: 0 })
+  }
 
-  for (const lead of leads) {
-    // Skip if clinic has no WhatsApp number configured
-    if (!lead.clinic.whatsappPhone) continue
+  // Group players by agencyId
+  const byAgency = new Map<string, typeof players>()
+  for (const p of players) {
+    const list = byAgency.get(p.agencyId) ?? []
+    list.push(p)
+    byAgency.set(p.agencyId, list)
+  }
 
-    let phone: string | null = null
-    try {
-      phone = lead.patientPhone ? decrypt(lead.patientPhone) : null
-    } catch {
-      continue
-    }
-    if (!phone) continue
-
-    // Format appointment time in Mexico City timezone
-    const apptTime = lead.appointmentAt!.toLocaleString('es-MX', {
-      weekday: 'long',
-      day:     'numeric',
-      month:   'long',
-      hour:    '2-digit',
-      minute:  '2-digit',
-      timeZone: 'America/Mexico_City',
+  // For each agency, get all member emails and send one digest email
+  let totalSent = 0
+  for (const [agencyId, agencyPlayers] of byAgency) {
+    const members = await db.agencyMember.findMany({
+      where: { agencyId, active: true },
+      select: { email: true, fullName: true },
     })
 
-    const agentName  = lead.clinic.aiAgentName ?? 'Sofía'
-    const clinicName = lead.clinic.name
+    if (members.length === 0) continue
 
-    const message = [
-      `¡Hola! Le contacta ${agentName} de ${clinicName}.`,
-      ``,
-      `Le recordamos que tiene una cita agendada para mañana ${apptTime}.`,
-      ``,
-      `Si necesita reagendar o tiene alguna duda, responda este mensaje y con gusto le ayudamos.`,
-      ``,
-      `¡Hasta pronto!`,
-    ].join('\n')
+    // Annotate each player with daysLeft
+    const annotated = agencyPlayers
+      .filter(p => p.contractExpiry !== null)
+      .map(p => ({
+        fullName:       p.fullName,
+        position:       p.position,
+        currentClub:    p.currentClub,
+        contractExpiry: p.contractExpiry!,
+        daysLeft:       Math.ceil(
+          (p.contractExpiry!.getTime() - now.getTime()) / 86_400_000,
+        ),
+      }))
+      .sort((a, b) => a.daysLeft - b.daysLeft)
 
-    try {
-      await sendWhatsApp(phone, message)
-      await db.lead.update({
-        where: { id: lead.id },
-        data:  { reminderSentAt: new Date() },
-      })
-      sent++
-    } catch (err) {
-      console.error(`[Reminder] Failed for lead ${lead.id}:`, err)
-      failed++
+    if (annotated.length === 0) continue
+
+    // Send to each active member
+    for (const member of members) {
+      try {
+        const html = renderContractExpiryEmail({
+          agentName: member.fullName,
+          players:   annotated,
+        })
+        await resend.emails.send({
+          from:    'Polaris Football <alerts@polarisfootball.com>',
+          to:      member.email,
+          subject: `Contract Alert: ${annotated.length} player${annotated.length !== 1 ? 's' : ''} expiring within 90 days`,
+          html,
+        })
+        totalSent++
+      } catch {
+        // Non-fatal — continue to next member
+      }
     }
   }
 
-  return NextResponse.json({ ok: true, sent, failed, checked: leads.length })
+  return NextResponse.json({ sent: totalSent })
 }

@@ -1,448 +1,389 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { Users, GitBranch, FileSearch, ArrowRight, Check, Zap, Shield, Target } from 'lucide-react'
+import { ArrowRight, Shield, Users, FileText, Star } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
 import { RefTracker } from '@/components/layout/RefTracker'
-import { HeroMockup } from '@/components/landing/HeroMockup'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
+
+const CLUBS = ['BVB', 'Ajax', 'Monaco', 'Barcelona', 'Sporting CP', 'Wolves', 'FC Dallas', 'Porto', 'Benfica', 'Atlético', 'PSV', 'Juventus']
+
+const STATS = [
+  { value: '50+',  label: 'Countries'          },
+  { value: '300+', label: 'Players Represented' },
+  { value: '200+', label: 'Club Partnerships'   },
+  { value: '15+',  label: 'Years Experience'    },
+]
+
+const SERVICES = [
+  {
+    icon: Shield,
+    title: 'Career Management',
+    desc: 'Strategic planning for long-term success. We guide players at every stage of their career, from emerging talent to elite professional.',
+  },
+  {
+    icon: FileText,
+    title: 'Contract Negotiation',
+    desc: 'Maximising value. Protecting your future. Expert legal and commercial representation at every negotiating table.',
+  },
+  {
+    icon: Users,
+    title: 'Club Connections',
+    desc: 'A global network spanning 50+ countries. We open the right doors at the right time, matching talent with clubs that fit.',
+  },
+  {
+    icon: Star,
+    title: 'Personal Branding',
+    desc: 'Building your identity on and off the pitch. Premium partnerships, media strategy, and athlete brand development.',
+  },
+]
+
+const CONTACT_TYPES = [
+  { label: 'Players',          desc: 'Start your journey with us.' },
+  { label: 'Clubs',            desc: 'Build winning partnerships.' },
+  { label: 'Partnerships',     desc: 'Create opportunities together.' },
+  { label: 'General Inquiries', desc: 'We\'re here to help.' },
+]
 
 export default function HomePage() {
   return (
     <div style={{ fontFamily: 'var(--font-montserrat), sans-serif', background: '#fff', minHeight: '100vh' }}>
-
       <style>{`
-        .lp-hero       { padding: 80px 24px 0 !important; }
-        .lp-stats      { grid-template-columns: repeat(3, 1fr) !important; }
-        .lp-pricing    { grid-template-columns: 1fr 1fr !important; }
-        .lp-footer-nav { display: flex !important; }
-        .lp-footer-grid{ grid-template-columns: 1fr auto auto !important; }
-        .lp-affiliate  { flex-direction: row !important; }
-        .lp-hero-p     { font-size: 18px !important; }
-        .lp-how-grid   { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important; }
-        @media (max-width: 640px) {
-          .lp-hero      { padding: 52px 20px 0 !important; }
-          .lp-hero-p    { font-size: 15px !important; }
-          .lp-stats     { grid-template-columns: 1fr !important; }
-          .lp-stat-border { border-right: none !important; border-bottom: 1px solid #E5E7EB; }
-          .lp-stat-last  { border-bottom: none !important; }
-          .lp-pricing    { grid-template-columns: 1fr !important; }
-          .lp-affiliate  { flex-direction: column !important; align-items: flex-start !important; }
-          .lp-footer-grid{ grid-template-columns: 1fr !important; gap: 28px !important; }
-          .lp-footer-nav { display: none !important; }
-          .lp-how-grid   { grid-template-columns: 1fr 1fr !important; }
+        /* ── Hero ── */
+        .hero-grid { display: grid; grid-template-columns: 55fr 45fr; min-height: 100vh; }
+        .hero-left  { padding: 100px 72px 80px; display: flex; flex-direction: column; justify-content: center; }
+        @media (max-width: 1024px) {
+          .hero-grid { display: flex !important; flex-direction: column !important; }
+          .hero-left { padding: 72px 32px !important; }
+          .hero-right { min-height: 55vw !important; }
         }
-        @media (max-width: 400px) {
-          .lp-how-grid { grid-template-columns: 1fr !important; }
+        @media (max-width: 600px) {
+          .hero-left  { padding: 56px 20px !important; }
+          .hero-right { min-height: 260px !important; }
         }
+
+        /* ── Stats ── */
+        .stats-grid { grid-template-columns: repeat(4, 1fr) !important; }
+        @media (max-width: 768px)  { .stats-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+
+        /* ── Services split ── */
+        .svc-split { display: grid; grid-template-columns: 42fr 58fr; min-height: 600px; }
+        @media (max-width: 900px) {
+          .svc-split { display: flex !important; flex-direction: column !important; }
+          .svc-right { min-height: 420px !important; }
+        }
+
+        /* ── Contact CTA split ── */
+        .cta-split { display: grid; grid-template-columns: 42fr 58fr; min-height: 560px; }
+        @media (max-width: 900px) {
+          .cta-split { display: flex !important; flex-direction: column-reverse !important; }
+          .cta-left  { padding: 56px 28px !important; }
+          .cta-photo { min-height: 360px !important; }
+        }
+        @media (max-width: 600px) {
+          .cta-left  { padding: 48px 20px !important; }
+          .cta-photo { min-height: 260px !important; }
+        }
+
+        /* ── Footer ── */
+        .footer-link { transition: color 0.15s; }
+        .footer-link:hover { color: rgba(255,255,255,0.7) !important; }
+
+        /* ── Buttons ── */
+        .btn-primary { transition: background 0.15s, transform 0.1s; }
+        .btn-primary:hover { background: #1D4ED8 !important; }
+        .btn-outline { transition: background 0.15s, color 0.15s; }
+        .btn-outline:hover { background: rgba(0,0,0,0.05) !important; }
       `}</style>
 
       <Navbar />
       <Suspense fallback={null}><RefTracker /></Suspense>
 
-      {/* ── Hero ── */}
-      <section className="lp-hero" style={{ background: N, textAlign: 'center', overflow: 'hidden', position: 'relative' }}>
-        {/* Background glow orbs */}
-        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', top: '-10%', left: '50%', transform: 'translateX(-50%)', width: 700, height: 400, background: 'radial-gradient(ellipse, rgba(30,111,235,0.18) 0%, transparent 70%)', borderRadius: '50%' }} />
-          <div style={{ position: 'absolute', top: '30%', left: '-5%', width: 300, height: 300, background: 'radial-gradient(ellipse, rgba(30,111,235,0.08) 0%, transparent 70%)', borderRadius: '50%' }} />
-          <div style={{ position: 'absolute', top: '20%', right: '-5%', width: 350, height: 350, background: 'radial-gradient(ellipse, rgba(59,130,246,0.06) 0%, transparent 70%)', borderRadius: '50%' }} />
-          {/* Dot grid */}
-          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.04 }} xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-                <circle cx="1.5" cy="1.5" r="1.5" fill="#fff" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#dots)" />
-          </svg>
-        </div>
-        <div style={{ maxWidth: 760, margin: '0 auto', position: 'relative' }}>
-          <span style={{ display: 'inline-block', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, background: 'rgba(30,111,235,0.12)', padding: '4px 14px', borderRadius: 99, marginBottom: 24 }}>
-            Football Agency Platform
-          </span>
-          <h1 style={{ fontSize: 'clamp(28px, 6vw, 58px)', fontWeight: 900, color: '#fff', lineHeight: 1.08, letterSpacing: '-0.03em', margin: '0 0 20px' }}>
-            The Operating System<br />for <span style={{ color: G }}>Football Agents</span>
+      {/* ── HERO ─────────────────────────────────────────────────── */}
+      <section className="hero-grid">
+        {/* Left — content */}
+        <div className="hero-left">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 44 }}>
+            <div style={{ width: 28, height: 1.5, background: G, flexShrink: 0 }} />
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+              Guiding Football Careers
+            </span>
+          </div>
+
+          <h1 style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(52px, 7.5vw, 96px)', fontWeight: 700, color: N, margin: 0, lineHeight: 0.92, letterSpacing: '-0.035em', textTransform: 'uppercase' }}>
+            Talent.
           </h1>
-          <p className="lp-hero-p" style={{ color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: 540, margin: '0 auto 40px' }}>
-            Manage your entire player roster, track transfers through a live pipeline, and convert club mandates into signed deals — all in one place.
+          <h1 style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(52px, 7.5vw, 96px)', fontWeight: 700, color: N, margin: '4px 0', lineHeight: 0.92, letterSpacing: '-0.035em', textTransform: 'uppercase' }}>
+            Opportunity.
+          </h1>
+          <h1 style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(52px, 7.5vw, 96px)', fontWeight: 700, color: G, margin: '4px 0 48px', lineHeight: 0.92, letterSpacing: '-0.035em', textTransform: 'uppercase' }}>
+            Worldwide.
+          </h1>
+
+          <p style={{ fontSize: 16, color: '#4B5563', lineHeight: 1.75, maxWidth: 380, margin: '0 0 44px', fontWeight: 400 }}>
+            We represent football players worldwide and connect them with the right opportunities to achieve their dreams.
           </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/registro" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: G, color: '#fff', padding: '14px 28px', borderRadius: 12, fontWeight: 800, fontSize: 15, textDecoration: 'none' }}>
-              Start for free <ArrowRight size={16} />
+
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <Link href="/services" className="btn-primary" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              background: G, color: '#fff', padding: '14px 28px',
+              borderRadius: 8, fontWeight: 600, fontSize: 12,
+              textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase',
+            }}>
+              Our Services <ArrowRight size={13} />
             </Link>
-            <Link href="/demo" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '1.5px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.85)', padding: '14px 28px', borderRadius: 12, fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
-              Book a demo
+            <Link href="/about" className="btn-outline" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              background: 'transparent', color: N, padding: '14px 28px',
+              borderRadius: 8, fontWeight: 600, fontSize: 12,
+              textDecoration: 'none', border: '1.5px solid #D1D5DB',
+              letterSpacing: '0.06em', textTransform: 'uppercase',
+            }}>
+              About Polaris <ArrowRight size={13} />
             </Link>
           </div>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', marginTop: 20 }}>
-            Free Scout plan — no credit card required
+        </div>
+
+        {/* Right — cinematic hero photo */}
+        <div className="hero-right" style={{
+          position: 'relative', overflow: 'hidden',
+          background: '#0A0A0A', minHeight: '100%',
+        }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/hero-home.jpeg"
+            alt=""
+            aria-hidden="true"
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover', objectPosition: 'right center',
+            }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(255,255,255,0.12) 0%, transparent 40%)' }} />
+        </div>
+      </section>
+
+      {/* ── TRUSTED BY ─────────────────────────────────────────────── */}
+      <section style={{ borderTop: '1px solid #E5E7EB', borderBottom: '1px solid #E5E7EB', padding: '22px 40px', background: '#FAFAFA', overflow: 'hidden' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 36, flexWrap: 'nowrap' }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#9CA3AF', letterSpacing: '0.14em', textTransform: 'uppercase', margin: 0, flexShrink: 0, whiteSpace: 'nowrap', lineHeight: 1.5 }}>
+            Trusted by clubs<br />worldwide
           </p>
-        </div>
-
-        <HeroMockup />
-      </section>
-
-      {/* ── Stats strip ── */}
-      <div style={{ background: 'white', borderBottom: '1px solid #E5E7EB' }}>
-        <div className="lp-stats" style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px', display: 'grid' }}>
-          {[
-            { n: '< 5 min', label: 'To set up your agency', cls: 'lp-stat-border' },
-            { n: '€0',      label: 'To get started, forever', cls: 'lp-stat-border' },
-            { n: 'AI',      label: 'Mandate matching built-in', cls: 'lp-stat-last' },
-          ].map((s, i) => (
-            <div key={i} className={s.cls} style={{ padding: '28px 20px', textAlign: 'center', borderRight: i < 2 ? '1px solid #E5E7EB' : 'none' }}>
-              <p style={{ fontSize: 32, fontWeight: 900, color: N, margin: '0 0 4px', letterSpacing: '-0.03em' }}>{s.n}</p>
-              <p style={{ fontSize: 13, color: '#6B7280', margin: 0 }}>{s.label}</p>
+          <div style={{ width: 1, height: 28, background: '#E5E7EB', flexShrink: 0 }} />
+          <div style={{ flex: 1, overflow: 'hidden', minWidth: 0 }}>
+            <div className="polaris-marquee-track" style={{ display: 'flex', gap: 52, alignItems: 'center', whiteSpace: 'nowrap', width: 'max-content' }}>
+              {[...CLUBS, ...CLUBS].map((club, i) => (
+                <span key={i} style={{ fontSize: 11, fontWeight: 700, color: '#C1C8D0', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  {club}
+                </span>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Pain point banner ── */}
-      <div style={{ background: '#FFF7ED', borderBottom: '1px solid #FDE68A', padding: '20px 24px', textAlign: 'center' }}>
-        <p style={{ fontSize: 14, color: '#92400E', margin: 0, fontWeight: 600 }}>
-          Still managing 50 players in WhatsApp and Excel? There&apos;s a better way. 👇
-        </p>
-      </div>
-
-      {/* ── Core features ── */}
-      <section style={{ padding: 'clamp(48px,8vw,80px) 24px', maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 56 }}>
-          <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, margin: '0 0 12px' }}>Everything your agency needs</p>
-          <h2 style={{ fontSize: 'clamp(22px, 4vw, 38px)', fontWeight: 800, color: N, letterSpacing: '-0.02em', margin: 0 }}>
-            From WhatsApp mandate to signed deal
-          </h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
-          {[
-            {
-              icon: Users,
-              color: N,
-              title: 'Player Roster',
-              desc: 'Centralize every player profile with ELO ratings, contract expiry alerts, salary expectations, and verification status. Filter in seconds, never lose a lead.',
-            },
-            {
-              icon: GitBranch,
-              color: '#059669',
-              title: 'Transfer Pipeline',
-              desc: 'Kanban board for every active negotiation. Drag deals from Initial Contact to Contract Closure. See total pipeline value at a glance.',
-            },
-            {
-              icon: Target,
-              color: '#DC2626',
-              title: 'Outreach Tracking',
-              desc: 'Know exactly who you messaged, who replied, and who needs a follow-up. Log Instagram DMs, calls, and WhatsApp contacts in one click.',
-            },
-            {
-              icon: FileSearch,
-              color: '#7C3AED',
-              title: 'Mandate Parser (AI)',
-              desc: 'Paste a raw club request from your WhatsApp group. AI extracts position, budget, and age — then scores your players for fit automatically.',
-            },
-            {
-              icon: Zap,
-              color: '#F59E0B',
-              title: 'Smart Alerts',
-              desc: 'Contract expiry warnings 90/30/7 days out. Never miss a free agent window because you forgot to check a spreadsheet.',
-            },
-            {
-              icon: Shield,
-              color: '#0891B2',
-              title: 'White-label Proposals',
-              desc: 'Generate PDF player proposals with your agency branding in one click. Send to clubs looking professional from day one.',
-            },
-          ].map((f, i) => (
-            <div key={i} style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 20, padding: '28px 24px' }}>
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: `${f.color}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                <f.icon size={20} color={f.color} />
-              </div>
-              <h3 style={{ fontSize: 17, fontWeight: 800, color: N, margin: '0 0 8px', letterSpacing: '-0.01em' }}>{f.title}</h3>
-              <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
-            </div>
-          ))}
+          </div>
         </div>
       </section>
 
-      {/* ── How it works ── */}
-      <section style={{ background: N, padding: 'clamp(48px,8vw,80px) 24px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-          <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, margin: '0 0 12px' }}>How it works</p>
-          <h2 style={{ fontSize: 'clamp(20px, 3.5vw, 34px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', margin: '0 0 48px' }}>
-            Set up your agency in minutes
-          </h2>
-          <div className="lp-how-grid" style={{ display: 'grid', gap: 16 }}>
-            {[
-              { n: '01', title: 'Create your agency',  desc: 'Sign up, name your agency, upload your logo. Done in under 5 minutes.' },
-              { n: '02', title: 'Add your players',    desc: 'Import or enter player profiles with stats, contract data, and contact info.' },
-              { n: '03', title: 'Receive mandates',    desc: 'Paste any club WhatsApp message. AI extracts what they need and matches your roster.' },
-              { n: '04', title: 'Close deals',         desc: 'Track every negotiation from first contact to signed contract. Log every call, DM, and meeting.' },
-            ].map((s, i) => (
-              <div key={i} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: '24px 20px', textAlign: 'left' }}>
-                <p style={{ fontSize: 26, fontWeight: 900, color: G, margin: '0 0 10px', letterSpacing: '-0.03em' }}>{s.n}</p>
-                <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: '0 0 6px' }}>{s.title}</p>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, margin: 0 }}>{s.desc}</p>
+      {/* ── STATS ─────────────────────────────────────────────────── */}
+      <section style={{ background: N, padding: 'clamp(48px,6vw,80px) 40px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div className="stats-grid" style={{ display: 'grid', gap: 0 }}>
+            {STATS.map((s, i) => (
+              <div key={s.label} style={{
+                padding: '36px 40px',
+                borderRight: i < STATS.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: G, flexShrink: 0 }} />
+                </div>
+                <p style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(38px, 5vw, 58px)', fontWeight: 700, color: '#fff', margin: '0 0 6px', letterSpacing: '-0.03em', lineHeight: 1 }}>
+                  {s.value}
+                </p>
+                <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.14em', textTransform: 'uppercase', margin: 0 }}>
+                  {s.label}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Demo video ── */}
-      <section style={{ padding: 'clamp(40px,7vw,72px) 24px', maxWidth: 860, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <p style={{ fontSize: 12, fontWeight: 800, color: G, textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 10px' }}>Demo</p>
-          <h2 style={{ fontSize: 'clamp(20px, 3.5vw, 34px)', fontWeight: 800, color: N, letterSpacing: '-0.02em', margin: '0 0 12px' }}>
-            See Welko in action
+      {/* ── FULL-SERVICE REPRESENTATION ───────────────────────────── */}
+      <section className="svc-split">
+        {/* Left — services content */}
+        <div style={{ padding: 'clamp(56px,7vw,96px) clamp(32px,5vw,80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#fff' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
+            <div style={{ width: 24, height: 1.5, background: G }} />
+            <span style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.14em', textTransform: 'uppercase' }}>What We Do</span>
+          </div>
+
+          <h2 style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(30px, 3.8vw, 46px)', fontWeight: 700, color: N, margin: '0 0 20px', letterSpacing: '-0.025em', textTransform: 'uppercase', lineHeight: 1.05 }}>
+            Full-Service<br /><span style={{ color: G }}>Representation</span>
           </h2>
-          <p style={{ color: '#6B7280', fontSize: 15, maxWidth: 480, margin: '0 auto' }}>
-            A 2-minute walkthrough — mandate matching, pipeline, and branded PDF export.
+
+          <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.75, margin: '0 0 36px', maxWidth: 360 }}>
+            From career planning to contract negotiation, we are with our players every step of the way.
           </p>
-        </div>
 
-        <div style={{ position: 'relative', width: '100%', paddingBottom: '56.25%', borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 80px rgba(10,22,40,0.18)', background: N }}>
-          <style>{`
-            @keyframes ping { 0% { transform: scale(1); opacity: 0.6 } 100% { transform: scale(1.7); opacity: 0 } }
-          `}</style>
-          {/* background pattern */}
-          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 300, background: 'radial-gradient(ellipse, rgba(30,111,235,0.25) 0%, transparent 70%)', borderRadius: '50%' }} />
-            <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
-              <defs>
-                <pattern id="vdots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="1.5" fill="white" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#vdots)" />
-            </svg>
-          </div>
-
-          {/* Welko brand overlay */}
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 32 }}>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: 'clamp(18px,3vw,26px)', fontWeight: 900, color: 'white', margin: '0 0 4px', letterSpacing: '-0.03em' }}>
-                Welko <span style={{ color: G }}>AgentOS</span>
-              </p>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', margin: 0 }}>Football Agency Platform</p>
-            </div>
-
-            {/* Play button */}
-            <a
-              href="https://welko.agency"
-              style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}
-              aria-label="Watch demo"
-            >
-              <div style={{ position: 'absolute', width: 80, height: 80, borderRadius: '50%', background: G, opacity: 0.4, animation: 'ping 1.8s cubic-bezier(0,0,0.2,1) infinite' }} />
-              <div style={{ width: 72, height: 72, borderRadius: '50%', background: G, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 32px rgba(30,111,235,0.5)', position: 'relative', zIndex: 1 }}>
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="white" style={{ marginLeft: 3 }}>
-                  <path d="M8 5v14l11-7z" />
-                </svg>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 36 }}>
+            {SERVICES.map(s => (
+              <div key={s.title} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: `${G}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
+                  <s.icon size={14} color={G} />
+                </div>
+                <div>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: N, margin: '0 0 3px', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                    {s.title}
+                  </p>
+                  <p style={{ fontSize: 13, color: '#6B7280', margin: 0, lineHeight: 1.65 }}>
+                    {s.desc}
+                  </p>
+                </div>
               </div>
-            </a>
+            ))}
           </div>
 
-          {/* Bottom label */}
-          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)', borderRadius: 99, padding: '6px 18px', whiteSpace: 'nowrap', border: '1px solid rgba(255,255,255,0.12)' }}>
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>2 min · Full platform walkthrough</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Vs. the alternatives ── */}
-      <section style={{ padding: 'clamp(48px,8vw,80px) 24px', maxWidth: 860, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, margin: '0 0 12px' }}>Why Welko</p>
-          <h2 style={{ fontSize: 'clamp(20px, 3.5vw, 34px)', fontWeight: 800, color: N, letterSpacing: '-0.02em', margin: 0 }}>
-            Built for agents, not clubs
-          </h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-          {[
-            { label: 'Excel + WhatsApp', icon: '📊', points: ['No pipeline tracking', 'Mandates lost in chat', 'No contract alerts'], bad: true },
-            { label: 'Generic CRM',      icon: '🔧', points: ['No ELO ratings', 'No market windows', 'No football context'], bad: true },
-            { label: 'Wyscout / InStat', icon: '💸', points: ['€1,000+/month', 'Built for clubs, not agents', 'Complex, overkill'], bad: true },
-            { label: 'Welko AgentOS',    icon: '⚽', points: ['AI mandate parsing', 'Pipeline + commissions', '€0 to start'], highlight: true },
-          ].map((r, i) => (
-            <div key={i} style={{
-              background: r.highlight ? N : 'white',
-              border: r.highlight ? `2px solid ${G}` : '1px solid #E5E7EB',
-              borderRadius: 16, padding: '22px 20px',
-              boxShadow: r.highlight ? '0 8px 32px rgba(30,111,235,0.15)' : '0 1px 4px rgba(0,0,0,0.04)',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                <span style={{ fontSize: 20 }}>{r.icon}</span>
-                <p style={{ fontSize: 14, fontWeight: 800, color: r.highlight ? '#fff' : N, margin: 0 }}>{r.label}</p>
-              </div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {r.points.map((pt, j) => (
-                  <li key={j} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}>
-                    <span style={{ flexShrink: 0 }}>{r.highlight ? '✓' : '✗'}</span>
-                    <span style={{ color: r.highlight ? 'rgba(255,255,255,0.8)' : '#6B7280' }}>{pt}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Pricing teaser ── */}
-      <section style={{ padding: 'clamp(0px,2vw,20px) 24px clamp(48px,8vw,80px)', maxWidth: 860, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <p style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, margin: '0 0 12px' }}>Simple pricing</p>
-          <h2 style={{ fontSize: 'clamp(20px, 3.5vw, 34px)', fontWeight: 800, color: N, letterSpacing: '-0.02em', margin: 0 }}>
-            Start free. Upgrade when you grow.
-          </h2>
-        </div>
-        <div className="lp-pricing" style={{ display: 'grid', gap: 20 }}>
-          <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 20, padding: '32px 28px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-              <Shield size={16} color="#6B7280" />
-              <p style={{ fontSize: 13, fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>Scout</p>
-            </div>
-            <p style={{ fontSize: 38, fontWeight: 900, color: N, margin: '0 0 4px', letterSpacing: '-0.03em' }}>Free</p>
-            <p style={{ fontSize: 13, color: '#9CA3AF', margin: '0 0 24px' }}>Forever, no credit card</p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {['1 user seat', 'Up to 5 player profiles', 'Transfer pipeline', 'Club mandate inbox', 'Outreach board'].map(f => (
-                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#374151' }}>
-                  <Check size={15} color="#059669" /> {f}
-                </li>
-              ))}
-            </ul>
-            <Link href="/registro" style={{ display: 'block', textAlign: 'center', background: '#F3F4F6', color: N, padding: '12px', borderRadius: 10, fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
-              Get started free
-            </Link>
-          </div>
-          <div style={{ background: N, border: '2px solid ' + G, borderRadius: 20, padding: '32px 28px', position: 'relative' }}>
-            <span style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: G, color: '#fff', fontSize: 11, fontWeight: 800, padding: '4px 14px', borderRadius: 99, whiteSpace: 'nowrap' }}>
-              MOST POPULAR
-            </span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-              <Zap size={16} color={G} />
-              <p style={{ fontSize: 13, fontWeight: 700, color: G, textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>AgentOS Premium</p>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: 4 }}>
-              <p style={{ fontSize: 38, fontWeight: 900, color: '#fff', margin: 0, letterSpacing: '-0.03em' }}>€39</p>
-              <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>/month</span>
-            </div>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: '0 0 24px' }}>or €299/year (save ~35%)</p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {['Unlimited users & players', 'AI mandate matching', 'White-label PDF proposals', 'Contract expiry alerts', 'Brand kit upload', 'Priority support'].map(f => (
-                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>
-                  <Check size={15} color={G} /> {f}
-                </li>
-              ))}
-            </ul>
-            <Link href="/pricing" style={{ display: 'block', textAlign: 'center', background: G, color: '#fff', padding: '12px', borderRadius: 10, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>
-              Upgrade to Premium →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Affiliate CTA ── */}
-      <div style={{ background: 'white', borderTop: '1px solid #E5E7EB', borderBottom: '1px solid #E5E7EB', padding: 'clamp(28px,5vw,40px) 24px' }}>
-        <div className="lp-affiliate" style={{ maxWidth: 900, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
-          <div>
-            <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: G, margin: '0 0 6px' }}>Affiliate Program</p>
-            <p style={{ fontSize: 18, fontWeight: 800, color: N, margin: '0 0 6px' }}>Know football agencies? Earn with us.</p>
-            <p style={{ fontSize: 14, color: '#6B7280', margin: 0 }}>Refer agencies and earn €50 per annual conversion. No cap, no expiry.</p>
-          </div>
-          <Link href="/partners" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: N, color: 'white', padding: '13px 26px', borderRadius: 10, fontWeight: 700, fontSize: 14, textDecoration: 'none', whiteSpace: 'nowrap' }}>
-            Join as affiliate <ArrowRight size={15} />
+          <Link href="/services" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 700, color: N, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase', borderBottom: '1.5px solid #0A0A0A', paddingBottom: 2, width: 'fit-content' }}>
+            View All Services <ArrowRight size={12} />
           </Link>
         </div>
-      </div>
 
-      {/* ── Founder's Manifesto ── */}
-      <section style={{ background: N, padding: 'clamp(48px,8vw,80px) 24px' }}>
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: G, margin: '0 0 24px' }}>A Letter from the Founder</p>
-          <blockquote style={{ margin: 0, padding: 0, borderLeft: `3px solid ${G}`, paddingLeft: 24 }}>
-            <p style={{ fontSize: 'clamp(15px,2.5vw,18px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.8, margin: '0 0 24px', fontStyle: 'italic' }}>
-              &ldquo;The world&apos;s top football agencies have had custom CRMs, automated mandate pipelines, and data-driven transfer tools for decades. Independent agents — representing over 90% of the market — have been managing multi-million-euro deals in WhatsApp groups and Excel spreadsheets. That ends today.
-            </p>
-            <p style={{ fontSize: 'clamp(15px,2.5vw,18px)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.8, margin: '0 0 32px', fontStyle: 'italic' }}>
-              Welko AgentOS was built by an agent, for agents. Every feature exists because I lived the problem firsthand. We&apos;re not a generic CRM with a football skin — we are the operating system that levels the playing field.&rdquo;
-            </p>
-          </blockquote>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ width: 44, height: 44, borderRadius: '50%', background: G, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <span style={{ fontSize: 16, fontWeight: 900, color: '#fff' }}>D</span>
-            </div>
-            <div>
-              <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: '0 0 2px' }}>Demian Santiago Mendoza Ledesma</p>
-              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', margin: 0 }}>Founder, Welko AgentOS</p>
-            </div>
-          </div>
+        {/* Right — photo */}
+        <div className="svc-right" style={{ position: 'relative', overflow: 'hidden', background: '#0A0A0A', minHeight: 500 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/diseño2.jpeg"
+            alt=""
+            aria-hidden="true"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(255,255,255,0.06) 0%, transparent 30%)' }} />
         </div>
       </section>
 
-      {/* ── Final CTA ── */}
-      <section style={{ padding: 'clamp(48px,8vw,80px) 24px', textAlign: 'center' }}>
-        <div style={{ maxWidth: 580, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(22px, 4vw, 40px)', fontWeight: 900, color: N, letterSpacing: '-0.03em', margin: '0 0 16px' }}>
-            Ready to run your agency<br />like a professional?
+      {/* ── CONTACT CTA ──────────────────────────────────────────── */}
+      <section className="cta-split">
+        {/* Left — photo */}
+        <div className="cta-photo" style={{ position: 'relative', overflow: 'hidden', background: '#0A0A0A', minHeight: 480 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/diseño7.jpeg"
+            alt=""
+            aria-hidden="true"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right center' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to left, rgba(255,255,255,0.04) 0%, transparent 40%)' }} />
+        </div>
+
+        {/* Right — CTA content */}
+        <div className="cta-left" style={{ padding: 'clamp(56px,7vw,96px) clamp(32px,5vw,80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: '#fff', borderLeft: '1px solid #E5E7EB' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
+            <div style={{ width: 24, height: 1.5, background: G }} />
+            <span style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Get in Touch</span>
+          </div>
+
+          <h2 style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(28px, 3.5vw, 44px)', fontWeight: 700, color: N, margin: '0 0 20px', letterSpacing: '-0.025em', textTransform: 'uppercase', lineHeight: 1.05 }}>
+            {"Let's Build"}<br /><span style={{ color: G }}>Your Future.</span><br />Together.
           </h2>
-          <p style={{ fontSize: 'clamp(14px,2vw,16px)', color: '#6B7280', lineHeight: 1.7, margin: '0 0 36px' }}>
-            Join the agents already using Welko AgentOS to close deals faster. Free to start, no credit card required.
+
+          <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.75, margin: '0 0 36px', maxWidth: 340 }}>
+            Whether you are a player, club or partner, we are here to connect and create extraordinary opportunities.
           </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/registro" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: N, color: 'white', padding: '16px 36px', borderRadius: 12, fontWeight: 800, fontSize: 16, textDecoration: 'none' }}>
-              Start for free today <ArrowRight size={17} />
-            </Link>
-            <Link href="/demo" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '2px solid #E5E7EB', color: N, padding: '16px 28px', borderRadius: 12, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
-              Book a demo
-            </Link>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 36 }}>
+            {CONTACT_TYPES.map(t => (
+              <div key={t.label} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#D1D5DB', flexShrink: 0 }} />
+                <div>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: N, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                    {t.label}
+                  </span>
+                  <span style={{ fontSize: 13, color: '#9CA3AF', marginLeft: 8 }}>
+                    — {t.desc}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
+
+          <Link href="/contact" className="btn-primary" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: G, color: '#fff', padding: '13px 26px',
+            borderRadius: 8, fontWeight: 600, fontSize: 12,
+            textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase',
+            width: 'fit-content',
+          }}>
+            Contact Us <ArrowRight size={13} />
+          </Link>
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer style={{ background: N, borderTop: '1px solid rgba(255,255,255,0.08)', padding: 'clamp(36px,6vw,48px) 24px 32px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div className="lp-footer-grid" style={{ display: 'grid', gap: 40, marginBottom: 40, alignItems: 'start' }}>
-            <div>
-              <span style={{ fontSize: 18, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em' }}>
-                Welko <span style={{ color: G }}>AgentOS</span>
-              </span>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: '8px 0 0', lineHeight: 1.6, maxWidth: 260 }}>
-                The operating system for football agents. Manage players, mandates, and transfers — all in one place.
+      {/* ── FOOTER ───────────────────────────────────────────────── */}
+      <footer style={{ background: '#050505', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 40px 40px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 40, marginBottom: 56 }}>
+
+            <div style={{ maxWidth: 240 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/polariswhitelogo.jpeg" alt="Polaris Football" style={{ height: 44, objectFit: 'contain', marginBottom: 20 }} />
+              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.28)', lineHeight: 1.7, margin: 0 }}>
+                Elite football representation connecting talent with opportunity across five continents.
               </p>
             </div>
-            <nav className="lp-footer-nav" style={{ flexDirection: 'column', gap: 10 }}>
-              <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>Product</p>
+
+            <div style={{ display: 'flex', gap: 56, flexWrap: 'wrap' }}>
               {[
-                { label: 'Pricing',    href: '/pricing'  },
-                { label: 'Demo',       href: '/demo'     },
-                { label: 'Affiliates', href: '/partners' },
-              ].map(l => (
-                <Link key={l.href} href={l.href} style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{l.label}</Link>
+                {
+                  heading: 'Agency',
+                  links: [
+                    { label: 'About',    href: '/about'    },
+                    { label: 'Services', href: '/services' },
+                    { label: 'Players',  href: '/players'  },
+                    { label: 'Blog',     href: '/blog'     },
+                    { label: 'Contact',  href: '/contact'  },
+                  ],
+                },
+                {
+                  heading: 'Client',
+                  links: [
+                    { label: 'Client Login', href: '/login'      },
+                    { label: 'Agent CRM',    href: '/dashboard'  },
+                  ],
+                },
+                {
+                  heading: 'Legal',
+                  links: [
+                    { label: 'Privacy', href: '/privacidad' },
+                    { label: 'Terms',   href: '/terminos'   },
+                    { label: 'Refunds', href: '/reembolsos' },
+                  ],
+                },
+              ].map(col => (
+                <div key={col.heading}>
+                  <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', letterSpacing: '0.12em', margin: '0 0 16px' }}>
+                    {col.heading}
+                  </p>
+                  {col.links.map(l => (
+                    <Link key={l.href + l.label} href={l.href} className="footer-link" style={{ display: 'block', fontSize: 13, color: 'rgba(255,255,255,0.38)', textDecoration: 'none', margin: '0 0 10px', letterSpacing: '0.01em' }}>
+                      {l.label}
+                    </Link>
+                  ))}
+                </div>
               ))}
-            </nav>
-            <nav className="lp-footer-nav" style={{ flexDirection: 'column', gap: 10 }}>
-              <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>Legal</p>
-              {[
-                { label: 'Terms',   href: '/terminos'  },
-                { label: 'Privacy', href: '/privacidad' },
-                { label: 'Support', href: '/soporte'    },
-              ].map(l => (
-                <Link key={l.href} href={l.href} style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{l.label}</Link>
-              ))}
-            </nav>
+            </div>
           </div>
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', margin: 0 }}>
-              © {new Date().getFullYear()} Welko AgentOS · welko.agency
+
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 28, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.18)', margin: 0 }}>
+              © {new Date().getFullYear()} Polaris Football. All rights reserved.
             </p>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', margin: 0 }}>
-              Demian Santiago Mendoza Ledesma
+            <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.12)', margin: 0, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+              Talent. Opportunity. Worldwide.
             </p>
           </div>
         </div>
       </footer>
-
     </div>
   )
 }

@@ -2,7 +2,7 @@
 
 import { Mail, Hash, Phone } from 'lucide-react'
 
-const N = '#0A1628'
+const N = '#0A0A0A'
 
 const CARD: React.CSSProperties = { background: '#fff', border: '1.5px solid #E5E7EB', borderRadius: 14, padding: 20 }
 

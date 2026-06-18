@@ -6,8 +6,8 @@ import {
   Clock, Phone, Mail, Video, Users, ArrowRight,
 } from 'lucide-react'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 interface CommLog {
   id: string

@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { Plus, Search, Pencil, Trash2, MessageCircle, Mail, Phone, X, BookUser } from 'lucide-react'
 
-const N = '#0A1628'
-const G = '#1E6FEB'
+const N = '#0A0A0A'
+const G = '#2563EB'
 
 interface Contact {
   id: string
@@ -248,7 +248,7 @@ export default function ContactsPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     {c.email && (
                       <a href={`mailto:${c.email}`} title={c.email}
-                        style={{ width: 30, height: 30, borderRadius: 7, background: 'rgba(30,111,235,0.08)', border: '1px solid rgba(30,111,235,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        style={{ width: 30, height: 30, borderRadius: 7, background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Mail size={13} color={G} />
                       </a>
                     )}
