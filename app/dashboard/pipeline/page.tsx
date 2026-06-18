@@ -1,18 +1,18 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Loader2, X, Trash2, ChevronRight, ArrowRight } from 'lucide-react'
+import { Plus, Loader2, X, Trash2, ChevronRight, ArrowRight, TrendingUp } from 'lucide-react'
 
 const N = '#0A0A0A'
 const G = '#2563EB'
 
 type StageName = 'INITIAL_CONTACT' | 'PROPOSAL_SENT' | 'FINANCIAL_TALKS' | 'CONTRACT_CLOSURE'
 
-const STAGES: { id: StageName; label: string; color: string }[] = [
-  { id: 'INITIAL_CONTACT',  label: 'Initial Contact',  color: '#6B7280' },
-  { id: 'PROPOSAL_SENT',    label: 'Proposal Sent',    color: '#7C3AED' },
-  { id: 'FINANCIAL_TALKS',  label: 'Financial Talks',  color: '#D97706' },
-  { id: 'CONTRACT_CLOSURE', label: 'Contract Closure', color: '#059669' },
+const STAGES: { id: StageName; label: string; color: string; prob: number }[] = [
+  { id: 'INITIAL_CONTACT',  label: 'Initial Contact',  color: '#6B7280', prob: 10 },
+  { id: 'PROPOSAL_SENT',    label: 'Proposal Sent',    color: '#7C3AED', prob: 30 },
+  { id: 'FINANCIAL_TALKS',  label: 'Financial Talks',  color: '#D97706', prob: 65 },
+  { id: 'CONTRACT_CLOSURE', label: 'Contract Closure', color: '#059669', prob: 90 },
 ]
 
 interface NegotiationPlayer {
@@ -28,6 +28,8 @@ interface Negotiation {
   pipelineId:         string
   targetClub:         string | null
   estimatedDealValue: number | null
+  updatedAt:          string
+  stageMovedAt:       string | null
   player:             NegotiationPlayer
 }
 
@@ -38,10 +40,28 @@ interface Stage {
 }
 
 interface PortfolioPlayer {
-  id:          string
-  fullName:    string
-  position:    string | null
-  nationality: string | null
+  id:       string
+  fullName: string
+  position: string | null
+}
+
+function daysSince(dateStr: string | null): number {
+  if (!dateStr) return 0
+  return Math.max(0, Math.floor((Date.now() - new Date(dateStr).getTime()) / 86_400_000))
+}
+
+function formatValue(v: number | null): string {
+  if (!v) return ''
+  if (v >= 1_000_000) return `€${(v / 1_000_000).toFixed(1)}M/yr`
+  if (v >= 1_000)     return `€${Math.round(v / 1_000)}k/yr`
+  return `€${Math.round(v)}/yr`
+}
+
+function formatCommission(v: number | null): string {
+  if (!v) return ''
+  const c = v * 0.05
+  if (c >= 1_000) return `€${Math.round(c / 1_000)}k fee`
+  return `€${Math.round(c)} fee`
 }
 
 export default function PipelinePage() {
@@ -79,29 +99,63 @@ export default function PipelinePage() {
     setStages(prev => prev.map(s => ({ ...s, negotiations: s.negotiations.filter(n => n.id !== negId) })))
   }
 
-  const totalValue = stages.flatMap(s => s.negotiations).reduce((sum, n) => sum + (n.estimatedDealValue ?? 0), 0)
+  // Summary stats
+  const allCards       = stages.flatMap(s => s.negotiations)
+  const totalValue     = allCards.reduce((sum, n) => sum + (n.estimatedDealValue ?? 0), 0)
+  const weightedValue  = STAGES.reduce((sum, def) => {
+    const stage = getStage(def.id)
+    const sv = (stage?.negotiations ?? []).reduce((s, n) => s + (n.estimatedDealValue ?? 0), 0)
+    return sum + sv * (def.prob / 100)
+  }, 0)
+  const totalCards     = allCards.length
 
   return (
     <div style={{ padding: 'clamp(20px,4vw,32px) clamp(16px,4vw,40px) 80px', fontFamily: 'var(--font-montserrat), sans-serif' }}>
       <style>{`
         @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
         .pipeline-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
           .pipeline-board { display: flex; overflow-x: auto; gap: 12px; padding-bottom: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
           .pipeline-col { min-width: 260px; scroll-snap-align: start; flex-shrink: 0; }
         }
+        .neg-card { transition: box-shadow 0.12s; }
+        .neg-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important; }
       `}</style>
 
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
-        <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, color: N, margin: '0 0 4px', letterSpacing: '-0.02em' }}>Transfer Pipeline</h1>
-          <p style={{ color: '#9CA3AF', margin: 0, fontSize: 14 }}>
-            Track active negotiations across all stages
-            {totalValue > 0 && <span style={{ color: G, fontWeight: 700, marginLeft: 8 }}>· €{(totalValue / 1000).toFixed(0)}k pipeline value</span>}
-          </p>
-        </div>
+      <div style={{ marginBottom: 22 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 800, color: N, margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+          Transfer Pipeline
+        </h1>
+        <p style={{ color: '#9CA3AF', margin: 0, fontSize: 14 }}>
+          Track negotiations · probability-weighted forecasting
+        </p>
       </div>
+
+      {/* Summary bar */}
+      {totalCards > 0 && (
+        <div style={{
+          display: 'flex', gap: 0, borderRadius: 12, border: '1.5px solid #E5E7EB',
+          background: 'white', overflow: 'hidden', marginBottom: 22,
+          boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+        }}>
+          {[
+            { label: 'Deals active', value: String(totalCards) },
+            { label: 'Pipeline value', value: totalValue >= 1_000 ? `€${Math.round(totalValue / 1_000)}k/yr` : `€${Math.round(totalValue)}` },
+            { label: 'Weighted forecast', value: weightedValue >= 1_000 ? `€${Math.round(weightedValue / 1_000)}k/yr` : `€${Math.round(weightedValue)}`, accent: true },
+            { label: 'Commission est. (5%)', value: (totalValue * 0.05) >= 1_000 ? `€${Math.round(totalValue * 0.05 / 1_000)}k` : `€${Math.round(totalValue * 0.05)}` },
+          ].map(({ label, value, accent }, i) => (
+            <div key={i} style={{
+              flex: 1, padding: '12px 18px',
+              borderLeft: i > 0 ? '1px solid #F3F4F6' : 'none',
+              background: accent ? '#F5F8FF' : 'transparent',
+            }}>
+              <p style={{ fontSize: 10, color: '#9CA3AF', margin: '0 0 3px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{label}</p>
+              <p style={{ fontSize: 18, fontWeight: 800, color: accent ? G : N, margin: 0, letterSpacing: '-0.02em', fontFamily: 'var(--font-space-grotesk), sans-serif' }}>{value}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       {loading ? (
         <div style={{ padding: 64, textAlign: 'center', color: '#9CA3AF' }}>
@@ -113,22 +167,36 @@ export default function PipelinePage() {
           {STAGES.map((stageDef, stageIdx) => {
             const stage = getStage(stageDef.id)
             const cards = stage?.negotiations ?? []
+            const stageValue = cards.reduce((s, n) => s + (n.estimatedDealValue ?? 0), 0)
 
             return (
               <div key={stageDef.id} className="pipeline-col" style={{ background: '#F9FAFB', borderRadius: 14, border: '1px solid #E5E7EB', overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 {/* Column header */}
-                <div style={{ padding: '14px 16px', borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: stageDef.color, flexShrink: 0 }} />
-                    <span style={{ fontSize: 12, fontWeight: 800, color: N }}>{stageDef.label}</span>
-                    <span style={{ fontSize: 11, fontWeight: 600, color: '#9CA3AF', background: 'white', border: '1px solid #E5E7EB', borderRadius: 20, padding: '1px 7px' }}>{cards.length}</span>
+                <div style={{ padding: '12px 14px', borderBottom: '1px solid #E5E7EB' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                      <div style={{ width: 7, height: 7, borderRadius: '50%', background: stageDef.color }} />
+                      <span style={{ fontSize: 11, fontWeight: 800, color: N }}>{stageDef.label}</span>
+                      <span style={{ fontSize: 10, fontWeight: 600, color: '#9CA3AF', background: 'white', border: '1px solid #E5E7EB', borderRadius: 20, padding: '1px 6px' }}>{cards.length}</span>
+                    </div>
+                    <button
+                      onClick={() => setAddToStage(stageDef.id)}
+                      style={{ width: 24, height: 24, borderRadius: 6, background: 'white', border: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                    >
+                      <Plus size={12} color="#6B7280" />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => setAddToStage(stageDef.id)}
-                    style={{ width: 26, height: 26, borderRadius: 7, background: 'white', border: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
-                  >
-                    <Plus size={13} color="#6B7280" />
-                  </button>
+                  {/* Probability + stage value */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 10, fontWeight: 700, color: stageDef.color, background: `${stageDef.color}15`, padding: '2px 7px', borderRadius: 5 }}>
+                      {stageDef.prob}% close
+                    </span>
+                    {stageValue > 0 && (
+                      <span style={{ fontSize: 10, fontWeight: 600, color: '#9CA3AF' }}>
+                        €{Math.round(stageValue / 1_000)}k
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Cards */}
@@ -136,15 +204,26 @@ export default function PipelinePage() {
                   {cards.map(neg => {
                     const isMoving  = moving === neg.id
                     const nextStage = STAGES[stageIdx + 1]
+                    const stale     = daysSince(neg.stageMovedAt ?? neg.updatedAt)
+                    const staleColor = stale >= 30 ? '#EF4444' : stale >= 14 ? '#D97706' : '#9CA3AF'
+                    const staleBg    = stale >= 30 ? '#FEF2F2' : stale >= 14 ? '#FFFBEB' : 'transparent'
 
                     return (
-                      <div key={neg.id} style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 11, padding: '12px 14px', opacity: isMoving ? 0.5 : 1 }}>
-                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
+                      <div key={neg.id} className="neg-card" style={{
+                        background: 'white', border: '1px solid #E5E7EB',
+                        borderRadius: 11, padding: '11px 13px',
+                        opacity: isMoving ? 0.5 : 1,
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                      }}>
+                        {/* Top row: name + delete */}
+                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 5 }}>
                           <div style={{ minWidth: 0 }}>
-                            <p style={{ fontSize: 13, fontWeight: 700, color: N, margin: '0 0 2px', lineHeight: 1.2 }}>{neg.player.fullName}</p>
-                            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+                            <p style={{ fontSize: 13, fontWeight: 700, color: N, margin: '0 0 3px', lineHeight: 1.2 }}>{neg.player.fullName}</p>
+                            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', alignItems: 'center' }}>
                               {neg.player.position && (
-                                <span style={{ fontSize: 10, fontWeight: 700, color: G, background: `${G}12`, padding: '1px 6px', borderRadius: 4 }}>{neg.player.position}</span>
+                                <span style={{ fontSize: 10, fontWeight: 700, color: G, background: `${G}12`, padding: '1px 6px', borderRadius: 4 }}>
+                                  {neg.player.position}
+                                </span>
                               )}
                               {neg.player.nationality && (
                                 <span style={{ fontSize: 11 }}>{neg.player.nationality}</span>
@@ -157,40 +236,78 @@ export default function PipelinePage() {
                             onMouseEnter={e => (e.currentTarget.style.color = '#EF4444')}
                             onMouseLeave={e => (e.currentTarget.style.color = '#D1D5DB')}
                           >
-                            <Trash2 size={12} />
+                            <Trash2 size={11} />
                           </button>
                         </div>
 
+                        {/* Target club */}
                         {neg.targetClub && (
-                          <p style={{ fontSize: 11, color: '#6B7280', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 4 }}>
-                            <ChevronRight size={10} /> {neg.targetClub}
+                          <p style={{ fontSize: 11, color: '#6B7280', margin: '0 0 6px', display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <ChevronRight size={9} /> {neg.targetClub}
                           </p>
                         )}
-                        {neg.estimatedDealValue ? (
-                          <p style={{ fontSize: 11, fontWeight: 700, color: '#059669', margin: '0 0 8px' }}>
-                            €{(neg.estimatedDealValue / 1000).toFixed(0)}k/yr
-                          </p>
-                        ) : null}
 
+                        {/* Financial row */}
+                        {neg.estimatedDealValue != null && (
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 7 }}>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: '#059669' }}>
+                              {formatValue(neg.estimatedDealValue)}
+                            </span>
+                            <span style={{ fontSize: 10, fontWeight: 600, color: '#9CA3AF' }}>
+                              {formatCommission(neg.estimatedDealValue)}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Time in stage */}
+                        {stale > 0 && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 7 }}>
+                            <span style={{
+                              fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 5,
+                              background: staleBg || `${staleColor}15`, color: staleColor,
+                            }}>
+                              {stale === 0 ? 'Just moved' : `${stale}d in stage`}
+                            </span>
+                            {stale >= 14 && <span style={{ fontSize: 9, color: staleColor }}>— follow up</span>}
+                          </div>
+                        )}
+
+                        {/* Advance / closed */}
                         {nextStage ? (
                           <button
                             onClick={() => moveCard(neg.id, nextStage.id)}
                             disabled={isMoving}
-                            style={{ display: 'flex', alignItems: 'center', gap: 5, width: '100%', padding: '6px 10px', background: '#F3F4F6', border: 'none', borderRadius: 7, cursor: isMoving ? 'wait' : 'pointer', fontSize: 11, fontWeight: 600, color: '#6B7280', fontFamily: 'inherit', justifyContent: 'center' }}
+                            style={{
+                              display: 'flex', alignItems: 'center', gap: 5, width: '100%',
+                              padding: '6px 10px', background: '#F3F4F6', border: 'none',
+                              borderRadius: 7, cursor: isMoving ? 'wait' : 'pointer',
+                              fontSize: 11, fontWeight: 600, color: '#6B7280',
+                              fontFamily: 'inherit', justifyContent: 'center',
+                            }}
                           >
                             {isMoving
                               ? <Loader2 size={11} style={{ animation: 'spin 1s linear infinite' }} />
-                              : <><ArrowRight size={11} /> Move to {nextStage.label}</>}
+                              : <><ArrowRight size={11} /> {nextStage.label}</>}
                           </button>
                         ) : (
-                          <span style={{ display: 'block', textAlign: 'center', fontSize: 10, fontWeight: 700, color: '#059669', padding: '4px 0' }}>✓ Deal Closed</span>
+                          <span style={{ display: 'block', textAlign: 'center', fontSize: 10, fontWeight: 800, color: '#059669', padding: '5px 0', background: '#ECFDF5', borderRadius: 6 }}>
+                            ✓ Deal Closed
+                          </span>
                         )}
                       </div>
                     )
                   })}
 
                   {cards.length === 0 && (
-                    <p style={{ fontSize: 12, color: '#D1D5DB', textAlign: 'center', padding: '16px 0', margin: 0 }}>No negotiations yet</p>
+                    <div style={{ padding: '20px 0', textAlign: 'center' }}>
+                      <p style={{ fontSize: 12, color: '#D1D5DB', margin: '0 0 8px' }}>No negotiations yet</p>
+                      <button
+                        onClick={() => setAddToStage(stageDef.id)}
+                        style={{ fontSize: 11, color: G, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+                      >
+                        <Plus size={11} /> Add player
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>

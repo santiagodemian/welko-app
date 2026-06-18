@@ -8,6 +8,7 @@ import {
   Mail, Phone, MapPin, Star, Zap,
   Upload, PenLine, X, Check, ChevronRight,
   ExternalLink, BarChart2, Save, CheckCircle2, Sparkles,
+  AlertTriangle, FileText,
 } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -36,6 +37,10 @@ interface PlayerData {
   seasonMinutes: number
   seasonGoals: number
   seasonAssists: number
+  // Extended profile fields (JSON from schema)
+  marketValueHistory: Array<{ date: string; value: number; note?: string }> | null
+  injuryHistory: Array<{ startDate: string; endDate?: string; type: string; description: string; missedMatches?: number }> | null
+  contractClauses: { releaseClause?: number; buyBack?: number; sellOn?: number; bonuses?: string } | null
 }
 
 interface BrandKit {
@@ -626,6 +631,115 @@ function ProfileOverview({ player, playerId, onPhotoSaved }: {
         </div>
       </div>
 
+      {/* ── Contract Clauses ── */}
+      <div style={card}>
+        <p style={sectionTitle}><FileText size={15} color={G} /> Contract Clauses</p>
+        <div className="pp-season" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+          {[
+            { key: 'releaseClause', label: 'Release Clause (€)',   placeholder: '5000000' },
+            { key: 'buyBack',       label: 'Buy-Back Clause (€)',  placeholder: '3000000' },
+            { key: 'sellOn',        label: 'Sell-On % owed',       placeholder: '10' },
+            { key: 'bonuses',       label: 'Bonuses / Notes',      placeholder: 'Goal bonus: €500 per goal' },
+          ].map(({ key, label, placeholder }) => (
+            <div key={key}>
+              <label style={fieldLabel}>{label}</label>
+              <input
+                type={key === 'bonuses' ? 'text' : 'number'}
+                placeholder={placeholder}
+                defaultValue={(() => {
+                  const c = player.contractClauses
+                  if (!c) return ''
+                  const v = (c as Record<string, unknown>)[key]
+                  return v != null ? String(v) : ''
+                })()}
+                style={inputStyle}
+                onBlur={e => {
+                  const val = e.target.value.trim()
+                  const current = player.contractClauses ?? {}
+                  const updated = { ...current, [key]: key === 'bonuses' ? val : (parseFloat(val) || undefined) }
+                  fetch(`/api/dashboard/players/${playerId}/profile`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contractClauses: updated }),
+                  })
+                }}
+              />
+            </div>
+          ))}
+        </div>
+        <p style={{ fontSize: 11, color: '#9CA3AF', margin: '12px 0 0' }}>Contract clause data is confidential and stored securely.</p>
+      </div>
+
+      {/* ── Injury History ── */}
+      <div style={card}>
+        <p style={sectionTitle}><AlertTriangle size={15} color="#F59E0B" /> Injury History</p>
+        {player.injuryHistory && player.injuryHistory.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
+            {player.injuryHistory.map((inj, i) => (
+              <div key={i} style={{ background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 10, padding: '11px 14px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: N }}>{inj.type}</span>
+                  <span style={{ fontSize: 11, color: '#D97706', fontWeight: 600 }}>
+                    {new Date(inj.startDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+                    {inj.endDate ? ` → ${new Date(inj.endDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}` : ' → Present'}
+                  </span>
+                </div>
+                <p style={{ fontSize: 12, color: '#6B7280', margin: 0 }}>
+                  {inj.description}
+                  {inj.missedMatches ? ` · ${inj.missedMatches} matches missed` : ''}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p style={{ fontSize: 13, color: '#9CA3AF', margin: '0 0 16px', fontStyle: 'italic' }}>No injury history logged yet.</p>
+        )}
+        <p style={{ fontSize: 11, color: '#9CA3AF', margin: 0 }}>Add injury records via the API or contact Polaris support for bulk import.</p>
+      </div>
+
+      {/* ── Market Value History ── */}
+      <div style={card}>
+        <p style={sectionTitle}><BarChart2 size={15} color="#059669" /> Market Value History</p>
+        {player.marketValueHistory && player.marketValueHistory.length > 0 ? (
+          <div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+              {[...player.marketValueHistory].reverse().map((entry, i) => {
+                const prev = player.marketValueHistory!.slice().reverse()[i + 1]
+                const delta = prev ? entry.value - prev.value : 0
+                const pct   = prev && prev.value > 0 ? Math.round((delta / prev.value) * 100) : 0
+                return (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '10px 14px', background: '#F9FAFB', borderRadius: 10, border: '1px solid #F3F4F6' }}>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: delta >= 0 ? '#059669' : '#EF4444', flexShrink: 0 }} />
+                    <div style={{ flex: 1 }}>
+                      <p style={{ fontSize: 14, fontWeight: 800, color: N, margin: '0 0 1px', letterSpacing: '-0.02em' }}>
+                        {entry.value >= 1_000_000 ? `€${(entry.value / 1_000_000).toFixed(1)}M` : `€${Math.round(entry.value / 1_000)}k`}
+                      </p>
+                      {entry.note && <p style={{ fontSize: 11, color: '#9CA3AF', margin: 0 }}>{entry.note}</p>}
+                    </div>
+                    <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                      <p style={{ fontSize: 11, color: '#9CA3AF', margin: '0 0 1px' }}>
+                        {new Date(entry.date).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+                      </p>
+                      {prev && (
+                        <span style={{ fontSize: 10, fontWeight: 700, color: delta >= 0 ? '#059669' : '#EF4444' }}>
+                          {delta >= 0 ? '+' : ''}{pct}%
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ) : (
+          <p style={{ fontSize: 13, color: '#9CA3AF', margin: 0, fontStyle: 'italic' }}>
+            No valuation history yet. Current market value: {player.marketValue
+              ? (player.marketValue >= 1_000_000 ? `€${(player.marketValue / 1_000_000).toFixed(1)}M` : `€${Math.round(player.marketValue / 1_000)}k`)
+              : 'not set'}.
+          </p>
+        )}
+      </div>
+
       {/* ── Save bar ── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         <button
@@ -917,6 +1031,39 @@ export default function PlayerProposalPage() {
           </div>
         )}
       </div>
+
+      {/* ── Primary action bar ── */}
+      {data && !loading && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+          <Link href="/dashboard/pipeline" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 7,
+            background: N, color: 'white', borderRadius: 9, padding: '8px 16px',
+            textDecoration: 'none', fontSize: 13, fontWeight: 700, fontFamily: 'inherit',
+          }}>
+            <ChevronRight size={13} /> Add to Pipeline
+          </Link>
+          <button
+            onClick={() => setTab('activity')}
+            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'white', border: '1px solid #E5E7EB', borderRadius: 9, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit', color: N }}
+          >
+            <PenLine size={13} color={G} /> Log Contact
+          </button>
+          <button
+            onClick={() => { setTab('profile') }}
+            style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'white', border: '1px solid #E5E7EB', borderRadius: 9, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600, fontFamily: 'inherit', color: N }}
+          >
+            <PenLine size={13} color="#9CA3AF" /> Edit Profile
+          </button>
+          <div style={{ marginLeft: 'auto' }}>
+            <button
+              onClick={handleExport}
+              style={{ display: 'flex', alignItems: 'center', gap: 7, background: `${G}15`, color: G, border: `1px solid ${G}30`, borderRadius: 9, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 700, fontFamily: 'inherit' }}
+            >
+              <Download size={13} /> Export PDF
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ── Tab bar ── */}
       <div className="pp-tabs" style={{ display: 'flex', gap: 0, marginBottom: 24, background: 'white', border: '1px solid #E5E7EB', borderRadius: 12, padding: 4, width: 'fit-content' }}>

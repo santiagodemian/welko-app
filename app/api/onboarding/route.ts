@@ -14,6 +14,7 @@ interface OnboardingPayload {
   country?: string
   website?: string
   fullName?: string
+  firstPlayer?: { fullName: string; position?: string; currentClub?: string }
 }
 
 export async function POST(req: NextRequest) {
@@ -80,6 +81,20 @@ export async function POST(req: NextRequest) {
       ],
       skipDuplicates: true,
     })
+
+    // Optionally create first player
+    if (body.firstPlayer?.fullName?.trim()) {
+      await tx.playerProfile.create({
+        data: {
+          agencyId:          agency.id,
+          createdByMemberId: member.id,
+          fullName:          body.firstPlayer.fullName.trim(),
+          position:          body.firstPlayer.position?.trim() || null,
+          currentClub:       body.firstPlayer.currentClub?.trim() || null,
+          category:          'MANAGED',
+        },
+      })
+    }
 
     return { agencyId: agency.id, memberId: member.id }
   })

@@ -41,6 +41,7 @@ export async function PATCH(
       data: {
         pipelineId:    stage.id,
         positionIndex: count,
+        stageMovedAt:  new Date(),
         ...(milestones[body.stageName] ?? {}),
       },
     })

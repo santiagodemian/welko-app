@@ -1,6 +1,6 @@
-// ─── Welko AgentOS — Prisma Schema ────────────────────────────────────────────
+// ─── Polaris Football — Prisma Schema ─────────────────────────────────────────
 //
-// Multi-tenant football agency intermediation platform.
+// Internal operating system for Polaris Football representation network.
 // Tenancy: Agency (1:1 Clerk Organization) → AgencyMember (users)
 //
 // After schema changes run:
@@ -306,6 +306,15 @@ model PlayerProfile {
   notes String?
   tags  Json?   // String[]
 
+  // Market value history: [{ date: ISO string, value: number, note?: string }]
+  marketValueHistory Json?
+
+  // Injury history: [{ startDate, endDate?, type, description, missedMatches? }]
+  injuryHistory Json?
+
+  // Contract clauses: { releaseClause?, buyBack?, sellOn?, bonuses? }
+  contractClauses Json?
+
   // Tracks which agency member added this player (for per-member data scoping)
   createdByMemberId String?
   createdByMember   AgencyMember? @relation(fields: [createdByMemberId], references: [id])
@@ -403,6 +412,9 @@ model PlayerNegotiation {
   financialTalksAt DateTime?
   contractClosedAt DateTime?
 
+  // When was this card last moved to its current stage (for time-in-stage)
+  stageMovedAt DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -435,7 +447,7 @@ model Subscription {
 
 // ─── Affiliate Program ─────────────────────────────────────────────────────────
 // Football Agency Affiliate Program.
-// Agencies earn commissions by referring other agencies to Welko AgentOS.
+// Referral program for partner agencies.
 
 model AffiliatePartner {
   id          String @id @default(cuid())
@@ -445,7 +457,7 @@ model AffiliatePartner {
   email      String
   agencyName String?
 
-  referralToken String          @unique // https://welko.agency?ref=TOKEN
+  referralToken String          @unique // https://polarisfootball.com?ref=TOKEN
   status        AffiliateStatus @default(PENDING)
 
   // Financial summary (EUR, denormalized for fast dashboard reads)

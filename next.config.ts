@@ -30,7 +30,7 @@ const SECURITY_HEADERS = [
 const nextConfig: NextConfig = {
   async redirects() {
     return [
-      // Old Welko/generic pages → Polaris equivalents
+      // Legacy routes → Polaris equivalents
       { source: '/platform',           destination: '/services', permanent: true },
       { source: '/demo',               destination: '/about',    permanent: true },
       { source: '/partners',           destination: '/players',  permanent: true },

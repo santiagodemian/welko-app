@@ -232,7 +232,6 @@ export default function PlayersPage() {
             </Link>
           </div>
         </div>
-        </div>
       </section>
 
       <Footer />
