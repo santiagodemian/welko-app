@@ -183,7 +183,7 @@ export function ArticleCard({
             </div>
           )}
 
-          <div style={{ position: 'absolute', top: 12, ...(featured ? { bottom: 16, top: 'auto' } : { top: 12 }), left: 12, display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div style={{ position: 'absolute', ...(featured ? { bottom: 16, top: 'auto' } : { top: 12 }), left: 12, display: 'flex', gap: 8, alignItems: 'center' }}>
             <span style={{
               ...T.label, padding: '3px 8px', borderRadius: R.badge,
               background: featured ? `${badgeColor}CC` : `${badgeColor}22`,
