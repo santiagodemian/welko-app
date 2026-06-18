@@ -10,6 +10,7 @@ const SERVICES = [
     id: 'career-management',
     label: 'Career Management',
     icon: Shield,
+    tag: 'Service 01',
     headline: 'Career',
     headlineBlue: 'Management',
     sub: 'We guide players at every stage of their career with strategic planning, personal development and the right opportunities to reach their full potential.',
@@ -25,6 +26,7 @@ const SERVICES = [
     id: 'contract-negotiation',
     label: 'Contract Negotiation',
     icon: FileText,
+    tag: 'Service 02',
     headline: 'Contract',
     headlineBlue: 'Negotiation',
     sub: "We handle every detail to secure the best possible terms and protect our players' interests at every step.",
@@ -41,6 +43,7 @@ const SERVICES = [
     id: 'club-connections',
     label: 'Club Connections',
     icon: Users,
+    tag: 'Service 03',
     headline: 'Club',
     headlineBlue: 'Connections',
     sub: 'We build strong relationships with clubs worldwide to create opportunities and drive successful partnerships.',
@@ -56,6 +59,7 @@ const SERVICES = [
     id: 'personal-branding',
     label: 'Personal Branding',
     icon: Star,
+    tag: 'Service 04',
     headline: 'Building Your Identity',
     headlineBlue: 'On and Off The Pitch.',
     sub: 'We help players grow their personal brand, increase their visibility and maximize opportunities worldwide.',
@@ -85,6 +89,21 @@ export default function ServicesPage() {
         @media (max-width: 600px) {
           .svc-photo { min-height: 260px !important; }
         }
+
+        /* ── Platform band ── */
+        .platform-band { display: grid; grid-template-columns: 50fr 50fr; min-height: 440px; }
+        @media (max-width: 900px) {
+          .platform-band { display: flex !important; flex-direction: column !important; }
+          .platform-band-photo { min-height: 320px !important; }
+        }
+
+        /* ── Tab hover ── */
+        .svc-tab { transition: color 0.15s, border-color 0.15s; }
+        .svc-tab:hover { color: ${N} !important; border-color: rgba(37,99,235,0.35) !important; }
+
+        /* ── CTA get started link ── */
+        .get-started-link { transition: gap 0.15s; }
+        .get-started-link:hover { gap: 10px !important; }
       `}</style>
 
       <Navbar />
@@ -108,15 +127,13 @@ export default function ServicesPage() {
       {/* ── SERVICE TABS ── */}
       <section style={{ background: '#FAFAFA', borderBottom: '1px solid #E5E7EB', padding: '0 clamp(24px,5vw,80px)', overflowX: 'auto' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', gap: 0 }}>
-          {SERVICES.map((s, i) => (
-            <a key={s.id} href={`#${s.id}`} style={{
+          {SERVICES.map(s => (
+            <a key={s.id} href={`#${s.id}`} className="svc-tab" style={{
               display: 'flex', alignItems: 'center', gap: 8,
               padding: '16px 20px', borderBottom: '2px solid transparent',
-              fontSize: 12, fontWeight: 600, color: '#6B7280',
+              fontSize: 12, fontWeight: 600, color: '#9CA3AF',
               textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase',
-              whiteSpace: 'nowrap', transition: 'color 0.15s, border-color 0.15s',
-              borderColor: i === 0 ? G : 'transparent',
-              color: i === 0 ? N : undefined,
+              whiteSpace: 'nowrap',
             }}>
               <s.icon size={13} />
               {s.label}
@@ -136,7 +153,7 @@ export default function ServicesPage() {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
               <div style={{ width: 24, height: 1.5, background: G }} />
-              <span style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.14em', textTransform: 'uppercase' }}>What We Do</span>
+              <span style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{s.tag}</span>
             </div>
 
             <h2 style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(28px, 3.5vw, 44px)', fontWeight: 700, color: N, margin: '0 0 16px', letterSpacing: '-0.025em', textTransform: 'uppercase', lineHeight: 1.05 }}>
@@ -163,8 +180,8 @@ export default function ServicesPage() {
               ))}
             </div>
 
-            <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 700, color: N, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase', borderBottom: '1.5px solid #0A0A0A', paddingBottom: 2, width: 'fit-content' }}>
-              View All Services <ArrowRight size={12} />
+            <Link href="/contact" className="get-started-link" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 700, color: N, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase', borderBottom: '1.5px solid #0A0A0A', paddingBottom: 2, width: 'fit-content' }}>
+              Get Started <ArrowRight size={12} />
             </Link>
           </div>
 
@@ -181,9 +198,67 @@ export default function ServicesPage() {
               aria-hidden="true"
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
             />
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: s.reverse
+                ? 'linear-gradient(to left, rgba(0,0,0,0.08), transparent 60%)'
+                : 'linear-gradient(to right, rgba(0,0,0,0.12), transparent 60%)',
+            }} />
           </div>
         </section>
       ))}
+
+      {/* ── DIGITAL PRESENCE BAND ── */}
+      <section className="platform-band" style={{ borderBottom: '1px solid #E5E7EB' }}>
+        {/* Left — photo */}
+        <div className="platform-band-photo" style={{ position: 'relative', overflow: 'hidden', background: '#F3F4F6', minHeight: 380 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/polariswebdesign.jpeg"
+            alt=""
+            aria-hidden="true"
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover', objectPosition: 'center top',
+            }}
+          />
+          {/* Light vignette — this is a UI screenshot so keep it bright */}
+          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '25%', background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.8))' }} />
+        </div>
+
+        {/* Right — content */}
+        <div style={{
+          padding: 'clamp(48px,6vw,80px) clamp(32px,5vw,72px)',
+          display: 'flex', flexDirection: 'column', justifyContent: 'center',
+          background: '#fff',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
+            <div style={{ width: 24, height: 1.5, background: G }} />
+            <span style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Our Platform</span>
+          </div>
+          <h2 style={{
+            fontFamily: 'var(--font-space-grotesk), sans-serif',
+            fontSize: 'clamp(26px, 3vw, 38px)', fontWeight: 700,
+            color: N, margin: '0 0 16px',
+            letterSpacing: '-0.025em', textTransform: 'uppercase', lineHeight: 1.08,
+          }}>
+            Your career.<br /><span style={{ color: G }}>Managed end-to-end.</span>
+          </h2>
+          <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.8, margin: '0 0 32px', maxWidth: 360 }}>
+            Our proprietary agent platform gives Polaris clients complete visibility into their career pipeline — transfers, contracts, negotiations, and opportunities, all in one place.
+          </p>
+          <Link href="/login" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: G, color: '#fff', padding: '12px 24px',
+            borderRadius: 8, fontWeight: 600, fontSize: 11,
+            textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase',
+            width: 'fit-content',
+          }}>
+            Access the Platform <ArrowRight size={12} />
+          </Link>
+        </div>
+      </section>
 
       {/* ── CTA ── */}
       <section style={{ background: N, padding: 'clamp(64px,8vw,96px) 40px' }}>
