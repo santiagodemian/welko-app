@@ -8,6 +8,7 @@ import {
 import { Navbar }        from '@/components/layout/Navbar'
 import { Footer }        from '@/components/layout/Footer'
 import { SectionLabel }  from '@/components/ui/SectionLabel'
+import { AppPreview }    from '@/components/ui/AppPreview'
 import { RefTracker }    from '@/components/layout/RefTracker'
 import { C, BTN, FONT } from '@/lib/ds'
 
@@ -289,25 +290,11 @@ export default function HomePage() {
           The image starts from the top of the dark panel, overflow clips the bottom. */}
       <section className="crm-grid" style={{ borderTop: `1px solid ${C.border}` }}>
 
-        {/* Left — dark panel + dashboard screenshot */}
+        {/* Left — dark panel + real dashboard component (never a screenshot) */}
         <div className="crm-dark">
-          <div style={{ position: 'absolute', top: 28, left: 28, zIndex: 2 }}>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', background: C.blue, color: '#fff', padding: '5px 14px', borderRadius: 6, fontFamily: FONT.sans }}>
-              Agent CRM
-            </span>
+          <div style={{ padding: 'clamp(32px,4vw,48px) clamp(24px,3vw,40px) 0' }}>
+            <AppPreview />
           </div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/diseño10.jpeg"
-            alt="Polaris CRM Dashboard"
-            style={{
-              width: '100%',
-              borderRadius: '10px 10px 0 0',
-              display: 'block',
-              boxShadow: '0 -12px 48px rgba(37,99,235,0.14), 0 0 0 1px rgba(255,255,255,0.06)',
-              marginTop: 52,
-            }}
-          />
         </div>
 
         {/* Right — text */}

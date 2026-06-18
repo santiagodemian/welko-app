@@ -4,6 +4,7 @@ import { ArrowRight, Shield, FileText, Users, Star, Globe2, BarChart3, Handshake
 import { Navbar }       from '@/components/layout/Navbar'
 import { Footer }       from '@/components/layout/Footer'
 import { SectionLabel } from '@/components/ui/SectionLabel'
+import { AppPreview }    from '@/components/ui/AppPreview'
 import { C, BTN, FONT } from '@/lib/ds'
 
 /* Shared heading style */
@@ -215,17 +216,9 @@ export default function ServicesPage() {
       {/* CRM shown as contained product screenshot — same technique as homepage */}
       <section className="crm-band" style={{ borderBottom: `1px solid ${C.border}` }}>
         <div className="crm-dark">
-          <div style={{ position: 'absolute', top: 28, left: 28, zIndex: 2 }}>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', background: C.blue, color: '#fff', padding: '5px 14px', borderRadius: 6, fontFamily: FONT.sans }}>
-              Agent CRM
-            </span>
+          <div style={{ padding: 'clamp(32px,4vw,48px) clamp(24px,3vw,40px) 0' }}>
+            <AppPreview />
           </div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/diseño10.jpeg"
-            alt="Polaris CRM Dashboard"
-            style={{ width: '100%', borderRadius: '10px 10px 0 0', display: 'block', boxShadow: '0 -12px 48px rgba(37,99,235,0.14), 0 0 0 1px rgba(255,255,255,0.06)', marginTop: 52 }}
-          />
         </div>
         <div className="crm-light">
           <SectionLabel marginBottom={32}>Our Platform</SectionLabel>
