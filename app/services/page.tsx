@@ -1,277 +1,268 @@
+import type { CSSProperties } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Shield, FileText, Users, Star } from 'lucide-react'
-import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
-import { C } from '@/lib/ds'
+import { ArrowRight, Shield, FileText, Users, Star, Globe2, BarChart3, Handshake, Zap } from 'lucide-react'
+import { Navbar }       from '@/components/layout/Navbar'
+import { Footer }       from '@/components/layout/Footer'
+import { SectionLabel } from '@/components/ui/SectionLabel'
+import { C, BTN, FONT } from '@/lib/ds'
 
-const N = C.dark
-const G = C.blue
+/* Shared heading style */
+const SH: CSSProperties = {
+  fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
+  fontSize:   'clamp(38px, 4.8vw, 60px)',
+  fontWeight: 700,
+  lineHeight: 0.92,
+  letterSpacing: '-0.035em',
+  textTransform: 'uppercase',
+  margin: 0,
+}
 
 const SERVICES = [
   {
-    id: 'career-management',
-    label: 'Career Management',
-    icon: Shield,
-    tag: 'Service 01',
-    headline: 'Career',
+    id:           'career-management',
+    tag:          'What We Do',
+    headline:     'Career',
     headlineBlue: 'Management',
     sub: 'We guide players at every stage of their career with strategic planning, personal development and the right opportunities to reach their full potential.',
     photo: '/diseño3.jpeg',
     features: [
-      { title: 'Strategic Planning',    desc: 'Long-term career roadmap tailored to each player.' },
-      { title: 'Development',           desc: 'Maximizing performance on and off the pitch.' },
-      { title: 'Opportunities',         desc: 'Connecting players with clubs, trials and career opportunities.' },
-      { title: 'Continuous Support',    desc: "We're with our players every step of the way." },
+      { icon: Shield,   title: 'Strategic Planning',  desc: 'Long-term career roadmap tailored to each player.' },
+      { icon: BarChart3,title: 'Development',         desc: 'Maximizing performance on and off the pitch.' },
+      { icon: Globe2,   title: 'Opportunities',       desc: 'Connecting players with clubs, trials and career opportunities.' },
+      { icon: Star,     title: 'Continuous Support',  desc: "We're with our players every step of the way." },
     ],
   },
   {
-    id: 'contract-negotiation',
-    label: 'Contract Negotiation',
-    icon: FileText,
-    tag: 'Service 02',
-    headline: 'Contract',
+    id:           'contract-negotiation',
+    tag:          'What We Do',
+    headline:     'Contract',
     headlineBlue: 'Negotiation',
     sub: "We handle every detail to secure the best possible terms and protect our players' interests at every step.",
     photo: '/diseño5.jpeg',
     features: [
-      { title: 'Best Terms',            desc: 'We negotiate the best possible terms for your career and future.' },
-      { title: 'Contract Review',       desc: 'Our experts review every clause to protect your rights.' },
-      { title: 'Club Liaison',          desc: 'Direct communication with clubs to reach successful agreements.' },
-      { title: 'Secure & Transparent',  desc: 'We ensure a secure, transparent and professional negotiation process.' },
+      { icon: Shield,   title: 'Best Terms',           desc: 'We negotiate the best possible terms for your career and future.' },
+      { icon: FileText, title: 'Contract Review',      desc: 'Our experts review every clause to protect your rights.' },
+      { icon: Handshake,title: 'Club Liaison',         desc: 'Direct communication with clubs to reach successful agreements.' },
+      { icon: Zap,      title: 'Secure & Transparent', desc: 'A secure, transparent and professional negotiation process.' },
     ],
-    reverse: true,
   },
   {
-    id: 'club-connections',
-    label: 'Club Connections',
-    icon: Users,
-    tag: 'Service 03',
-    headline: 'Club',
+    id:           'club-connections',
+    tag:          'What We Do',
+    headline:     'Club',
     headlineBlue: 'Connections',
     sub: 'We build strong relationships with clubs worldwide to create opportunities and drive successful partnerships.',
     photo: '/diseño6.jpeg',
     features: [
-      { title: 'Global Network',        desc: 'Access to a worldwide network of top clubs and decision makers.' },
-      { title: 'Strong Relationships',  desc: 'Long-term partnerships built on trust and results.' },
-      { title: 'Mutual Growth',         desc: 'Creating value for players and clubs through strategic collaborations.' },
-      { title: 'Exclusive Opportunities', desc: 'Opening doors to opportunities not available to everyone.' },
+      { icon: Globe2,   title: 'Global Network',          desc: 'Access to a worldwide network of top clubs and decision makers.' },
+      { icon: Users,    title: 'Strong Relationships',    desc: 'Long-term partnerships built on trust and results.' },
+      { icon: Handshake,title: 'Mutual Growth',           desc: 'Creating value for players and clubs through strategic collaborations.' },
+      { icon: Star,     title: 'Exclusive Opportunities', desc: 'Opening doors to opportunities not available to everyone.' },
     ],
   },
   {
-    id: 'personal-branding',
-    label: 'Personal Branding',
-    icon: Star,
-    tag: 'Service 04',
-    headline: 'Building Your Identity',
+    id:           'personal-branding',
+    tag:          'Personal Branding',
+    headline:     'Building Your Identity',
     headlineBlue: 'On and Off The Pitch.',
     sub: 'We help players grow their personal brand, increase their visibility and maximize opportunities worldwide.',
     photo: '/diseño4.jpeg',
     features: [
-      { title: 'Media & Content',       desc: 'Professional shoots, videos and content that elevate your image.' },
-      { title: 'Social Media Strategy', desc: 'Strategic positioning across all digital platforms.' },
-      { title: 'Global Visibility',     desc: 'Connect with brands, clubs and new opportunities.' },
-      { title: 'Partnerships',          desc: 'Access premium endorsement and sponsorship deals.' },
+      { icon: Star,     title: 'Media & Content',        desc: 'Professional shoots, videos and content that elevate your image.' },
+      { icon: Globe2,   title: 'Social Media Strategy',  desc: 'Strategic positioning across all digital platforms.' },
+      { icon: Users,    title: 'Global Visibility',      desc: 'Connect with brands, clubs and new opportunities.' },
+      { icon: BarChart3,title: 'Partnerships',           desc: 'Access premium endorsement and sponsorship deals.' },
     ],
-    reverse: true,
   },
 ]
 
 export default function ServicesPage() {
   return (
-    <div style={{ fontFamily: 'var(--font-montserrat), sans-serif', background: '#fff', minHeight: '100vh' }}>
+    <div style={{ fontFamily: FONT.sans, background: '#fff', minHeight: '100vh' }}>
       <style>{`
-        .svc-split { display: grid; min-height: 560px; }
-        .svc-split.normal  { grid-template-columns: 42fr 58fr; }
-        .svc-split.reverse { grid-template-columns: 58fr 42fr; }
+        /* ─── Split sections (identical approach to homepage) ─── */
+        /* Image fills 100% of the section; white coded panel (38%) covers the
+           left portion — same ratio as every mockup image's text panel. */
+        .sv-wrap  { position: relative; overflow: hidden; }
+        .sv-photo {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%;
+          object-fit: cover; object-position: center top;
+        }
+        .sv-panel {
+          position: relative; z-index: 1;
+          width: 38%; background: #fff;
+          padding: clamp(72px,9vw,112px) clamp(44px,5vw,84px);
+          min-height: 620px;
+          display: flex; flex-direction: column; justify-content: center;
+        }
+
+        /* ─── CRM band ─── */
+        .crm-band { display: grid; grid-template-columns: 56fr 44fr; }
+        .crm-dark {
+          background: #0A0A0A; overflow: hidden; position: relative;
+          padding: clamp(40px,5vw,64px) clamp(36px,4vw,56px) 0;
+          min-height: 560px;
+        }
+        .crm-light {
+          background: #F9FAFB;
+          padding: clamp(72px,9vw,112px) clamp(44px,5vw,80px);
+          display: flex; flex-direction: column; justify-content: center;
+        }
+
+        /* ─── Service tabs ─── */
+        .sv-tab {
+          display: flex; align-items: center; gap: 8;
+          padding: 16px 22px; border-bottom: 2px solid transparent;
+          font-size: 11px; font-weight: 700; color: #9CA3AF;
+          text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase;
+          white-space: nowrap; transition: color 0.15s, border-color 0.15s;
+        }
+        .sv-tab:hover { color: #0A0A0A; border-color: rgba(37,99,235,0.35); }
+
+        /* ─── Responsive ─── */
         @media (max-width: 900px) {
-          .svc-split.normal  { display: flex !important; flex-direction: column !important; }
-          .svc-split.reverse { display: flex !important; flex-direction: column-reverse !important; }
-          .svc-photo { min-height: 380px !important; }
+          .sv-wrap  { display: flex !important; flex-direction: column !important; }
+          .sv-photo { position: relative !important; inset: unset !important; height: 300px !important; width: 100% !important; }
+          .sv-panel { width: 100% !important; min-height: 0 !important; }
+          .crm-band { display: flex !important; flex-direction: column !important; }
+          .crm-dark { min-height: 260px !important; }
+          .crm-light { padding: 56px 24px !important; }
         }
         @media (max-width: 600px) {
-          .svc-photo { min-height: 260px !important; }
+          .sv-panel { padding: 48px 20px !important; }
         }
 
-        /* ── Platform band ── */
-        .platform-band { display: grid; grid-template-columns: 50fr 50fr; min-height: 440px; }
-        @media (max-width: 900px) {
-          .platform-band { display: flex !important; flex-direction: column !important; }
-          .platform-band-photo { min-height: 320px !important; }
-        }
-
-        /* ── Tab hover ── */
-        .svc-tab { transition: color 0.15s, border-color 0.15s; }
-        .svc-tab:hover { color: ${N} !important; border-color: rgba(37,99,235,0.35) !important; }
-
-        /* ── CTA get started link ── */
-        .get-started-link { transition: gap 0.15s; }
-        .get-started-link:hover { gap: 10px !important; }
+        /* ─── Hover ─── */
+        .btn-primary:hover { background: #1D4ED8 !important; }
+        .ghost-link:hover  { opacity: .65; }
       `}</style>
 
       <Navbar />
 
-      {/* ── HERO HEADER ── */}
-      <section style={{ background: N, padding: 'clamp(72px,8vw,96px) clamp(24px,5vw,80px)' }}>
+      {/* ━━━ PAGE HERO ━━━ */}
+      <section style={{ background: '#0A0A0A', padding: 'clamp(72px,9vw,112px) clamp(44px,5vw,84px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
-            <div style={{ width: 24, height: 1.5, background: G }} />
-            <span style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.16em', textTransform: 'uppercase' }}>What We Do</span>
-          </div>
-          <h1 style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(36px, 5.5vw, 68px)', fontWeight: 700, color: '#fff', margin: '0 0 24px', letterSpacing: '-0.03em', textTransform: 'uppercase', lineHeight: 1.02 }}>
-            Full-Service<br /><span style={{ color: G }}>Representation</span>
+          <SectionLabel color="#ffffff" marginBottom={36}>What We Do</SectionLabel>
+          <h1 style={{
+            fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
+            fontSize: 'clamp(52px,7vw,88px)', fontWeight: 700,
+            lineHeight: 0.9, letterSpacing: '-0.04em', textTransform: 'uppercase',
+            color: '#fff', margin: '0 0 24px',
+          }}>
+            Full-Service<br /><span style={{ color: C.blue }}>Representation</span>
           </h1>
-          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.45)', lineHeight: 1.75, maxWidth: 480, margin: 0 }}>
+          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.42)', lineHeight: 1.75, maxWidth: 480, margin: 0, fontFamily: FONT.sans }}>
             From career planning to contract negotiation, we are with our players every step of the way.
           </p>
         </div>
       </section>
 
-      {/* ── SERVICE TABS ── */}
-      <section style={{ background: '#FAFAFA', borderBottom: '1px solid #E5E7EB', padding: '0 clamp(24px,5vw,80px)', overflowX: 'auto' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', gap: 0 }}>
+      {/* ━━━ SERVICE TABS ━━━ */}
+      <section style={{ background: '#FAFAFA', borderBottom: `1px solid ${C.border}`, padding: '0 clamp(24px,4vw,64px)', overflowX: 'auto' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex' }}>
           {SERVICES.map(s => (
-            <a key={s.id} href={`#${s.id}`} className="svc-tab" style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              padding: '16px 20px', borderBottom: '2px solid transparent',
-              fontSize: 12, fontWeight: 600, color: '#9CA3AF',
-              textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase',
-              whiteSpace: 'nowrap',
-            }}>
-              <s.icon size={13} />
-              {s.label}
+            <a key={s.id} href={`#${s.id}`} className="sv-tab" style={{ fontFamily: FONT.sans }}>
+              {s.headlineBlue}
             </a>
           ))}
         </div>
       </section>
 
-      {/* ── SERVICE SECTIONS ── */}
+      {/* ━━━ SERVICE SECTIONS ━━━ */}
       {SERVICES.map(s => (
-        <section key={s.id} id={s.id} className={`svc-split ${s.reverse ? 'reverse' : 'normal'}`} style={{ borderBottom: '1px solid #E5E7EB' }}>
-          {/* Content panel */}
-          <div style={{
-            padding: 'clamp(56px,7vw,96px) clamp(28px,5vw,72px)',
-            display: 'flex', flexDirection: 'column', justifyContent: 'center',
-            order: s.reverse ? 2 : 1,
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-              <div style={{ width: 24, height: 1.5, background: G }} />
-              <span style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{s.tag}</span>
-            </div>
+        <section key={s.id} id={s.id} className="sv-wrap" style={{ borderBottom: `1px solid ${C.border}` }}>
+          {/* Full-section background — each composite image fills the section.
+              The white coded panel (38%) covers the left text area of the mockup
+              at exactly the same proportion. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="sv-photo" src={s.photo} alt="" aria-hidden="true" />
 
-            <h2 style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(28px, 3.5vw, 44px)', fontWeight: 700, color: N, margin: '0 0 16px', letterSpacing: '-0.025em', textTransform: 'uppercase', lineHeight: 1.05 }}>
-              {s.headline}<br /><span style={{ color: G }}>{s.headlineBlue}</span>
-            </h2>
+          <div className="sv-panel">
+            <SectionLabel marginBottom={32}>{s.tag}</SectionLabel>
 
-            <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.75, margin: '0 0 32px', maxWidth: 380 }}>
+            <h2 style={{ ...SH, color: '#0A0A0A', marginBottom: 4 }}>{s.headline}</h2>
+            <h2 style={{ ...SH, color: C.blue,    marginBottom: 28 }}>{s.headlineBlue}</h2>
+
+            <p style={{ fontSize: 14, color: '#4B5563', lineHeight: 1.8, maxWidth: 360, margin: '0 0 40px', fontFamily: FONT.sans }}>
               {s.sub}
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginBottom: 36 }}>
-              {s.features.map(f => (
-                <div key={f.title} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: G, flexShrink: 0, marginTop: 7 }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 26 }}>
+              {s.features.map(({ icon: Icon, title, desc }) => (
+                <div key={title} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                  <span style={{ flexShrink: 0, display: 'flex', marginTop: 1 }}>
+                    <Icon size={14} color={C.blue} />
+                  </span>
                   <div>
-                    <p style={{ fontSize: 12, fontWeight: 700, color: N, margin: '0 0 3px', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                      {f.title}
-                    </p>
-                    <p style={{ fontSize: 13, color: '#6B7280', margin: 0, lineHeight: 1.6 }}>
-                      {f.desc}
-                    </p>
+                    <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#0A0A0A', margin: '0 0 4px', fontFamily: FONT.sans }}>{title}</p>
+                    <p style={{ fontSize: 13, color: '#6B7280', margin: 0, lineHeight: 1.65, fontFamily: FONT.sans }}>{desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <Link href="/contact" className="get-started-link" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 700, color: N, textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase', borderBottom: '1.5px solid #0A0A0A', paddingBottom: 2, width: 'fit-content' }}>
-              Get Started <ArrowRight size={12} />
-            </Link>
-          </div>
-
-          {/* Photo panel */}
-          <div className="svc-photo" style={{
-            position: 'relative', overflow: 'hidden',
-            background: '#0A0A0A', minHeight: 480,
-            order: s.reverse ? 1 : 2,
-          }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={s.photo}
-              alt=""
-              aria-hidden="true"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
-            />
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: s.reverse
-                ? 'linear-gradient(to left, rgba(0,0,0,0.08), transparent 60%)'
-                : 'linear-gradient(to right, rgba(0,0,0,0.12), transparent 60%)',
-            }} />
+            <div style={{ marginTop: 44 }}>
+              <Link href="/contact" className="ghost-link" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0A0A0A', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 7, borderBottom: '1.5px solid #0A0A0A', paddingBottom: 2, fontFamily: FONT.sans }}>
+                Get Started <ArrowRight size={11} />
+              </Link>
+            </div>
           </div>
         </section>
       ))}
 
-      {/* ── DIGITAL PRESENCE BAND ── */}
-      <section className="platform-band" style={{ borderBottom: '1px solid #E5E7EB' }}>
-        {/* Left — photo */}
-        <div className="platform-band-photo" style={{ position: 'relative', overflow: 'hidden', background: '#F3F4F6', minHeight: 380 }}>
+      {/* ━━━ PLATFORM BAND ━━━ */}
+      {/* CRM shown as contained product screenshot — same technique as homepage */}
+      <section className="crm-band" style={{ borderBottom: `1px solid ${C.border}` }}>
+        <div className="crm-dark">
+          <div style={{ position: 'absolute', top: 28, left: 28, zIndex: 2 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', background: C.blue, color: '#fff', padding: '5px 14px', borderRadius: 6, fontFamily: FONT.sans }}>
+              Agent CRM
+            </span>
+          </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/polariswebdesign.jpeg"
-            alt=""
-            aria-hidden="true"
-            style={{
-              position: 'absolute', inset: 0,
-              width: '100%', height: '100%',
-              objectFit: 'cover', objectPosition: 'center top',
-            }}
+            src="/diseño10.jpeg"
+            alt="Polaris CRM Dashboard"
+            style={{ width: '100%', borderRadius: '10px 10px 0 0', display: 'block', boxShadow: '0 -12px 48px rgba(37,99,235,0.14), 0 0 0 1px rgba(255,255,255,0.06)', marginTop: 52 }}
           />
-          {/* Light vignette — this is a UI screenshot so keep it bright */}
-          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '25%', background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.8))' }} />
         </div>
-
-        {/* Right — content */}
-        <div style={{
-          padding: 'clamp(48px,6vw,80px) clamp(32px,5vw,72px)',
-          display: 'flex', flexDirection: 'column', justifyContent: 'center',
-          background: '#fff',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-            <div style={{ width: 24, height: 1.5, background: G }} />
-            <span style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Our Platform</span>
-          </div>
-          <h2 style={{
-            fontFamily: 'var(--font-space-grotesk), sans-serif',
-            fontSize: 'clamp(26px, 3vw, 38px)', fontWeight: 700,
-            color: N, margin: '0 0 16px',
-            letterSpacing: '-0.025em', textTransform: 'uppercase', lineHeight: 1.08,
-          }}>
-            Your career.<br /><span style={{ color: G }}>Managed end-to-end.</span>
-          </h2>
-          <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.8, margin: '0 0 32px', maxWidth: 360 }}>
-            Our proprietary agent platform gives Polaris clients complete visibility into their career pipeline — transfers, contracts, negotiations, and opportunities, all in one place.
+        <div className="crm-light">
+          <SectionLabel marginBottom={32}>Our Platform</SectionLabel>
+          <h2 style={{ ...SH, color: '#0A0A0A', marginBottom: 4 }}>Your Career.</h2>
+          <h2 style={{ ...SH, color: C.blue,    marginBottom: 28 }}>Managed End-to-End.</h2>
+          <p style={{ fontSize: 14, color: '#4B5563', lineHeight: 1.8, maxWidth: 360, margin: '0 0 40px', fontFamily: FONT.sans }}>
+            Our proprietary agent platform gives Polaris clients complete visibility into their career pipeline — transfers, contracts, negotiations and opportunities in one place.
           </p>
-          <Link href="/login" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: G, color: '#fff', padding: '12px 24px',
-            borderRadius: 8, fontWeight: 600, fontSize: 11,
-            textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase',
-            width: 'fit-content',
-          }}>
-            Access the Platform <ArrowRight size={12} />
+          <Link href="/login" className="btn-primary" style={{ ...BTN.primary, width: 'fit-content' }}>
+            Access the Platform <ArrowRight size={13} />
           </Link>
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section style={{ background: N, padding: 'clamp(64px,8vw,96px) 40px' }}>
+      {/* ━━━ CTA ━━━ */}
+      <section style={{ background: '#0A0A0A', padding: 'clamp(72px,9vw,112px) 40px' }}>
         <div style={{ maxWidth: 560, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, color: '#fff', margin: '0 0 20px', letterSpacing: '-0.025em', textTransform: 'uppercase', lineHeight: 1.05 }}>
-            Ready to take<br /><span style={{ color: G }}>the next step?</span>
+          <h2 style={{
+            fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
+            fontSize: 'clamp(36px,5vw,60px)', fontWeight: 700,
+            lineHeight: 0.92, letterSpacing: '-0.035em', textTransform: 'uppercase',
+            color: '#fff', margin: '0 0 8px',
+          }}>
+            Ready to take
           </h2>
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, margin: '0 auto 40px', maxWidth: 340 }}>
+          <h2 style={{
+            fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
+            fontSize: 'clamp(36px,5vw,60px)', fontWeight: 700,
+            lineHeight: 0.92, letterSpacing: '-0.035em', textTransform: 'uppercase',
+            color: C.blue, margin: '0 0 28px',
+          }}>
+            the next step?
+          </h2>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', lineHeight: 1.75, margin: '0 auto 44px', maxWidth: 340, fontFamily: FONT.sans }}>
             Get in touch and let us show you what full-service representation truly means.
           </p>
-          <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: G, color: '#fff', padding: '13px 28px', borderRadius: 8, fontWeight: 600, fontSize: 12, textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          <Link href="/contact" className="btn-primary" style={{ ...BTN.primary }}>
             Contact Us <ArrowRight size={13} />
           </Link>
         </div>
