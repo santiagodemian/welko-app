@@ -7,7 +7,7 @@ declare global {
 
 function makeClient(): OpenAI {
   const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey) throw new Error('[Welko] OPENAI_API_KEY is not set. Add it to .env.local')
+  if (!apiKey) throw new Error('[Polaris] OPENAI_API_KEY is not set. Add it to .env.local')
   return new OpenAI({ apiKey })
 }
 

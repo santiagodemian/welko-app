@@ -272,7 +272,7 @@ export default function PlayersPage() {
         @media (max-width: 640px) {
           .polaris-desktop-table { display: none !important; }
           .polaris-players-header { padding: 0 4px !important; }
-          .welko-filter-bar { flex-direction: column !important; }
+          .polaris-filter-bar { flex-direction: column !important; }
         }
       `}</style>
 

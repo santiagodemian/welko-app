@@ -1,5 +1,5 @@
 /**
- * Welko — Prisma client (Prisma 7 + pg driver adapter)
+ * Polaris — Prisma client (Prisma 7 + pg driver adapter)
  *
  * Uses a Proxy for lazy initialization so `next build` does not fail
  * when DATABASE_URL is absent — the real PrismaClient is created only
@@ -16,7 +16,7 @@ declare global {
 
 function makeClient(): PrismaClient {
   const url = process.env.DATABASE_URL
-  if (!url) throw new Error('[Welko] DATABASE_URL is not set. Add it to .env.local')
+  if (!url) throw new Error('[Polaris] DATABASE_URL is not set. Add it to .env.local')
   const adapter = new PrismaPg({ connectionString: url })
   return new PrismaClient({ adapter, log: ['error'] })
 }

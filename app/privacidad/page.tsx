@@ -97,7 +97,7 @@ export default function PrivacidadPage() {
               <p>
                 <strong style={{ color: '#0A0F1A' }}>Polaris Football</strong> (en adelante "el Responsable" o "Polaris Football"),
                 con domicilio en Ciudad de México, México, es el responsable del tratamiento de los datos
-                personales que se recaban a través de la plataforma <em>welko.mx</em> y sus servicios
+                personales que se recaban a través de la plataforma <em>polarisfootball.com</em> y sus servicios
                 asociados, de conformidad con la{' '}
                 <strong>Ley Federal de Protección de Datos Personales en Posesión de los Particulares
                 (LFPDPPP)</strong> y su Reglamento.

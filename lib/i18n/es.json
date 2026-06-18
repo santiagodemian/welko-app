@@ -21,13 +21,13 @@
     ],
     "headline1": "Tu negocio, siempre disponible:",
     "headline2": "Tu Recepcionista IA Disponible 24/7",
-    "subheadline": "La IA de Welko atiende a tus clientes, responde preguntas, agenda y da seguimiento — en WhatsApp, Instagram y más canales — sin que tú tengas que hacer nada.",
+    "subheadline": "La IA de Polaris Football atiende a tus clientes, responde preguntas, agenda y da seguimiento — en WhatsApp, Instagram y más canales — sin que tú tengas que hacer nada.",
     "cta": "Quiero mi recepcionista virtual",
     "trust": "Instalación en 24 horas • Sin contratos forzosos • Soporte bilingüe"
   },
   "flow": [
     { "label": "Cliente Llama o Escribe", "sub": "WhatsApp · Instagram · FB" },
-    { "label": "Procesa IA de Welko", "sub": "Respuesta segura en segundos" },
+    { "label": "Procesa IA de Polaris Football", "sub": "Respuesta segura en segundos" },
     { "label": "Agenda o Toma el Pedido", "sub": "Sincronizado con tu CRM" }
   ],
   "stats": [
@@ -60,11 +60,11 @@
   },
   "industries": {
     "eyebrow": "Industrias",
-    "headline": "Welko para tu Tipo de Negocio",
+    "headline": "Polaris Football para tu Tipo de Negocio",
     "sub": "Configurado específicamente para cada industria — no es una solución genérica."
   },
   "footer": {
-    "copy": "Welko — El recepcionista IA líder.",
+    "copy": "Polaris Football — El recepcionista IA líder.",
     "terms": "Términos",
     "privacy": "Privacidad",
     "refunds": "Reembolsos",

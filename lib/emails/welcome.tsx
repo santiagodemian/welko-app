@@ -48,7 +48,7 @@ export function renderWelcomeEmail({ name, plan, billing }: WelcomeEmailProps): 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bienvenido a Welko</title>
+  <title>Bienvenido a Polaris Football</title>
 </head>
 <body style="margin:0;padding:0;background:#F3F4F6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#F3F4F6;padding:40px 16px;">
@@ -61,7 +61,7 @@ export function renderWelcomeEmail({ name, plan, billing }: WelcomeEmailProps): 
             <td style="background:linear-gradient(135deg,#05101F 0%,#13244A 60%,#0E1F38 100%);border-radius:16px 16px 0 0;padding:40px 48px;text-align:center;">
               <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:24px;">
                 <div style="width:36px;height:36px;background:rgba(255,255,255,0.12);border-radius:10px;display:inline-block;line-height:36px;text-align:center;font-size:18px;"></div>
-                <span style="color:#FFFFFF;font-size:22px;font-weight:800;letter-spacing:-0.04em;">Welko</span>
+                <span style="color:#FFFFFF;font-size:22px;font-weight:800;letter-spacing:-0.04em;">Polaris Football</span>
               </div>
               <h1 style="color:#FFFFFF;font-size:28px;font-weight:800;margin:0 0 12px;letter-spacing:-0.03em;line-height:1.2;">
                 ¡Bienvenido, ${firstName}!
@@ -135,12 +135,12 @@ export function renderWelcomeEmail({ name, plan, billing }: WelcomeEmailProps): 
           <!-- CTA -->
           <tr>
             <td style="background:#FFFFFF;padding:0 48px 40px;text-align:center;">
-              <a href="https://welko.agency/onboarding"
+              <a href="https://polarisfootball.com/onboarding"
                 style="display:inline-block;background:#13244A;color:#FFFFFF;font-size:15px;font-weight:700;text-decoration:none;padding:14px 40px;border-radius:14px;letter-spacing:-0.01em;">
                 Ir a mi dashboard →
               </a>
               <p style="margin:16px 0 0;font-size:12px;color:#9CA3AF;">
-                ¿Tienes dudas? Escríbenos a <a href="mailto:hola@welko.org" style="color:#13244A;">hola@welko.org</a>
+                ¿Tienes dudas? Escríbenos a <a href="mailto:hello@polarisfootball.com" style="color:#13244A;">hello@polarisfootball.com</a>
               </p>
             </td>
           </tr>
@@ -149,7 +149,7 @@ export function renderWelcomeEmail({ name, plan, billing }: WelcomeEmailProps): 
           <tr>
             <td style="background:#F9FAFB;border-radius:0 0 16px 16px;border-top:1px solid #E5E7EB;padding:24px 48px;text-align:center;">
               <p style="margin:0 0 4px;font-size:12px;color:#9CA3AF;">
-                © ${new Date().getFullYear()} Welko · welko.agency
+                © ${new Date().getFullYear()} Polaris Football · polarisfootball.com
               </p>
               <p style="margin:0;font-size:11px;color:#D1D5DB;">
                  1% de tu suscripción elimina CO₂ de la atmósfera

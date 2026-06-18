@@ -1,5 +1,5 @@
 /**
- * Welko — AES-256-GCM encryption utility
+ * Polaris — AES-256-GCM encryption utility
  *
  * Encrypts sensitive patient data (names, phones, diagnoses) before storing
  * in the database. Each value gets a unique random IV so identical plaintexts
@@ -23,14 +23,14 @@ function getKey(): Buffer {
   const raw = process.env.ENCRYPTION_KEY
   if (!raw) {
     throw new Error(
-      '[Welko] ENCRYPTION_KEY is not set. ' +
+      '[Polaris] ENCRYPTION_KEY is not set. ' +
       'Generate one with: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"'
     )
   }
   const key = Buffer.from(raw, 'hex')
   if (key.length !== KEY_BYTES) {
     throw new Error(
-      `[Welko] ENCRYPTION_KEY must be exactly ${KEY_BYTES * 2} hex characters (${KEY_BYTES} bytes).`
+      `[Polaris] ENCRYPTION_KEY must be exactly ${KEY_BYTES * 2} hex characters (${KEY_BYTES} bytes).`
     )
   }
   return key
@@ -67,7 +67,7 @@ export function decrypt(ciphertext: string): string {
   const parts = ciphertext.split(':')
 
   if (parts.length !== 3) {
-    throw new Error('[Welko] decrypt: invalid ciphertext format — expected iv:tag:data')
+    throw new Error('[Polaris] decrypt: invalid ciphertext format — expected iv:tag:data')
   }
 
   const [ivB64, tagB64, dataB64] = parts

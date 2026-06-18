@@ -21,13 +21,13 @@
     ],
     "headline1": "Your business, always available:",
     "headline2": "Your AI Receptionist Available 24/7",
-    "subheadline": "Welko's AI attends to your clients, answers questions, books appointments and follows up — on WhatsApp, Instagram and more — without you lifting a finger.",
+    "subheadline": "Polaris Football's AI attends to your clients, answers questions, books appointments and follows up — on WhatsApp, Instagram and more — without you lifting a finger.",
     "cta": "Get my virtual receptionist",
     "trust": "Setup in 24 hours • No forced contracts • Bilingual support"
   },
   "flow": [
     { "label": "Client Calls or Messages", "sub": "WhatsApp · Instagram · FB" },
-    { "label": "Welko AI Processes", "sub": "Secure response in seconds" },
+    { "label": "Polaris Football AI Processes", "sub": "Secure response in seconds" },
     { "label": "Books or Takes the Order", "sub": "Synced with your CRM" }
   ],
   "stats": [
@@ -60,11 +60,11 @@
   },
   "industries": {
     "eyebrow": "Industries",
-    "headline": "Welko for Your Type of Business",
+    "headline": "Polaris Football for Your Type of Business",
     "sub": "Configured specifically for each industry — not a one-size-fits-all solution."
   },
   "footer": {
-    "copy": "Welko — The leading AI receptionist.",
+    "copy": "Polaris Football — The leading AI receptionist.",
     "terms": "Terms",
     "privacy": "Privacy",
     "refunds": "Refunds",

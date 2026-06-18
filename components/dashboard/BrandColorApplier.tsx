@@ -35,18 +35,18 @@ function hexToRgba(hex: string, alpha: number): string {
 export function BrandColorApplier({ dbColor }: { dbColor?: string | null }) {
   useEffect(() => {
     // DB color takes precedence; localStorage is a fallback for unsaved sessions
-    const color = dbColor ?? localStorage.getItem('welko_brand_color')
+    const color = dbColor ?? localStorage.getItem('polaris_brand_color')
     if (color) {
       applyBrandColor(color)
-      localStorage.setItem('welko_brand_color', color)
+      localStorage.setItem('polaris_brand_color', color)
     }
 
     function onColorChange(e: Event) {
       const c = (e as CustomEvent<{ color: string }>).detail?.color
       if (c) applyBrandColor(c)
     }
-    window.addEventListener('welko-brand-color', onColorChange)
-    return () => window.removeEventListener('welko-brand-color', onColorChange)
+    window.addEventListener('polaris-brand-color', onColorChange)
+    return () => window.removeEventListener('polaris-brand-color', onColorChange)
   }, [dbColor])
 
   return null

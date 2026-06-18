@@ -2,7 +2,7 @@ import Stripe from 'stripe'
 
 function getStripe(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY
-  if (!key) throw new Error('[Welko] STRIPE_SECRET_KEY is not set.')
+  if (!key) throw new Error('[Polaris] STRIPE_SECRET_KEY is not set.')
   return new Stripe(key)
 }
 

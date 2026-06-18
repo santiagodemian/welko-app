@@ -30,7 +30,7 @@ export function renderContractExpiryEmail({
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contract Expiry Alert — Welko AgentOS</title>
+  <title>Contract Expiry Alert — Polaris Football</title>
 </head>
 <body style="margin:0;padding:0;background:#F3F4F6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#F3F4F6;padding:40px 16px;">
@@ -41,7 +41,7 @@ export function renderContractExpiryEmail({
           <!-- Header -->
           <tr>
             <td style="background:${N};border-radius:16px 16px 0 0;padding:32px 40px;text-align:center;">
-              <p style="color:${G};font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 8px;">Welko AgentOS</p>
+              <p style="color:${G};font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 8px;">Polaris Football</p>
               <h1 style="color:#ffffff;font-size:22px;font-weight:900;margin:0 0 8px;letter-spacing:-0.03em;line-height:1.2;">
                 Contract Expiry Alert
               </h1>
@@ -90,7 +90,7 @@ export function renderContractExpiryEmail({
           <!-- CTA -->
           <tr>
             <td style="background:#ffffff;padding:8px 40px 32px;text-align:center;">
-              <a href="${process.env.NEXT_PUBLIC_APP_URL ?? 'https://welko.agency'}/dashboard/players"
+              <a href="${process.env.NEXT_PUBLIC_APP_URL ?? 'https://polarisfootball.com'}/dashboard/players"
                 style="display:inline-block;padding:13px 28px;background:${G};color:#ffffff;font-weight:800;font-size:14px;text-decoration:none;border-radius:10px;letter-spacing:-0.01em;">
                 View Players in Dashboard →
               </a>
@@ -104,8 +104,8 @@ export function renderContractExpiryEmail({
           <tr>
             <td style="background:#F9FAFB;border-radius:0 0 16px 16px;padding:20px 40px;border-top:1px solid #E5E7EB;text-align:center;">
               <p style="font-size:11px;color:#9CA3AF;margin:0;">
-                Welko AgentOS · welko.agency<br/>
-                You're receiving this because you have a Welko account with contract alerts enabled.
+                Polaris Football · polarisfootball.com<br/>
+                You're receiving this because you have a Polaris Football account with contract alerts enabled.
               </p>
             </td>
           </tr>
