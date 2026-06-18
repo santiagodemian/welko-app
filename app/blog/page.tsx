@@ -1,7 +1,9 @@
+import type { CSSProperties } from 'react'
 import Link from 'next/link'
-import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
-import { C } from '@/lib/ds'
+import { Navbar }       from '@/components/layout/Navbar'
+import { Footer }       from '@/components/layout/Footer'
+import { SectionLabel } from '@/components/ui/SectionLabel'
+import { C, FONT }      from '@/lib/ds'
 
 const N = C.dark
 const G = C.blue
@@ -10,35 +12,52 @@ export default function BlogPage() {
   return (
     <>
       <Navbar />
-      <main style={{ fontFamily: 'var(--font-montserrat), sans-serif', background: '#fff' }}>
+      <main style={{ fontFamily: FONT.sans, background: '#fff' }}>
 
-        {/* Hero */}
-        <section style={{
-          background: N, padding: 'clamp(80px,10vw,128px) clamp(24px,5vw,80px)',
-          textAlign: 'center', position: 'relative', overflow: 'hidden',
-        }}>
+        {/* ━━━ HERO — same split technique as homepage/services ━━━
+            diseño11.jpeg is 768×512 with ~38% white text panel on left,
+            stadium photo on right. White coded panel covers the text area. */}
+        <section style={{ position: 'relative', overflow: 'hidden' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/diseño11.jpeg" alt="" aria-hidden="true" style={{
-            position: 'absolute', inset: 0, width: '100%', height: '100%',
-            objectFit: 'cover', objectPosition: 'center', opacity: 0.12,
-          }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(5,5,5,0.8) 0%, rgba(5,5,5,0.95) 100%)' }} />
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: 640, margin: '0 auto' }}>
-            <span style={{
-              fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase',
-              color: G, background: `${G}20`, padding: '5px 14px', borderRadius: 4, display: 'inline-block', marginBottom: 20,
-            }}>
-              Polaris Intelligence
-            </span>
+          <img
+            src="/diseño11.jpeg"
+            alt=""
+            aria-hidden="true"
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover', objectPosition: 'center top',
+            }}
+          />
+          {/* White coded panel (38%) */}
+          <div style={{
+            position: 'relative', zIndex: 1,
+            width: '38%', background: '#fff',
+            padding: 'clamp(72px,9vw,112px) clamp(44px,5vw,84px)',
+            minHeight: 480,
+            display: 'flex', flexDirection: 'column', justifyContent: 'center',
+          }}>
+            <SectionLabel marginBottom={32}>Blog</SectionLabel>
             <h1 style={{
-              fontSize: 'clamp(36px,6vw,60px)', fontWeight: 800, color: '#fff',
-              letterSpacing: '-0.04em', lineHeight: 1.05, margin: '0 0 20px',
-              fontFamily: 'var(--font-space-grotesk), sans-serif',
+              fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
+              fontSize: 'clamp(38px,4.8vw,60px)',
+              fontWeight: 700, lineHeight: 0.92,
+              letterSpacing: '-0.035em', textTransform: 'uppercase',
+              color: '#0A0A0A', margin: '0 0 4px',
             }}>
-              Insights from the network
+              Insights. Stories.
             </h1>
-            <p style={{ fontSize: 'clamp(15px,2vw,18px)', color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.6 }}>
-              Analysis, market intelligence and perspectives from inside professional football — written by people who do this every day.
+            <h1 style={{
+              fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
+              fontSize: 'clamp(38px,4.8vw,60px)',
+              fontWeight: 700, lineHeight: 0.92,
+              letterSpacing: '-0.035em', textTransform: 'uppercase',
+              color: G, margin: '0 0 28px',
+            }}>
+              Football.
+            </h1>
+            <p style={{ fontSize: 14, color: '#4B5563', lineHeight: 1.8, maxWidth: 340, margin: 0, fontFamily: FONT.sans }}>
+              News, tips and stories from the world of football. Inspiration, knowledge and everything that drives the game forward.
             </p>
           </div>
         </section>
