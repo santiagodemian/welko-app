@@ -319,7 +319,9 @@ export default async function DashboardPage() {
     return (
       <div style={{ padding: 48, fontFamily: 'var(--font-montserrat), sans-serif' }}>
         <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: 16, padding: 48, textAlign: 'center', maxWidth: 480, margin: '0 auto' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>⚽</div>
+          <div style={{ width: 56, height: 56, borderRadius: 14, background: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+            <Shield size={24} color="#2563EB" />
+          </div>
           <h2 style={{ fontSize: 20, fontWeight: 700, color: N, margin: '0 0 8px' }}>Welcome to Polaris</h2>
           <p style={{ color: '#6B7280', margin: '0 0 24px', lineHeight: 1.6 }}>Complete your agency setup to get started.</p>
           <Link href="/onboarding" style={{ background: N, color: 'white', padding: '12px 28px', borderRadius: 10, textDecoration: 'none', fontWeight: 700, fontSize: 14 }}>
@@ -454,7 +456,7 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div style={{ padding: '0 clamp(0px,1vw,0px)' }}>
+      <div style={{ padding: '0 clamp(20px,4vw,40px)' }}>
 
       {/* ── KPI Cards ── */}
       <div className="db-kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 24 }}>

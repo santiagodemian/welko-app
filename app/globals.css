@@ -3,69 +3,87 @@
 /* ─── Dark mode via .dark class ─── */
 @variant dark (&:where(.dark, .dark *));
 
-/* ─── Design tokens ─── */
-@theme {
-  --color-gray-50:   #F9FAFB;
-  --color-gray-100:  #F3F4F6;
-  --color-gray-200:  #E5E7EB;
-  --color-gray-600:  #4B5563;
-  --color-gray-700:  #374151;
-  --color-gray-800:  #1F2937;
-  --color-gray-900:  #111827;
+/* ─── Polaris Design System v1.0 — CSS Custom Properties ─── */
+:root {
+  /* Backgrounds */
+  --bg:              #FFFFFF;
+  --bg-secondary:    #F9FAFB;
+  --bg-tertiary:     #F3F4F6;
+
+  /* Text */
+  --text-primary:    #0A0A0A;
+  --text-secondary:  #6B7280;
+  --text-muted:      #9CA3AF;
+
+  /* Borders */
+  --border:          #E5E7EB;
+  --border-subtle:   #F3F4F6;
+
+  /* Accent */
+  --blue:            #2563EB;
+  --blue-hover:      #1D4ED8;
+  --blue-light:      #EFF6FF;
+  --blue-dim:        rgba(37,99,235,0.12);
+
+  /* Semantic */
+  --success:         #059669;
+  --success-light:   #ECFDF5;
+  --warning:         #D97706;
+  --warning-light:   #FFFBEB;
+  --danger:          #EF4444;
+  --danger-light:    #FEF2F2;
+
+  /* Dark surfaces */
+  --dark:            #0A0A0A;
+  --dark-deep:       #050505;
+
+  /* Radius */
+  --r-badge:         6px;
+  --r-button:        8px;
+  --r-card:          12px;
+  --r-panel:         16px;
+
+  /* Shadows */
+  --shadow-sm:       0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:       0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg:       0 8px 32px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06);
+  --shadow-blue:     0 4px 16px rgba(37,99,235,0.18);
 
   /* Typography */
-  --font-sans:    var(--font-montserrat), system-ui, sans-serif;
-  --font-heading: var(--font-space-grotesk), system-ui, sans-serif;
-  --font-mono:    var(--font-geist-mono), monospace;
+  --font-sans:       var(--font-montserrat), Inter, system-ui, sans-serif;
+  --font-heading:    var(--font-space-grotesk), system-ui, sans-serif;
+  --font-mono:       var(--font-geist-mono), monospace;
 
-  --radius-xl:  1rem;
-  --radius-2xl: 1.5rem;
-}
+  /* Navbar height — referenced by sticky elements */
+  --navbar-h:        72px;
 
-/* ─── Light mode semantic tokens ─── */
-:root {
-  --bg:             #FFFFFF;
-  --bg-secondary:   #F9FAFB;
-  --surface:        #FFFFFF;
-  --surface-hover:  #F3F4F6;
-  --border:         #E5E7EB;
-  --border-subtle:  #F3F4F6;
-  --text-primary:   #0A0A0A;
-  --text-secondary: #6B7280;
-  --text-muted:     #9CA3AF;
-  --accent:         #2563EB;
-  --accent-hover:   #1D4ED8;
-  --accent-fg:      #FFFFFF;
-  --navbar-bg:      rgba(255, 255, 255, 0.95);
+  /* Section spacing */
+  --section-v:       clamp(64px, 8vw, 96px);
+  --section-v-hero:  clamp(80px, 10vw, 120px);
+  --section-v-sm:    clamp(40px, 5vw, 56px);
+  --section-h:       clamp(24px, 5vw, 80px);
+  --max-w:           1200px;
 }
 
 /* ─── Dark mode tokens ─── */
 .dark {
-  --bg:             #0A0A0A;
-  --bg-secondary:   #111111;
-  --surface:        #161616;
-  --surface-hover:  #1e1e1e;
-  --border:         rgba(255,255,255,0.08);
-  --border-subtle:  rgba(255,255,255,0.04);
-  --text-primary:   #F5F5F5;
-  --text-secondary: rgba(245,245,245,0.55);
-  --text-muted:     rgba(245,245,245,0.30);
-  --accent:         #2563EB;
-  --accent-hover:   #1D4ED8;
-  --accent-fg:      #FFFFFF;
-  --navbar-bg:      rgba(10,10,10,0.92);
+  --bg:              #0A0A0A;
+  --bg-secondary:    #111111;
+  --bg-tertiary:     #1A1A1A;
+  --border:          rgba(255,255,255,0.08);
+  --border-subtle:   rgba(255,255,255,0.04);
+  --text-primary:    #F5F5F5;
+  --text-secondary:  rgba(245,245,245,0.55);
+  --text-muted:      rgba(245,245,245,0.30);
 }
 
 /* ─── Base reset ─── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
   height: 100%;
+  transition: background-color 0.3s ease, color 0.25s ease;
 }
 
 body {
@@ -83,19 +101,37 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.1;
+  text-transform: uppercase;
+}
+h1 { letter-spacing: -0.03em; }
+h2 { letter-spacing: -0.025em; }
+h3 { letter-spacing: -0.01em; text-transform: none; }
+
+p { font-family: var(--font-sans); font-weight: 400; line-height: 1.65; }
+
+/* ─── Shadow utilities ─── */
+.shadow-sm  { box-shadow: var(--shadow-sm); }
+.shadow-md  { box-shadow: var(--shadow-md); }
+.shadow-lg  { box-shadow: var(--shadow-lg); }
+.shadow-blue{ box-shadow: var(--shadow-blue); }
+
+.shadow-sm-hover:hover  { box-shadow: var(--shadow-md); transition: box-shadow 0.18s ease; }
+.shadow-md-hover:hover  { box-shadow: var(--shadow-lg); transition: box-shadow 0.18s ease; }
+
+/* ─── Card lift hover ─── */
+.card-lift {
+  transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+.card-lift:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.card-lift-blue:hover {
+  box-shadow: var(--shadow-blue);
+  border-color: var(--blue) !important;
 }
 
-h1 { font-weight: 700; letter-spacing: -0.03em; }
-h2 { font-weight: 700; letter-spacing: -0.02em; }
-h3 { font-weight: 600; letter-spacing: -0.01em; }
-
-p {
-  font-family: var(--font-sans);
-  font-weight: 400;
-  line-height: 1.65;
-}
-
-/* ─── Marquee animation ─── */
+/* ─── Marquee ─── */
 @keyframes polaris-marquee {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -107,35 +143,16 @@ p {
   animation-play-state: paused;
 }
 
-
-/* ─── Smooth theme transition ─── */
-html {
-  transition: background-color 0.3s ease, color 0.25s ease;
+/* ─── Mobile drawer animation ─── */
+@keyframes drawer-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.drawer-slide-in {
+  animation: drawer-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* ─── Utility shadows ─── */
-.card-shadow {
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-}
-.card-shadow-hover:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
-  transform: translateY(-1px);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-/* ─── Section spacing ─── */
-.section-spacing {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
-}
-@media (max-width: 640px) {
-  .section-spacing {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
-}
-
-/* ─── Responsive typography ─── */
+/* ─── Responsive utilities ─── */
 @media (max-width: 639px) {
   body { overflow-x: hidden; }
   section, main, div { max-width: 100vw; }
@@ -143,7 +160,8 @@ html {
   button, a { min-height: 40px; }
 }
 
-@media (min-width: 375px) and (max-width: 639px) {
-  h1 { font-size: clamp(1.75rem, 8vw, 2.5rem); line-height: 1.05; }
-  h2 { font-size: clamp(1.25rem, 5.5vw, 1.75rem); line-height: 1.1; }
-}
+/* ─── Section spacing ─── */
+.section-pad  { padding: var(--section-v) var(--section-h); }
+.section-pad-hero { padding: var(--section-v-hero) var(--section-h); }
+.section-pad-sm   { padding: var(--section-v-sm)   var(--section-h); }
+.max-w { max-width: var(--max-w); margin: 0 auto; }

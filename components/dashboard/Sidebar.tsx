@@ -33,7 +33,7 @@ const BOTTOM_NAV = [
 ]
 
 const G = '#2563EB'
-const BORDER = '#F0F0F0'
+const BORDER = '#E5E7EB'
 
 export function Sidebar({
   plan,
@@ -108,7 +108,7 @@ export function Sidebar({
         onMouseLeave={(e) => { if (!active) { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#6B7280' } }}
       >
         <item.icon size={15} strokeWidth={active ? 2 : 1.5} color={active ? G : undefined} />
-        <span style={{ fontSize: 13, fontWeight: active ? 600 : 400, flex: 1 }}>{item.label}</span>
+        <span style={{ fontSize: 13, fontWeight: active ? 600 : 500, flex: 1 }}>{item.label}</span>
       </Link>
     )
   }
@@ -133,7 +133,7 @@ export function Sidebar({
       </div>
 
       {/* Primary navigation */}
-      <nav style={{ flex: 1, overflowY: 'auto', padding: '10px 8px', display: 'flex', flexDirection: 'column', gap: 1 }}>
+      <nav style={{ flex: 1, overflowY: 'auto', padding: '10px 8px', display: 'flex', flexDirection: 'column', gap: 2 }}>
         {NAV_ITEMS.map(item => <NavItem key={item.href} item={item} />)}
 
         {/* SuperAdmin */}
@@ -173,7 +173,7 @@ export function Sidebar({
               onMouseLeave={(e) => { if (!active) { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#6B7280' } }}
             >
               <item.icon size={15} strokeWidth={active ? 2 : 1.5} color={active ? G : undefined} />
-              <span style={{ fontSize: 13, fontWeight: active ? 600 : 400 }}>{item.label}</span>
+              <span style={{ fontSize: 13, fontWeight: active ? 600 : 500 }}>{item.label}</span>
             </Link>
           )
         })}

@@ -4,9 +4,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, User, Shield, Handshake, Mail } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
+import { Footer } from '@/components/layout/Footer'
+import { C } from '@/lib/ds'
 
-const N = '#0A0A0A'
-const G = '#2563EB'
+const N = C.dark
+const G = C.blue
 
 const CONTACT_TYPES = [
   { icon: User,      label: 'Players',           desc: 'Start your journey with us.' },
@@ -163,16 +165,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer style={{ background: '#050505', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '40px 40px 32px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/polariswhitelogo.jpeg" alt="Polaris Football" style={{ height: 36, objectFit: 'contain' }} />
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.18)', margin: 0 }}>
-            © {new Date().getFullYear()} Polaris Football. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

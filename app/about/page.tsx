@@ -1,9 +1,12 @@
 import Link from 'next/link'
 import { ArrowRight, Globe, Shield, Star, Users } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
+import { Footer } from '@/components/layout/Footer'
+import { SectionLabel } from '@/components/ui/SectionLabel'
+import { C, R, T, BTN, SECTION, FONT } from '@/lib/ds'
 
-const N = '#0A0A0A'
-const G = '#2563EB'
+const N = C.dark
+const G = C.blue
 
 const VALUES = [
   {
@@ -220,16 +223,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer style={{ background: '#050505', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '40px 40px 32px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/polariswhitelogo.jpeg" alt="Polaris Football" style={{ height: 36, objectFit: 'contain' }} />
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.18)', margin: 0 }}>
-            © {new Date().getFullYear()} Polaris Football. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
