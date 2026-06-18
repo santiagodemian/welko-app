@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { Navbar } from '@/components/layout/Navbar'
 import { useLang } from '@/contexts/LangContext'
-import { PolarisLogo } from '@/components/ui/PolarisLogo'
 
 export default function TerminosPage() {
   const { lang } = useLang()
@@ -59,7 +58,7 @@ export default function TerminosPage() {
       </main>
       <footer className="py-8 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
         <div className="max-w-3xl mx-auto flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-2"><PolarisLogo size={18} /><p className="text-xs" style={{ color: 'var(--text-muted)' }}>© {year}{' '}Polaris Football</p></div>
+          <div className="flex items-center gap-2"><img src="/polariswhitelogo.jpeg" alt="Polaris" style={{ height: 18, width: 18, objectFit: 'contain', borderRadius: 4 }} /><p className="text-xs" style={{ color: 'var(--text-muted)' }}>© {year}{' '}Polaris Football</p></div>
           <Link href="/" className="text-xs" style={{ color: 'var(--text-muted)' }}>← {isEN ? 'Back to home' : 'Volver al inicio'}</Link>
         </div>
       </footer>
