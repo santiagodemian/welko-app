@@ -8,6 +8,8 @@ import { Badge }        from '@/components/ui/Badge'
 import { StatusBadge }  from '@/components/ui/StatusBadge'
 import type { Status }  from '@/components/ui/StatusBadge'
 import { C, BTN, FONT, T, SECTION } from '@/lib/ds'
+import { EditorialStyles, ArticleGrid } from '@/components/editorial'
+import { latestArticles } from '@/lib/editorial-data'
 
 // ─── Decorative SVGs ─────────────────────────────────────────────────────────
 
@@ -131,33 +133,6 @@ const OS_MODULES: { name: string; status: Status; desc: string }[] = [
   { name: 'Documents',         status: 'research',    desc: 'Contracts, scouting reports, and client files in a secure workspace.'   },
 ]
 
-const ARTICLES = [
-  {
-    category: 'Transfer Market',
-    catColor:  '#D97706',
-    readTime:  '8',
-    title:     'Free Agent Windows: The Opportunity Most Clubs Consistently Overlook',
-    excerpt:   'A structured look at where value hides in the market between windows — and the calendar patterns that create it.',
-    status:    'available' as Status,
-  },
-  {
-    category: 'Emerging Talents',
-    catColor:  '#059669',
-    readTime:  '6',
-    title:     'Five Under-23 Midfielders From Secondary Markets Poised for the Next Level',
-    excerpt:   'Our intelligence team identifies midfielders from secondary markets likely to move upward within 12 months.',
-    status:    'available' as Status,
-  },
-  {
-    category: 'Football Business',
-    catColor:  '#374151',
-    readTime:  '10',
-    title:     'The New Ownership Landscape: How Private Equity Is Reshaping Club Structure',
-    excerpt:   'How institutional capital is changing recruitment mandates, wage structures, and long-term sporting strategy.',
-    status:    'research' as Status,
-  },
-]
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -221,11 +196,6 @@ export default function HomePage() {
         .hp-sol-row { display: grid; grid-template-columns: 48px 1fr 1fr; gap: 20px; align-items: start; padding: clamp(16px,2vw,24px) ${PH}; border-top: 1px solid ${C.border}; transition: background 0.15s; }
         .hp-sol-row:hover { background: #FFFFFF; }
 
-        /* ─── Article cards ─── */
-        .hp-art { transition: background 0.15s, box-shadow 0.15s; }
-        .hp-art:hover { background: #FFFFFF !important; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
-        .hp-art:hover .hp-art-title { color: ${C.blue} !important; }
-
         /* ─── Pillar / Platform ─── */
         .hp-platform { display: grid; grid-template-columns: 56fr 44fr; align-items: center; }
         .hp-network  { display: grid; grid-template-columns: 42fr 58fr; }
@@ -258,6 +228,7 @@ export default function HomePage() {
           .hp-mod-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
+      <EditorialStyles />
 
       <Navbar />
 
@@ -379,36 +350,15 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* Featured articles strip */}
+        {/* Latest articles — editorial card grid */}
         <div style={{ borderTop: `1px solid ${C.border}` }}>
-          <div style={{ paddingTop: 'clamp(16px,2vw,22px)', paddingBottom: 'clamp(10px,1.2vw,14px)', paddingLeft: PH, paddingRight: PH, borderBottom: `1px solid ${C.border}` }}>
+          <div style={{ paddingTop: 'clamp(14px,1.8vw,20px)', paddingBottom: 'clamp(10px,1.2vw,14px)', paddingLeft: PH, paddingRight: PH, borderBottom: `1px solid ${C.border}` }}>
             <span style={{ fontFamily: MONO, fontSize: 9, color: C.textMuted, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
               Latest from Intelligence
             </span>
           </div>
-          <div className="hp-intel-cards" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
-            {ARTICLES.map((a, i) => (
-              <Link key={a.title} href="/intelligence" className="hp-art" style={{
-                display: 'block', textDecoration: 'none',
-                paddingTop: 'clamp(16px,2vw,22px)', paddingBottom: 'clamp(16px,2vw,22px)',
-                paddingLeft: PH, paddingRight: PH,
-                background: '#FFFFFF',
-                borderLeft: i > 0 ? `1px solid ${C.border}` : 'none',
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-                  <span style={{ width: 4, height: 4, borderRadius: '50%', background: a.catColor, display: 'inline-block', flexShrink: 0 }} />
-                  <span style={{ fontFamily: MONO, fontSize: 8, color: a.catColor, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{a.category}</span>
-                  <StatusBadge status={a.status} />
-                </div>
-                <h3 className="hp-art-title" style={{ fontFamily: FONT.display, fontSize: 13, fontWeight: 700, color: '#111827', margin: '0 0 6px', letterSpacing: '-0.01em', lineHeight: 1.2, transition: 'color 0.15s' }}>
-                  {a.title}
-                </h3>
-                <p style={{ fontFamily: FONT.sans, fontSize: 11, color: C.textSecondary, margin: '0 0 8px', lineHeight: 1.7 }}>
-                  {a.excerpt}
-                </p>
-                <span style={{ fontFamily: MONO, fontSize: 8, color: C.textMuted, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{a.readTime} min read</span>
-              </Link>
-            ))}
+          <div style={{ padding: `clamp(18px,2.2vw,26px) ${PH}` }}>
+            <ArticleGrid articles={latestArticles.slice(0, 3)} columns={3} variant="compact" gap={14} />
           </div>
         </div>
 
