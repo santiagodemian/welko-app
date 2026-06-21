@@ -1,363 +1,411 @@
-import type { CSSProperties } from 'react'
 import Link from 'next/link'
-import { Suspense } from 'react'
-import {
-  ArrowRight, Globe2, Users, Building2, Trophy,
-  BarChart3, Handshake, Zap, Shield, FileText,
-} from 'lucide-react'
-import { Navbar }        from '@/components/layout/Navbar'
-import { Footer }        from '@/components/layout/Footer'
-import { SectionLabel }  from '@/components/ui/SectionLabel'
-import { AppPreview }    from '@/components/ui/AppPreview'
-import { RefTracker }    from '@/components/layout/RefTracker'
-import { C, BTN, FONT } from '@/lib/ds'
+import { ArrowRight } from 'lucide-react'
+import { Navbar }     from '@/components/layout/Navbar'
+import { Footer }     from '@/components/layout/Footer'
+import { AppPreview } from '@/components/ui/AppPreview'
+import { C, BTN, FONT, T, SECTION } from '@/lib/ds'
 
-const CLUBS = [
-  'BVB', 'Ajax', 'Monaco', 'Barcelona', 'Sporting CP',
-  'Wolves', 'FC Dallas', 'Porto', 'Benfica', 'Atlético',
+// ─── Data ────────────────────────────────────────────────────────────────────
+
+const PILLARS = [
+  {
+    tag:   'Intelligence',
+    title: 'Polaris Intelligence',
+    body:  'Scouting reports, player analysis, recruitment insights, and football business coverage. Our editorial intelligence informs better decisions.',
+    href:  '/intelligence',
+    cta:   'Read Intelligence',
+    badge: null as string | null,
+  },
+  {
+    tag:   'Consulting',
+    title: 'Polaris Consulting',
+    body:  'Professional consulting for clubs, agents, and football professionals. We help you make better decisions across recruitment and career management.',
+    href:  '/solutions',
+    cta:   'Explore Solutions',
+    badge: null as string | null,
+  },
+  {
+    tag:   'Platform',
+    title: 'Polaris OS',
+    body:  'Our proprietary football operating system — CRM, scouting pipeline, player and club databases, AI assistant, and workflow tools. Currently in development.',
+    href:  '/login',
+    cta:   'Access Platform',
+    badge: 'In Development' as string | null,
+  },
 ]
 
-const STATS = [
-  { Icon: Globe2,    value: '50+',  label: 'Countries'        },
-  { Icon: Users,     value: '300+', label: 'Players'          },
-  { Icon: Building2, value: '200+', label: 'Clubs'            },
-  { Icon: Trophy,    value: '15+',  label: 'Years Experience' },
+const SOLUTIONS = [
+  {
+    num:      '01',
+    audience: 'For Clubs',
+    services: ['Recruitment Intelligence', 'Scouting Reports', 'Shortlists', 'Squad Analysis', 'Market Intelligence'],
+    desc:     'Data-driven recruitment consulting to help clubs identify, evaluate, and secure talent aligned with their sporting project and budget.',
+  },
+  {
+    num:      '02',
+    audience: 'For Agents',
+    services: ['Market Intelligence', 'Mandate Support', 'International Network', 'Regulatory Consulting'],
+    desc:     'Market intelligence and network access so licensed agents can operate with better information and broader reach across markets.',
+  },
+  {
+    num:      '03',
+    audience: 'For Players',
+    services: ['Career Assessment', 'Market Positioning', 'Professional Consulting', 'International Guidance'],
+    desc:     'Honest career consulting for professional and semi-professional players — without the promises of representation.',
+  },
 ]
 
-const SERVICES = [
-  { Icon: Shield,   title: 'Career Management',    desc: 'Strategic planning for long-term success. From emerging talent to elite professional.' },
-  { Icon: FileText, title: 'Contract Negotiation', desc: 'Maximising value. Protecting your future. Expert representation at every table.'      },
-  { Icon: Globe2,   title: 'Club Connections',     desc: 'A global network spanning 50+ countries. Opening the right doors at the right time.'   },
-  { Icon: Trophy,   title: 'Personal Branding',    desc: 'Premium partnerships, media strategy and athlete brand development.'                   },
+const ARTICLES = [
+  {
+    category: 'Scouting Reports',
+    title:    'The Modern Football Recruitment Landscape: How Clubs Are Rebuilding Their Scouting Infrastructure',
+    excerpt:  'How the most progressive clubs are restructuring their entire recruitment apparatus around data, network, and intelligence.',
+  },
+  {
+    category: 'Transfer Market',
+    title:    'Free Agent Windows: The Opportunity Most Clubs Consistently Overlook',
+    excerpt:  'A structured look at where value hides in the market between windows.',
+  },
+  {
+    category: 'Emerging Talents',
+    title:    'Profiles to Watch: Five Under-23 Midfielders Poised for the Next Level',
+    excerpt:  'Our intelligence team identifies five midfielders from secondary markets likely to move upward in 12 months.',
+  },
 ]
 
-const CRM_FEATURES = [
-  { Icon: BarChart3, label: 'Pipeline Management',  desc: 'Track every negotiation from first contact to signed contract.' },
-  { Icon: Globe2,    label: 'Global Network',        desc: 'Club and scout database spanning 50+ countries.'              },
-  { Icon: Handshake, label: 'Contract Intelligence', desc: 'Monitor expirations and act before the window closes.'        },
-  { Icon: Zap,       label: 'AI Insights',           desc: 'Smart alerts keep your agency one step ahead.'               },
-]
-
-const CONTACT_TYPES = [
-  { label: 'Players',           desc: 'Start your journey with us.'   },
-  { label: 'Clubs',             desc: 'Build winning partnerships.'    },
-  { label: 'Partnerships',      desc: 'Create opportunities together.' },
-  { label: 'General Inquiries', desc: "We're here to help."           },
-]
-
-/* Heading style used in every split section */
-const SH: CSSProperties = {
-  fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
-  fontSize:   'clamp(38px, 4.8vw, 60px)',
-  fontWeight: 700,
-  lineHeight: 0.92,
-  letterSpacing: '-0.035em',
-  textTransform: 'uppercase',
-  margin: 0,
-}
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
+  const PH = SECTION.padH
+
   return (
     <div style={{ fontFamily: FONT.sans, background: '#fff', minHeight: '100vh' }}>
       <style>{`
-        /* ─── Hero ─── */
-        .hero-grid { display: grid; grid-template-columns: 45fr 55fr; min-height: 100svh; }
-        .hero-text {
-          padding: clamp(100px,12vw,160px) clamp(44px,5.5vw,88px) clamp(80px,8vw,120px);
-          display: flex; flex-direction: column; justify-content: center; background: #fff;
-        }
-        .hero-hed {
+        /* ── Hero ── */
+        .hp-hed {
           font-family: var(--font-space-grotesk), system-ui, sans-serif;
-          font-size: clamp(62px, 8.5vw, 106px);
+          font-size: clamp(64px, 9vw, 124px);
           font-weight: 700; line-height: 0.88;
-          letter-spacing: -0.04em; text-transform: uppercase; margin: 0;
+          letter-spacing: -0.045em; text-transform: uppercase;
+          color: #0A0A0A; margin: 0 0 36px;
         }
 
-        /* ─── Stats grid ─── */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
-        .stat-cell  { border-right: 1px solid rgba(255,255,255,0.07); }
-        .stat-cell:last-child { border-right: none !important; }
+        /* ── Three pillars ── */
+        .hp-pillars { display: grid; grid-template-columns: repeat(3, 1fr); }
 
-        /* ─── Split sections (services / contact) ─── */
-        /* Full-width section: absolute photo behind, white coded panel on left (38%).
-           The photo fills 100% × 100% of the section. The white panel covers the
-           left 38% — exactly matching the text-panel proportion in every mockup image,
-           so the photo crop always shows the right (photography) portion. */
-        .split-wrap  { position: relative; overflow: hidden; }
-        .split-photo {
-          position: absolute; inset: 0;
-          width: 100%; height: 100%;
-          object-fit: cover; object-position: center top;
-        }
-        .split-panel {
-          position: relative; z-index: 1;
-          width: 38%; background: #fff;
-          padding: clamp(72px,9vw,112px) clamp(44px,5vw,84px);
-          min-height: 620px;
-          display: flex; flex-direction: column; justify-content: center;
+        /* ── Solutions rows ── */
+        .hp-sol-row {
+          display: grid;
+          grid-template-columns: 72px 1fr 1fr;
+          gap: 24px; align-items: start;
+          padding: clamp(28px, 3.5vw, 44px) ${PH};
+          border-top: 1px solid ${C.border};
         }
 
-        /* ─── CRM section ─── */
-        .crm-grid  { display: grid; grid-template-columns: 56fr 44fr; }
-        .crm-dark  {
-          background: #0A0A0A; overflow: hidden; position: relative;
-          padding: clamp(40px,5vw,64px) clamp(36px,4vw,56px) 0;
-          min-height: 620px;
+        /* ── Platform (AppPreview) ── */
+        .hp-platform { display: grid; grid-template-columns: 56fr 44fr; }
+        .hp-platform-dark {
+          background: #0A0A0A; overflow: hidden;
+          padding: clamp(40px, 5.5vw, 64px) clamp(28px, 3.5vw, 48px) 0;
+          min-height: 540px;
         }
-        .crm-text  {
+        .hp-platform-text {
           background: #F9FAFB;
-          padding: clamp(72px,9vw,112px) clamp(44px,5vw,80px);
+          padding: clamp(56px, 7.5vw, 96px) clamp(40px, 5vw, 68px);
           display: flex; flex-direction: column; justify-content: center;
         }
 
-        /* ─── Responsive ─── */
-        @media (max-width: 1024px) {
-          .hero-grid { display: flex !important; flex-direction: column !important; }
-          .hero-text { padding: 80px 32px 56px !important; }
-          .hero-img  { min-height: 56vw !important; order: -1; }
-          .hero-hed  { font-size: clamp(52px,12vw,80px) !important; }
+        /* ── Network ── */
+        .hp-network { display: grid; grid-template-columns: 44fr 56fr; }
+
+        /* ── Hover states ── */
+        .hp-btn-p:hover  { background: ${C.blueHover} !important; }
+        .hp-btn-o:hover  { background: ${C.bgSecondary} !important; }
+        .hp-art:hover    { background: #FAFAFA !important; }
+        .hp-pcta:hover   { color: ${C.dark} !important; }
+        .hp-scta:hover   { color: ${C.blue} !important; }
+        .hp-gcta:hover   { opacity: 0.7; }
+
+        /* ── Coming Soon badge ── */
+        .hp-badge {
+          display: inline-block;
+          font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+          color: ${C.blue}; background: rgba(37,99,235,0.07);
+          border: 1px solid rgba(37,99,235,0.18);
+          padding: 2px 8px; border-radius: 4px;
         }
-        @media (max-width: 600px) {
-          .hero-text { padding: 64px 20px 48px !important; }
-          .hero-img  { min-height: 260px !important; }
-        }
+
+        /* ── Responsive ── */
         @media (max-width: 900px) {
-          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .stat-cell:nth-child(2n) { border-right: none !important; }
-          .split-wrap  { display: flex !important; flex-direction: column !important; }
-          .split-photo { position: relative !important; inset: unset !important; height: 300px !important; width: 100% !important; }
-          .split-panel { width: 100% !important; min-height: 0 !important; }
-          .crm-grid { display: flex !important; flex-direction: column !important; }
-          .crm-dark { min-height: 280px !important; }
-          .crm-text { padding: 56px 24px !important; }
+          .hp-pillars      { grid-template-columns: 1fr !important; }
+          .hp-sol-row      { grid-template-columns: 1fr !important; }
+          .hp-platform     { display: flex !important; flex-direction: column !important; }
+          .hp-platform-dark { min-height: 280px !important; }
+          .hp-network      { display: flex !important; flex-direction: column !important; }
+          .hp-intel-cards  { grid-template-columns: 1fr !important; }
         }
-        @media (max-width: 600px) {
-          .split-panel { padding: 48px 20px !important; }
-        }
-
-        /* ─── Marquee ─── */
-        @keyframes ticker { from { transform: translateX(0) } to { transform: translateX(-50%) } }
-        .ticker { animation: ticker 32s linear infinite; }
-        .ticker:hover { animation-play-state: paused; }
-
-        /* ─── Hover ─── */
-        .btn-primary:hover { background: #1D4ED8 !important; }
-        .btn-outline:hover  { background: #F9FAFB  !important; }
-        .ghost-link:hover   { opacity: .65; }
       `}</style>
 
       <Navbar />
-      <Suspense fallback={null}><RefTracker /></Suspense>
 
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━ HERO ━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="hero-grid">
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ HERO ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section style={{ minHeight: '100svh', display: 'flex', alignItems: 'center', borderBottom: `1px solid ${C.border}` }}>
+        <div style={{
+          padding: `clamp(80px, 10vw, 140px) ${PH} clamp(64px, 8vw, 96px)`,
+          maxWidth: SECTION.maxW, margin: '0 auto', width: '100%',
+        }}>
 
-        {/* Left — coded text */}
-        <div className="hero-text">
-          <SectionLabel marginBottom={44}>Guiding Football Careers</SectionLabel>
+          {/* Eyebrow */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 44 }}>
+            <div style={{ width: 20, height: 1.5, background: C.blue, flexShrink: 0 }} />
+            <span style={{ ...T.label, color: C.blue }}>Football Intelligence Platform</span>
+          </div>
 
-          <h1 className="hero-hed" style={{ color: '#0A0A0A' }}>Talent.</h1>
-          <h1 className="hero-hed" style={{ color: '#0A0A0A', marginTop: 8 }}>Opportunity.</h1>
-          <h1 className="hero-hed" style={{ color: C.blue,    marginTop: 8, marginBottom: 44 }}>Worldwide.</h1>
+          {/* Headline */}
+          <h1 className="hp-hed">
+            Football<br />
+            <span style={{ color: C.blue }}>Intelligence</span><br />
+            For the<br />
+            Modern Game.
+          </h1>
 
-          <p style={{ fontSize: 16, lineHeight: 1.75, color: '#4B5563', maxWidth: 360, margin: '0 0 44px', fontFamily: FONT.sans }}>
-            We represent football players worldwide and connect them with the right
-            opportunities to achieve their dreams.
+          {/* Sub */}
+          <p style={{ ...T.bodyLg, color: C.textSecondary, maxWidth: 480, margin: '0 0 48px', lineHeight: 1.85 }}>
+            Polaris provides scouting intelligence, recruitment consulting, and proprietary tools for clubs, agents, and football professionals.
           </p>
 
+          {/* CTAs */}
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <Link href="/services" className="btn-primary" style={{ ...BTN.primary }}>
-              Our Services <ArrowRight size={13} />
+            <Link href="/solutions" className="hp-btn-p" style={{ ...BTN.primary }}>
+              Explore Solutions <ArrowRight size={13} />
             </Link>
-            <Link href="/about" className="btn-outline" style={{ ...BTN.outline }}>
-              About Polaris <ArrowRight size={13} />
+            <Link href="/intelligence" className="hp-btn-o" style={{ ...BTN.outline }}>
+              Read Intelligence <ArrowRight size={13} />
             </Link>
           </div>
-        </div>
 
-        {/* Right — hero photograph
-            At 100svh height the image scales tall enough that objectPosition:right
-            clips to the player+compass area (the right ~58% of the composite image). */}
-        <div className="hero-img" style={{ position: 'relative', overflow: 'hidden', minHeight: '100svh' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/hero-home.jpeg"
-            alt=""
-            aria-hidden="true"
-            style={{
-              position: 'absolute', inset: 0,
-              width: '100%', height: '100%',
-              objectFit: 'cover', objectPosition: 'right center',
-            }}
-          />
         </div>
       </section>
 
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━ TRUSTED BY ━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, background: '#fff', overflow: 'hidden', padding: '20px 0' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-
-          <div style={{ padding: '0 clamp(24px,4vw,64px)', flexShrink: 0 }}>
-            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9CA3AF', fontFamily: FONT.sans, margin: 0, lineHeight: 1.8 }}>
-              Trusted by clubs<br />around the world
-            </p>
-          </div>
-
-          <div style={{ width: 1, height: 32, background: C.border, flexShrink: 0 }} />
-
-          <div style={{ flex: 1, overflow: 'hidden', minWidth: 0 }}>
-            <div className="ticker" style={{ display: 'flex', gap: 64, width: 'max-content', padding: '0 32px' }}>
-              {[...CLUBS, ...CLUBS].map((c, i) => (
-                <span key={i} style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#C8CDD3', fontFamily: FONT.sans, whiteSpace: 'nowrap' }}>
-                  {c}
-                </span>
-              ))}
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━ THREE PILLARS ━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="hp-pillars" style={{ borderBottom: `1px solid ${C.border}` }}>
+        {PILLARS.map((p, i) => (
+          <div key={p.tag} style={{
+            padding: `clamp(48px, 6vw, 72px) clamp(36px, 4.5vw, 56px)`,
+            borderRight: i < PILLARS.length - 1 ? `1px solid ${C.border}` : 'none',
+            display: 'flex', flexDirection: 'column',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 22 }}>
+              <span style={{ ...T.label, color: C.blue }}>{p.tag}</span>
+              {p.badge && <span className="hp-badge">{p.badge}</span>}
             </div>
-          </div>
-
-          <div style={{ width: 1, height: 32, background: C.border, flexShrink: 0 }} />
-
-          <div style={{ padding: '0 clamp(20px,3vw,48px)', flexShrink: 0 }}>
-            <Link href="/about" style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.blue, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, fontFamily: FONT.sans, whiteSpace: 'nowrap' }}>
-              View Partners <ArrowRight size={10} />
+            <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(20px, 2.5vw, 26px)', fontWeight: 700, color: C.dark, margin: '0 0 16px', letterSpacing: '-0.025em', textTransform: 'uppercase', lineHeight: 1.1 }}>
+              {p.title}
+            </h2>
+            <p style={{ ...T.small, color: C.textSecondary, margin: '0 0 32px', flex: 1, lineHeight: 1.85 }}>
+              {p.body}
+            </p>
+            <Link href={p.href} className="hp-pcta" style={{ ...T.label, color: C.textMuted, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 7, transition: 'color 0.15s' }}>
+              {p.cta} <ArrowRight size={10} />
             </Link>
           </div>
-
-        </div>
+        ))}
       </section>
 
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━ STATS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section style={{ background: '#0A0A0A' }}>
-        <div className="stats-grid">
-          {STATS.map(({ Icon, value, label }, i) => (
-            <div key={label} className="stat-cell" style={{ padding: 'clamp(48px,6vw,80px) clamp(32px,3.5vw,56px)', display: 'flex', flexDirection: 'column', gap: 22 }}>
-              <Icon size={22} color="rgba(255,255,255,0.22)" strokeWidth={1.5} />
-              <div>
-                <p style={{ fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif', fontSize: 'clamp(44px,5.5vw,72px)', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.04em', color: '#fff', margin: '0 0 10px' }}>
-                  {value}
-                </p>
-                <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', margin: 0, fontFamily: FONT.sans }}>
-                  {label}
-                </p>
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━ SOLUTIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section style={{ borderBottom: `1px solid ${C.border}` }}>
+
+        {/* Header */}
+        <div style={{
+          padding: `clamp(48px, 6vw, 64px) ${PH} clamp(28px, 3.5vw, 36px)`,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 20, height: 1.5, background: C.blue, flexShrink: 0 }} />
+            <span style={{ ...T.label, color: C.blue }}>Solutions</span>
+          </div>
+          <Link href="/solutions" style={{ ...T.label, color: C.textMuted, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
+            View all solutions <ArrowRight size={10} />
+          </Link>
+        </div>
+
+        {/* Numbered rows */}
+        {SOLUTIONS.map(s => (
+          <div key={s.audience} className="hp-sol-row">
+            {/* Number */}
+            <div style={{ paddingTop: 4 }}>
+              <span style={{ fontFamily: FONT.display, fontSize: 11, fontWeight: 700, color: C.border, letterSpacing: '0.1em' }}>
+                {s.num}
+              </span>
+            </div>
+            {/* Audience + service tags */}
+            <div>
+              <h3 style={{ fontFamily: FONT.display, fontSize: 'clamp(18px, 2.5vw, 24px)', fontWeight: 700, color: C.dark, margin: '0 0 14px', letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
+                {s.audience}
+              </h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', rowGap: 4 }}>
+                {s.services.map((svc, j) => (
+                  <span key={svc} style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    <span style={{ ...T.small, color: C.textSecondary }}>{svc}</span>
+                    {j < s.services.length - 1 && (
+                      <span style={{ color: C.border, margin: '0 10px', fontSize: 13 }}>·</span>
+                    )}
+                  </span>
+                ))}
               </div>
             </div>
+            {/* Description + CTA */}
+            <div style={{ paddingLeft: 'clamp(0px, 2vw, 20px)' }}>
+              <p style={{ ...T.small, color: C.textSecondary, margin: '0 0 20px', lineHeight: 1.85 }}>
+                {s.desc}
+              </p>
+              <Link href="/solutions" className="hp-scta" style={{ ...T.label, color: C.textMuted, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'color 0.15s' }}>
+                Learn more <ArrowRight size={10} />
+              </Link>
+            </div>
+          </div>
+        ))}
+
+        <div style={{ height: 'clamp(28px, 3.5vw, 44px)' }} />
+      </section>
+
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━ LATEST INTELLIGENCE ━━━━━━━━━━━━━━━━━━━━━ */}
+      <section style={{ borderBottom: `1px solid ${C.border}` }}>
+
+        {/* Header */}
+        <div style={{
+          padding: `clamp(48px, 6vw, 64px) ${PH} clamp(28px, 3.5vw, 36px)`,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 20, height: 1.5, background: C.blue, flexShrink: 0 }} />
+            <span style={{ ...T.label, color: C.blue }}>Intelligence</span>
+          </div>
+          <Link href="/intelligence" style={{ ...T.label, color: C.textMuted, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
+            View all <ArrowRight size={10} />
+          </Link>
+        </div>
+
+        {/* Featured article — full width strip */}
+        <Link href="/intelligence" className="hp-art" style={{
+          display: 'block', textDecoration: 'none',
+          padding: `clamp(32px, 4vw, 52px) ${PH}`,
+          borderTop: `1px solid ${C.border}`,
+          background: '#fff', transition: 'background 0.15s',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+            <span style={{ ...T.label, color: C.blue }}>{ARTICLES[0].category}</span>
+            <span className="hp-badge">Coming Soon</span>
+          </div>
+          <h3 style={{ fontFamily: FONT.display, fontSize: 'clamp(20px, 2.8vw, 30px)', fontWeight: 700, color: C.dark, margin: '0 0 14px', letterSpacing: '-0.025em', textTransform: 'uppercase', lineHeight: 1.1, maxWidth: 680 }}>
+            {ARTICLES[0].title}
+          </h3>
+          <p style={{ ...T.body, color: C.textSecondary, margin: 0, maxWidth: 520, lineHeight: 1.8 }}>
+            {ARTICLES[0].excerpt}
+          </p>
+        </Link>
+
+        {/* Two cards */}
+        <div className="hp-intel-cards" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderTop: `1px solid ${C.border}` }}>
+          {ARTICLES.slice(1).map((a, i) => (
+            <Link key={a.title} href="/intelligence" className="hp-art" style={{
+              display: 'block', textDecoration: 'none',
+              padding: `clamp(28px, 3.5vw, 44px) ${PH}`,
+              background: '#fff', transition: 'background 0.15s',
+              borderLeft: i === 1 ? `1px solid ${C.border}` : 'none',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                <span style={{ ...T.label, color: C.blue }}>{a.category}</span>
+                <span className="hp-badge">Coming Soon</span>
+              </div>
+              <h3 style={{ ...T.h3, color: C.dark, margin: '0 0 10px' }}>
+                {a.title}
+              </h3>
+              <p style={{ ...T.small, color: C.textSecondary, margin: 0, lineHeight: 1.8 }}>
+                {a.excerpt}
+              </p>
+            </Link>
           ))}
         </div>
-      </section>
 
-      {/* ━━━━━━━━━━━━━━━━━━━━ FULL-SERVICE REPRESENTATION ━━━━━━━━━━━━ */}
-      {/* The composite mockup image fills 100% of the section.
-          The white panel (38% width) covers the image's left text portion.
-          Because it's the same 38% ratio as the mockup, the crop is always correct. */}
-      <section className="split-wrap" style={{ borderTop: `1px solid ${C.border}` }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="split-photo" src="/diseño2.jpeg" alt="" aria-hidden="true" />
-
-        <div className="split-panel">
-          <SectionLabel marginBottom={32}>What We Do</SectionLabel>
-
-          <h2 style={{ ...SH, color: '#0A0A0A', marginBottom: 4 }}>Full-Service</h2>
-          <h2 style={{ ...SH, color: C.blue,    marginBottom: 28 }}>Representation</h2>
-
-          <p style={{ fontSize: 14, color: '#4B5563', lineHeight: 1.8, maxWidth: 360, margin: '0 0 40px', fontFamily: FONT.sans }}>
-            From career planning to contract negotiation, we are with our players every step of the way.
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 26 }}>
-            {SERVICES.map(({ Icon, title, desc }) => (
-              <div key={title} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-                <span style={{ flexShrink: 0, display: 'flex', marginTop: 1 }}>
-                  <Icon size={15} color={C.blue} />
-                </span>
-                <div>
-                  <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#0A0A0A', margin: '0 0 4px', fontFamily: FONT.sans }}>{title}</p>
-                  <p style={{ fontSize: 13, color: '#6B7280', margin: 0, lineHeight: 1.65, fontFamily: FONT.sans }}>{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ marginTop: 44 }}>
-            <Link href="/services" className="ghost-link" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0A0A0A', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 7, borderBottom: '1.5px solid #0A0A0A', paddingBottom: 2, fontFamily: FONT.sans }}>
-              View All Services <ArrowRight size={11} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━ PLATFORM (CRM) ━━━━━━━━━━━━━━━━━━━━ */}
-      {/* CRM screenshot shown as a contained product preview — not cropped.
-          The image starts from the top of the dark panel, overflow clips the bottom. */}
-      <section className="crm-grid" style={{ borderTop: `1px solid ${C.border}` }}>
-
-        {/* Left — dark panel + real dashboard component (never a screenshot) */}
-        <div className="crm-dark">
-          <div style={{ padding: 'clamp(32px,4vw,48px) clamp(24px,3vw,40px) 0' }}>
-            <AppPreview />
-          </div>
-        </div>
-
-        {/* Right — text */}
-        <div className="crm-text">
-          <SectionLabel marginBottom={32}>Our Platform</SectionLabel>
-
-          <h2 style={{ ...SH, color: '#0A0A0A', marginBottom: 4 }}>Built for</h2>
-          <h2 style={{ ...SH, color: C.blue,    marginBottom: 28 }}>Football Agents</h2>
-
-          <p style={{ fontSize: 14, color: '#4B5563', lineHeight: 1.8, maxWidth: 340, margin: '0 0 40px', fontFamily: FONT.sans }}>
-            Polaris agents operate with a purpose-built CRM designed for the complexity of modern football representation.
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginBottom: 44 }}>
-            {CRM_FEATURES.map(({ Icon, label, desc }) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-                <span style={{ flexShrink: 0, display: 'flex', marginTop: 1 }}>
-                  <Icon size={15} color={C.blue} />
-                </span>
-                <div>
-                  <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#0A0A0A', margin: '0 0 3px', fontFamily: FONT.sans }}>{label}</p>
-                  <p style={{ fontSize: 13, color: '#6B7280', margin: 0, lineHeight: 1.65, fontFamily: FONT.sans }}>{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <Link href="/login" className="btn-primary" style={{ ...BTN.primary, width: 'fit-content' }}>
-            Access the Platform <ArrowRight size={13} />
+        {/* CTA */}
+        <div style={{ padding: `clamp(24px, 3vw, 36px) ${PH}`, borderTop: `1px solid ${C.border}` }}>
+          <Link href="/intelligence" className="hp-gcta" style={{ ...BTN.ghost }}>
+            Explore all Intelligence <ArrowRight size={11} />
           </Link>
         </div>
       </section>
 
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━ CONTACT CTA ━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="split-wrap" style={{ borderTop: `1px solid ${C.border}` }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="split-photo" src="/diseño7.jpeg" alt="" aria-hidden="true" />
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━ POLARIS OS ━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="hp-platform" style={{ borderBottom: `1px solid ${C.border}` }}>
 
-        <div className="split-panel">
-          <SectionLabel marginBottom={32}>Get in Touch</SectionLabel>
+        {/* AppPreview — dark left panel */}
+        <div className="hp-platform-dark">
+          <AppPreview />
+        </div>
 
-          <h2 style={{ ...SH, color: '#0A0A0A', marginBottom: 4 }}>{"Let's Build"}</h2>
-          <h2 style={{ ...SH, color: C.blue,    marginBottom: 4 }}>Your Future.</h2>
-          <h2 style={{ ...SH, color: '#0A0A0A', marginBottom: 28 }}>Together.</h2>
-
-          <p style={{ fontSize: 14, color: '#4B5563', lineHeight: 1.8, maxWidth: 340, margin: '0 0 40px', fontFamily: FONT.sans }}>
-            Whether you are a player, club or partner, we are here to connect and create extraordinary opportunities.
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 22, marginBottom: 44 }}>
-            {CONTACT_TYPES.map(t => (
-              <div key={t.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-                <span style={{ flexShrink: 0, width: 5, height: 5, borderRadius: '50%', background: '#D1D5DB', marginTop: 7, display: 'block' }} />
-                <div>
-                  <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#0A0A0A', margin: '0 0 3px', fontFamily: FONT.sans }}>{t.label}</p>
-                  <p style={{ fontSize: 13, color: '#6B7280', margin: 0, fontFamily: FONT.sans }}>{t.desc}</p>
-                </div>
-              </div>
-            ))}
+        {/* Text — light right panel */}
+        <div className="hp-platform-text">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32 }}>
+            <div style={{ width: 20, height: 1.5, background: C.blue, flexShrink: 0 }} />
+            <span style={{ ...T.label, color: C.blue }}>Polaris OS</span>
+            <span className="hp-badge">In Development</span>
           </div>
+          <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 700, color: C.dark, margin: '0 0 20px', letterSpacing: '-0.035em', textTransform: 'uppercase', lineHeight: 1.05 }}>
+            Our Tools.<br />Built for<br />Football.
+          </h2>
+          <p style={{ ...T.body, color: C.textSecondary, maxWidth: 320, margin: '0 0 40px', lineHeight: 1.85 }}>
+            Polaris OS is our proprietary football operating system — CRM, scouting pipeline, player and club databases, AI assistant, and workflow automation. Built for the way modern football professionals actually work.
+          </p>
+          <Link href="/login" className="hp-btn-p" style={{ ...BTN.primary, width: 'fit-content' }}>
+            Access Platform <ArrowRight size={13} />
+          </Link>
+        </div>
+      </section>
 
-          <Link href="/contact" className="btn-primary" style={{ ...BTN.primary, width: 'fit-content' }}>
-            Contact Us <ArrowRight size={13} />
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ NETWORK ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="hp-network" style={{ borderBottom: `1px solid ${C.border}` }}>
+
+        {/* Headline — left column */}
+        <div style={{ padding: `clamp(64px, 8vw, 96px) ${PH}`, borderRight: `1px solid ${C.border}` }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 36 }}>
+            <div style={{ width: 20, height: 1.5, background: C.blue, flexShrink: 0 }} />
+            <span style={{ ...T.label, color: C.blue }}>Network</span>
+          </div>
+          <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(32px, 4.5vw, 56px)', fontWeight: 700, color: C.dark, margin: 0, letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 0.9 }}>
+            Inside the<br />Absolut<br />Football<br />Network.
+          </h2>
+        </div>
+
+        {/* Body — right column */}
+        <div style={{ padding: `clamp(64px, 8vw, 96px) ${PH}`, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <p style={{ ...T.bodyLg, color: C.textSecondary, margin: '0 0 24px', lineHeight: 1.85 }}>
+            Polaris operates within a global network of scouts, analysts, recruiters, and football professionals. Our collaboration with the Absolut Football Network gives clients access to intelligence and relationships that span clubs, academies, and sporting organizations across Europe and beyond.
+          </p>
+          <p style={{ ...T.bodyLg, color: C.textSecondary, margin: '0 0 40px', lineHeight: 1.85 }}>
+            We don&apos;t promise transfers. We provide the intelligence and professional network that makes better decisions possible.
+          </p>
+          <Link href="/network" className="hp-gcta" style={{ ...BTN.ghost }}>
+            About the Network <ArrowRight size={11} />
+          </Link>
+        </div>
+      </section>
+
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ CTA ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section style={{ background: C.dark, padding: `clamp(80px, 10vw, 120px) ${PH}` }}>
+        <div style={{ maxWidth: 640 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 40 }}>
+            <div style={{ width: 20, height: 1.5, background: C.blue, flexShrink: 0 }} />
+            <span style={{ ...T.label, color: C.blue }}>Work With Polaris</span>
+          </div>
+          <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(40px, 6vw, 76px)', fontWeight: 700, color: '#fff', margin: '0 0 24px', letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 0.9 }}>
+            Ready to make<br />better football<br /><span style={{ color: C.blue }}>decisions?</span>
+          </h2>
+          <p style={{ ...T.body, color: C.textInverseDim, margin: '0 0 44px', maxWidth: 380, lineHeight: 1.85 }}>
+            Contact the Polaris team. We work with clubs, agents, and football professionals who take intelligence seriously.
+          </p>
+          <Link href="/contact" className="hp-btn-p" style={{ ...BTN.primary }}>
+            Get in Touch <ArrowRight size={13} />
           </Link>
         </div>
       </section>

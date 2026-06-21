@@ -173,11 +173,6 @@ export default function ServicesPage() {
       {/* ━━━ SERVICE SECTIONS ━━━ */}
       {SERVICES.map(s => (
         <section key={s.id} id={s.id} className="sv-wrap" style={{ borderBottom: `1px solid ${C.border}` }}>
-          {/* Full-section background — each composite image fills the section.
-              The white coded panel (38%) covers the left text area of the mockup
-              at exactly the same proportion. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="sv-photo" src={s.photo} alt="" aria-hidden="true" />
 
           <div className="sv-panel">
             <SectionLabel marginBottom={32}>{s.tag}</SectionLabel>

@@ -108,16 +108,8 @@ export default function PlayersPage() {
           </div>
         </div>
 
-        {/* Right — photo */}
-        <div className="players-hero-photo" style={{ position: 'relative', overflow: 'hidden', background: '#0A0A0A', minHeight: 480 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/diseño4.jpeg"
-            alt=""
-            aria-hidden="true"
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right center' }}
-          />
-        </div>
+        {/* Right — photo placeholder */}
+        <div className="players-hero-photo" style={{ position: 'relative', overflow: 'hidden', background: '#0A0A0A', minHeight: 480 }} />
       </section>
 
       {/* ── STATS BAR ── */}

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Space_Grotesk, Geist_Mono } from 'next/font/google'
 import { Providers } from './providers'
-import { SplashScreen } from '@/components/ui/SplashScreen'
 import './globals.css'
 
 // Inter → mapped to --font-montserrat variable so all existing code gets Inter automatically
@@ -78,7 +77,6 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable}`}
     >
       <body className="min-h-screen flex flex-col">
-        <SplashScreen />
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -38,8 +38,7 @@ const nextConfig: NextConfig = {
       { source: '/precios',            destination: '/contact',  permanent: true },
       { source: '/soporte',            destination: '/contact',  permanent: true },
       { source: '/contacto',           destination: '/contact',  permanent: true },
-      { source: '/solutions/:path*',   destination: '/services', permanent: true },
-      { source: '/platform/:path*',    destination: '/services', permanent: true },
+      { source: '/platform/:path*',    destination: '/login',    permanent: true },
     ]
   },
 

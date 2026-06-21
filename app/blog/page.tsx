@@ -14,52 +14,30 @@ export default function BlogPage() {
       <Navbar />
       <main style={{ fontFamily: FONT.sans, background: '#fff' }}>
 
-        {/* ━━━ HERO — same split technique as homepage/services ━━━
-            diseño11.jpeg is 768×512 with ~38% white text panel on left,
-            stadium photo on right. White coded panel covers the text area. */}
-        <section style={{ position: 'relative', overflow: 'hidden' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/diseño11.jpeg"
-            alt=""
-            aria-hidden="true"
-            style={{
-              position: 'absolute', inset: 0,
-              width: '100%', height: '100%',
-              objectFit: 'cover', objectPosition: 'center top',
-            }}
-          />
-          {/* White coded panel (38%) */}
-          <div style={{
-            position: 'relative', zIndex: 1,
-            width: '38%', background: '#fff',
-            padding: 'clamp(72px,9vw,112px) clamp(44px,5vw,84px)',
-            minHeight: 480,
-            display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        {/* ━━━ HERO ━━━ */}
+        <section style={{ background: N, padding: 'clamp(72px,9vw,112px) clamp(44px,5vw,84px)', borderBottom: `1px solid rgba(255,255,255,0.06)` }}>
+          <SectionLabel color="#fff" marginBottom={32}>Blog</SectionLabel>
+          <h1 style={{
+            fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
+            fontSize: 'clamp(38px,5.5vw,72px)',
+            fontWeight: 700, lineHeight: 0.92,
+            letterSpacing: '-0.04em', textTransform: 'uppercase',
+            color: '#fff', margin: '0 0 4px',
           }}>
-            <SectionLabel marginBottom={32}>Blog</SectionLabel>
-            <h1 style={{
-              fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
-              fontSize: 'clamp(38px,4.8vw,60px)',
-              fontWeight: 700, lineHeight: 0.92,
-              letterSpacing: '-0.035em', textTransform: 'uppercase',
-              color: '#0A0A0A', margin: '0 0 4px',
-            }}>
-              Insights. Stories.
-            </h1>
-            <h1 style={{
-              fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
-              fontSize: 'clamp(38px,4.8vw,60px)',
-              fontWeight: 700, lineHeight: 0.92,
-              letterSpacing: '-0.035em', textTransform: 'uppercase',
-              color: G, margin: '0 0 28px',
-            }}>
-              Football.
-            </h1>
-            <p style={{ fontSize: 14, color: '#4B5563', lineHeight: 1.8, maxWidth: 340, margin: 0, fontFamily: FONT.sans }}>
-              News, tips and stories from the world of football. Inspiration, knowledge and everything that drives the game forward.
-            </p>
-          </div>
+            Insights. Stories.
+          </h1>
+          <h1 style={{
+            fontFamily: 'var(--font-space-grotesk), system-ui, sans-serif',
+            fontSize: 'clamp(38px,5.5vw,72px)',
+            fontWeight: 700, lineHeight: 0.92,
+            letterSpacing: '-0.04em', textTransform: 'uppercase',
+            color: G, margin: '0 0 28px',
+          }}>
+            Football.
+          </h1>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', lineHeight: 1.8, maxWidth: 380, margin: 0, fontFamily: FONT.sans }}>
+            News, tips and stories from the world of football. Inspiration, knowledge and everything that drives the game forward.
+          </p>
         </section>
 
         {/* Coming Soon */}

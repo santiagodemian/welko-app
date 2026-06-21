@@ -90,16 +90,8 @@ export default function AboutPage() {
           </Link>
         </div>
 
-        {/* Right — photo */}
-        <div className="about-hero-photo" style={{ position: 'relative', overflow: 'hidden', background: '#0D0D0D', minHeight: 480 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/diseño6.jpeg"
-            alt=""
-            aria-hidden="true"
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right center' }}
-          />
-        </div>
+        {/* Right — photo placeholder (photography coming soon) */}
+        <div className="about-hero-photo" style={{ position: 'relative', overflow: 'hidden', background: '#0D0D0D', minHeight: 480 }} />
       </section>
 
       {/* ── MISSION ── */}
@@ -157,16 +149,8 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Right — photo */}
-        <div className="about-story-photo" style={{ position: 'relative', overflow: 'hidden', background: '#0A0A0A', minHeight: 500 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/diseño3.jpeg"
-            alt=""
-            aria-hidden="true"
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right center' }}
-          />
-        </div>
+        {/* Right — photo placeholder (photography coming soon) */}
+        <div className="about-story-photo" style={{ position: 'relative', overflow: 'hidden', background: '#0A0A0A', minHeight: 500 }} />
       </section>
 
       {/* ── VALUES ── */}
