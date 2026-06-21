@@ -1,0 +1,6 @@
+{
+  "polarisIntel": { "name": "Polaris Intelligence", "role": "Editorial",        "initials": "PI" },
+  "scoutingDesk": { "name": "Scouting Desk",        "role": "Analysis",         "initials": "SD" },
+  "dataTeam":     { "name": "Polaris Data Team",    "role": "Data & Analytics", "initials": "DT" },
+  "transferDesk": { "name": "Transfer Desk",        "role": "Market Coverage",  "initials": "TD" }
+}

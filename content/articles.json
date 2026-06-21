@@ -1,0 +1,300 @@
+[
+  {
+    "id": "tm-01",
+    "slug": "free-agent-windows-opportunity",
+    "categorySlug": "transfer-market",
+    "authorKey": "transferDesk",
+    "title": "Free Agent Windows: The Opportunity Most Clubs Consistently Overlook",
+    "excerpt": "A structured analysis of where market value concentrates between formal windows — and the calendar patterns that create predictable inefficiencies year after year.",
+    "publishedAt": "June 2026",
+    "readTime": 8,
+    "status": "available",
+    "tags": [
+      { "label": "Transfer Window", "slug": "transfer-window" },
+      { "label": "Free Agent",      "slug": "free-agent"      },
+      { "label": "Valuation",       "slug": "valuation"       }
+    ],
+    "featured": true,
+    "editorsPick": true,
+    "href": "/intelligence"
+  },
+  {
+    "id": "tm-02",
+    "slug": "q3-2026-window-preview",
+    "categorySlug": "transfer-market",
+    "authorKey": "transferDesk",
+    "title": "Q3 2026 Transfer Window Preview: Five Stories to Watch",
+    "excerpt": "From Serie A defensive restructuring to Bundesliga's push into South American markets — the narratives that will define this summer's business.",
+    "publishedAt": "May 2026",
+    "readTime": 12,
+    "status": "available",
+    "tags": [
+      { "label": "Transfer Window", "slug": "transfer-window" },
+      { "label": "Valuation",       "slug": "valuation"       }
+    ],
+    "trending": true,
+    "href": "/intelligence"
+  },
+  {
+    "id": "et-01",
+    "slug": "u23-midfielders-secondary-markets",
+    "categorySlug": "emerging-talents",
+    "authorKey": "scoutingDesk",
+    "title": "Five Under-23 Midfielders From Secondary Markets Poised for the Next Level",
+    "excerpt": "Our scouting network identifies midfielders operating in secondary markets whose profile, age, and contract situation position them for an elite step within 12–18 months.",
+    "publishedAt": "June 2026",
+    "readTime": 6,
+    "status": "available",
+    "tags": [
+      { "label": "Under-23",   "slug": "u23"        },
+      { "label": "Midfielder", "slug": "midfielder" }
+    ],
+    "trending": true,
+    "href": "/intelligence"
+  },
+  {
+    "id": "et-02",
+    "slug": "african-football-next-wave",
+    "categorySlug": "emerging-talents",
+    "authorKey": "scoutingDesk",
+    "title": "African Football's Next Wave: South American Clubs Are Watching Closely",
+    "excerpt": "While European scouts concentrate on CAF tournaments, a number of South American clubs have quietly built systematic scouting pipelines across West and Central Africa.",
+    "publishedAt": "May 2026",
+    "readTime": 9,
+    "status": "available",
+    "tags": [
+      { "label": "Africa",       "slug": "africa"       },
+      { "label": "South America","slug": "south-america"},
+      { "label": "Under-23",     "slug": "u23"          }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "fb-01",
+    "slug": "private-equity-ownership-landscape",
+    "categorySlug": "football-business",
+    "authorKey": "polarisIntel",
+    "title": "The New Ownership Landscape: How Private Equity Is Reshaping Club Structure",
+    "excerpt": "How institutional capital is changing recruitment mandates, wage structures, squad composition models, and long-term sporting strategy — and what it means for agents and clubs operating around these new owners.",
+    "publishedAt": "April 2026",
+    "readTime": 10,
+    "status": "research",
+    "tags": [
+      { "label": "Private Equity", "slug": "private-equity" },
+      { "label": "Ownership",      "slug": "ownership"      }
+    ],
+    "trending": true,
+    "href": "/intelligence"
+  },
+  {
+    "id": "fb-02",
+    "slug": "revenue-diversification-transfer-model",
+    "categorySlug": "football-business",
+    "authorKey": "dataTeam",
+    "title": "Revenue Diversification and the End of the Transfer-Dependent Model",
+    "excerpt": "The clubs building structural financial resilience are doing so by decoupling growth from transfer fees — here's what that looks like from the inside.",
+    "publishedAt": "March 2026",
+    "readTime": 8,
+    "status": "research",
+    "tags": [
+      { "label": "Ownership", "slug": "ownership" },
+      { "label": "Data",      "slug": "data"      }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "ci-01",
+    "slug": "brighton-data-model-inside",
+    "categorySlug": "club-intelligence",
+    "authorKey": "dataTeam",
+    "title": "What Brighton's Data Model Actually Looks Like From the Inside",
+    "excerpt": "Beyond the public narrative of \"data-driven football\" — the actual infrastructure, recruitment criteria, and decision-making process that makes Brighton's model function.",
+    "publishedAt": "June 2026",
+    "readTime": 9,
+    "status": "beta",
+    "tags": [
+      { "label": "Brighton",       "slug": "brighton"       },
+      { "label": "Premier League", "slug": "premier-league" },
+      { "label": "Data",           "slug": "data"           }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "ci-02",
+    "slug": "gladbach-rebuild-direction",
+    "categorySlug": "club-intelligence",
+    "authorKey": "scoutingDesk",
+    "title": "Mönchengladbach's Rebuild: From Identity Crisis to Clear Sporting Direction",
+    "excerpt": "How Gladbach's leadership restructured their scouting network, changed their recruitment philosophy, and what profile of player they are now systematically targeting.",
+    "publishedAt": "May 2026",
+    "readTime": 11,
+    "status": "beta",
+    "tags": [
+      { "label": "Mandate", "slug": "mandate" }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "pr-01",
+    "slug": "modern-false-nine-profile",
+    "categorySlug": "player-reports",
+    "authorKey": "scoutingDesk",
+    "title": "Position Profile: The Modern False Nine in High-Press Systems",
+    "excerpt": "The statistical and qualitative markers that define elite false nines in pressing-intensive systems — and how clubs are increasingly profiling for this position versus traditional striker metrics.",
+    "publishedAt": "June 2026",
+    "readTime": 7,
+    "status": "research",
+    "tags": [
+      { "label": "False Nine", "slug": "false-nine" },
+      { "label": "Pressing",   "slug": "pressing"   },
+      { "label": "Data",       "slug": "data"       }
+    ],
+    "trending": true,
+    "href": "/intelligence"
+  },
+  {
+    "id": "pr-02",
+    "slug": "contract-clauses-player-direction",
+    "categorySlug": "player-reports",
+    "authorKey": "transferDesk",
+    "title": "Reading Between the Lines: What Contract Clauses Tell You About a Player's Direction",
+    "excerpt": "Release clauses, performance bonuses, image rights structures, and notice periods — what these elements signal about a player's current relationship with their club.",
+    "publishedAt": "April 2026",
+    "readTime": 6,
+    "status": "research",
+    "tags": [
+      { "label": "Contract", "slug": "contract" },
+      { "label": "Mandate",  "slug": "mandate"  }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "rr-01",
+    "slug": "mandate-system-why-clubs-fail",
+    "categorySlug": "recruitment-reports",
+    "authorKey": "polarisIntel",
+    "title": "The Mandate System: Why Most Clubs Never Find the Players They're Actually Looking For",
+    "excerpt": "An investigation into how poor mandate construction — vague criteria, conflicting requirements, and absent decision-making frameworks — creates systemic failure in football recruitment.",
+    "publishedAt": "May 2026",
+    "readTime": 12,
+    "status": "development",
+    "tags": [
+      { "label": "Mandate", "slug": "mandate" },
+      { "label": "Data",    "slug": "data"    }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "rr-02",
+    "slug": "scouting-balkans-value-2026",
+    "categorySlug": "recruitment-reports",
+    "authorKey": "scoutingDesk",
+    "title": "Scouting in the Balkans: Where the Value Is Moving in 2026",
+    "excerpt": "The Serbian SuperLiga, Croatian HNL, and Slovenian PrvaLiga are producing more export-ready profiles than at any point in the last decade — and pricing is still rational.",
+    "publishedAt": "April 2026",
+    "readTime": 8,
+    "status": "development",
+    "tags": [
+      { "label": "Balkans",   "slug": "balkans"   },
+      { "label": "Valuation", "slug": "valuation" }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "ta-01",
+    "slug": "pressing-intensity-vs-triggers",
+    "categorySlug": "tactical-analysis",
+    "authorKey": "dataTeam",
+    "title": "Pressing Intensity vs. Pressing Triggers: The Distinction That Separates Good From Elite",
+    "excerpt": "The most common scouting error when evaluating pressing systems is conflating how hard a team presses with when and why they press — a distinction that explains much of the performance variance between elite and near-elite squads.",
+    "publishedAt": "June 2026",
+    "readTime": 14,
+    "status": "research",
+    "tags": [
+      { "label": "Pressing", "slug": "pressing" },
+      { "label": "Data",     "slug": "data"     }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "ta-02",
+    "slug": "set-piece-design-european",
+    "categorySlug": "tactical-analysis",
+    "authorKey": "scoutingDesk",
+    "title": "Set-Piece Design in European Football: From Routine to Competitive Weapon",
+    "excerpt": "How elite coaching staffs have transformed set-piece preparation from repetitive practice to systematic opponent-specific design — and why most clubs still underinvest in this area.",
+    "publishedAt": "March 2026",
+    "readTime": 10,
+    "status": "research",
+    "tags": [
+      { "label": "Set Pieces", "slug": "set-pieces" },
+      { "label": "Data",       "slug": "data"       }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "la-01",
+    "slug": "ligue1-after-psg",
+    "categorySlug": "league-analysis",
+    "authorKey": "scoutingDesk",
+    "title": "Ligue 1 After PSG: How the League Is Rebuilding Its Competitive Identity",
+    "excerpt": "Without a dominant financial outlier at the summit, Ligue 1 is undergoing a genuine competitive rebalancing — and the talent pipeline that emerges will look different to the one French football has produced for two decades.",
+    "publishedAt": "May 2026",
+    "readTime": 9,
+    "status": "research",
+    "tags": [
+      { "label": "Ligue 1", "slug": "ligue-1" }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "la-02",
+    "slug": "swedish-model-allsvenskan",
+    "categorySlug": "league-analysis",
+    "authorKey": "polarisIntel",
+    "title": "The Swedish Model: What Allsvenskan's Development Pipeline Does Differently",
+    "excerpt": "Sweden consistently produces technically proficient, tactically literate players relative to population and investment. The structural reasons are more specific — and more replicable — than the generic \"Swedish football culture\" narrative suggests.",
+    "publishedAt": "April 2026",
+    "readTime": 7,
+    "status": "research",
+    "tags": [
+      { "label": "Allsvenskan", "slug": "allsvenskan" },
+      { "label": "Under-23",    "slug": "u23"          }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "fa-01",
+    "slug": "defenders-available-pre-window",
+    "categorySlug": "free-agents",
+    "authorKey": "transferDesk",
+    "title": "The Post-Contract Market: Defenders Available Before the Window Closes",
+    "excerpt": "A curated list of out-of-contract defenders by position, age, and last league — including market value estimates and known interest from licensed agents within the Polaris network.",
+    "publishedAt": "June 2026",
+    "readTime": 5,
+    "status": "development",
+    "tags": [
+      { "label": "Free Agent", "slug": "free-agent" },
+      { "label": "Defender",   "slug": "defender"   },
+      { "label": "Contract",   "slug": "contract"   }
+    ],
+    "href": "/intelligence"
+  },
+  {
+    "id": "fa-02",
+    "slug": "midfield-free-agents-worth-scouting",
+    "categorySlug": "free-agents",
+    "authorKey": "scoutingDesk",
+    "title": "Midfield Intelligence: Free Agents Worth Scouting Before the Window",
+    "excerpt": "Six midfielders currently without clubs whose profile, age bracket, and physical state suggest they represent underpriced options for clubs operating in the lower half of the professional pyramid.",
+    "publishedAt": "June 2026",
+    "readTime": 6,
+    "status": "development",
+    "tags": [
+      { "label": "Free Agent", "slug": "free-agent" },
+      { "label": "Midfielder", "slug": "midfielder" },
+      { "label": "Contract",   "slug": "contract"   }
+    ],
+    "href": "/intelligence"
+  }
+]

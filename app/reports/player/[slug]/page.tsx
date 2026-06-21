@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const { player } = report
   const title       = `${player.name} — Player Report · Polaris Intelligence`
-  const description = report.summary.split('\n\n')[0].substring(0, 155)
+  const description = report.summary[0].substring(0, 155)
   const canonical   = `https://welko.agency/reports/player/${slug}`
 
   return {
@@ -91,7 +91,7 @@ export default async function PlayerReportPage({ params }: { params: Promise<{ s
     publisher:     { '@type': 'Organization', name: 'Polaris Football Intelligence', url: 'https://welko.agency' },
     datePublished: report.publishedAt,
     dateModified:  report.updatedAt ?? report.publishedAt,
-    description:   report.summary.split('\n\n')[0].substring(0, 200),
+    description:   report.summary[0].substring(0, 200),
     about: {
       '@type': 'Person',
       name:    report.player.name,
@@ -119,8 +119,8 @@ export default async function PlayerReportPage({ params }: { params: Promise<{ s
 
           {/* 01 — Executive Summary */}
           <ReportSection id="executive-summary" num="01" title="Executive Summary" bg="#FFFFFF">
-            {report.summary.split('\n\n').map((para, i) => (
-              <p key={i} style={{ fontFamily: FONT.sans, fontSize: 13, color: C.textSecondary, margin: i < report.summary.split('\n\n').length - 1 ? '0 0 18px' : '0', lineHeight: 1.9 }}>
+            {report.summary.map((para, i) => (
+              <p key={i} style={{ fontFamily: FONT.sans, fontSize: 13, color: C.textSecondary, margin: i < report.summary.length - 1 ? '0 0 18px' : '0', lineHeight: 1.9 }}>
                 {para}
               </p>
             ))}

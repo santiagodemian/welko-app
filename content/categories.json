@@ -1,0 +1,11 @@
+[
+  { "name": "Transfer Market",     "slug": "transfer-market",     "color": "#D97706" },
+  { "name": "Emerging Talents",    "slug": "emerging-talents",    "color": "#059669" },
+  { "name": "Football Business",   "slug": "football-business",   "color": "#374151" },
+  { "name": "Club Intelligence",   "slug": "club-intelligence",   "color": "#7C3AED" },
+  { "name": "Player Reports",      "slug": "player-reports",      "color": "#2563EB" },
+  { "name": "Recruitment Reports", "slug": "recruitment-reports", "color": "#DC2626" },
+  { "name": "Tactical Analysis",   "slug": "tactical-analysis",   "color": "#0891B2" },
+  { "name": "League Analysis",     "slug": "league-analysis",     "color": "#B45309" },
+  { "name": "Free Agents",         "slug": "free-agents",         "color": "#64748B" }
+]

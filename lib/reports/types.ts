@@ -63,7 +63,7 @@ export interface PlayerReport {
   }
 
   // ── Sections ───────────────────────────────────────────────────────────────
-  summary: string            // executive summary paragraph(s) — split on \n\n
+  summary: string[]          // executive summary — one element per paragraph
 
   season: {
     headline:  string
