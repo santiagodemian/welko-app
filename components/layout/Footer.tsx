@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { C, T, FONT, SECTION } from '@/lib/ds'
+import { ArrowRight } from 'lucide-react'
+import { C, FONT, SECTION } from '@/lib/ds'
 
-const COLS = [
+const NAV_COLS = [
   {
     heading: 'Polaris',
     links: [
@@ -10,6 +11,15 @@ const COLS = [
       { label: 'Solutions',    href: '/solutions'    },
       { label: 'Network',      href: '/network'      },
       { label: 'Contact',      href: '/contact'      },
+    ],
+  },
+  {
+    heading: 'Intelligence',
+    links: [
+      { label: 'Scouting Reports',  href: '/intelligence' },
+      { label: 'Transfer Analysis', href: '/intelligence' },
+      { label: 'Player Profiles',   href: '/intelligence' },
+      { label: 'Market Intel.',     href: '/intelligence' },
     ],
   },
   {
@@ -38,54 +48,58 @@ const COLS = [
   },
 ]
 
-const MONO = 'var(--font-geist-mono), monospace'
+const MONO = FONT.mono
 
 export function Footer() {
   return (
-    <footer style={{ background: C.dark, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+    <footer style={{ background: '#FFFFFF', borderTop: `1px solid ${C.border}` }}>
       <style>{`
-        .footer-link { transition: color 0.15s ease; }
-        .footer-link:hover { color: rgba(255,255,255,0.88) !important; }
+        .ft-link {
+          display: block; text-decoration: none;
+          font-family: ${FONT.sans}; font-size: 13px;
+          color: ${C.textSecondary}; margin-bottom: 10px;
+          transition: color 0.15s ease; line-height: 1.5;
+        }
+        .ft-link:hover { color: #111827; }
+        .ft-col-head {
+          font-family: ${FONT.sans}; font-size: 11px;
+          font-weight: 600; letter-spacing: 0.06em;
+          text-transform: uppercase; color: #111827;
+          margin: 0 0 14px;
+        }
       `}</style>
 
-      {/* Main content */}
+      {/* Main columns */}
       <div style={{
         maxWidth: SECTION.maxW, margin: '0 auto',
-        padding: `${SECTION.padV} ${SECTION.padH} 0`,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
-        flexWrap: 'wrap', gap: 48,
+        padding: `clamp(44px, 5.5vw, 64px) ${SECTION.padH} 0`,
+        display: 'flex', justifyContent: 'space-between',
+        alignItems: 'flex-start', flexWrap: 'wrap', gap: 40,
       }}>
 
-        {/* Brand column */}
-        <div style={{ maxWidth: 240 }}>
+        {/* Brand */}
+        <div style={{ maxWidth: 220, flexShrink: 0 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/polariswhitelogo.jpeg"
+            src="/polarispnglogo.jpeg"
             alt="Polaris Football"
-            style={{ height: 34, objectFit: 'contain', marginBottom: 18, display: 'block' }}
+            style={{ height: 28, objectFit: 'contain', marginBottom: 14, display: 'block' }}
           />
-          <p style={{ ...T.small, color: 'rgba(255,255,255,0.38)', margin: '0 0 20px', lineHeight: 1.8, fontSize: 12 }}>
+          <p style={{ fontFamily: FONT.sans, fontSize: 12, color: C.textSecondary, margin: '0 0 14px', lineHeight: 1.8 }}>
             Football intelligence platform for clubs, agents, and professionals who take decisions seriously.
           </p>
-          <p style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.2)', margin: 0, letterSpacing: '0.08em', textTransform: 'uppercase', lineHeight: 1.8 }}>
+          <p style={{ fontFamily: MONO, fontSize: 8, color: C.textMuted, margin: 0, letterSpacing: '0.07em', textTransform: 'uppercase', lineHeight: 1.8 }}>
             Part of the<br />Absolut Football Network
           </p>
         </div>
 
         {/* Link columns */}
-        <div style={{ display: 'flex', gap: 'clamp(36px, 4vw, 64px)', flexWrap: 'wrap' }}>
-          {COLS.map(col => (
-            <div key={col.heading}>
-              <p style={{ fontFamily: FONT.sans, fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.80)', margin: '0 0 16px' }}>
-                {col.heading}
-              </p>
+        <div style={{ display: 'flex', gap: 'clamp(28px, 3.5vw, 52px)', flexWrap: 'wrap', flex: 1, justifyContent: 'flex-end' }}>
+          {NAV_COLS.map(col => (
+            <div key={col.heading} style={{ minWidth: 100 }}>
+              <p className="ft-col-head">{col.heading}</p>
               {col.links.map(l => (
-                <Link
-                  key={l.href + l.label}
-                  href={l.href}
-                  className="footer-link"
-                  style={{ fontFamily: FONT.sans, fontSize: 13, fontWeight: 400, display: 'block', color: 'rgba(255,255,255,0.52)', textDecoration: 'none', marginBottom: 11, lineHeight: 1.5 }}
-                >
+                <Link key={l.label + l.href} href={l.href} className="ft-link">
                   {l.label}
                 </Link>
               ))}
@@ -94,20 +108,62 @@ export function Footer() {
         </div>
       </div>
 
+      {/* Newsletter — coming soon */}
+      <div style={{
+        maxWidth: SECTION.maxW, margin: '40px auto 0',
+        padding: `clamp(20px, 2.5vw, 28px) ${SECTION.padH}`,
+        borderTop: `1px solid ${C.border}`,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        flexWrap: 'wrap', gap: 16,
+      }}>
+        <div>
+          <p style={{ fontFamily: FONT.sans, fontSize: 11, fontWeight: 600, color: '#111827', margin: '0 0 3px', letterSpacing: '0.04em' }}>
+            Polaris Intelligence — Newsletter
+          </p>
+          <p style={{ fontFamily: MONO, fontSize: 9, color: C.textMuted, margin: 0, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            Scouting reports, transfer analysis &amp; market intelligence · Coming Q4 2026
+          </p>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, opacity: 0.45, cursor: 'not-allowed' }}>
+          <div style={{ display: 'flex', alignItems: 'center', border: `1px solid ${C.border}`, borderRadius: 8, overflow: 'hidden', height: 36 }}>
+            <input
+              disabled
+              placeholder="your@email.com"
+              style={{ padding: '0 12px', fontSize: 12, fontFamily: FONT.sans, color: C.textSecondary, border: 'none', outline: 'none', width: 180, background: C.bgLight, height: '100%', cursor: 'not-allowed' }}
+            />
+          </div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: C.blue, color: '#fff', padding: '9px 16px', borderRadius: 8, fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: FONT.sans, userSelect: 'none' }}>
+            Subscribe <ArrowRight size={10} />
+          </div>
+        </div>
+      </div>
+
       {/* Bottom bar */}
       <div style={{
-        maxWidth: SECTION.maxW, margin: '48px auto 0',
-        padding: `24px ${SECTION.padH}`,
-        borderTop: '1px solid rgba(255,255,255,0.06)',
+        maxWidth: SECTION.maxW, margin: '0 auto',
+        padding: `20px ${SECTION.padH}`,
+        borderTop: `1px solid ${C.border}`,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         flexWrap: 'wrap', gap: 12,
       }}>
-        <p style={{ fontFamily: FONT.sans, fontSize: 11, fontWeight: 400, color: 'rgba(255,255,255,0.22)', margin: 0, letterSpacing: '0.02em' }}>
+        <p style={{ fontFamily: FONT.sans, fontSize: 11, color: C.textMuted, margin: 0 }}>
           © {new Date().getFullYear()} Polaris Football. All rights reserved.
         </p>
-        <p style={{ fontFamily: MONO, fontSize: 9, color: 'rgba(255,255,255,0.14)', margin: 0, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-          Intelligence · Consulting · OS
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: MONO, fontSize: 9, color: C.textMuted, textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase', transition: 'color 0.15s' }}
+            className="ft-link" data-noblock
+          >
+            LinkedIn ↗
+          </Link>
+          <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: MONO, fontSize: 9, color: C.textMuted, textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase', transition: 'color 0.15s' }}
+            className="ft-link" data-noblock
+          >
+            X / Twitter ↗
+          </Link>
+          <span style={{ fontFamily: MONO, fontSize: 9, color: C.border, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            Intelligence · Consulting · OS
+          </span>
+        </div>
       </div>
     </footer>
   )

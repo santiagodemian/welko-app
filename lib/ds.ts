@@ -11,6 +11,8 @@ import type { CSSProperties } from 'react'
 export const C = {
   // Backgrounds
   bgPrimary:    '#FFFFFF',
+  bgLight:      '#F8FAFC',   // main page background
+  bgAlt:        '#F1F5F9',   // alternate sections
   bgSecondary:  '#F9FAFB',
   bgTertiary:   '#F3F4F6',
 
@@ -100,6 +102,7 @@ export const SECTION = {
 export const FONT = {
   sans:    'var(--font-montserrat), Inter, system-ui, sans-serif',
   display: 'var(--font-space-grotesk), system-ui, sans-serif',
+  mono:    'var(--font-geist-mono), monospace',
 } as const
 
 // Full text style presets (spread into style prop)
