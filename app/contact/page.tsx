@@ -19,6 +19,40 @@ const CONTACT_TYPES = [
 
 interface FormData { name: string; email: string; type: string; message: string }
 
+function PitchIllustration() {
+  return (
+    <svg
+      viewBox="0 0 400 540"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}
+      aria-hidden="true"
+    >
+      <rect x="30" y="30" width="340" height="480" rx="6" stroke="#2563EB" strokeWidth="2" strokeOpacity="0.25" />
+      <line x1="30" y1="270" x2="370" y2="270" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.25" />
+      <circle cx="200" cy="270" r="50" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.25" />
+      <circle cx="200" cy="270" r="4" fill="#2563EB" fillOpacity="0.25" />
+      <rect x="110" y="30" width="180" height="78" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.25" />
+      <rect x="148" y="30" width="104" height="36" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.25" />
+      <circle cx="200" cy="108" r="14" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.25" />
+      <rect x="110" y="432" width="180" height="78" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.25" />
+      <rect x="148" y="474" width="104" height="36" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.25" />
+      <circle cx="200" cy="432" r="14" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.25" />
+      <circle cx="200" cy="165" r="5" fill="#2563EB" fillOpacity="0.45" />
+      <circle cx="140" cy="210" r="5" fill="#2563EB" fillOpacity="0.45" />
+      <circle cx="260" cy="210" r="5" fill="#2563EB" fillOpacity="0.45" />
+      <circle cx="110" cy="250" r="5" fill="#2563EB" fillOpacity="0.45" />
+      <circle cx="200" cy="250" r="5" fill="#2563EB" fillOpacity="0.45" />
+      <circle cx="290" cy="250" r="5" fill="#2563EB" fillOpacity="0.45" />
+      <circle cx="140" cy="295" r="5" fill="#2563EB" fillOpacity="0.45" />
+      <circle cx="260" cy="295" r="5" fill="#2563EB" fillOpacity="0.45" />
+      <circle cx="200" cy="340" r="5" fill="#2563EB" fillOpacity="0.45" />
+      <circle cx="160" cy="380" r="5" fill="#2563EB" fillOpacity="0.45" />
+      <circle cx="240" cy="380" r="5" fill="#2563EB" fillOpacity="0.45" />
+    </svg>
+  )
+}
+
 export default function ContactPage() {
   const [form, setForm] = useState<FormData>({ name: '', email: '', type: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
@@ -57,16 +91,16 @@ export default function ContactPage() {
           .contact-photo { min-height: 260px !important; }
           .contact-form-panel { padding: 48px 20px !important; }
         }
-        .type-card { border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 12px 14px; cursor: pointer; transition: border-color 0.15s, background 0.15s; display: flex; align-items: center; gap: 10; }
+        .type-card { border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 12px 14px; cursor: pointer; transition: border-color 0.15s, background 0.15s; display: flex; align-items: center; gap: 10px; }
         .type-card:hover { border-color: ${G}; background: ${G}06; }
         .type-card.selected { border-color: ${G}; background: ${G}08; }
         input:focus, select:focus, textarea:focus { border-color: ${G} !important; }
+        .stat-card { position: absolute; background: #fff; border-radius: 10px; padding: 12px 16px; box-shadow: 0 4px 24px rgba(37,99,235,0.12), 0 1px 4px rgba(0,0,0,0.06); min-width: 170px; }
       `}</style>
 
       <Navbar />
 
       <section className="contact-split">
-        {/* Left — form + content */}
         <div className="contact-form-panel" style={{ padding: 'clamp(56px,7vw,96px) clamp(32px,5vw,80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
             <div style={{ width: 24, height: 1.5, background: G }} />
@@ -81,7 +115,6 @@ export default function ContactPage() {
             Whether you are a player, club or partner, we are here to connect and create extraordinary opportunities.
           </p>
 
-          {/* Contact type cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8, marginBottom: 32 }}>
             {CONTACT_TYPES.map(t => (
               <button
@@ -152,8 +185,27 @@ export default function ContactPage() {
           )}
         </div>
 
-        {/* Right — photo placeholder */}
-        <div className="contact-photo" style={{ position: 'relative', overflow: 'hidden', background: '#0A0A0A', minHeight: 520 }} />
+        <div className="contact-photo" style={{ position: 'relative', overflow: 'hidden', background: '#EFF4FF', minHeight: 520 }}>
+          <PitchIllustration />
+
+          <div className="stat-card" style={{ top: '14%', left: '10%' }}>
+            <p style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>Reports</p>
+            <p style={{ fontSize: 22, fontWeight: 700, color: '#0A0A0A', margin: '0 0 2px', fontFamily: 'var(--font-space-grotesk), sans-serif' }}>48+</p>
+            <p style={{ fontSize: 11, color: '#6B7280', margin: 0 }}>Reports Published</p>
+          </div>
+
+          <div className="stat-card" style={{ top: '42%', right: '8%' }}>
+            <p style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>Network</p>
+            <p style={{ fontSize: 22, fontWeight: 700, color: '#0A0A0A', margin: '0 0 2px', fontFamily: 'var(--font-space-grotesk), sans-serif' }}>12</p>
+            <p style={{ fontSize: 11, color: '#6B7280', margin: 0 }}>Countries · Network Coverage</p>
+          </div>
+
+          <div className="stat-card" style={{ bottom: '16%', left: '12%' }}>
+            <p style={{ fontSize: 10, fontWeight: 700, color: G, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>Community</p>
+            <p style={{ fontSize: 22, fontWeight: 700, color: '#0A0A0A', margin: '0 0 2px', fontFamily: 'var(--font-space-grotesk), sans-serif' }}>200+</p>
+            <p style={{ fontSize: 11, color: '#6B7280', margin: 0 }}>Football Professionals</p>
+          </div>
+        </div>
       </section>
 
       <Footer />

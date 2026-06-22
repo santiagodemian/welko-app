@@ -1,67 +1,209 @@
-'use client'
-
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Navbar } from '@/components/layout/Navbar'
-import { useLang } from '@/contexts/LangContext'
+import { Footer } from '@/components/layout/Footer'
+import { C, FONT, T, R, SECTION } from '@/lib/ds'
 
-export default function TerminosPage() {
-  const { lang } = useLang()
-  const isEN = lang === 'en'
-  const year = new Date().getFullYear()
+export const metadata: Metadata = {
+  title: 'Terms of Service — Polaris Football',
+  description: 'Terms of Service for the Polaris Football Intelligence Platform subscription service.',
+}
 
-  const sections = isEN ? [
-    { title: '1. Service Description', body: 'Polaris Football is a SaaS platform that provides an AI-powered receptionist for businesses across all industries. The service includes automated appointment scheduling, client communication via WhatsApp, Instagram, Facebook Messenger, and other channels, CRM features, and AI-driven insights.' },
-    { title: '2. Subscription & Payment', body: 'Polaris Football offers monthly and annual subscription plans. Payments are processed securely via Stripe. Prices are in MXN for Mexico and USD internationally, exclusive of applicable taxes. Subscriptions auto-renew unless cancelled before renewal.' },
-    { title: '3. Cancellation', body: 'You may cancel your subscription at any time from your account dashboard. Cancellation takes effect at the end of the current billing period. No partial refunds for unused time, except as covered by our Refund Policy.' },
-    { title: '4. Acceptable Use', body: 'You may not use Polaris to send spam, harass users, violate applicable laws, scrape data, or reverse-engineer the platform. Polaris Football may suspend accounts that violate these terms.' },
-    { title: '5. Intellectual Property', body: 'All content, features and functionality of Polaris Football — including software, logos and text — are the exclusive property of Demian Santiago Mendoza Ledesma and protected by intellectual property laws.' },
-    { title: '6. Limitation of Liability', body: 'Polaris Football is provided "as is." We do not guarantee uninterrupted service. To the maximum extent permitted by law, Polaris Football is not liable for indirect or consequential damages from use of the Service.' },
-    { title: '7. Governing Law', body: 'These Terms are governed by the laws of Mexico. Disputes shall be resolved in the courts of Mexico City, Mexico.' },
-    { title: '8. Changes', body: 'We may update these Terms at any time. Continued use after changes constitutes acceptance. Material changes will be notified by email with at least 15 days notice.' },
-    { title: '9. Contact', body: 'For questions, email hello@polarisfootball.com.' },
-  ] : [
-    { title: '1. Descripción del Servicio', body: 'Polaris Football es una plataforma SaaS que proporciona un recepcionista con inteligencia artificial para negocios de todas las industrias. El servicio incluye agendamiento automático, comunicación con clientes por WhatsApp, Instagram, Facebook Messenger y otros canales, funciones de CRM e insights generados por IA.' },
-    { title: '2. Suscripción y Pago', body: 'Polaris Football ofrece planes de suscripción mensual y anual. Los pagos se procesan de forma segura a través de Stripe. Los precios están en MXN para México y en USD para uso internacional, sin IVA incluido. Las suscripciones se renuevan automáticamente salvo cancelación previa.' },
-    { title: '3. Cancelación', body: 'Puedes cancelar tu suscripción en cualquier momento desde tu panel de cuenta. La cancelación tiene efecto al final del ciclo de facturación vigente. No se emiten reembolsos parciales por tiempo no utilizado, salvo lo cubierto por nuestra Política de Reembolso.' },
-    { title: '4. Uso Aceptable', body: 'No puedes usar Polaris para enviar spam, hostigar usuarios, violar leyes aplicables, extraer datos de forma automatizada ni realizar ingeniería inversa. Polaris Football puede suspender cuentas que incumplan estos términos.' },
-    { title: '5. Propiedad Intelectual', body: 'Todo el contenido, funcionalidades y características de Polaris Football — incluyendo software, logotipos y textos — son propiedad exclusiva de Demian Santiago Mendoza Ledesma y están protegidos por las leyes de propiedad intelectual.' },
-    { title: '6. Limitación de Responsabilidad', body: 'Polaris Football se proporciona "tal como es". No garantizamos disponibilidad ininterrumpida. En la máxima medida permitida por la ley, Polaris Football no es responsable de daños indirectos o consecuentes derivados del uso del Servicio.' },
-    { title: '7. Ley Aplicable', body: 'Estos Términos se rigen por las leyes de México. Las disputas se resolverán en los tribunales de la Ciudad de México, México.' },
-    { title: '8. Cambios', body: 'Podemos actualizar estos Términos en cualquier momento. El uso continuado del Servicio tras los cambios constituye aceptación. Los cambios materiales serán notificados por correo electrónico con al menos 15 días de anticipación.' },
-    { title: '9. Contacto', body: 'Para preguntas, escríbenos a contacto@polarisfootball.com.' },
-  ]
+const SECTIONS = [
+  { id: 'service',       num: '01', title: 'Service Description' },
+  { id: 'subscriptions', num: '02', title: 'Subscriptions & Payment' },
+  { id: 'acceptable',    num: '03', title: 'Acceptable Use' },
+  { id: 'ip',            num: '04', title: 'Intellectual Property' },
+  { id: 'disclaimers',   num: '05', title: 'Disclaimers' },
+  { id: 'liability',     num: '06', title: 'Limitation of Liability' },
+  { id: 'termination',   num: '07', title: 'Termination' },
+  { id: 'governing',     num: '08', title: 'Governing Law' },
+  { id: 'changes',       num: '09', title: 'Changes to These Terms' },
+  { id: 'contact',       num: '10', title: 'Contact' },
+]
 
+export default function TermsPage() {
   return (
-    <>
+    <div style={{ fontFamily: FONT.sans, background: '#fff', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
-      <main className="flex flex-col flex-1 pt-24 pb-20 px-4 sm:px-6">
-        <div className="max-w-3xl mx-auto flex flex-col gap-8">
-          <div className="flex flex-col gap-2">
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--accent-label)' }}>Legal</span>
-            <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
-              {isEN ? 'Terms & Conditions' : 'Términos y Condiciones'}
+
+      <main style={{ flex: 1, padding: `clamp(80px,10vw,112px) ${SECTION.padH} clamp(64px,8vw,96px)` }}>
+        <div style={{ maxWidth: 760, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 40 }}>
+
+          <Link href="/" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            fontSize: 11, fontWeight: 700, color: C.textMuted,
+            textDecoration: 'none', letterSpacing: '0.08em', textTransform: 'uppercase',
+          }}>
+            ← Back to Home
+          </Link>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <span style={{
+              display: 'inline-block', padding: '4px 10px', borderRadius: R.badge,
+              fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
+              background: C.blueDim, color: C.blue, border: `1px solid ${C.blueStr}`, width: 'fit-content',
+            }}>
+              Legal
+            </span>
+            <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(28px,4vw,44px)', fontWeight: 700, color: C.textPrimary, margin: 0, letterSpacing: '-0.025em', textTransform: 'uppercase', lineHeight: 1.05 }}>
+              Terms of Service
             </h1>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              {isEN ? `Last updated: April ${year}` : `Última actualización: Abril ${year}`}
+            <p style={{ ...T.small, color: C.textMuted, margin: 0 }}>
+              Polaris Football Intelligence Platform · Last updated: June 2026
             </p>
           </div>
-          <hr style={{ borderColor: 'var(--border)' }} />
-          <div className="flex flex-col gap-7">
-            {sections.map((s, i) => (
-              <div key={i} className="flex flex-col gap-2">
-                <h2 className="text-base font-semibold" style={{ color: 'var(--text-primary)' }}>{s.title}</h2>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{s.body}</p>
-              </div>
+
+          <div style={{ height: 1, background: C.border }} />
+
+          <nav style={{ background: C.bgLight, border: `1px solid ${C.border}`, borderRadius: R.panel, padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <p style={{ ...T.label, color: C.textMuted, margin: '0 0 8px' }}>Contents</p>
+            {SECTIONS.map(s => (
+              <a key={s.id} href={`#${s.id}`} style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                fontSize: 13, color: C.textPrimary, textDecoration: 'none',
+                fontFamily: FONT.sans, transition: 'opacity 0.15s',
+              }}>
+                <span style={{ fontFamily: FONT.mono, fontSize: 10, color: C.textMuted, minWidth: 20 }}>{s.num}</span>
+                {s.title}
+              </a>
             ))}
+          </nav>
+
+          <p style={{ ...T.body, color: '#374151', lineHeight: 1.8, margin: 0 }}>
+            These Terms of Service govern your access to and use of the Polaris Football Intelligence Platform operated by Polaris Football. By creating an account or accessing any part of the platform, you agree to be bound by these Terms. If you do not agree, you must not use the service.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+
+            <TermsSection id="service" num="01" title="Service Description">
+              <p>
+                Polaris Football operates a subscription-based football intelligence platform providing scouting reports, recruitment analytics, transfer market analysis, tactical analysis, club intelligence briefings, and related football intelligence content. The platform is designed for football professionals including scouts, agents, sporting directors, club analysts, and executive staff.
+              </p>
+              <p>
+                Content on the platform includes proprietary research and analysis produced by the Polaris editorial and scouting teams. The availability, scope, and depth of specific content categories may vary by subscription tier and are subject to change as the platform develops.
+              </p>
+            </TermsSection>
+
+            <TermsSection id="subscriptions" num="02" title="Subscriptions & Payment">
+              <p>
+                Access to the Polaris Football Intelligence Platform requires a paid subscription. Subscription plans are available on a monthly or annual basis and are detailed on our pricing page. Prices are listed in British Pounds Sterling and are inclusive of applicable VAT where required by law.
+              </p>
+              <p>
+                All payments are processed securely by Stripe, Inc. By subscribing, you authorise Polaris Football to charge your nominated payment method at the beginning of each billing cycle. Subscriptions renew automatically unless cancelled before the renewal date.
+              </p>
+              <p>
+                You may cancel your subscription at any time from your account dashboard. Cancellation takes effect at the end of the current billing period. You will retain access to the platform until that date. Please refer to our Refund Policy for information on refund eligibility.
+              </p>
+            </TermsSection>
+
+            <TermsSection id="acceptable" num="03" title="Acceptable Use">
+              <p>
+                Your subscription grants you a personal, non-transferable licence to access and use the Polaris Football Intelligence Platform for legitimate professional football purposes. The following activities are strictly prohibited:
+              </p>
+              <ul style={{ margin: '12px 0 0', paddingLeft: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {[
+                  'Redistributing, republishing, or reselling any report, analysis, or content from the platform without express written permission from Polaris Football.',
+                  'Scraping, crawling, or using automated tools to extract data or content from the platform.',
+                  'Sharing account credentials with individuals who are not covered by your subscription.',
+                  'Using platform content to create competing intelligence products or services.',
+                  'Attempting to reverse-engineer, decompile, or otherwise access the platform\'s source code or data infrastructure.',
+                  'Using the platform for any purpose that violates applicable law or regulations.',
+                ].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', gap: 10, fontSize: 13, color: '#374151', lineHeight: 1.75 }}>
+                    <span style={{ width: 5, height: 5, borderRadius: '50%', background: C.blue, flexShrink: 0, marginTop: 8 }} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p>
+                Polaris Football reserves the right to suspend or terminate accounts that violate these terms without prior notice and without refund.
+              </p>
+            </TermsSection>
+
+            <TermsSection id="ip" num="04" title="Intellectual Property">
+              <p>
+                All content, reports, data, analysis, software, design, and other materials available through the Polaris Football Intelligence Platform are the exclusive intellectual property of Polaris Football or its licensed contributors, and are protected by copyright, database rights, and other applicable intellectual property laws.
+              </p>
+              <p>
+                Your subscription grants you a limited right to access and use this content for your own professional purposes. It does not transfer any ownership rights to you. You may not use Polaris Football branding, logos, or proprietary methodology descriptions without express written consent.
+              </p>
+              <p>
+                Any feedback, suggestions, or ideas submitted to Polaris Football regarding the platform may be used by Polaris Football without restriction or compensation.
+              </p>
+            </TermsSection>
+
+            <TermsSection id="disclaimers" num="05" title="Disclaimers">
+              <p>
+                The Polaris Football Intelligence Platform is provided for informational and professional reference purposes only. While we take significant care to ensure the accuracy and quality of our intelligence content, we make no warranties — express or implied — regarding the completeness, timeliness, or fitness for purpose of any specific report or analysis.
+              </p>
+              <p>
+                Football intelligence involves inherent uncertainty. Transfer market analyses, player valuations, and recruitment recommendations are professional assessments based on available information at the time of publication and should not be treated as guarantees of outcome. Polaris Football accepts no liability for commercial or sporting decisions made on the basis of platform content.
+              </p>
+            </TermsSection>
+
+            <TermsSection id="liability" num="06" title="Limitation of Liability">
+              <p>
+                To the maximum extent permitted by applicable law, Polaris Football shall not be liable for any indirect, incidental, consequential, special, or punitive damages arising from your use of the platform, including but not limited to loss of profits, loss of data, or missed business opportunities.
+              </p>
+              <p>
+                Our total liability to you for any claim arising from your use of the platform, regardless of the basis of the claim, shall not exceed the total subscription fees paid by you in the twelve months preceding the claim.
+              </p>
+            </TermsSection>
+
+            <TermsSection id="termination" num="07" title="Termination">
+              <p>
+                You may terminate your subscription and close your account at any time. Polaris Football may suspend or terminate your access immediately if you breach these Terms, fail to pay subscription fees, or engage in conduct that we reasonably determine to be harmful to the platform, other users, or Polaris Football.
+              </p>
+              <p>
+                Upon termination, your right to access the platform ceases immediately. Sections relating to intellectual property, disclaimers, limitation of liability, and governing law will survive any termination of these Terms.
+              </p>
+            </TermsSection>
+
+            <TermsSection id="governing" num="08" title="Governing Law">
+              <p>
+                These Terms of Service and any disputes arising from your use of the Polaris Football Intelligence Platform are governed by the laws of England and Wales. You agree to submit to the exclusive jurisdiction of the courts of England and Wales for the resolution of any disputes.
+              </p>
+            </TermsSection>
+
+            <TermsSection id="changes" num="09" title="Changes to These Terms">
+              <p>
+                Polaris Football may update these Terms from time to time to reflect changes in our service, business practices, or applicable law. We will notify you of material changes by email at least 14 days before they take effect. Your continued use of the platform after the effective date of any changes constitutes your acceptance of the updated Terms.
+              </p>
+            </TermsSection>
+
+            <TermsSection id="contact" num="10" title="Contact">
+              <p>
+                For questions about these Terms of Service, please contact us at{' '}
+                <a href="mailto:legal@polarisfootball.com" style={{ color: C.blue, fontWeight: 600, textDecoration: 'none' }}>
+                  legal@polarisfootball.com
+                </a>
+                . We aim to respond to all enquiries within five business days.
+              </p>
+            </TermsSection>
+
           </div>
+
         </div>
       </main>
-      <footer className="py-8 px-4 sm:px-6" style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
-        <div className="max-w-3xl mx-auto flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-2"><img src="/polariswhitelogo.jpeg" alt="Polaris" style={{ height: 18, width: 18, objectFit: 'contain', borderRadius: 4 }} /><p className="text-xs" style={{ color: 'var(--text-muted)' }}>© {year}{' '}Polaris Football</p></div>
-          <Link href="/" className="text-xs" style={{ color: 'var(--text-muted)' }}>← {isEN ? 'Back to home' : 'Volver al inicio'}</Link>
-        </div>
-      </footer>
-    </>
+
+      <Footer />
+    </div>
+  )
+}
+
+function TermsSection({ id, num, title, children }: { id: string; num: string; title: string; children: React.ReactNode }) {
+  return (
+    <section id={id} style={{ display: 'flex', flexDirection: 'column', gap: 14, scrollMarginTop: 80 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ fontFamily: FONT.mono, fontSize: 10, fontWeight: 700, color: C.textMuted }}>{num}</span>
+        <h2 style={{ fontFamily: FONT.display, fontSize: 18, fontWeight: 700, color: C.textPrimary, margin: 0, letterSpacing: '-0.015em', textTransform: 'uppercase' }}>
+          {title}
+        </h2>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: 13, color: '#374151', lineHeight: 1.8 }}>
+        {children}
+      </div>
+    </section>
   )
 }
