@@ -13,25 +13,135 @@ import { latestArticles } from '@/lib/editorial-data'
 
 // ─── Decorative SVGs ─────────────────────────────────────────────────────────
 
-function RadarSVG() {
-  const rings = [178, 138, 98, 60, 24]
-  const ticks = Array.from({ length: 36 }, (_, i) => i)
+function PitchIllustration() {
   return (
-    <svg viewBox="0 0 400 400" fill="none" aria-hidden={true}
-      style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', width: 'clamp(160px, 26vw, 380px)', height: 'auto', opacity: 0.04, pointerEvents: 'none' }}>
-      {rings.map(r => (
-        <circle key={r} cx="200" cy="200" r={r} stroke={C.blue} strokeWidth={r === 178 ? 0.8 : 0.5} />
-      ))}
-      <line x1="200" y1="20"  x2="200" y2="380" stroke={C.blue} strokeWidth="0.7" />
-      <line x1="20"  y1="200" x2="380" y2="200" stroke={C.blue} strokeWidth="0.7" />
-      <line x1="73"  y1="73"  x2="327" y2="327" stroke={C.blue} strokeWidth="0.4" strokeDasharray="3 5" />
-      <line x1="327" y1="73"  x2="73"  y2="327" stroke={C.blue} strokeWidth="0.4" strokeDasharray="3 5" />
-      {ticks.map(i => {
-        const a = (i * 10 * Math.PI) / 180
-        return <line key={i} x1={200 + 176 * Math.cos(a)} y1={200 + 176 * Math.sin(a)} x2={200 + 185 * Math.cos(a)} y2={200 + 185 * Math.sin(a)} stroke={C.blue} strokeWidth="0.8" />
-      })}
-      <circle cx="200" cy="200" r="3.5" fill={C.blue} />
-    </svg>
+    <div style={{ position: 'relative', width: '100%', maxWidth: 320, margin: '0 auto' }}>
+      {/* Main pitch SVG */}
+      <svg
+        viewBox="0 0 260 364"
+        fill="none"
+        aria-hidden="true"
+        style={{ width: '100%', height: 'auto', filter: 'drop-shadow(0 12px 32px rgba(37,99,235,0.14))' }}
+      >
+        {/* Field background */}
+        <rect width="260" height="364" rx="8" fill="#EFF4FF" />
+
+        {/* Subtle alternating stripe bands */}
+        <rect x="0"  y="0"   width="260" height="52" rx="0" fill="rgba(37,99,235,0.025)" />
+        <rect x="0"  y="104" width="260" height="52" rx="0" fill="rgba(37,99,235,0.025)" />
+        <rect x="0"  y="208" width="260" height="52" rx="0" fill="rgba(37,99,235,0.025)" />
+        <rect x="0"  y="312" width="260" height="52" rx="0" fill="rgba(37,99,235,0.025)" />
+
+        {/* Pitch outline */}
+        <rect x="14" y="14" width="232" height="336" rx="2" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.28" fill="none" />
+
+        {/* Center line */}
+        <line x1="14" y1="182" x2="246" y2="182" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.2" />
+
+        {/* Center circle */}
+        <circle cx="130" cy="182" r="42" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.2" fill="none" />
+        <circle cx="130" cy="182" r="2.5" fill="#2563EB" fillOpacity="0.45" />
+
+        {/* Top penalty box */}
+        <rect x="68" y="14" width="124" height="66" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.2" fill="none" />
+        {/* Top 6-yard box */}
+        <rect x="98" y="14" width="64" height="28" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.15" fill="none" />
+        {/* Top goal */}
+        <rect x="102" y="6" width="56" height="10" rx="1" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.35" fill="#2563EB" fillOpacity="0.07" />
+        {/* Top penalty spot */}
+        <circle cx="130" cy="62" r="2" fill="#2563EB" fillOpacity="0.3" />
+
+        {/* Bottom penalty box */}
+        <rect x="68" y="284" width="124" height="66" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.2" fill="none" />
+        {/* Bottom 6-yard box */}
+        <rect x="98" y="322" width="64" height="28" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.15" fill="none" />
+        {/* Bottom goal */}
+        <rect x="102" y="348" width="56" height="10" rx="1" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.35" fill="#2563EB" fillOpacity="0.07" />
+        {/* Bottom penalty spot */}
+        <circle cx="130" cy="302" r="2" fill="#2563EB" fillOpacity="0.3" />
+
+        {/* Corner arcs */}
+        <path d="M14 24 A 10 10 0 0 0 24 14"  stroke="#2563EB" strokeWidth="1" strokeOpacity="0.18" fill="none" />
+        <path d="M246 24 A 10 10 0 0 1 236 14" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.18" fill="none" />
+        <path d="M14 350 A 10 10 0 0 1 24 360" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.18" fill="none" />
+        <path d="M246 350 A 10 10 0 0 0 236 360" stroke="#2563EB" strokeWidth="1" strokeOpacity="0.18" fill="none" />
+
+        {/* Tactical lines (formation connections) */}
+        {/* GK → DEF */}
+        <line x1="130" y1="328" x2="54"  y2="272" stroke="#2563EB" strokeWidth="0.7" strokeOpacity="0.1" strokeDasharray="3 5" />
+        <line x1="130" y1="328" x2="100" y2="282" stroke="#2563EB" strokeWidth="0.7" strokeOpacity="0.1" strokeDasharray="3 5" />
+        <line x1="130" y1="328" x2="160" y2="282" stroke="#2563EB" strokeWidth="0.7" strokeOpacity="0.1" strokeDasharray="3 5" />
+        <line x1="130" y1="328" x2="206" y2="272" stroke="#2563EB" strokeWidth="0.7" strokeOpacity="0.1" strokeDasharray="3 5" />
+        {/* DEF → MID */}
+        <line x1="54"  y1="272" x2="68"  y2="210" stroke="#2563EB" strokeWidth="0.7" strokeOpacity="0.1" strokeDasharray="3 5" />
+        <line x1="130" y1="280" x2="130" y2="220" stroke="#2563EB" strokeWidth="0.7" strokeOpacity="0.1" strokeDasharray="3 5" />
+        <line x1="206" y1="272" x2="192" y2="210" stroke="#2563EB" strokeWidth="0.7" strokeOpacity="0.1" strokeDasharray="3 5" />
+        {/* MID → FWD */}
+        <line x1="68"  y1="210" x2="54"  y2="142" stroke="#2563EB" strokeWidth="0.7" strokeOpacity="0.1" strokeDasharray="3 5" />
+        <line x1="130" y1="220" x2="130" y2="120" stroke="#2563EB" strokeWidth="0.7" strokeOpacity="0.1" strokeDasharray="3 5" />
+        <line x1="192" y1="210" x2="206" y2="142" stroke="#2563EB" strokeWidth="0.7" strokeOpacity="0.1" strokeDasharray="3 5" />
+
+        {/* GK */}
+        <circle cx="130" cy="328" r="5" fill="#2563EB" fillOpacity="0.55" />
+
+        {/* Defenders */}
+        <circle cx="54"  cy="272" r="4.5" fill="#2563EB" fillOpacity="0.5" />
+        <circle cx="100" cy="282" r="4.5" fill="#2563EB" fillOpacity="0.5" />
+        <circle cx="160" cy="282" r="4.5" fill="#2563EB" fillOpacity="0.5" />
+        <circle cx="206" cy="272" r="4.5" fill="#2563EB" fillOpacity="0.5" />
+
+        {/* Midfielders */}
+        <circle cx="68"  cy="210" r="4.5" fill="#2563EB" fillOpacity="0.65" />
+        {/* Highlighted CM (scouting target) */}
+        <circle cx="130" cy="220" r="11"  stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.35" fill="#2563EB" fillOpacity="0.08" />
+        <circle cx="130" cy="220" r="5.5" fill="#2563EB" />
+        <circle cx="192" cy="210" r="4.5" fill="#2563EB" fillOpacity="0.65" />
+
+        {/* Forwards */}
+        <circle cx="54"  cy="142" r="4.5" fill="#2563EB" fillOpacity="0.5" />
+        {/* Highlighted ST (main target) */}
+        <circle cx="130" cy="120" r="12"  stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.3" fill="#2563EB" fillOpacity="0.08" />
+        <circle cx="130" cy="120" r="6"   fill="#2563EB" />
+        <circle cx="206" cy="142" r="4.5" fill="#2563EB" fillOpacity="0.5" />
+      </svg>
+
+      {/* Floating: match score card */}
+      <div style={{
+        position: 'absolute', top: '24%', right: '-14px',
+        background: '#FFFFFF', border: '1px solid rgba(37,99,235,0.15)',
+        borderRadius: 9, padding: '9px 12px', boxShadow: '0 6px 20px rgba(37,99,235,0.12)',
+        minWidth: 108,
+      }}>
+        <div style={{ fontFamily: FONT.mono, fontSize: 7, color: '#6B7280', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+          Match Score
+        </div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 2, marginBottom: 5 }}>
+          <span style={{ fontFamily: FONT.display, fontSize: 22, fontWeight: 700, color: '#2563EB', letterSpacing: '-0.04em', lineHeight: 1 }}>92</span>
+          <span style={{ fontFamily: FONT.mono, fontSize: 9, color: '#9CA3AF' }}>/100</span>
+        </div>
+        <div style={{ height: 3, background: '#E5E7EB', borderRadius: 2, overflow: 'hidden', marginBottom: 4 }}>
+          <div style={{ width: '92%', height: '100%', background: '#2563EB', borderRadius: 2 }} />
+        </div>
+        <div style={{ fontFamily: FONT.sans, fontSize: 8, color: '#059669', fontWeight: 700 }}>Strong Match</div>
+      </div>
+
+      {/* Floating: player tag */}
+      <div style={{
+        position: 'absolute', top: '29%', left: '-12px',
+        background: '#FFFFFF', border: '1px solid rgba(37,99,235,0.18)',
+        borderRadius: 8, padding: '7px 11px', boxShadow: '0 4px 14px rgba(37,99,235,0.1)',
+      }}>
+        <div style={{ fontFamily: FONT.mono, fontSize: 7, color: '#6B7280', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+          CM · Age 24
+        </div>
+        <div style={{ fontFamily: FONT.sans, fontSize: 11, fontWeight: 700, color: '#111827', marginTop: 2 }}>
+          S. Benjdida
+        </div>
+        <div style={{ fontFamily: FONT.mono, fontSize: 7, color: '#2563EB', marginTop: 2, letterSpacing: '0.03em' }}>
+          EU Passport · Free Agent
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -145,11 +255,15 @@ export default function HomePage() {
         /* ─── Typography ─── */
         .hp-hed {
           font-family: var(--font-space-grotesk), system-ui, sans-serif;
-          font-size: clamp(40px, 5.5vw, 78px);
+          font-size: clamp(36px, 5.5vw, 78px);
           font-weight: 700; line-height: 0.9;
           letter-spacing: -0.045em; text-transform: uppercase;
           color: #111827; margin: 0 0 18px;
         }
+
+        /* ─── Hero grid ─── */
+        .hp-hero-grid { display: grid; grid-template-columns: 54fr 46fr; gap: clamp(32px,5vw,64px); align-items: center; }
+        .hp-hero-illustration { display: flex; align-items: center; justify-content: center; padding: 20px 10px 20px 0; }
 
         /* ─── Hero pulse ─── */
         @keyframes pulse-dot {
@@ -164,7 +278,7 @@ export default function HomePage() {
         /* ─── Intelligence categories ─── */
         .hp-cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
         .hp-cat-card {
-          padding: clamp(18px,2.2vw,26px) ${PH};
+          padding: clamp(16px,2.2vw,26px) ${PH};
           border-top: 1px solid ${C.border};
           border-left: 3px solid transparent;
           transition: background 0.15s ease, border-left-color 0.18s ease;
@@ -179,7 +293,7 @@ export default function HomePage() {
         /* ─── OS module grid ─── */
         .hp-mod-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
         .hp-mod-card {
-          padding: clamp(18px,2.2vw,26px) clamp(20px,2.5vw,32px);
+          padding: clamp(16px,2.2vw,26px) clamp(16px,2.5vw,32px);
           border-top: 1px solid ${C.border};
           transition: background 0.15s ease, box-shadow 0.15s ease;
         }
@@ -192,8 +306,8 @@ export default function HomePage() {
         .hp-stat:hover { background: #FFFFFF; }
         .hp-stat:hover .hp-stat-val { color: ${C.blue} !important; }
 
-        /* ─── Solutions / Solutions ─── */
-        .hp-sol-row { display: grid; grid-template-columns: 48px 1fr 1fr; gap: 20px; align-items: start; padding: clamp(16px,2vw,24px) ${PH}; border-top: 1px solid ${C.border}; transition: background 0.15s; }
+        /* ─── Solutions ─── */
+        .hp-sol-row { display: grid; grid-template-columns: 48px 1fr 1fr; gap: 20px; align-items: start; padding: clamp(14px,2vw,24px) ${PH}; border-top: 1px solid ${C.border}; transition: background 0.15s; }
         .hp-sol-row:hover { background: #FFFFFF; }
 
         /* ─── Pillar / Platform ─── */
@@ -210,8 +324,13 @@ export default function HomePage() {
         .hp-cta-g:hover  { background: rgba(255,255,255,0.08) !important; }
 
         /* ─── Responsive ─── */
-        @media (max-width: 1024px) { .hp-stats { grid-template-columns: repeat(3,1fr) !important; } }
+        @media (max-width: 1024px) {
+          .hp-stats { grid-template-columns: repeat(3,1fr) !important; }
+          .hp-hero-grid { grid-template-columns: 58fr 42fr !important; }
+        }
         @media (max-width: 900px) {
+          .hp-hero-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .hp-hero-illustration { padding: 0 !important; max-width: 260px !important; }
           .hp-overview { grid-template-columns: 1fr !important; }
           .hp-cat-grid { grid-template-columns: repeat(2,1fr) !important; }
           .hp-consult-grid { grid-template-columns: 1fr !important; }
@@ -223,9 +342,16 @@ export default function HomePage() {
           .hp-sol-row { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 600px) {
-          .hp-stats { grid-template-columns: 1fr !important; }
+          .hp-hed { font-size: clamp(32px,9vw,44px) !important; }
+          .hp-hero-illustration { max-width: 220px !important; }
+          .hp-stats { grid-template-columns: repeat(2,1fr) !important; }
           .hp-cat-grid { grid-template-columns: 1fr !important; }
           .hp-mod-grid { grid-template-columns: 1fr !important; }
+          .hp-consult-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 420px) {
+          .hp-hero-illustration { display: none !important; }
+          .hp-stats { grid-template-columns: 1fr 1fr !important; }
         }
       `}</style>
       <EditorialStyles />
@@ -235,50 +361,60 @@ export default function HomePage() {
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ HERO ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section style={{
         position: 'relative', overflow: 'hidden',
-        minHeight: '68svh', display: 'flex', alignItems: 'center',
         background: C.bgLight, borderBottom: `1px solid ${C.border}`,
-        backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.04) 1px, transparent 1px)',
+        backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.035) 1px, transparent 1px)',
         backgroundSize: '28px 28px',
       }}>
-        <RadarSVG />
         <div style={{ position: 'relative', zIndex: 1, paddingTop: 'clamp(48px,6vw,84px)', paddingBottom: 'clamp(40px,5vw,64px)', paddingLeft: PH, paddingRight: PH, maxWidth: SECTION.maxW, margin: '0 auto', width: '100%' }}>
 
-          {/* Live badge */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, background: 'rgba(37,99,235,0.06)', border: '1px solid rgba(37,99,235,0.18)', borderRadius: 24, padding: '5px 14px 5px 10px' }}>
-            <span className="hp-pulse" style={{ width: 6, height: 6, borderRadius: '50%', background: C.blue, display: 'inline-block', flexShrink: 0 }} />
-            <span style={{ fontFamily: MONO, fontSize: 9, color: C.blue, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700 }}>
-              Football Intelligence Platform · Est. 2024
-            </span>
-          </div>
+          <div className="hp-hero-grid">
 
-          <h1 className="hp-hed">
-            Football<br />
-            <span style={{ color: C.blue }}>Intelligence</span><br />
-            For the<br />
-            Modern Game.
-          </h1>
+            {/* ── Left: text content ── */}
+            <div>
+              {/* Live badge */}
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, background: 'rgba(37,99,235,0.06)', border: '1px solid rgba(37,99,235,0.18)', borderRadius: 24, padding: '5px 14px 5px 10px' }}>
+                <span className="hp-pulse" style={{ width: 6, height: 6, borderRadius: '50%', background: C.blue, display: 'inline-block', flexShrink: 0 }} />
+                <span style={{ fontFamily: MONO, fontSize: 9, color: C.blue, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700 }}>
+                  Football Intelligence Platform · Est. 2024
+                </span>
+              </div>
 
-          <p style={{ fontFamily: FONT.sans, fontSize: 14, color: C.textSecondary, maxWidth: 380, margin: '0 0 28px', lineHeight: 1.85 }}>
-            Scouting intelligence, recruitment consulting, and proprietary tools for clubs, agents, and football professionals who take decisions seriously.
-          </p>
+              <h1 className="hp-hed">
+                Football<br />
+                <span style={{ color: C.blue }}>Intelligence</span><br />
+                For the<br />
+                Modern Game.
+              </h1>
 
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 24 }}>
-            <Link href="/solutions" className="hp-btn-p" style={{ ...BTN.primary }}>
-              Explore Solutions <ArrowRight size={13} />
-            </Link>
-            <Link href="/intelligence" className="hp-btn-o" style={{ ...BTN.outline }}>
-              Read Intelligence <ArrowRight size={13} />
-            </Link>
-          </div>
+              <p style={{ fontFamily: FONT.sans, fontSize: 14, color: C.textSecondary, maxWidth: 380, margin: '0 0 28px', lineHeight: 1.85 }}>
+                Scouting intelligence, recruitment consulting, and proprietary tools for clubs, agents, and football professionals who take decisions seriously.
+              </p>
 
-          {/* Trust strip */}
-          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', rowGap: 4 }}>
-            {['200+ Network Members', '12 Countries', '48+ Reports Published', 'Fully Independent'].map((t, i, arr) => (
-              <span key={t} style={{ display: 'inline-flex', alignItems: 'center' }}>
-                <span style={{ fontFamily: MONO, fontSize: 9, color: C.textMuted, letterSpacing: '0.05em', textTransform: 'uppercase' }}>{t}</span>
-                {i < arr.length - 1 && <span style={{ color: C.border, margin: '0 9px', userSelect: 'none' }}>·</span>}
-              </span>
-            ))}
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 24 }}>
+                <Link href="/solutions" className="hp-btn-p" style={{ ...BTN.primary }}>
+                  Explore Solutions <ArrowRight size={13} />
+                </Link>
+                <Link href="/intelligence" className="hp-btn-o" style={{ ...BTN.outline }}>
+                  Read Intelligence <ArrowRight size={13} />
+                </Link>
+              </div>
+
+              {/* Trust strip */}
+              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', rowGap: 6, columnGap: 0 }}>
+                {['200+ Network Members', '12 Countries', '48+ Reports', 'Fully Independent'].map((t, i, arr) => (
+                  <span key={t} style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    <span style={{ fontFamily: MONO, fontSize: 9, color: C.textMuted, letterSpacing: '0.05em', textTransform: 'uppercase' }}>{t}</span>
+                    {i < arr.length - 1 && <span style={{ color: C.border, margin: '0 9px', userSelect: 'none' }}>·</span>}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Right: pitch illustration ── */}
+            <div className="hp-hero-illustration">
+              <PitchIllustration />
+            </div>
+
           </div>
         </div>
       </section>
